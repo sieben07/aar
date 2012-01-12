@@ -10,13 +10,16 @@ function love.load()
     shoot = false,
     pos_X = 100,
     pos_Y = 600,
-    image = love.graphics.newImage "minimega.bmp"
+    rotate = 0,
+    zoom = 1,
+    image = love.graphics.newImage "minimega.png"
+
 
 	}
-	love.graphics.setBackgroundColor( 0, 0, 77 )
+	love.graphics.setBackgroundColor( 201, 201, 201 )
 	love.graphics.setFont(12)
     text = "Nothing yet"
-    quads =
+    heroquads =
     {
 
 		right = {
@@ -59,6 +62,7 @@ end -- functon love.load()
 
 function love.update(dt)
 if moving then
+
 		timer = timer + dt
 		if timer > 0.2 then
 			timer = 0
@@ -89,7 +93,7 @@ if hero.Jump then
 end
 
 function love.draw()
-	  love.graphics.drawq(hero.image, quads[direction][iterator], hero.pos_X,hero.pos_Y)
+	  love.graphics.drawq(hero.image, heroquads[direction][iterator], hero.pos_X,hero.pos_Y, hero.rotate, hero.zoom )
       love.graphics.print( text, 330, 300)
       love.graphics.print( "xVel", 10, 0 )
       love.graphics.print( hero.xvel, 10, 10)
