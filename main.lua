@@ -1,57 +1,10 @@
-local Quad = love.graphics.newQuad
+Quad = love.graphics.newQuad
+
 function love.load()
-	hero = {
-	VEL = 100,
-	J_VEL = 400,
-	Gravity = 100,
-	xvel = 0,
-	Jump = false,
-    inAir = false,
-    shoot = false,
-    pos_X = 100,
-    pos_Y = 600,
-    rotate = 0,
-    zoom = 1,
-    image = love.graphics.newImage "minimega.png"
-
-
-	}
-	love.graphics.setBackgroundColor( 201, 201, 201 )
+	local objects = require('hero')
+	love.graphics.setBackgroundColor( 139, 71, 38 )
 	love.graphics.setFont(12)
     text = "Nothing yet"
-    heroquads =
-    {
-
-		right = {
-			Quad( 16*5,  16*1, 16, 16, 160, 160);
-			Quad( 16*6,  16*1, 16, 16, 160, 160);
-			Quad( 16*7,  16*1, 16, 16, 160, 160);
-			Quad( 16*8,  16*1, 16, 16, 160, 160);
-			Quad( 16*7,  16*1, 16, 16, 160, 160);
-
-		};
-		left = {
-			Quad( 16*4,  16*1, 16, 16, 160, 160);
-			Quad( 16*3,  16*1, 16, 16, 160, 160);
-			Quad( 16*2,  16*1, 16, 16, 160, 160);
-			Quad( 16*1,  16*1, 16, 16, 160, 160);
-			Quad( 16*2,  16*1, 16, 16, 160, 160);
-			};
-		jump = {
-			Quad( 16*5,  16*2, 16, 16, 160, 160);
-			Quad( 16*5,  16*2, 16, 16, 160, 160);
-			Quad( 16*5,  16*2, 16, 16, 160, 160);
-			Quad( 16*5,  16*2, 16, 16, 160, 160);
-			Quad( 16*5,  16*2, 16, 16, 160, 160);
-			};
-		inair = {
-			Quad( 16*5,  16*1, 16, 16, 160, 160);
-			Quad( 16*6,  16*1, 16, 16, 160, 160);
-			Quad( 16*7,  16*1, 16, 16, 160, 160);
-			Quad( 16*8,  16*1, 16, 16, 160, 160);
-			};
-
-		}
     iterator = 1
 	max = 5
 	timer = 0
@@ -93,7 +46,7 @@ if hero.Jump then
 end
 
 function love.draw()
-	  love.graphics.drawq(hero.image, heroquads[direction][iterator], hero.pos_X,hero.pos_Y, hero.rotate, hero.zoom )
+	  love.graphics.drawq(hero.image, hero.quads[direction][iterator], hero.pos_X,hero.pos_Y, hero.rotate, hero.zoom )
       love.graphics.print( text, 330, 300)
       love.graphics.print( "xVel", 10, 0 )
       love.graphics.print( hero.xvel, 10, 10)
