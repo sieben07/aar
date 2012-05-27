@@ -7,13 +7,15 @@ hero = {
 	jump_vel= 32,
 	Gravity = 4,
 	xvel = 0,
-	Jump = false,
-    inAir = false,
+	Jump = true,
+    inAir = true,
     shoot = false,
     x = 32*2,
-    y = 32*21,
+    y = 32*19,
     w = 32,
     h = 32,
+    iterator = 1,
+    max = 5,
     direction = "jumpRight",
     rotate = 0,
     zoom = 1,
@@ -67,11 +69,11 @@ hero = {
 			Quad( hub*3,  hub*2, hub, hub, big_hub, big_hub);
 		};
 
-		jumpRightmoving = {
+		jumpRightMoving = {
 			Quad( hub*5,  hub*2, hub, hub, big_hub, big_hub);
 		};
 
-		jumpLeftmoving = {
+		jumpLeftMoving = {
 			Quad( hub*2,  hub*2, hub, hub, big_hub, big_hub);
 		};
 

@@ -1,17 +1,20 @@
 function love.load()
+   
    local objects = require('hero')
-	love.graphics.setBackgroundColor( 139, 71, 38 )
-
+	
+   love.graphics.setBackgroundColor( 139, 71, 38 )
    font = love.graphics.newFont( "orangekid.ttf", 20)
    love.graphics.setFont(font)
-    text = "Nothing yet"
-    iterator = 1
+   text = "Nothing yet"
+   iterator = 1
 	max = 5
 	timer = 0
-	moving = false
 
 end -- functon love.load()
 
+--[[
+Here we Update
+--]]
 function love.update(dt)
    dt_now = math.floor(dt * 100)
    --[[
@@ -21,21 +24,50 @@ function love.update(dt)
    end
    --]]
 
-   if moving then
-      timer = timer + dt
-		if timer > 0.15 then
-			timer = 0
-			iterator = iterator + 1
-            if iterator > max then
-				  iterator = 2
-			   end
-      end
+if hero.xvel > 0 then
+   if hero.inAir then
+      hero.direction = "jumpRightMoving"
+      elseif not hero.inAir then
+         hero.direction ="right"
    end
+      
+elseif hero.xvel < 0 then
+   if hero.inAir then
+      hero.direction ="jumpLeftMoving"
+      elseif not hero.inAir then
+         hero.direction ="left"
+   end
+elseif hero.xvel == 0 and hero.inAir then
+   if hero.direction == "jumpRightMoving" or hero.direction == "right" then
+      hero.direction = "jumpRight"
+      elseif hero.direction == "jumpLeftMoving" or hero.direction == "left" then
+         hero.direction = "jumpLeft"
+      end
+
+
+end
+
 
 hero.x = hero.x + hero.xvel * (dt_now)
 if hero.x < 0 or hero.x + hero.w > 1152 then
    hero.x = hero.x - hero.xvel * (dt_now)
 end
+
+
+if hero.xvel ~= 0 and not hero.inAir  then
+   timer = timer + dt
+
+   if timer > 0.15 then
+      timer = 0
+      iterator = iterator + 1
+
+      if iterator > max then
+         iterator = 2
+		end
+   end
+end
+
+
 
 --let the hero jump
 if not hero.Jump then
@@ -48,9 +80,9 @@ if not hero.Jump then
       hero.J_VEL = hero.jump_vel
       
 
-      if hero.direction == "jumpRight" then
+      if hero.direction == "jumpRight" or hero.direction == "jumpRightMoving" then
          hero.direction = "right"
-         elseif hero.direction == "jumpLeft" then
+         elseif hero.direction == "jumpLeft" or hero.direction=="jumpLeftMoving" then
             hero.direction = "left"
          end
 
@@ -108,6 +140,12 @@ function love.draw()
             elseif not hero.shoot then
                love.graphics.print( "shoot false" , 10, 160)
       end
+
+      if hero.xvel ~= 0 then
+         love.graphics.print( "moving true" , 10, 300)
+            elseif not hero.shoot then
+               love.graphics.print( "moving false" , 10, 300)
+      end
       
       love.graphics.print( "x_hero_position", 10, 180 )
       love.graphics.print( hero.x, 10, 200)
@@ -129,13 +167,11 @@ function love.keypressed( key )
    if key == "right" then
       text = "Right is being pressed!"
       hero.xvel = hero.VEL
-      --moving = true
       hero.direction = "right"
     --left
    elseif key == "left" then
       text = "Left is being pressed!"
       hero.xvel = -hero.VEL
-      --moving = true
       hero.direction = "left"
    --up is for Jump
    elseif key == "up" then
@@ -151,14 +187,8 @@ function love.keypressed( key )
       if not hero.Jump and not hero.inAir then
       hero.Jump = true
       hero.inAir = true
-      moving = false
       iterator = 1
-      if hero.direction =="right" then
-         hero.direction = "jumpRight"
-      elseif hero.direction == "left" then
-         hero.direction = "jumpLeft"
       end
-   end
 
     -- s is for shoot
     elseif key =="s" then
@@ -174,15 +204,17 @@ function love.keyreleased(key)
       text = "Right has been released!"
       if hero.xvel > 0 then
       hero.xvel = 0
-      moving = false
       iterator = 1
+      elseif hero.xvel > 0 and hero.inAir then
+         hero.xvel = 0
+         iterator = 1
+         hero.direction = "jumpRight" 
 
       end
    elseif key == "left" then
       text = "Left has been released!"
       if hero.xvel < 0 then
       hero.xvel = 0
-      moving = false
       iterator = 1
       end
    elseif key == "up" then
