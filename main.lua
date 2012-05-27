@@ -9,6 +9,7 @@ function love.load()
    iterator = 1
 	max = 5
 	timer = 0
+   bigTimer = 0
 
 end -- functon love.load()
 
@@ -16,7 +17,24 @@ end -- functon love.load()
 Here we Update
 --]]
 function love.update(dt)
-   dt_now = math.floor(dt * 100)
+   
+
+   if hero.xvel ~= 0 and not hero.inAir  then
+   timer = timer + dt
+
+   if timer > 0.15 then
+      timer = 0
+      iterator = iterator + 1
+
+      if iterator > max then
+         iterator = 2
+      end
+   end
+end
+
+bigTimer = bigTimer + dt
+   if bigTimer >= 0.02 then
+      bigTimer = 1
    --[[
    hero.zoom = hero.zoom + dt
    if hero.zoom > 3 then
@@ -48,32 +66,16 @@ elseif hero.xvel == 0 and hero.inAir then
 end
 
 
-hero.x = hero.x + hero.xvel * (dt_now)
+hero.x = hero.x + hero.xvel * bigTimer
 if hero.x < 0 or hero.x + hero.w > 1152 then
-   hero.x = hero.x - hero.xvel * (dt_now)
+   hero.x = hero.x - hero.xvel * bigTimer
 end
-
-
-if hero.xvel ~= 0 and not hero.inAir  then
-   timer = timer + dt
-
-   if timer > 0.15 then
-      timer = 0
-      iterator = iterator + 1
-
-      if iterator > max then
-         iterator = 2
-		end
-   end
-end
-
-
 
 --let the hero jump
 if not hero.Jump then
-   hero.y = hero.y + hero.Gravity * (dt_now)
+   hero.y = hero.y + hero.Gravity * bigTimer
    if hero.y < 0 or hero.y + hero.h > 16*44 then
-      hero.y = hero.y - hero.Gravity * (dt_now)
+      hero.y = hero.y - hero.Gravity * bigTimer
       hero.inAir = false
       hero.Jump = false
       
@@ -92,8 +94,8 @@ if not hero.Jump then
 end
 
 if hero.Jump then
-	hero.y = hero.y - hero.J_VEL * (dt_now)
-	hero.J_VEL = hero.J_VEL - 8 * (dt_now)
+	hero.y = hero.y - hero.J_VEL * bigTimer
+	hero.J_VEL = hero.J_VEL - 4 * bigTimer
 	  if hero.J_VEL <= 0 then
 	     hero.Jump = false
         elseif hero.y < 0 or hero.y + hero.h > 16*44 then
@@ -101,6 +103,9 @@ if hero.Jump then
          hero.y = hero.y + hero.J_VEL * dt_now
       end
 end
+
+bigTimer = 0
+end --bigTimer
 
 end -- end function love.update(dt)
 
@@ -151,8 +156,8 @@ function love.draw()
       love.graphics.print( hero.x, 10, 200)
       love.graphics.print( "y_hero_position", 10, 220 )
       love.graphics.print( hero.y, 10, 240)
-      love.graphics.print( "dt_now", 10, 260)
-      love.graphics.print( dt_now, 10, 280)
+      love.graphics.print( "bigTimer", 10, 260)
+      love.graphics.print( bigTimer, 10, 280)
 
       -- let's draw some ground
    love.graphics.setColor(0,255,0,255)
@@ -167,12 +172,12 @@ function love.keypressed( key )
    if key == "right" then
       text = "Right is being pressed!"
       hero.xvel = hero.VEL
-      hero.direction = "right"
+      --hero.direction = "right"
     --left
    elseif key == "left" then
       text = "Left is being pressed!"
       hero.xvel = -hero.VEL
-      hero.direction = "left"
+      --hero.direction = "left"
    --up is for Jump
    elseif key == "up" then
    text = "up is being pressed!"   
