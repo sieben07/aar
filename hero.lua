@@ -11,7 +11,7 @@ hero = {
     inAir = true,
     shoot = false,
     x = 32*2,
-    y = 32*19,
+    y = 32*12,
     w = 32,
     h = 32,
     iterator = 1,
@@ -77,11 +77,11 @@ hero = {
 			Quad( hub*2,  hub*2, hub, hub, big_hub, big_hub);
 		};
 
-		jumpRigtshooting = {
+		jumpRightShooting = {
 			Quad( hub*6,  hub*2, hub, hub, big_hub, big_hub);
 		};
 
-		jumpLeftshooting = {
+		jumpLeftShooting = {
 			Quad( hub,  hub*2, hub, hub, big_hub, big_hub);
 		};
 		
