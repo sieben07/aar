@@ -82,6 +82,23 @@ if hero.direction == "left" or hero.direction == "leftShooting" or hero.directio
    end
 end
 
+if hero.direction == "right" or hero.direction == "rightShooting" or hero.direction == "jumpRight" or hero.direction =="jumpRightShooting" or hero.direction =="jumpRightMoving" then
+   if not hero.shoot and not hero.inAir and hero.xvel == 0 then
+      hero.direction = "right"
+      elseif hero.shoot and not hero.inAir and hero.xvel == 0 then
+         hero.direction = "rightShooting"
+         elseif hero.shoot and not hero.inAir and hero.xvel > 0 then
+            hero.direction = "rightShooting"
+            elseif not hero.shoot and hero.inAir and hero.xvel > 0 then
+               hero.direction = "jumpRightMoving"
+               elseif not hero.shoot and hero.inAir and hero.xvel == 0 then
+                  hero.direction ="jumpRight"
+                  elseif (hero.shoot and hero.inAir and hero.xvel) or (hero.shooting and hero.inAir and hero.xvel > 0) then
+                     hero.direction ="jumpRightShooting"
+
+   end
+end
+
 
 hero.x = hero.x + hero.xvel * bigTimer
 if hero.x < 0 or hero.x + hero.w > 1152 then
@@ -98,7 +115,7 @@ if not hero.Jump then
 
       hero.J_VEL = hero.jump_vel
 
-
+--[[
       if hero.direction == "jumpRight" or hero.direction == "jumpRightMoving" then
          hero.direction = "right"
          elseif hero.direction == "jumpRightShooting" then
@@ -108,6 +125,7 @@ if not hero.Jump then
          elseif hero.direction == "jumpLeftShooting" then
             hero.direction = "leftShooting"
          end
+         --]]
 
 
 
