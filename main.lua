@@ -153,21 +153,21 @@ function love.draw()
       end
    end
    love.graphics.setColor(255,255,255,255)
---[[
-   love.graphics.draw(bg)
---]]
---[[
-   love.graphics.rectangle("fill", hero.x, hero.y, 32, 32)
---]]
--- love.graphics.drawq( image, quad, x, y, r, sx, sy, ox, oy, kx, ky )
-   love.graphics.drawq(hero.image, hero.quads[hero.direction][iterator], hero.x,hero.y, hero.rotate, hero.zoom)
-   love.graphics.print( text, 330, 300)
-   love.graphics.print( "xvel", 10, 0 )
-   love.graphics.print( hero.xvel, 20, 20)
-   love.graphics.print( "hero.J_VEL", 10, 40 )
-   love.graphics.print( hero.J_VEL, 20, 60)
-   love.graphics.print("hero.Gravity", 10, 80)
-   love.graphics.print( hero.Gravity, 20, 100)
+   --[[
+      love.graphics.draw(bg)
+   --]]
+   --[[
+      love.graphics.rectangle("fill", hero.x, hero.y, 32, 32)
+   --]]
+   -- love.graphics.drawq( image, quad, x, y, r, sx, sy, ox, oy, kx, ky )
+      love.graphics.drawq(hero.image, hero.quads[hero.direction][iterator], hero.x,hero.y, hero.rotate, hero.zoom)
+      love.graphics.print( text, 330, 300)
+      love.graphics.print( "xvel", 10, 0 )
+      love.graphics.print( hero.xvel, 20, 20)
+      love.graphics.print( "hero.J_VEL", 10, 40 )
+      love.graphics.print( hero.J_VEL, 20, 60)
+      love.graphics.print("hero.Gravity", 10, 80)
+      love.graphics.print( hero.Gravity, 20, 100)
 
       if hero.Jump then
          love.graphics.print( "hero.Jump true" , 10, 120)
