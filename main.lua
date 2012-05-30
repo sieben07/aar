@@ -5,12 +5,10 @@
 
       Description: A Jump and Shoot Riddle Game
 --]]
--- require functions from
-require('collision')
-require('map')
 
 function love.load()
-
+   require('collision')
+   require('map')
    local objects = require('hero')
 	
    love.graphics.setBackgroundColor( 205,102,29 )
@@ -22,7 +20,7 @@ function love.load()
 	timer = 0
    bigTimer = 0
 
-end -- functon love.load()
+end -- function love.load()
 
 --[[
 Here we move things arround in the Update
@@ -41,82 +39,79 @@ function love.update(dt)
       end
    end
 
-bigTimer = bigTimer + dt
+   bigTimer = bigTimer + dt
+   -- if the bigTimer reaches some Value we want we move things arround
+   if bigTimer >= 0.02 then
+      bigTimer = 1
+      --[[ direction maybe a finite state machine would be better
+      --]]
+      if hero.xvel < 0 then
+         if not hero.inAir then
+            hero.direction ="left"
+            elseif hero.inAir then
+               hero.direction ="jumpLeftMoving"
+            end
+         end
 
--- if the bigTimer reaches some Value we want we move things arround
-if bigTimer >= 0.02 then
-   bigTimer = 1
+         if hero.xvel > 0 then
+            if not hero.inAir then
+               hero.direction ="right"
+               elseif hero.inAir then
+                  hero.direction ="jumpRightMoving"
+               end
+            end
 
-
---[[ direction maybe a finite state machine would be better
---]]
-if hero.xvel < 0 then
-   if not hero.inAir then
-      hero.direction ="left"
-      elseif hero.inAir then
-         hero.direction ="jumpLeftMoving"
-      end
-   end
-
-if hero.xvel > 0 then
-   if not hero.inAir then
-      hero.direction ="right"
-      elseif hero.inAir then
-         hero.direction ="jumpRightMoving"
-      end
-   end
-
-if hero.direction == "left" or hero.direction == "leftShooting" or hero.direction == "jumpLeft" or hero.direction =="jumpLeftShooting" or hero.direction =="jumpLeftMoving" then
-   if not hero.shoot and not hero.inAir and hero.xvel == 0 then
-      hero.direction = "left"
-      elseif hero.shoot and not hero.inAir and hero.xvel == 0 then
-         hero.direction = "leftShooting"
-         elseif hero.shoot and not hero.inAir and hero.xvel < 0 then
+   if hero.direction == "left" or hero.direction == "leftShooting" or hero.direction == "jumpLeft" or hero.direction =="jumpLeftShooting" or hero.direction =="jumpLeftMoving" then
+      if not hero.shoot and not hero.inAir and hero.xvel == 0 then
+         hero.direction = "left"
+         elseif hero.shoot and not hero.inAir and hero.xvel == 0 then
             hero.direction = "leftShooting"
-            elseif not hero.shoot and hero.inAir and hero.xvel < 0 then
-               hero.direction = "jumpLeftMoving"
-               elseif not hero.shoot and hero.inAir and hero.xvel == 0 then
-                  hero.direction ="jumpLeft"
-                  elseif (hero.shoot and hero.inAir and hero.xvel) or (hero.shooting and hero.inAir and hero.xvel < 0) then
-                     hero.direction ="jumpLeftShooting"
+            elseif hero.shoot and not hero.inAir and hero.xvel < 0 then
+               hero.direction = "leftShooting"
+               elseif not hero.shoot and hero.inAir and hero.xvel < 0 then
+                  hero.direction = "jumpLeftMoving"
+                  elseif not hero.shoot and hero.inAir and hero.xvel == 0 then
+                     hero.direction ="jumpLeft"
+                     elseif (hero.shoot and hero.inAir and hero.xvel) or (hero.shooting and hero.inAir and hero.xvel < 0) then
+                        hero.direction ="jumpLeftShooting"
 
+      end
    end
-end
 
-if hero.direction == "right" or hero.direction == "rightShooting" or hero.direction == "jumpRight" or hero.direction =="jumpRightShooting" or hero.direction =="jumpRightMoving" then
-   if not hero.shoot and not hero.inAir and hero.xvel == 0 then
-      hero.direction = "right"
-      elseif hero.shoot and not hero.inAir and hero.xvel == 0 then
-         hero.direction = "rightShooting"
-         elseif hero.shoot and not hero.inAir and hero.xvel > 0 then
+   if hero.direction == "right" or hero.direction == "rightShooting" or hero.direction == "jumpRight" or hero.direction =="jumpRightShooting" or hero.direction =="jumpRightMoving" then
+      if not hero.shoot and not hero.inAir and hero.xvel == 0 then
+         hero.direction = "right"
+         elseif hero.shoot and not hero.inAir and hero.xvel == 0 then
             hero.direction = "rightShooting"
-            elseif not hero.shoot and hero.inAir and hero.xvel > 0 then
-               hero.direction = "jumpRightMoving"
-               elseif not hero.shoot and hero.inAir and hero.xvel == 0 then
-                  hero.direction ="jumpRight"
-                  elseif (hero.shoot and hero.inAir and hero.xvel) or (hero.shooting and hero.inAir and hero.xvel > 0) then
-                     hero.direction ="jumpRightShooting"
+            elseif hero.shoot and not hero.inAir and hero.xvel > 0 then
+               hero.direction = "rightShooting"
+               elseif not hero.shoot and hero.inAir and hero.xvel > 0 then
+                  hero.direction = "jumpRightMoving"
+                  elseif not hero.shoot and hero.inAir and hero.xvel == 0 then
+                     hero.direction ="jumpRight"
+                     elseif (hero.shoot and hero.inAir and hero.xvel) or (hero.shooting and hero.inAir and hero.xvel > 0) then
+                        hero.direction ="jumpRightShooting"
 
+      end
    end
-end
 
 
-hero.x = hero.x + hero.xvel * bigTimer
-if hero.x < 32 or hero.x + hero.w > 32*29 then
-   hero.x = hero.x - hero.xvel * bigTimer
-end
+   hero.x = hero.x + hero.xvel * bigTimer
+   if hero.x < 32 or hero.x + hero.w > 32*29 then
+      hero.x = hero.x - hero.xvel * bigTimer
+   end
 
---let the hero jump
-if not hero.Jump then
-   hero.y = hero.y + hero.Gravity * bigTimer
-   if hero.y < 0 or hero.y + hero.h > 32 * 17 then
-      hero.y = hero.y - hero.Gravity * bigTimer
-      hero.inAir = false
-      hero.Jump = false
+   --let the hero jump
+   if not hero.Jump then
+      hero.y = hero.y + hero.Gravity * bigTimer
+      if hero.y < 0 or hero.y + hero.h > 32 * 17 then
+         hero.y = hero.y - hero.Gravity * bigTimer
+         hero.inAir = false
+         hero.Jump = false
 
-      hero.J_VEL = hero.jump_vel
+         hero.J_VEL = hero.jump_vel
 
----[[
+   ---[[
       if hero.direction == "jumpRight" or hero.direction == "jumpRightMoving" then
          hero.direction = "right"
          elseif hero.direction == "jumpRightShooting" then
@@ -127,25 +122,22 @@ if not hero.Jump then
             hero.direction = "leftShooting"
          end
          --]]
-
-
-
-   end
-end
-
-if hero.Jump then
-	hero.y = hero.y - hero.J_VEL * bigTimer
-	hero.J_VEL = hero.J_VEL - 4 * bigTimer
-	  if hero.J_VEL <= 0 then
-	     hero.Jump = false
-        elseif hero.y < 0 or hero.y + hero.h > 32*18 then
-         hero.Jump = false
-         hero.y = hero.y + hero.J_VEL * bigTimer
+         end
       end
-end
 
-bigTimer = 0
-end --bigTimer
+   if hero.Jump then
+	  hero.y = hero.y - hero.J_VEL * bigTimer
+	  hero.J_VEL = hero.J_VEL - 4 * bigTimer
+	     if hero.J_VEL <= 0 then
+	        hero.Jump = false
+           elseif hero.y < 0 or hero.y + hero.h > 32*18 then
+            hero.Jump = false
+            hero.y = hero.y + hero.J_VEL * bigTimer
+            end
+         end
+
+   bigTimer = 0
+   end --bigTimer
 
 end -- end function love.update(dt)
 
