@@ -7,6 +7,7 @@
 --]]
 -- require functions from
 require('collision')
+require('map')
 
 function love.load()
 
@@ -101,7 +102,7 @@ end
 
 
 hero.x = hero.x + hero.xvel * bigTimer
-if hero.x < 0 or hero.x + hero.w > 1152 then
+if hero.x < 32 or hero.x + hero.w > 32*29 then
    hero.x = hero.x - hero.xvel * bigTimer
 end
 
@@ -115,7 +116,7 @@ if not hero.Jump then
 
       hero.J_VEL = hero.jump_vel
 
---[[
+---[[
       if hero.direction == "jumpRight" or hero.direction == "jumpRightMoving" then
          hero.direction = "right"
          elseif hero.direction == "jumpRightShooting" then
@@ -151,6 +152,14 @@ end -- end function love.update(dt)
 function love.draw()
 
 
+   love.graphics.setColor(85,107,47,255)
+   for y=1, #map do
+      for x=1, #map[y] do
+         if map[y][x] == 1 then
+            love.graphics.rectangle("fill", (x -1) * 32, (y-1) *32, 32, 32)
+         end
+      end
+   end
    love.graphics.setColor(255,255,255,255)
 --[[
    love.graphics.draw(bg)
@@ -199,11 +208,6 @@ function love.draw()
       love.graphics.print( "bigTimer", 10, 260)
       love.graphics.print( bigTimer, 10, 280)
 
-      -- let's draw some ground
-   love.graphics.setColor(85,107,47,255)
-   love.graphics.rectangle("fill", 0, 32*17, 32*30, 32)
-
-
 end -- end function.draw()
 
 function love.keypressed( key )
@@ -235,11 +239,13 @@ function love.keypressed( key )
       end
    text = "a is being pressed!"
 
-    -- s is for shoot
-    elseif key =="s" then
-    hero.shoot = true
-   end
+   -- s is for shoot
+   elseif key =="s" then
+      hero.shoot = true
 
+   elseif key =="escape" then
+      love.event.push('quit') -- Quit the game.
+   end
 end
 
 function love.keyreleased(key)
