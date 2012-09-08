@@ -1,4 +1,4 @@
---[[  Project:One Point Left
+--[[  Project:One Point Left aka OPL / Activate all Robots aka AaR
       Author: Orhan Kücükyilmaz
       Date: 28-May-2012
       Version: 0.1
@@ -6,269 +6,137 @@
       Description: A Jump and Shoot Riddle Game
 --]]
 
-function love.load()
-   require('collision')
-   require('map')
-   local objects = require('hero')
+function  love.load()
+	bigTimer = 0
+	Quad = love.graphics.newQuad
+	--logo = love.graphics.newImage("images/opl.jpg")
+	deftone = love.graphics.newFont("fonts/DEFTONE.ttf", 45)
+	pacifico = love.graphics.newFont("fonts/Pacifico.ttf", 45)
+	love.graphics.setBackgroundColor(123,71,20)
+	require('map')
+	require('collision')
+
+	require('hero')
+	require('quadratO')
+	require('tiles')
 	
-   love.graphics.setBackgroundColor( 205,102,29 )
-   font = love.graphics.newFont( "orangekid.ttf", 20)
-   love.graphics.setFont(font)
-   text = "Nothing yet"
-   iterator = 1
-	max = 5
-	timer = 0
-   bigTimer = 0
-
-end -- function love.load()
-
---[[
-Here we move things arround in the Update
---]]
-function love.update(dt)
-   
-
-   if hero.xvel ~= 0 and not hero.inAir  then
-      timer = timer + dt
-      if timer > 0.15 then
-         timer = 0
-         iterator = iterator + 1
-         if iterator > max then
-            iterator = 2
-         end
-      end
-   end
-
-   bigTimer = bigTimer + dt
-   -- if the bigTimer reaches some Value we want we move things arround
-   if bigTimer >= 0.02 then
-      bigTimer = 1
-      --[[ direction maybe a finite state machine would be better
-      --]]
-      if hero.xvel < 0 then
-         if not hero.inAir then
-            hero.direction ="left"
-            elseif hero.inAir then
-               hero.direction ="jumpLeftMoving"
-            end
-         end
-
-         if hero.xvel > 0 then
-            if not hero.inAir then
-               hero.direction ="right"
-               elseif hero.inAir then
-                  hero.direction ="jumpRightMoving"
-               end
-            end
-
-   if hero.direction == "left" or hero.direction == "leftShooting" or hero.direction == "jumpLeft" or hero.direction =="jumpLeftShooting" or hero.direction =="jumpLeftMoving" then
-      if not hero.shoot and not hero.inAir and hero.xvel == 0 then
-         hero.direction = "left"
-         elseif hero.shoot and not hero.inAir and hero.xvel == 0 then
-            hero.direction = "leftShooting"
-            elseif hero.shoot and not hero.inAir and hero.xvel < 0 then
-               hero.direction = "leftShooting"
-               elseif not hero.shoot and hero.inAir and hero.xvel < 0 then
-                  hero.direction = "jumpLeftMoving"
-                  elseif not hero.shoot and hero.inAir and hero.xvel == 0 then
-                     hero.direction ="jumpLeft"
-                     elseif (hero.shoot and hero.inAir and hero.xvel) or (hero.shooting and hero.inAir and hero.xvel < 0) then
-                        hero.direction ="jumpLeftShooting"
-
-      end
-   end
-
-   if hero.direction == "right" or hero.direction == "rightShooting" or hero.direction == "jumpRight" or hero.direction =="jumpRightShooting" or hero.direction =="jumpRightMoving" then
-      if not hero.shoot and not hero.inAir and hero.xvel == 0 then
-         hero.direction = "right"
-         elseif hero.shoot and not hero.inAir and hero.xvel == 0 then
-            hero.direction = "rightShooting"
-            elseif hero.shoot and not hero.inAir and hero.xvel > 0 then
-               hero.direction = "rightShooting"
-               elseif not hero.shoot and hero.inAir and hero.xvel > 0 then
-                  hero.direction = "jumpRightMoving"
-                  elseif not hero.shoot and hero.inAir and hero.xvel == 0 then
-                     hero.direction ="jumpRight"
-                     elseif (hero.shoot and hero.inAir and hero.xvel) or (hero.shooting and hero.inAir and hero.xvel > 0) then
-                        hero.direction ="jumpRightShooting"
-
-      end
-   end
-
-
-   hero.x = hero.x + hero.xvel * bigTimer
-   if hero.x < 32 or hero.x + hero.w > 32*29 then
-      hero.x = hero.x - hero.xvel * bigTimer
-   end
-
-   --let the hero jump
-   if not hero.Jump then
-      hero.y = hero.y + hero.Gravity * bigTimer
-      if hero.y < 0 or hero.y + hero.h > 32 * 17 then
-         hero.y = hero.y - hero.Gravity * bigTimer
-         hero.inAir = false
-         hero.Jump = false
-
-         hero.J_VEL = hero.jump_vel
-
-   ---[[
-      if hero.direction == "jumpRight" or hero.direction == "jumpRightMoving" then
-         hero.direction = "right"
-         elseif hero.direction == "jumpRightShooting" then
-            hero.direction = "rightShooting"
-         elseif hero.direction == "jumpLeft" or hero.direction=="jumpLeftMoving" then
-            hero.direction = "left"
-         elseif hero.direction == "jumpLeftShooting" then
-            hero.direction = "leftShooting"
-         end
-         --]]
-         end
-      end
-
-   if hero.Jump then
-	  hero.y = hero.y - hero.J_VEL * bigTimer
-	  hero.J_VEL = hero.J_VEL - 4 * bigTimer
-	     if hero.J_VEL <= 0 then
-	        hero.Jump = false
-           elseif hero.y < 0 or hero.y + hero.h > 32*18 then
-            hero.Jump = false
-            hero.y = hero.y + hero.J_VEL * bigTimer
-            end
-         end
-
-   bigTimer = 0
-   end --bigTimer
-
-end -- end function love.update(dt)
-
-function love.draw()
-
-
-   love.graphics.setColor(85,107,47,255)
-   for y=1, #map do
-      for x=1, #map[y] do
-         if map[y][x] == 1 then
-            love.graphics.rectangle("fill", (x -1) * 32, (y-1) *32, 32, 32)
-         end
-      end
-   end
-   love.graphics.setColor(255,255,255,255)
-   --[[
-      love.graphics.draw(bg)
-   --]]
-   --[[
-      love.graphics.rectangle("fill", hero.x, hero.y, 32, 32)
-   --]]
-   -- love.graphics.drawq( image, quad, x, y, r, sx, sy, ox, oy, kx, ky )
-      love.graphics.drawq(hero.image, hero.quads[hero.direction][iterator], hero.x,hero.y, hero.rotate, hero.zoom)
-      love.graphics.print( text, 330, 300)
-      love.graphics.print( "xvel", 10, 0 )
-      love.graphics.print( hero.xvel, 20, 20)
-      love.graphics.print( "hero.J_VEL", 10, 40 )
-      love.graphics.print( hero.J_VEL, 20, 60)
-      love.graphics.print("hero.Gravity", 10, 80)
-      love.graphics.print( hero.Gravity, 20, 100)
-
-      if hero.Jump then
-         love.graphics.print( "hero.Jump true" , 10, 120)
-            elseif not hero.Jump then
-               love.graphics.print( "hero.Jump false" , 10, 120)
-      end
-
-      if hero.inAir then
-         love.graphics.print( "hero.inAir true" , 10, 140)
-            elseif not hero.inAir then
-               love.graphics.print( "hero.inAir false" , 10, 140)
-      end
-
-      if hero.shoot then
-         love.graphics.print( "shoot true" , 10, 160)
-            elseif not hero.shoot then
-               love.graphics.print( "shoot false" , 10, 160)
-      end
-
-      if hero.xvel ~= 0 then
-         love.graphics.print( "moving true" , 10, 300)
-            elseif not hero.shoot then
-               love.graphics.print( "moving false" , 10, 300)
-      end
-      
-      love.graphics.print( "x_hero_position", 10, 180 )
-      love.graphics.print( hero.x, 10, 200)
-      love.graphics.print( "y_hero_position", 10, 220 )
-      love.graphics.print( hero.y, 10, 240)
-      love.graphics.print( "bigTimer", 10, 260)
-      love.graphics.print( bigTimer, 10, 280)
-
-end -- end function.draw()
-
-function love.keypressed( key )
-
-	--right
-   if key == "right" then
-      text = "Right is being pressed!"
-      hero.xvel = hero.VEL
-   
-    --left
-   elseif key == "left" then
-      text = "Left is being pressed!"
-      hero.xvel = -hero.VEL
-      
-   --up is for up
-   elseif key == "up" then
-   text = "Up is being pressed!"   
-
-    --down
-	elseif key == "down" then
-	text = "Down is being pressed!"
 	
-   -- a is for Jump
-	elseif key =="a" then
-      if not hero.Jump and not hero.inAir then
-      hero.Jump = true
-      hero.inAir = true
-      iterator = 1
+	for y = 1, #map do
+      for x = 1, #map[y] do
+         if map[y][x] == X then
+            hero.x = x * 32 - 32
+            hero.y = y * 32 - 32
+         end
       end
-   text = "a is being pressed!"
-
-   -- s is for shoot
-   elseif key =="s" then
-      hero.shoot = true
-
-   elseif key =="escape" then
-      love.event.push('quit') -- Quit the game.
    end
+
+end
+
+function love.keypressed(key)   -- we do not need the unicode, so we can leave it out
+	if key == "left" then
+		hero.x_vel = -hero.vel
+	end
+	
+	if key == "right" then
+		hero.x_vel = hero.vel
+	end
+
+	if key == "a" and hero.y_vel == 0 then
+		hero.jump = 32
+		hero.iterator = 1
+	end
+
+	if key == "s" then
+		hero.shoot()
+		hero.shooting = true
+	end
+
+	if key == "escape" then
+		love.event.push("quit")   -- actually causes the app to quit
+	end
 end
 
 function love.keyreleased(key)
+	if key == "left" then
+		hero.x_vel = 0
+		
+	end
 
-   if key == "right" then
-      text = "Right has been released!"
-      if hero.xvel > 0 then
-         hero.xvel = 0
-         iterator = 1
-      end
-   
-   elseif key == "left" then
-      text = "Left has been released!"
-      if hero.xvel < 0 then
-         hero.xvel = 0
-         iterator = 1
-      end
+	if key == "right" then
+		hero.x_vel = 0
+		
+	end
 
-   elseif key == "up" then
-      text = "Up has been released!"
-      
- 	elseif key == "down" then
-      text = "Down has been released!"
-    elseif key =="s" then
-	  hero.shoot = false
-   elseif key =="a" then
-      text = "a has been released!"
-      hero.Jump = false
-
-   end
-
+	if key == "s" then
+		hero.shooting = false
+	end
 end
 
-Quad = love.graphics.newQuad
+function love.update(dt)
+	local remWall = {}
+	local remShot = {}
+
+	for i,v in ipairs(hero.shoots) do
+		-- move them
+		v.x = v.x + 4
+		-- check for collision with Wall
+		for ii,vv in ipairs(tiles) do
+			if CheckCollision(v.x,v.y,2,5,vv.x,vv.y,vv.w,vv.h) then
+				-- mark that enemy for removal
+				table.insert(remWall, ii)
+				-- mark the shot to be removed
+				table.insert(remShot, i)
+			end
+		end
+	end
+
+     -- remove the marked Tiles
+     for i,v in ipairs(remWall) do
+     	table.remove(tiles, v)
+     end
+
+     for i,v in ipairs(remShot) do
+        table.remove(hero.shoots, v)
+    end
+
+	bigTimer = bigTimer + dt
+	if bigTimer >= 0.016 then -- 1 / 60 = 0.016 60 frames per second
+		hero.move(dt)
+		quadratO.move()
+		bigTimer = 0
+	end
+end
+
+function love.draw()
+	--love.graphics.setColor(255,255,255,255)
+	--love.graphics.draw(logo, 0, 0, 0, 2, 2)
+	love.graphics.setColor(184,134,11)
+	for i,v in ipairs(tiles) do
+		love.graphics.rectangle("fill", v.x, v.y, v.w, v.h)
+	end
+
+	for i,v in ipairs(hero.shoots) do
+		love.graphics.setColor(200,190,200,255)
+		love.graphics.rectangle("fill", v.x, v.y, 8, 8)
+		love.graphics.setColor(250,200,190,255)
+		love.graphics.rectangle("line", v.x, v.y, 8, 8)
+	end
+
+	love.graphics.setFont(deftone)
+	--love.grapics.setColor(r,g,b, alpha)
+	love.graphics.setColor(123,123,20,255)
+	love.graphics.print("Activate all", quadratO.x + 2, quadratO.y + 2)
+	love.graphics.setColor(20,72,123,255)
+	love.graphics.print("Activate all", quadratO.x, quadratO.y)
+	
+	love.graphics.setFont(pacifico)
+	love.graphics.setColor(123,123,20,255)
+	love.graphics.print("robots", quadratO.x + 62, quadratO.y + 27)
+	love.graphics.setColor(20,72,123,255)
+	love.graphics.print("robots", quadratO.x +60, quadratO.y +25)
+	love.graphics.setColor(30,66,99,255)
+	love.graphics.rectangle("fill", quadratO.x, quadratO.y, quadratO.w, quadratO.w)
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.drawq(hero.image, hero.quads[hero.direction][hero.iterator], hero.x,hero.y, hero.rotate, hero.zoom)
+
+end
