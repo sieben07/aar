@@ -178,7 +178,7 @@ function hero.move(dt)
 		hero.y_vel = hero.y_vel - hero.gravity
 	end
 	for i,v in ipairs(tiles) do
-		if CheckCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
+		if CheckCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) or hero.x + hero.w > 32 * 32 or hero.x < 0  then
 			hero.x = hero.x - hero.x_vel
 		end
 	end
