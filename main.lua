@@ -32,7 +32,7 @@ function  love.load()
 
 end
 
-function love.keypressed(key)   -- we do not need the unicode, so we can leave it out
+function love.keypressed(key)
 	if key == "left" then
 		hero.x_vel = -hero.vel
 	end
