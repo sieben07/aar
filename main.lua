@@ -9,7 +9,6 @@
 function  love.load()
 	bigTimer = 0
 	Quad = love.graphics.newQuad
-	--logo = love.graphics.newImage("images/opl.jpg")
 	deftone = love.graphics.newFont("fonts/DEFTONE.ttf", 45)
 	pacifico = love.graphics.newFont("fonts/Pacifico.ttf", 45)
 	love.graphics.setBackgroundColor(123,71,20)
@@ -32,7 +31,7 @@ function  love.load()
 
 end
 
-function love.keypressed(key)   -- we do not need the unicode, so we can leave it out
+function love.keypressed(key)
 	if key == "left" then
 		hero.x_vel = -hero.vel
 	end
@@ -78,13 +77,16 @@ function love.update(dt)
 
 	for i,v in ipairs(hero.shoots) do
 		-- move them
-		v.x = v.x + 4
+		v.x = v.x + 8
+		if v.x + 8 > hero.x + 256 or v.x  < hero.x - 256 then
+			table.insert(remShot, i)
+		end
 		-- check for collision with Wall
 		for ii,vv in ipairs(tiles) do
 			if CheckCollision(v.x,v.y,2,5,vv.x,vv.y,vv.w,vv.h) then
-				-- mark that enemy for removal
+				-- mark that tile for removal
 				table.insert(remWall, ii)
-				-- mark the shot to be removed
+				-- mark the shoot to be removed
 				table.insert(remShot, i)
 			end
 		end
@@ -122,12 +124,14 @@ function love.draw()
 		love.graphics.rectangle("line", v.x, v.y, 8, 8)
 	end
 
+	text = #hero.shoots
+
 	love.graphics.setFont(deftone)
 	--love.grapics.setColor(r,g,b, alpha)
 	love.graphics.setColor(123,123,20,255)
 	love.graphics.print("Activate all", quadratO.x + 2, quadratO.y + 2)
 	love.graphics.setColor(20,72,123,255)
-	love.graphics.print("Activate all", quadratO.x, quadratO.y)
+	love.graphics.print(text, quadratO.x, quadratO.y)
 	
 	love.graphics.setFont(pacifico)
 	love.graphics.setColor(123,123,20,255)
