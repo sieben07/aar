@@ -34,12 +34,20 @@ end
 function love.keypressed(key)
 	if key == "left" then
 		hero.x_vel = -hero.vel
+<<<<<<< HEAD
 		hero.s_direction = "sleft"
+=======
+		hero.status = "shootLeft"
+>>>>>>> shooting in two directions now works
 	end
 	
 	if key == "right" then
 		hero.x_vel = hero.vel
+<<<<<<< HEAD
 		hero.s_direction = "sright"
+=======
+		hero.status = "shootRight"
+>>>>>>> shooting in two directions now works
 	end
 
 	if (key == "up" or key =="a") and hero.y_vel == 0 then

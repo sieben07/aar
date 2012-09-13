@@ -20,7 +20,11 @@ hero = {
 	iterator = 1,
     max = 5,
     direction = "left",
+<<<<<<< HEAD
     s_direction= "sleft",
+=======
+    status = "shootLeft",
+>>>>>>> shooting in two directions now works
     rotate = 0,
     zoom = 1,
     image = love.graphics.newImage "images/minimega.png",
@@ -96,6 +100,7 @@ hero = {
 
 function hero.shoot()
 	local shoot = {}
+<<<<<<< HEAD
 	if hero.s_direction == "sleft" then
 		shoot.x = hero.x
 		shoot.y = hero.y + 16
@@ -106,6 +111,18 @@ function hero.shoot()
 		shoot.x = hero.x + 32
 		shoot.y = hero.y + 16
 		shoot.dir = 8
+=======
+	if hero.status == "shootRight" then
+		shoot.x = hero.x + hero.w
+		shoot.y = hero.y + 16
+		shoot.dir = 8
+		table.insert(hero.shoots, shoot)
+	end
+	if hero.status == "shootLeft" then
+		shoot.x = hero.x
+		shoot.y = hero.y + 16
+		shoot.dir = -8
+>>>>>>> shooting in two directions now works
 		table.insert(hero.shoots, shoot)
 	end
 end
