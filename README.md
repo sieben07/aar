@@ -6,8 +6,8 @@ Jump: a or up
 Move: left and right
 
 
-Some of the ideas are from headchant's amazing love2d tutorials, and are used with permition:
-http://www.headchant.com/2010/11/26/love2d-tutorial-part-0-hello-world/
+Some of the ideas are from headchant's amazing love2d tutorials, and are used with permission:
+    http://www.headchant.com/2010/11/26/love2d-tutorial-part-0-hello-world/
 
 ----------------------------------------
 #MIT - License
