@@ -34,18 +34,20 @@ end
 function love.keypressed(key)
 	if key == "left" then
 		hero.x_vel = -hero.vel
+		hero.s_direction = "sleft"
 	end
 	
 	if key == "right" then
 		hero.x_vel = hero.vel
+		hero.s_direction = "sright"
 	end
 
-	if key == "a" and hero.y_vel == 0 then
+	if (key == "up" or key =="a") and hero.y_vel == 0 then
 		hero.jump = 32
 		hero.iterator = 1
 	end
 
-	if key == "s" then
+	if key == " " or key == "s" then
 		hero.shoot()
 		hero.shooting = true
 	end
@@ -66,7 +68,7 @@ function love.keyreleased(key)
 		
 	end
 
-	if key == "s" then
+	if key == "s" or key == " " then
 		hero.shooting = false
 	end
 end
@@ -77,7 +79,7 @@ function love.update(dt)
 
 	for i,v in ipairs(hero.shoots) do
 		-- move them
-		v.x = v.x + 8
+		v.x = v.x + v.dir
 		if v.x + 8 > hero.x + 256 or v.x  < hero.x - 256 then
 			table.insert(remShot, i)
 		end
