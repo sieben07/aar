@@ -1,5 +1,5 @@
-#One Point Left,
- a Jump and Shoot Riddle Game
+#One Point Left / activate all robots
+*a jump'n'shoot riddle game*
 
 Shoot: s or spacebar  
 Jump: a or up  
