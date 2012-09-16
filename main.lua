@@ -9,8 +9,7 @@
 function  love.load()
 	bigTimer = 0
 	Quad = love.graphics.newQuad
-	deftone = love.graphics.newFont("fonts/DEFTONE.ttf", 45)
-	pacifico = love.graphics.newFont("fonts/Pacifico.ttf", 45)
+	orangekid = love.graphics.newFont("fonts/orangekid.ttf", 45)
 	love.graphics.setBackgroundColor(123,71,20)
 	require('map')
 	require('collision')
@@ -34,20 +33,12 @@ end
 function love.keypressed(key)
 	if key == "left" then
 		hero.x_vel = -hero.vel
-<<<<<<< HEAD
-		hero.s_direction = "sleft"
-=======
 		hero.status = "shootLeft"
->>>>>>> shooting in two directions now works
 	end
 	
 	if key == "right" then
 		hero.x_vel = hero.vel
-<<<<<<< HEAD
-		hero.s_direction = "sright"
-=======
 		hero.status = "shootRight"
->>>>>>> shooting in two directions now works
 	end
 
 	if (key == "up" or key =="a") and hero.y_vel == 0 then
@@ -93,7 +84,7 @@ function love.update(dt)
 		end
 		-- check for collision with Wall
 		for ii,vv in ipairs(tiles) do
-			if CheckCollision(v.x,v.y,2,5,vv.x,vv.y,vv.w,vv.h) then
+			if CheckCollision(v.x,v.y,8,8,vv.x,vv.y,vv.w,vv.h) then
 				-- mark that tile for removal
 				table.insert(remWall, ii)
 				-- mark the shoot to be removed
@@ -120,36 +111,27 @@ function love.update(dt)
 end
 
 function love.draw()
-	--love.graphics.setColor(255,255,255,255)
-	--love.graphics.draw(logo, 0, 0, 0, 2, 2)
+	
+	-- draw the tiles
 	love.graphics.setColor(184,134,11)
 	for i,v in ipairs(tiles) do
 		love.graphics.rectangle("fill", v.x, v.y, v.w, v.h)
 	end
 
+	-- draw the shoots
 	for i,v in ipairs(hero.shoots) do
-		love.graphics.setColor(200,190,200,255)
+		love.graphics.setColor(255,127,0,255)
 		love.graphics.rectangle("fill", v.x, v.y, 8, 8)
-		love.graphics.setColor(250,200,190,255)
-		love.graphics.rectangle("line", v.x, v.y, 8, 8)
 	end
 
-	text = #hero.shoots
-
-	love.graphics.setFont(deftone)
+	-- draw some text
+	love.graphics.setFont(orangekid)
 	--love.grapics.setColor(r,g,b, alpha)
-	love.graphics.setColor(123,123,20,255)
-	love.graphics.print("Activate all", quadratO.x + 2, quadratO.y + 2)
-	love.graphics.setColor(20,72,123,255)
-	love.graphics.print(text, quadratO.x, quadratO.y)
+	love.graphics.setColor(255,127,0,255)
+	love.graphics.print("activate all", 64, 64)
+	love.graphics.print("robots", 96, 96)
 	
-	love.graphics.setFont(pacifico)
-	love.graphics.setColor(123,123,20,255)
-	love.graphics.print("robots", quadratO.x + 62, quadratO.y + 27)
-	love.graphics.setColor(20,72,123,255)
-	love.graphics.print("robots", quadratO.x +60, quadratO.y +25)
-	love.graphics.setColor(30,66,99,255)
-	love.graphics.rectangle("fill", quadratO.x, quadratO.y, quadratO.w, quadratO.w)
+	-- draw the hero
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.drawq(hero.image, hero.quads[hero.direction][hero.iterator], hero.x,hero.y, hero.rotate, hero.zoom)
 
