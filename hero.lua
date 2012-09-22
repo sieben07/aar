@@ -194,7 +194,7 @@ function hero.move(dt)
 	end
 	
 	if hero.jump ~= 0 then
-		hero.jump = hero.jump - hero.gravity
+		hero.jump = hero.jump - (hero.gravity / 2)
 		hero.y_vel = hero.jump
 		hero.y = hero.y - hero.y_vel
 		for i,v in ipairs(tiles) do

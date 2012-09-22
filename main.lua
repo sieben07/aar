@@ -42,7 +42,7 @@ function love.keypressed(key)
 	end
 
 	if (key == "up" or key =="a") and hero.y_vel == 0 then
-		hero.jump = 32
+		hero.jump = 24
 		hero.iterator = 1
 	end
 
@@ -84,7 +84,7 @@ function love.update(dt)
 		end
 		-- check for collision with Wall
 		for ii,vv in ipairs(tiles) do
-			if CheckCollision(v.x,v.y,8,8,vv.x,vv.y,vv.w,vv.h) then
+			if CheckCollision(v.x,v.y,8,8,vv.x,vv.y,vv.w,vv.h) and vv.shootable == true then
 				-- mark that tile for removal
 				table.insert(remWall, ii)
 				-- mark the shoot to be removed
@@ -115,7 +115,8 @@ function love.draw()
 	-- draw the tiles
 	love.graphics.setColor(184,134,11)
 	for i,v in ipairs(tiles) do
-		love.graphics.rectangle("fill", v.x, v.y, v.w, v.h)
+		love.graphics.setColor(v.color)
+		love.graphics.rectangle(v.draw, v.x, v.y, v.w, v.h)
 	end
 
 	-- draw the shoots
