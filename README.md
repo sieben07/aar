@@ -1,6 +1,8 @@
 # One Point Left / activate all robots #
 *a jump'n'shoot riddle game*
 
+![My image](sieben07.github.com/sieben07.github.com/img/opl.jpg)
+
 * Shoot: s or spacebar  
 * Jump: a or up  
 * Move: left and right  
