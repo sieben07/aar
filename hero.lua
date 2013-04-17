@@ -114,7 +114,7 @@ function hero.move(dt)
 	-- Animation Framerate
 	if hero.x_vel ~= 0 and hero.y_vel == 0  then
 		timer = timer + dt
-		if timer > 0.15 then
+		if timer > 0.16 then
 			timer = 0
 			hero.iterator = hero.iterator + 1
 			if hero.iterator > hero.max then
@@ -188,7 +188,7 @@ function hero.move(dt)
 		hero.y_vel = hero.y_vel - hero.gravity
 	end
 	for i,v in ipairs(tiles) do
-		if CheckCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) or hero.x + hero.w > 32 * 32 or hero.x < 0  then
+		if CheckCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) or hero.x + hero.w > 1024 or hero.x < 0  then
 			hero.x = hero.x - hero.x_vel
 		end
 	end
