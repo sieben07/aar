@@ -1,9 +1,9 @@
---[[  Project:One Point Left aka OPL / Activate all Robots aka AaR
-      Author: Orhan Kücükyilmaz
-      Date: 28-May-2012
-      Version: 0.1
-
-      Description: A Jump and Shoot Riddle Game
+--[[
+	Project:One Point Left aka OPL / Activate all Robots aka AaR
+	Author: Orhan Kücükyilmaz
+	Date: 28-May-2012
+	Version: 0.1
+	Description: A Jump and Shoot Riddle Game
 --]]
 
 function  love.load()
@@ -17,8 +17,8 @@ function  love.load()
 	require('hero')
 	require('quadratO')
 	require('tiles')
-	
-	
+
+	-- find positon of player
 	for y = 1, #map do
       for x = 1, #map[y] do
          if map[y][x] == X then
@@ -35,7 +35,7 @@ function love.keypressed(key)
 		hero.x_vel = -hero.vel
 		hero.status = "shootLeft"
 	end
-	
+
 	if key == "right" then
 		hero.x_vel = hero.vel
 		hero.status = "shootRight"
@@ -59,12 +59,12 @@ end
 function love.keyreleased(key)
 	if key == "left" then
 		hero.x_vel = 0
-		
+
 	end
 
 	if key == "right" then
 		hero.x_vel = 0
-		
+
 	end
 
 	if key == "s" or key == " " then
@@ -111,7 +111,7 @@ function love.update(dt)
 end
 
 function love.draw()
-	
+
 	-- draw the tiles
 	love.graphics.setColor(184,134,11)
 	for i,v in ipairs(tiles) do
@@ -131,9 +131,13 @@ function love.draw()
 	love.graphics.setColor(255,127,0,255)
 	love.graphics.print("activate all", 64, 64)
 	love.graphics.print("robots", 96, 96)
-	
+
+	-- draw the quadrat0
+	love.graphics.rectangle("fill", quadratO.x, quadratO.y, quadratO.w, quadratO.h)
+
 	-- draw the hero
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.drawq(hero.image, hero.quads[hero.direction][hero.iterator], hero.x,hero.y, hero.rotate, hero.zoom)
+
 
 end

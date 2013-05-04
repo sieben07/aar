@@ -1,10 +1,10 @@
 quadratO = {
 	x = 128,
-	y = 128,
-	w = 16,
+	y = 64*6 - 16,
+	w = 64,
 	h = 16,
-	x_vel = 1,
-	y_vel = 2,
+	x_vel = 0.7,
+	y_vel = 0,
 }
 
 function quadratO.move()
