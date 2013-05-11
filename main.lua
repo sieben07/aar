@@ -17,6 +17,7 @@ function  love.load()
 	require('hero')
 	require('quadratO')
 	require('tiles')
+	require('enemies')
 
 	-- find positon of player
 	for y = 1, #map do
@@ -93,6 +94,11 @@ function love.update(dt)
 		end
 	end
 
+	-- move enemies
+	for i,v in ipairs(enemies) do
+		v.move(v,i)
+	end
+
      -- remove the marked Tiles
      for i,v in ipairs(remWall) do
      	table.remove(tiles, v)
@@ -134,6 +140,11 @@ function love.draw()
 
 	-- draw the quadrat0
 	love.graphics.rectangle("fill", quadratO.x, quadratO.y, quadratO.w, quadratO.h)
+	-- draw the enemies
+	for i,v in ipairs(enemies) do
+		love.graphics.setColor(v.color)
+		love.graphics.rectangle(v.draw, v.x, v.y, v.w, v.h)
+	end
 
 	-- draw the hero
 	love.graphics.setColor(255,255,255,255)
