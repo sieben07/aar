@@ -14,6 +14,7 @@ hero = {
     jump = 0,
     shooting = false,
     shoots = {}, -- holds our fired shoots
+    score = 7,
 
 
     -- Animation
@@ -95,6 +96,7 @@ hero = {
 }
 
 function hero.shoot()
+    hero.score = hero.score - 1
     local shoot = {}
     if hero.status == "shootRight" then
         shoot.x = hero.x + hero.w

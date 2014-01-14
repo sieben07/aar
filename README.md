@@ -12,7 +12,7 @@ http://www.headchant.com/2010/11/26/love2d-tutorial-part-0-hello-world/
 
 ----------------------------------------  
 
-### MIT - License ###
+### License ###
 
 Copyright (c) 2012 Orhan Küçükyılmaz
 
