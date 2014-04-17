@@ -1,6 +1,7 @@
 local hub = 32 -- Höhe und Breite eines Sprites
 local big_hub = 256 -- Höhe und Breite des Spritesheets
 local timer = 0 -- Zeit Variable fuer Animation
+message = ""
 
 hero = {
     x = 0,
@@ -15,6 +16,17 @@ hero = {
     shooting = false,
     shoots = {}, -- holds our fired shoots
     score = 7,
+    action = {
+        ["top"]     = function() message = "wup wup" end,
+        ["right"]   = function()
+            hero.x = hero.x - hero.x_vel
+        end,
+        ["bottom"]  = function() message = "down down" end,
+        ["left"]    = function()
+            hero.x = hero.x - hero.x_vel
+        end,
+        ["invalid"] = function() message = "invalid" end
+    },
 
 
     -- Animation
@@ -191,10 +203,14 @@ function hero.move(dt)
         hero.y_vel = hero.y_vel - hero.gravity
     end
 
-    for i,v in ipairs(tiles) do
-        if v.colideable == true then
-            if CheckCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) or hero.x + hero.w > 1024 or hero.x < 0  then
-                hero.x = hero.x - hero.x_vel
+
+    for i = 1,  #tiles do
+        if tiles[i].colideable == true then
+            if checkCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h) or hero.x + hero.w > 1024 or hero.x < 0  then
+                --hero.x = hero.x - hero.x_vel
+                hero.action[sideCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h)]()
+            else
+                hero.action["invalid"]()
             end
         end
     end
@@ -205,7 +221,7 @@ function hero.move(dt)
         hero.y = hero.y - hero.y_vel
         for i,v in ipairs(tiles) do
             if v.colideable == true then
-                if CheckCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
+                if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
                     hero.y = hero.y + hero.y_vel
                 end
             end
@@ -218,7 +234,7 @@ function hero.move(dt)
         hero.y = hero.y + hero.y_vel
         for i,v in ipairs(tiles) do
             if v.colideable == true then
-                    if CheckCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
+                    if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
                     hero.y_vel = 0
                     hero.y = hero.y - hero.gravity
                 end

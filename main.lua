@@ -1,18 +1,19 @@
 --[[
-    Project:One Point Left - Activate all Robots
-    Author: Orhan Kücükyilmaz
-    Date: 28-May-2012
-    Version: 0.1 (codename: dns.opl)
-    Description: A Jump and Shoot Riddle Game
+  Project:One Point Left - Activate all Robots
+  Author: Orhan Kücükyilmaz
+  Date: 28-May-2012
+  Version: 0.1 (codename: dns.opl)
+  Description: A Jump and Shoot Riddle Game
 --]]
 
-function  love.load()
-    bigTimer = 0
-    Quad = love.graphics.newQuad
-    orangekid = love.graphics.newFont("fonts/orangekid.ttf", 23)
+function love.load()
+  bigTimer = 0
+  Quad = love.graphics.newQuad
+  orangekid = love.graphics.newFont("fonts/orangekid.ttf", 23)
     love.graphics.setBackgroundColor(123,71,20)
     require('map')
     require('collision')
+    require('sidecollision')
 
     require('hero')
     require('quadratO')
@@ -85,7 +86,7 @@ function love.update(dt)
         end
         -- check for collision with Wall
         for ii,vv in ipairs(tiles) do
-            if CheckCollision(v.x,v.y,8,8,vv.x,vv.y,vv.w,vv.h) and vv.shootable == true then
+            if checkCollision(v.x,v.y,8,8,vv.x,vv.y,vv.w,vv.h) and vv.shootable == true then
                 -- mark that tile for removal
                 table.insert(remWall, ii)
                 -- mark the shoot to be removed
@@ -123,46 +124,57 @@ function love.draw()
     for i,tile in ipairs(tiles) do
         love.graphics.setColor(tile.color)
         love.graphics.rectangle(tile.draw, tile.x, tile.y, tile.w, tile.h)
+        love.graphics.setColor(173,212,88,125)
+        love.graphics.rectangle(tile.draw, (tile.x/8) +32, (tile.y/8) +32, 4, 4)
     end
 
     -- draw the shoots
     for i,v in ipairs(hero.shoots) do
         love.graphics.setColor(255,127,0,255)
         love.graphics.rectangle("fill", v.x, v.y, 8, 8)
+        love.graphics.setColor(173,212,88,125)
+        love.graphics.rectangle("fill", (v.x/8) +32, (v.y/8) +32, 1, 1)
     end
 
     -- draw some text
     love.graphics.setFont(orangekid)
     --love.grapics.setColor(r,g,b, alpha)
     love.graphics.setColor(255,127,0,125)
-    love.graphics.print("activate all", hero.x + 24, hero.y - 48)
-    love.graphics.print("robots", hero.x + 96, hero.y - 16)
+    love.graphics.print(message, hero.x + 24, hero.y - 48)
+    love.graphics.print(message, 32, 32)
+    --love.graphics.print("robots", hero.x + 96, hero.y - 16)
 
     -- draw the quadrat0
     love.graphics.rectangle("fill", quadratO.x, quadratO.y, quadratO.w, quadratO.h)
+    love.graphics.setColor(173,212,88,125)
+    love.graphics.rectangle("fill", quadratO.x/8 + 32, quadratO.y/8 + 32, quadratO.w/8, quadratO.h/8)
     -- draw the enemies
     for i,v in ipairs(enemies) do
         love.graphics.setColor(v.color)
         love.graphics.rectangle(v.draw, v.x, v.y, v.w, v.h)
+        love.graphics.setColor(173,212,88,125)
+        love.graphics.rectangle(v.draw, v.x/8 +32, v.y/8 +32, v.w/8, v.h/8)
     end
 
     -- draw the hero
     love.graphics.setColor(255,255,255,255)
     love.graphics.draw(hero.image, hero.quads[hero.direction][hero.iterator], hero.x,hero.y, hero.rotate, hero.zoom)
+    love.graphics.setColor(173,212,88,125)
+    love.graphics.draw(hero.image, hero.quads[hero.direction][hero.iterator], hero.x/8 + 32,hero.y/8 + 32, hero.rotate, hero.zoom/8)
 
-    --[[
+    ---[[
     if hero.score == 1 then
         love.graphics.print(".| one point left", hero.x + 32, hero.y - 64)
     else
-        love.graphics.print(".| " .. hero.score, hero.x + 32, hero.y - 64)
+        love.graphics.print(".| " .. hero.score, 0, 0)
     end
     --]]
-
+--[[
     if hero.score == 1 then
         love.graphics.print(".| one point left", 0, 0)
     else
         love.graphics.print(".| " .. hero.score, 0, 0)
     end
-
+––]]
 
 end

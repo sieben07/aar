@@ -3,7 +3,7 @@ quadratO = {
 	y = 64*6 - 16,
 	w = 64,
 	h = 16,
-	x_vel = 0.7,
+	x_vel = 0,
 	y_vel = 0,
 }
 
@@ -13,7 +13,7 @@ function quadratO.move()
 	-- Move the quadrat= Up or Down
 	quadratO.y = quadratO.y + quadratO.y_vel
 	for i,v in ipairs(tiles) do
-		if CheckCollision(quadratO.x, quadratO.y, quadratO.w, quadratO.h, v.x, v.y, v.w, v.h) then
+		if checkCollision(quadratO.x, quadratO.y, quadratO.w, quadratO.h, v.x, v.y, v.w, v.h) then
 			quadratO.x = quadratO.x - quadratO.x_vel
 			quadratO.y = quadratO.y - quadratO.y_vel
 			quadratO.x_vel = quadratO.x_vel * -1
