@@ -140,8 +140,8 @@ function love.draw()
     love.graphics.setFont(orangekid)
     --love.grapics.setColor(r,g,b, alpha)
     love.graphics.setColor(255,127,0,125)
-    love.graphics.print(message, hero.x + 24, hero.y - 48)
-    love.graphics.print(message, 32, 32)
+    --love.graphics.print(message, hero.x + 24, hero.y - 48)
+    --love.graphics.print(message, 32, 32)
     --love.graphics.print("robots", hero.x + 96, hero.y - 16)
 
     -- draw the quadrat0
