@@ -6,12 +6,29 @@
   Description: A Jump and Shoot Riddle Game
 --]]
 
+local sti = require "libs.Simple-Tiled-Implementation.sti"
+local bump = require 'libs.bump.bump'
+
+-- Fonts
+defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24)
+orial = love.graphics.newFont("assets/font/Orial_Bold.otf", 57)
+ormont = love.graphics.newFont("assets/font/Ormont_Light.ttf", 38)
+ormontsmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
+orangekid = love.graphics.newFont("fonts/orangekid.ttf", 23)
+
 function love.load()
-  bigTimer = 0
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.setBackgroundColor(123, 231, 44, 255 )
+  love.keyboard.setKeyRepeat(false)
+
+  map = sti("assets/maps/start.lua", {"bump"})
+  world = bump.newWorld(32)
+  map:bump_init(world)
+
+    
   Quad = love.graphics.newQuad
-  orangekid = love.graphics.newFont("fonts/orangekid.ttf", 23)
-    love.graphics.setBackgroundColor(123,71,20)
-    require('map')
+ 
+    --require('map')
     require('collision')
     require('sidecollision')
 
@@ -77,6 +94,7 @@ end
 function love.update(dt)
     local remWall = {}
     local remShot = {}
+    map:update(dt)
 
     for i,v in ipairs(hero.shoots) do
         -- move them
@@ -109,18 +127,25 @@ function love.update(dt)
         table.remove(hero.shoots, v)
     end
 
-    bigTimer = bigTimer + dt
-    if bigTimer >= 0.016 then -- 1 / 60 = 0.016 60 frames per second
-        hero.move(dt)
-        quadratO.move()
-        bigTimer = 0
+    if dt > 0.05 then
+        dt = 0.05
     end
+    
+    --hero.move(dt)
+    --quadratO.move()
+  
+    
 end
 
 function love.draw()
+  love.graphics.setColor(0, 0, 0, 255)
+  map:draw()
+  -- Draw Collision Map (useful for debugging)
+  love.graphics.setColor(255, 0, 0, 255)
+  map:bump_draw()
 
     -- draw the tiles
-    love.graphics.setColor(184,134,11)
+    -- love.graphics.setColor(184,134,11)
     for i,tile in ipairs(tiles) do
         love.graphics.setColor(tile.color)
         love.graphics.rectangle(tile.draw, tile.x, tile.y, tile.w, tile.h)
@@ -140,21 +165,21 @@ function love.draw()
     love.graphics.setFont(orangekid)
     --love.grapics.setColor(r,g,b, alpha)
     love.graphics.setColor(255,127,0,125)
-    --love.graphics.print(message, hero.x + 24, hero.y - 48)
-    --love.graphics.print(message, 32, 32)
-    --love.graphics.print("robots", hero.x + 96, hero.y - 16)
+    love.graphics.print(message, hero.x + 24, hero.y - 48)
+    love.graphics.print(message, 32, 32)
+    love.graphics.print("robots", hero.x + 96, hero.y - 16)
 
     -- draw the quadrat0
-    love.graphics.rectangle("fill", quadratO.x, quadratO.y, quadratO.w, quadratO.h)
-    love.graphics.setColor(173,212,88,125)
-    love.graphics.rectangle("fill", quadratO.x/8 + 32, quadratO.y/8 + 32, quadratO.w/8, quadratO.h/8)
+    --love.graphics.rectangle("fill", quadratO.x, quadratO.y, quadratO.w, quadratO.h)
+    --love.graphics.setColor(173,212,88,125)
+    --love.graphics.rectangle("fill", quadratO.x/8 + 32, quadratO.y/8 + 32, quadratO.w/8, quadratO.h/8)
     -- draw the enemies
-    for i,v in ipairs(enemies) do
+    --[[for i,v in ipairs(enemies) do
         love.graphics.setColor(v.color)
         love.graphics.rectangle(v.draw, v.x, v.y, v.w, v.h)
         love.graphics.setColor(173,212,88,125)
         love.graphics.rectangle(v.draw, v.x/8 +32, v.y/8 +32, v.w/8, v.h/8)
-    end
+    end--]]
 
     -- draw the hero
     love.graphics.setColor(255,255,255,255)
@@ -165,6 +190,7 @@ function love.draw()
     ---[[
     if hero.score == 1 then
         love.graphics.print(".| one point left", hero.x + 32, hero.y - 64)
+        love.graphics.print(".| one point left", 0, 0)
     else
         love.graphics.print(".| " .. hero.score, 0, 0)
     end
