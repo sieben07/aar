@@ -8,7 +8,7 @@ return {
   height = 20,
   tilewidth = 32,
   tileheight = 32,
-  nextobjectid = 2,
+  nextobjectid = 3,
   properties = {},
   tilesets = {
     {
@@ -18,7 +18,7 @@ return {
       tileheight = 32,
       spacing = 0,
       margin = 0,
-      image = "tiles.png",
+      image = "../maps/tiles.png",
       imagewidth = 192,
       imageheight = 128,
       tileoffset = {
@@ -43,7 +43,9 @@ return {
       opacity = 1,
       offsetx = 0,
       offsety = 0,
-      properties = {},
+      properties = {
+        ["collidable"] = true
+      },
       encoding = "lua",
       data = {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -90,7 +92,24 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["falling"] = "false"
+            ["collidable"] = true,
+            ["falling"] = false
+          }
+        },
+        {
+          id = 2,
+          name = "Player",
+          type = "Player Robot",
+          shape = "rectangle",
+          x = 320,
+          y = 448,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["collidable"] = true,
+            ["falling"] = true
           }
         }
       }

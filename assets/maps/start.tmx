@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="32" height="20" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="32" tileheight="32" nextobjectid="3">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="tiles.png" width="192" height="128"/>
  </tileset>
  <layer name="Solid" width="32" height="20">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
@@ -27,10 +30,17 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <objectgroup name="Objects" width="32" height="20">
-  <object name="Start" type="Start Robot" x="496" y="480" width="32" height="32">
+ <objectgroup name="Objects">
+  <object id="1" name="Start" type="Start Robot" x="496" y="480" width="32" height="32">
    <properties>
-    <property name="falling" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="falling" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="2" name="Player" type="Player Robot" x="320" y="448" width="32" height="32">
+   <properties>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="falling" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

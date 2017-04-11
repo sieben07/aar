@@ -1,5 +1,3 @@
--- hier configurie ich das ganze
-
 function love.conf(t)
     t.title             = "One Point Left"  -- The title of the window the game is in (string)
     t.author            = "Orhan.K"         -- The author of the game (string)
