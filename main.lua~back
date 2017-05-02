@@ -1,21 +1,3 @@
---[[
-  Project:One Point Left - Activate all Robots
-  Author: Orhan Kücükyilmaz
-  Date: 28-May-2012
-  Version: 0.1 (codename: dns.opl)
-  Description: A Jump and Shoot Riddle Game
---]]
-
-local sti = require "libs.Simple-Tiled-Implementation.sti"
-local bump = require 'libs.bump.bump'
-
--- Fonts
-defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24)
-orial = love.graphics.newFont("assets/font/Orial_Bold.otf", 57)
-ormont = love.graphics.newFont("assets/font/Ormont_Light.ttf", 38)
-ormontsmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
-orangekid = love.graphics.newFont("fonts/orangekid.ttf", 23)
-
 function love.load()
   love.graphics.setColor(255, 255, 255)
   love.graphics.setBackgroundColor(123, 231, 44, 255 )
