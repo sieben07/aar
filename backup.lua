@@ -44,7 +44,7 @@ function love.load()
   Gamestate.switch(game)
   -- map = sti("assets/maps/start.lua", {"bump"})
   
-  -- world = bump.newWorld(32);
+  -- world = bump.newWorld(32)
   
   -- love.graphics.setBackgroundColor(   86, 86, 86 )
   

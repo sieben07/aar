@@ -127,6 +127,22 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 2,
+          name = "Player",
+          type = "Player Robot",
+          shape = "rectangle",
+          x = 320,
+          y = 448,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["collidable"] = true,
+            ["falling"] = true
+          }
         }
       }
     }

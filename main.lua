@@ -1,129 +1,149 @@
---[[
-  Project:One Point Left - Activate all Robots
-  Author: Orhan Kücükyilmaz
-  Date: 27-Apri-2017
-  Version: 0.0.1 (codename: dplhlx.aar)
-  Description: A Jump and Shoot Riddle Game
---]]
-
 local sti = require "libs.Simple-Tiled-Implementation.sti"
 local bump = require "libs.bump.bump"
-local Gamestate = require "libs.hump.gamestate"
 
-local levels = {"start", "level0"}
-local level = levels[1]
-local map
-local player
-local world
-
-local game = {}
-
--- Fonts
-defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24)
-orial = love.graphics.newFont("assets/font/Orial_Bold.otf", 57)
-ormont = love.graphics.newFont("assets/font/Ormont_Light.ttf", 38)
+-- fonts
 ormontsmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
-orangekid = love.graphics.newFont("fonts/orangekid.ttf", 23)
 
-function game:keyreleased(key, code)
-    if key == 'return' then
-        Gamestate.switch(game)
+
+function love.load( )
+  love.graphics.setBackgroundColor(102, 51, 0)
+  map = sti("assets/maps/start.lua", {"bump"})
+  world = bump.newWorld(32)
+
+  map:addCustomLayer("GhostLayer", 7);
+  layer = map.layers["GhostLayer"];
+
+  for k, object in pairs(map.objects) do
+    if object.name == "Player" then
+      player = object
     end
 
-    if key == 'right' then
-      moveRight()
+    if object.name == "Start" then
+      start = object
+    end
+  end
+
+  local sprite = love.graphics.newImage("assets/img/player/orange.png")
+
+  layer.player = {
+    falling = player.properties.falling,
+    name = player.name,
+    sprite = sprite,
+    x = player.x,
+    y = player.y,
+    height = player.height,
+    width = player.width,
+    title = player.type,
+    jump = false,
+    jumpVelocity = 128
+  }
+
+  layer.start = {
+    name = start.name,
+    x = start.x,
+    y = start.y,
+    height = start.height,
+    width = start.width,
+    title = start.type
+  }
+
+  function layer:update(dt)
+    local speed = 128
+    -- Move player up
+    for k, object in pairs(self) do
+      if type(object) == "table" then
+
+      end
     end
 
-    if key == 'left' then
-      moveLeft()
+    if love.keyboard.isDown("up") then
+      goalY = self.player.y - speed * dt
+      local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
+      self.player.y = actualY
     end
 
-end
+    -- Move player down
+    if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+        goalY = self.player.y + speed * dt
+        local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
+        self.player.y = actualY
+    end
 
-function game:enter()
-  love.graphics.setColor(255,255,255)
-  love.graphics.setBackgroundColor(105, 105, 105)
-  map = sti("assets/maps/" .. level .. ".lua", {"bump"})
-  local layer = map:addCustomLayer("Sprites", 8)
-  loadPlayer(map,layer, player)
-  world = bump.newWorld(32);
+    -- Move player left
+    if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+      goalX = self.player.x - speed * dt
+
+      local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
+      self.player.x = actualX
+    end
+
+    -- Move player right
+    if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+      goalX = self.player.x + speed * dt
+      local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
+      self.player.x = actualX
+    end
+
+    -- Jump player
+    if love.keyboard.isDown("space") or love.keyboard.isDown("w") then
+      if self.player.jump == false then
+        self.player.jump = true
+        self.player.jumpVelocity = 128
+      end
+    end
+
+    if self.player.jump == true then
+      goalY = self.player.y - self.player.jumpVelocity * dt
+      local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
+      for i=1,len do -- If more than one simultaneous collision, they are sorted out by proximity
+        for key,value in pairs(cols[i].normal) do
+          print(cols[i].normal.y)
+          if cols[i].normal.y == 1 then
+            self.player.jumpVelocity = 0
+          elseif cols[i].normal.y == -1 then
+            self.player.jump = false
+            self.player.jumpVelocity = 0
+          end
+        end
+      end
+      self.player.y = actualY
+      self.player.jumpVelocity = self.player.jumpVelocity - 16 * dt
+    end
+  end
+
+  function layer:draw()
+    -- player
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.draw(self.player.sprite, self.player.x, self.player.y, 0, 1,1)
+
+    -- start robot
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.rectangle("fill", start.x, start.y, start.width, start.height )
+
+    love.graphics.setFont(ormontsmall)
+    love.graphics.setColor(0, 51, 102)
+    love.graphics.print( self.start.name, self.start.x, self.start.y)
+  end
+
+  map:removeLayer("Objects")
+  world:add(layer.player, layer.player.x, layer.player.y, layer.player.width, layer.player.height)
+  world:add(layer.start, layer.start.x, layer.start.y, layer.start.width, layer.start.height)
+
   map:bump_init(world)
 end
 
-function game:leave()
-  table.remove(levels, 1)
-  level = levels[1]
-end
-
-function game:update(dt)
-    
-end
-
-function game:draw()
-  map:draw()
-  love.graphics.setColor(7, 0, 7)
-  love.graphics.setFont(orial)
-  love.graphics.printf( "One Point Left", 0, 128, love.graphics.getWidth() , "center")
-  love.graphics.setFont(ormont)
-  love.graphics.setColor(255, 165, 7)
-  love.graphics.printf( "activate all robots", 0, 167, love.graphics.getWidth() , "center")
-  love.graphics.printf( levels[1], 0, 128, love.graphics.getWidth() , "center")
-  --love.graphics.printf( newLevel, 0, 256, love.graphics.getWidth() , "center")
-  love.graphics.setColor(7, 0, 7)
-
-end
-
-
-
-function love.load()
-  Gamestate.registerEvents()
-  Gamestate.switch(game)
-end
-
-function love.update( dt )
-  --map:update(dt)
-  --layer:update(dt)
+function love.update(dt)
+  layer:update(dt)
+  map:update(dt)
 end
 
 function love.draw()
-  --map:draw()
-  --layer:draw()
-  --love.graphics.setColor(219, 112, 147)
-  --map:bump_draw(world)
-  --love.graphics.draw(layer.player.sprite, layer.player.x, layer.player.y, 0, 1,1)
-end
+  love.graphics.setColor(179,89,0)
+  map:draw()
+  layer:draw()
 
-
-
-function moveLeft()
-  print 'left'
-end
-
-function moveRight()
-  print 'right'
-end
-
-function jump()
-end
-
-function shoot()
-end
-
-function loadPlayer(map, layer, player)
-  for k, object in pairs(map.objects) do
-        if object.name == "Player" then
-            player = object
-            break
-        end
-    end
-
-    -- Create player object
-    layer.player = {
-        x      = player.x,
-        y      = player.y,
-        ox     = 32,
-        oy     = 32
-    }
-
-
+  ---[[ -- Collision map
+  love.graphics.setColor(255, 0, 0, 50)
+  map:bump_draw(world, 32,32,0.25, 0.25)
+  --]]
 end
