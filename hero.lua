@@ -2,12 +2,26 @@ local hub = 32 -- Höhe und Breite eines Sprites
 local big_hub = 256 -- Höhe und Breite des Spritesheets
 local timer = 0 -- Zeit Variable fuer Animation
 message = ""
+local Quad = love.graphics.newQuad
 
 hero = {
+    action = {
+        ["top"]     = function() message = "wup wup" end,
+        ["right"]   = function() hero.x = hero.x - hero.x_vel end,
+        ["bottom"]  = function() message = "down down" end,
+        ["left"]    = function() hero.x = hero.x - hero.x_vel end,
+        ["invalid"] = function() message = "invalid" end
+    },
+    falling = nil,
+    name = nil,
+    sprite = nil,
+    title = nil,
+    jumpVelocity = 128,
+
     x = 0,
     y = 0,
-    w = 32,
-    h = 32,
+    width = 32,
+    height = 32,
     x_vel = 0,
     y_vel = 0,
     vel = 4,
@@ -16,19 +30,7 @@ hero = {
     shooting = false,
     shoots = {}, -- holds our fired shoots
     score = 7,
-    action = {
-        ["top"]     = function() message = "wup wup" end,
-        ["right"]   = function()
-            hero.x = hero.x - hero.x_vel
-        end,
-        ["bottom"]  = function() message = "down down" end,
-        ["left"]    = function()
-            hero.x = hero.x - hero.x_vel
-        end,
-        ["invalid"] = function() message = "invalid" end
-    },
-
-
+    
     -- Animation
     iterator = 1,
     max = 5,
@@ -36,7 +38,7 @@ hero = {
     status = "shootLeft",
     rotate = 0,
     zoom = 1,
-    image = love.graphics.newImage "images/minimega.png",
+    image = love.graphics.newImage "assets/img/minimega.png",
 
     -- the frames of the hero
     quads =
@@ -124,6 +126,7 @@ function hero.shoot()
     end
 end
 
+-- layer:update ???
 function hero.move(dt)
     -- Animation Framerate
     if hero.x_vel ~= 0 and hero.y_vel == 0  then

@@ -6,6 +6,7 @@ ormontsmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
 
 
 function love.load( )
+  require('hero')
   love.graphics.setBackgroundColor(102, 51, 0)
   map = sti("assets/maps/start.lua", {"bump"})
   world = bump.newWorld(32)
@@ -25,19 +26,20 @@ function love.load( )
 
   local sprite = love.graphics.newImage("assets/img/player/orange.png")
 
-  layer.player = {
-    falling = player.properties.falling,
-    name = player.name,
-    sprite = sprite,
-    x = player.x,
-    y = player.y,
-    height = player.height,
-    width = player.width,
-    title = player.type,
-    jump = false,
-    jumpVelocity = 128
-  }
+  layer.player = hero
+  layer.player.falling = player.properties.falling
+  layer.player.name = player.name
+  layer.player.sprite = sprite
+  layer.player.x = player.x
+  layer.player.y = player.y
+  layer.player.height = player.height
+  layer.player.width = player.width
+  layer.player.title = player.type
+  layer.player.jump = false
+  layer.player.jumpVelocity = 128
 
+  print(layer.player.score)
+  
   layer.start = {
     name = start.name,
     x = start.x,
@@ -115,6 +117,11 @@ function love.load( )
     -- player
     love.graphics.setColor(255, 255, 255)
     love.graphics.draw(self.player.sprite, self.player.x, self.player.y, 0, 1,1)
+    -- draw the hero
+    love.graphics.setColor(255,255,255,255)
+    love.graphics.draw(hero.image, hero.quads[hero.direction][hero.iterator], hero.x,hero.y, hero.rotate, hero.zoom)
+    love.graphics.setColor(173,212,88,125)
+    love.graphics.draw(hero.image, hero.quads[hero.direction][hero.iterator], hero.x/8 + 32,hero.y/8 + 32, hero.rotate, hero.zoom/8)
 
     -- start robot
     love.graphics.setColor(255, 255, 255)
