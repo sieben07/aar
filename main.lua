@@ -1,18 +1,22 @@
 local sti = require "libs.Simple-Tiled-Implementation.sti"
 local bump = require "libs.bump.bump"
 
+local timer = 0 -- Zeit Variable fuer Animation
+
 -- fonts
 ormontsmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
 
 
 function love.load( )
-  require('hero')
+  local hero = require('hero')
   love.graphics.setBackgroundColor(102, 51, 0)
   map = sti("assets/maps/start.lua", {"bump"})
   world = bump.newWorld(32)
 
-  map:addCustomLayer("GhostLayer", 7);
-  layer = map.layers["GhostLayer"];
+  map:addCustomLayer("playerLayer", 7)
+  playerLayer = map.layers["playerLayer"]
+  map:addCustomLayer("robotsLayer", 8)
+  robotsLayer = map.layers['robotsLayer']
 
   for k, object in pairs(map.objects) do
     if object.name == "Player" then
@@ -26,21 +30,18 @@ function love.load( )
 
   local sprite = love.graphics.newImage("assets/img/player/orange.png")
 
-  layer.player = hero
-  layer.player.falling = player.properties.falling
-  layer.player.name = player.name
-  layer.player.sprite = sprite
-  layer.player.x = player.x
-  layer.player.y = player.y
-  layer.player.height = player.height
-  layer.player.width = player.width
-  layer.player.title = player.type
-  layer.player.jump = false
-  layer.player.jumpVelocity = 128
+  playerLayer         = hero
+  playerLayer.falling = player.properties.falling
+  playerLayer.name    = player.name
+  playerLayer.x       = player.x
+  playerLayer.y       = player.y
+  playerLayer.height  = player.height
+  playerLayer.width   = player.width
+  playerLayer.title   = player.type
 
-  print(layer.player.score)
+  print(playerLayer.score)
   
-  layer.start = {
+  robotsLayer.start = {
     name = start.name,
     x = start.x,
     y = start.y,
@@ -49,79 +50,92 @@ function love.load( )
     title = start.type
   }
 
-  function layer:update(dt)
-    local speed = 128
-    -- Move player up
-    for k, object in pairs(self) do
-      if type(object) == "table" then
+  -- function layer:update(dt)
+  --   local speed = 128
+  --   -- Move player up
+  --   for k, object in pairs(self) do
+  --     if type(object) == "table" then
 
-      end
-    end
+  --     end
+  --   end
 
-    if love.keyboard.isDown("up") then
-      goalY = self.player.y - speed * dt
-      local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
-      self.player.y = actualY
-    end
+  --   -- Animation Framerate
+  --   if self.player.x_vel ~= 0 and self.player.y_vel == 0  then
+  --       timer = timer + dt
+  --       if timer > 0.04 then
+  --           timer = 0
+  --           self.player.iterator = self.player.iterator + 1
+  --           print(self.player.iterator)
+  --           if self.player.iterator > self.player.max then
+  --               self.player.iterator = 2
+  --           end
+  --       end
+  --   end
 
-    -- Move player down
-    if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
-        goalY = self.player.y + speed * dt
-        local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
-        self.player.y = actualY
-    end
+  --   if love.keyboard.isDown("up") then
+  --     goalY = self.player.y - speed * dt
+  --     local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
+  --     self.player.y = actualY
+  --   end
 
-    -- Move player left
-    if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-      goalX = self.player.x - speed * dt
+  --   -- Move player down
+  --   if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+  --       goalY = self.player.y + speed * dt
+  --       local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
+  --       self.player.y = actualY
+  --   end
 
-      local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
-      self.player.x = actualX
-    end
+  --   -- Move player left
+  --   if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+  --     goalX = self.player.x - speed * dt
 
-    -- Move player right
-    if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
-      goalX = self.player.x + speed * dt
-      local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
-      self.player.x = actualX
-    end
+  --     local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
+  --     self.player.x = actualX
+  --   end
 
-    -- Jump player
-    if love.keyboard.isDown("space") or love.keyboard.isDown("w") then
-      if self.player.jump == false then
-        self.player.jump = true
-        self.player.jumpVelocity = 128
-      end
-    end
+  --   -- Move player right
+  --   if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+  --     goalX = self.player.x + speed * dt
+  --     local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
+  --     self.player.x = actualX
+  --   end
 
-    if self.player.jump == true then
-      goalY = self.player.y - self.player.jumpVelocity * dt
-      local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
-      for i=1,len do -- If more than one simultaneous collision, they are sorted out by proximity
-        for key,value in pairs(cols[i].normal) do
-          print(cols[i].normal.y)
-          if cols[i].normal.y == 1 then
-            self.player.jumpVelocity = 0
-          elseif cols[i].normal.y == -1 then
-            self.player.jump = false
-            self.player.jumpVelocity = 0
-          end
-        end
-      end
-      self.player.y = actualY
-      self.player.jumpVelocity = self.player.jumpVelocity - 16 * dt
-    end
-  end
+  --   -- Jump player
+  --   if love.keyboard.isDown("space") or love.keyboard.isDown("w") then
+  --     if self.player.jump == false then
+  --       self.player.jump = true
+  --       self.player.jumpVelocity = 128
+  --     end
+  --   end
 
-  function layer:draw()
+  --   if self.player.jump == true then
+  --     goalY = self.player.y - self.player.jumpVelocity * dt
+  --     local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
+  --     for i=1,len do -- If more than one simultaneous collision, they are sorted out by proximity
+  --       for key,value in pairs(cols[i].normal) do
+  --         print(cols[i].normal.y)
+  --         if cols[i].normal.y == 1 then
+  --           self.player.jumpVelocity = 0
+  --         elseif cols[i].normal.y == -1 then
+  --           self.player.jump = false
+  --           self.player.jumpVelocity = 0
+  --         end
+  --       end
+  --     end
+  --     self.player.y = actualY
+  --     self.player.jumpVelocity = self.player.jumpVelocity - 16 * dt
+  --   end
+  -- end
+
+  function playerLayer:draw()
     -- player
     love.graphics.setColor(255, 255, 255)
-    love.graphics.draw(self.player.sprite, self.player.x, self.player.y, 0, 1,1)
+    --love.graphics.draw(self.player.sprite, self.player.x, self.player.y, 0, 1,1)
     -- draw the hero
     love.graphics.setColor(255,255,255,255)
-    love.graphics.draw(hero.image, hero.quads[hero.direction][hero.iterator], hero.x,hero.y, hero.rotate, hero.zoom)
+    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, self.zoom)
     love.graphics.setColor(173,212,88,125)
-    love.graphics.draw(hero.image, hero.quads[hero.direction][hero.iterator], hero.x/8 + 32,hero.y/8 + 32, hero.rotate, hero.zoom/8)
+    --love.graphics.draw(self.player.sprite, hero.x/8 + 32,hero.y/8 + 32, hero.rotate, hero.zoom/8)
 
     -- start robot
     love.graphics.setColor(255, 255, 255)
@@ -129,28 +143,28 @@ function love.load( )
 
     love.graphics.setFont(ormontsmall)
     love.graphics.setColor(0, 51, 102)
-    love.graphics.print( self.start.name, self.start.x, self.start.y)
+    --love.graphics.print( self.start.name, self.start.x, self.start.y)
   end
 
   map:removeLayer("Objects")
-  world:add(layer.player, layer.player.x, layer.player.y, layer.player.width, layer.player.height)
-  world:add(layer.start, layer.start.x, layer.start.y, layer.start.width, layer.start.height)
+  world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
+  world:add(robotsLayer.start, robotsLayer.start.x, robotsLayer.start.y, robotsLayer.start.width, robotsLayer.start.height)
 
   map:bump_init(world)
 end
 
 function love.update(dt)
-  layer:update(dt)
+  playerLayer:update(dt)
   map:update(dt)
 end
 
 function love.draw()
   love.graphics.setColor(179,89,0)
   map:draw()
-  layer:draw()
+  playerLayer:draw()
 
   ---[[ -- Collision map
-  love.graphics.setColor(255, 0, 0, 50)
-  map:bump_draw(world, 32,32,0.25, 0.25)
+  love.graphics.setColor(255, 255, 255, 50)
+  map:bump_draw(world, 256,256,0.125, 0.125)
   --]]
 end

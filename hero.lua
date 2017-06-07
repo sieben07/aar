@@ -1,10 +1,10 @@
 local hub = 32 -- Höhe und Breite eines Sprites
 local big_hub = 256 -- Höhe und Breite des Spritesheets
-local timer = 0 -- Zeit Variable fuer Animation
+
 message = ""
 local Quad = love.graphics.newQuad
 
-hero = {
+local hero = {
     action = {
         ["top"]     = function() message = "wup wup" end,
         ["right"]   = function() hero.x = hero.x - hero.x_vel end,
@@ -30,6 +30,7 @@ hero = {
     shooting = false,
     shoots = {}, -- holds our fired shoots
     score = 7,
+    timer = 0, -- Zeit Variable fuer Animation
     
     -- Animation
     iterator = 1,
@@ -109,140 +110,183 @@ hero = {
 
 }
 
-function hero.shoot()
-    hero.score = hero.score - 1
+function hero:shoot()
+    self.score = self.score - 1
     local shoot = {}
-    if hero.status == "shootRight" then
-        shoot.x = hero.x + hero.w
-        shoot.y = hero.y + 16
+    if self.status == "shootRight" then
+        shoot.x = self.x + self.width
+        shoot.y = self.y + 16
         shoot.dir = 8
-        table.insert(hero.shoots, shoot)
+        table.insert(self.shoots, shoot)
     end
-    if hero.status == "shootLeft" then
-        shoot.x = hero.x
-        shoot.y = hero.y + 16
+    if self.status == "shootLeft" then
+        shoot.x = self.x
+        shoot.y = self.y + 16
         shoot.dir = -8
-        table.insert(hero.shoots, shoot)
+        table.insert(self.shoots, shoot)
     end
 end
 
--- layer:update ???
-function hero.move(dt)
+function hero:update(dt)
     -- Animation Framerate
-    if hero.x_vel ~= 0 and hero.y_vel == 0  then
-        timer = timer + dt
-        if timer > 0.04 then
-            timer = 0
-            hero.iterator = hero.iterator + 1
-            if hero.iterator > hero.max then
-                hero.iterator = 2
+    if self.x_vel ~= 0 and self.y_vel == 0  then
+        self.timer = self.timer + dt
+        if self.timer > 0.04 then
+            self.timer = 0
+            self.iterator = self.iterator + 1
+            if self.iterator > self.max then
+                self.iterator = 2
             end
         end
     end
 
-    if hero.x_vel == 0 then
-        hero.iterator = 1
+    if self.x_vel == 0 then
+        self.iterator = 1
     end
 
-    if hero.y_vel ~= 0 then
-        hero.iterator = 1
+    if self.y_vel ~= 0 then
+        self.iterator = 1
     end
 
     -- Animation Direciton
-    if hero.x_vel < 0 then
-        if hero.y_vel == 0 then
-            hero.direction ="left"
-            elseif hero.y_vel ~= 0 then
-                hero.direction ="jumpLeftMoving"
+    if self.x_vel < 0 then
+        if self.y_vel == 0 then
+            self.direction ="left"
+            elseif self.y_vel ~= 0 then
+                self.direction ="jumpLeftMoving"
         end
     end
 
-    if hero.x_vel > 0 then
-        if hero.y_vel == 0 then
-            hero.direction ="right"
-            elseif hero.y_vel ~= 0 then
-                hero.direction ="jumpRightMoving"
+    if self.x_vel > 0 then
+        if self.y_vel == 0 then
+            self.direction ="right"
+            elseif self.y_vel ~= 0 then
+                self.direction ="jumpRightMoving"
         end
     end
 
-   if hero.direction == "left" or hero.direction == "leftShooting" or hero.direction == "jumpLeft" or hero.direction =="jumpLeftShooting" or hero.direction =="jumpLeftMoving" then
-      if not hero.shooting and hero.y_vel == 0 and hero.x_vel == 0 then
-         hero.direction = "left"
-         elseif hero.shooting and hero.y_vel == 0 and hero.x_vel == 0 then
-            hero.direction = "leftShooting"
-            elseif hero.shooting and hero.y_vel == 0 and hero.x_vel < 0 then
-               hero.direction = "leftShooting"
-               elseif not hero.shooting and hero.y_vel ~= 0 and hero.x_vel < 0 then
-                  hero.direction = "jumpLeftMoving"
-                  elseif not hero.shooting and hero.y_vel ~= 0 and hero.x_vel == 0 then
-                     hero.direction ="jumpLeft"
-                     elseif (hero.shooting and hero.y_vel ~= 0 and hero.x_vel) or (hero.shootinging and hero.y_vel ~= 0 and hero.x_vel < 0) then
-                        hero.direction ="jumpLeftShooting"
+   if self.direction == "left" or self.direction == "leftShooting" or self.direction == "jumpLeft" or self.direction =="jumpLeftShooting" or self.direction =="jumpLeftMoving" then
+      if not self.shooting and self.y_vel == 0 and self.x_vel == 0 then
+         self.direction = "left"
+         elseif self.shooting and self.y_vel == 0 and self.x_vel == 0 then
+            self.direction = "leftShooting"
+            elseif self.shooting and self.y_vel == 0 and self.x_vel < 0 then
+               self.direction = "leftShooting"
+               elseif not self.shooting and self.y_vel ~= 0 and self.x_vel < 0 then
+                  self.direction = "jumpLeftMoving"
+                  elseif not self.shooting and self.y_vel ~= 0 and self.x_vel == 0 then
+                     self.direction ="jumpLeft"
+                     elseif (self.shooting and self.y_vel ~= 0 and self.x_vel) or (self.shootinging and self.y_vel ~= 0 and self.x_vel < 0) then
+                        self.direction ="jumpLeftShooting"
 
       end
    end
 
-   if hero.direction == "right" or hero.direction == "rightShooting" or hero.direction == "jumpRight" or hero.direction =="jumpRightShooting" or hero.direction =="jumpRightMoving" then
-      if not hero.shooting and hero.y_vel == 0 and hero.x_vel == 0 then
-         hero.direction = "right"
-         elseif hero.shooting and hero.y_vel == 0 and hero.x_vel == 0 then
-            hero.direction = "rightShooting"
-            elseif hero.shooting and hero.y_vel == 0 and hero.x_vel > 0 then
-               hero.direction = "rightShooting"
-               elseif not hero.shooting and hero.y_vel ~= 0 and hero.x_vel > 0 then
-                  hero.direction = "jumpRightMoving"
-                  elseif not hero.shooting and hero.y_vel ~= 0 and hero.x_vel == 0 then
-                     hero.direction ="jumpRight"
-                     elseif (hero.shooting and hero.y_vel ~= 0 and hero.x_vel) or (hero.shootinging and hero.y_vel ~= 0 and hero.x_vel > 0) then
-                        hero.direction ="jumpRightShooting"
+   if self.direction == "right" or self.direction == "rightShooting" or self.direction == "jumpRight" or self.direction =="jumpRightShooting" or self.direction =="jumpRightMoving" then
+      if not self.shooting and self.y_vel == 0 and self.x_vel == 0 then
+         self.direction = "right"
+         elseif self.shooting and self.y_vel == 0 and self.x_vel == 0 then
+            self.direction = "rightShooting"
+            elseif self.shooting and self.y_vel == 0 and self.x_vel > 0 then
+               self.direction = "rightShooting"
+               elseif not self.shooting and self.y_vel ~= 0 and self.x_vel > 0 then
+                  self.direction = "jumpRightMoving"
+                  elseif not self.shooting and self.y_vel ~= 0 and self.x_vel == 0 then
+                     self.direction ="jumpRight"
+                     elseif (self.shooting and self.y_vel ~= 0 and self.x_vel) or (self.shootinging and self.y_vel ~= 0 and self.x_vel > 0) then
+                        self.direction ="jumpRightShooting"
 
       end
    end
 
     -- Move the Hero Right or Left
-    hero.x = hero.x + hero.x_vel
+    self.x = self.x + self.x_vel
 
-    if hero.y_vel > hero.gravity then
-        hero.y_vel = hero.y_vel - hero.gravity
+    if self.y_vel > self.gravity then
+        self.y_vel = self.y_vel - self.gravity
     end
 
-
-    for i = 1,  #tiles do
-        if tiles[i].colideable == true then
-            if checkCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h) or hero.x + hero.w > 1024 or hero.x < 0  then
-                --hero.x = hero.x - hero.x_vel
-                hero.action[sideCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h)]()
-            else
-                hero.action["invalid"]()
-            end
-        end
+    function love.keypressed(key)
+    if key == "left" then
+        hero.x_vel = -hero.vel
+        hero.status = "shootLeft"
     end
+
+    if key == "right" then
+        hero.x_vel = hero.vel
+        hero.status = "shootRight"
+    end
+
+    if (key == "up" or key =="a") and hero.y_vel == 0 then
+        hero.jump = 24
+        hero.iterator = 1
+    end
+
+    if key == "space" or key == "s" then
+        self:shoot()
+        self.shooting = true
+    end
+
+    if key == "escape" then
+        love.event.push("quit")   -- actually causes the app to quit
+    end
+end
+
+function love.keyreleased(key)
+    if key == "left" then
+        hero.x_vel = 0
+
+    end
+
+    if key == "right" then
+        hero.x_vel = 0
+
+    end
+
+    if key == "s" or key == "space" then
+        hero.shooting = false
+    end
+end
+
+-- ToDo: Replace with bump
+    -- for i = 1,  #tiles do
+    --     if tiles[i].colideable == true then
+    --         if checkCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h) or hero.x + hero.w > 1024 or hero.x < 0  then
+    --             --hero.x = hero.x - hero.x_vel
+    --             hero.action[sideCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h)]()
+    --         else
+    --             hero.action["invalid"]()
+    --         end
+    --     end
+    -- end
 
     if hero.jump ~= 0 then
         hero.jump = hero.jump - (hero.gravity / 2)
         hero.y_vel = hero.jump
         hero.y = hero.y - hero.y_vel
-        for i,v in ipairs(tiles) do
-            if v.colideable == true then
-                if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
-                    hero.y = hero.y + hero.y_vel
-                end
-            end
-        end
+        -- for i,v in ipairs(tiles) do
+        --     if v.colideable == true then
+        --         if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
+        --             hero.y = hero.y + hero.y_vel
+        --         end
+        --     end
+        -- end
 
     end
 
     if hero.jump == 0 then
         hero.y_vel = hero.gravity
         hero.y = hero.y + hero.y_vel
-        for i,v in ipairs(tiles) do
-            if v.colideable == true then
-                    if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
-                    hero.y_vel = 0
-                    hero.y = hero.y - hero.gravity
-                end
-            end
-        end
+        -- for i,v in ipairs(tiles) do
+        --     if v.colideable == true then
+        --             if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
+        --             hero.y_vel = 0
+        --             hero.y = hero.y - hero.gravity
+        --         end
+        --     end
+        -- end
     end
 end
+
+return hero
 
