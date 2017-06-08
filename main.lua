@@ -1,20 +1,26 @@
-local sti = require "libs.Simple-Tiled-Implementation.sti"
-local bump = require "libs.bump.bump"
+local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
+local bump = require "assets.libs.bump.bump"
+local flux = require "assets.libs.flux.flux"
 
 local timer = 0 -- Zeit Variable fuer Animation
 
 -- fonts
-ormontsmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
+defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24)
+orial = love.graphics.newFont("assets/font/Orial_Bold.otf", 57)
+ormont = love.graphics.newFont("assets/font/Ormont_Light.ttf", 38)
+ormontMiddle = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
+ormontSmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 18)
+orangekid = love.graphics.newFont("assets/font/orangekid.ttf", 23)
 
 
 function love.load( )
-  local hero = require('hero')
+  local hero = require('assets.obj.hero')
   love.graphics.setBackgroundColor(102, 51, 0)
   map = sti("assets/maps/start.lua", {"bump"})
   world = bump.newWorld(32)
 
   map:addCustomLayer("playerLayer", 7)
-  playerLayer = map.layers["playerLayer"]
+  --playerLayer = map.layers["playerLayer"]
   map:addCustomLayer("robotsLayer", 8)
   robotsLayer = map.layers['robotsLayer']
 
@@ -28,17 +34,15 @@ function love.load( )
     end
   end
   
-  playerLayer.hero         = hero
-  playerLayer.hero.falling = player.properties.falling
-  playerLayer.hero.name    = player.name
-  playerLayer.hero.x       = player.x
-  playerLayer.hero.y       = player.y
-  playerLayer.hero.height  = player.height
-  playerLayer.hero.width   = player.width
-  playerLayer.hero.title   = player.type
+  playerLayer         = hero
+  playerLayer.falling = player.properties.falling
+  playerLayer.name    = player.name
+  playerLayer.x       = player.x
+  playerLayer.y       = player.y
+  playerLayer.height  = player.height
+  playerLayer.width   = player.width
+  playerLayer.title   = player.type
 
-  print(playerLayer.score)
-  
   robotsLayer.start = {
     name = start.name,
     x = start.x,
@@ -48,111 +52,66 @@ function love.load( )
     title = start.type
   }
 
-  -- function layer:update(dt)
-  --   local speed = 128
-  --   -- Move player up
-  --   for k, object in pairs(self) do
-  --     if type(object) == "table" then
+  colorFade = {
+    red = 255,
+    green = 255,
+    blue = 255,
+    alpha = 0
+  }
 
-  --     end
-  --   end
+  startPosition = {
+    x = start.x,
+    y = start.y
+  }
 
-  --   -- Animation Framerate
-  --   if self.player.x_vel ~= 0 and self.player.y_vel == 0  then
-  --       timer = timer + dt
-  --       if timer > 0.04 then
-  --           timer = 0
-  --           self.player.iterator = self.player.iterator + 1
-  --           print(self.player.iterator)
-  --           if self.player.iterator > self.player.max then
-  --               self.player.iterator = 2
-  --           end
-  --       end
-  --   end
-
-  --   if love.keyboard.isDown("up") then
-  --     goalY = self.player.y - speed * dt
-  --     local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
-  --     self.player.y = actualY
-  --   end
-
-  --   -- Move player down
-  --   if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
-  --       goalY = self.player.y + speed * dt
-  --       local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
-  --       self.player.y = actualY
-  --   end
-
-  --   -- Move player left
-  --   if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-  --     goalX = self.player.x - speed * dt
-
-  --     local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
-  --     self.player.x = actualX
-  --   end
-
-  --   -- Move player right
-  --   if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
-  --     goalX = self.player.x + speed * dt
-  --     local actualX, actualY, cols, len = world:move(self.player, goalX, self.player.y)
-  --     self.player.x = actualX
-  --   end
-
-  --   -- Jump player
-  --   if love.keyboard.isDown("space") or love.keyboard.isDown("w") then
-  --     if self.player.jump == false then
-  --       self.player.jump = true
-  --       self.player.jumpVelocity = 128
-  --     end
-  --   end
-
-  --   if self.player.jump == true then
-  --     goalY = self.player.y - self.player.jumpVelocity * dt
-  --     local actualX, actualY, cols, len = world:move(self.player, self.player.x, goalY)
-  --     for i=1,len do -- If more than one simultaneous collision, they are sorted out by proximity
-  --       for key,value in pairs(cols[i].normal) do
-  --         print(cols[i].normal.y)
-  --         if cols[i].normal.y == 1 then
-  --           self.player.jumpVelocity = 0
-  --         elseif cols[i].normal.y == -1 then
-  --           self.player.jump = false
-  --           self.player.jumpVelocity = 0
-  --         end
-  --       end
-  --     end
-  --     self.player.y = actualY
-  --     self.player.jumpVelocity = self.player.jumpVelocity - 16 * dt
-  --   end
-  -- end
+  flux.to(startPosition, 4, {x = start.x + 16, y = start.y + 16}):ease('quadin'):delay(3)
+  flux.to(colorFade, 4, {red = 30, green = 144, blue = 255, alpha = 255}):ease('quadin'):delay(3)
 
   function playerLayer:draw()
     -- player
     love.graphics.setColor(255, 255, 255)
-    --love.graphics.draw(self.hero.sprite, self.hero.x, self.hero.y, 0, 1,1)
-    -- draw the hero
     love.graphics.setColor(255,255,255,255)
-    love.graphics.draw(self.hero.image, self.hero.quads[self.hero.direction][self.hero.iterator], self.hero.x,self.hero.y, self.hero.rotate, self.hero.zoom)
+    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, self.zoom)
     love.graphics.setColor(173,212,88,125)
-    --love.graphics.draw(self.player.sprite, hero.x/8 + 32,hero.y/8 + 32, hero.rotate, hero.zoom/8)
+    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x/8 + 32, self.y/8 + 32, self.rotate, self.zoom/8)
 
+    love.graphics.setFont(orangekid)
+    love.graphics.setColor(240, 240, 240)
+    if self.score > 1 then
+      love.graphics.print( self.score..' | points', 32,  8)
+    else
+      love.graphics.print( '. | one point left', 32,  8)
+    end
+
+  end
+
+  function robotsLayer:draw()
     -- start robot
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setFont(orial)
+    love.graphics.setColor(colorFade.red, colorFade.green, colorFade.blue, colorFade.alpha)
+    love.graphics.printf( "one point left", 0, 128, love.graphics.getWidth(), 'center')
+    
+    
+    love.graphics.setColor(30, 144, 255)
     love.graphics.rectangle("fill", start.x, start.y, start.width, start.height )
 
-    love.graphics.setFont(ormontsmall)
-    love.graphics.setColor(0, 51, 102)
-    --love.graphics.print( self.start.name, self.start.x, self.start.y)
+    love.graphics.setFont(ormont)
+    love.graphics.setColor(255, 165, 7)
+    love.graphics.printf( "activate all robots", 0, 167, love.graphics.getWidth(), 'center')
+    love.graphics.setFont(ormontMiddle)
+    love.graphics.print( self.start.name, startPosition.x, startPosition.y)
   end
 
   map:removeLayer("Objects")
-  world:add(playerLayer.hero, playerLayer.hero.x, playerLayer.hero.y, playerLayer.hero.width, playerLayer.hero.height)
+  world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
   world:add(robotsLayer.start, robotsLayer.start.x, robotsLayer.start.y, robotsLayer.start.width, robotsLayer.start.height)
 
   map:bump_init(world)
 end
 
 function love.update(dt)
-  playerLayer.hero:update(dt)
+  flux.update(dt)
+  playerLayer:update(dt)
   map:update(dt)
 end
 
@@ -160,6 +119,7 @@ function love.draw()
   love.graphics.setColor(179,89,0)
   map:draw()
   playerLayer:draw()
+  robotsLayer:draw()
 
   ---[[ -- Collision map
   love.graphics.setColor(255, 255, 255, 50)

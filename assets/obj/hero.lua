@@ -35,8 +35,8 @@ local hero = {
     -- Animation
     iterator = 1,
     max = 5,
-    direction = "left",
-    status = "shootLeft",
+    direction = "right",
+    status = "shootRight",
     rotate = 0,
     zoom = 1,
     image = love.graphics.newImage "assets/img/minimega.png",
