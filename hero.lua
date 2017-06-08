@@ -199,14 +199,7 @@ function hero:update(dt)
       end
    end
 
-    -- Move the Hero Right or Left
-    self.x = self.x + self.x_vel
-
-    if self.y_vel > self.gravity then
-        self.y_vel = self.y_vel - self.gravity
-    end
-
-    function love.keypressed(key)
+   function love.keypressed(key)
     if key == "left" then
         hero.x_vel = -hero.vel
         hero.status = "shootLeft"
@@ -248,6 +241,15 @@ function love.keyreleased(key)
     end
 end
 
+-- Move the Hero Right or Left
+    goalX = self.x + self.x_vel
+    local actualX, actualY, cols, len = world:move(self, goalX, self.y)
+    self.x = actualX
+
+    if self.y_vel > self.gravity then
+        self.y_vel = self.y_vel - self.gravity
+    end
+
 -- ToDo: Replace with bump
     -- for i = 1,  #tiles do
     --     if tiles[i].colideable == true then
@@ -260,23 +262,34 @@ end
     --     end
     -- end
 
-    if hero.jump ~= 0 then
-        hero.jump = hero.jump - (hero.gravity / 2)
-        hero.y_vel = hero.jump
-        hero.y = hero.y - hero.y_vel
+
+    if self.jump ~= 0 then
+        print(self.jump)
+        self.jump = self.jump - (self.gravity / 2)
+        self.y_vel = self.jump
+        
+        goalY = self.y - self.y_vel
+        local actualX, actualY, cols, len = world:move(self, self.x, goalY)
+        self.y = actualY
+
+
         -- for i,v in ipairs(tiles) do
         --     if v.colideable == true then
-        --         if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
-        --             hero.y = hero.y + hero.y_vel
+        --         if checkCollision(self.x, self.y, self.w, self.h, v.x, v.y, v.w, v.h) then
+        --             self.y = self.y + self.y_vel
         --         end
         --     end
         -- end
 
     end
 
-    if hero.jump == 0 then
-        hero.y_vel = hero.gravity
-        hero.y = hero.y + hero.y_vel
+    if self.jump == 0 then
+        self.y_vel = self.gravity
+        
+        goalY = self.y + self.y_vel
+        local actualX, actualY, cols, len = world:move(self, self.x, goalY)
+        self.y = actualY
+
         -- for i,v in ipairs(tiles) do
         --     if v.colideable == true then
         --             if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then

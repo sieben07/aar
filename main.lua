@@ -30,14 +30,14 @@ function love.load( )
 
   local sprite = love.graphics.newImage("assets/img/player/orange.png")
 
-  playerLayer         = hero
-  playerLayer.falling = player.properties.falling
-  playerLayer.name    = player.name
-  playerLayer.x       = player.x
-  playerLayer.y       = player.y
-  playerLayer.height  = player.height
-  playerLayer.width   = player.width
-  playerLayer.title   = player.type
+  playerLayer.hero         = hero
+  playerLayer.hero.falling = player.properties.falling
+  playerLayer.hero.name    = player.name
+  playerLayer.hero.x       = player.x
+  playerLayer.hero.y       = player.y
+  playerLayer.hero.height  = player.height
+  playerLayer.hero.width   = player.width
+  playerLayer.hero.title   = player.type
 
   print(playerLayer.score)
   
@@ -130,10 +130,10 @@ function love.load( )
   function playerLayer:draw()
     -- player
     love.graphics.setColor(255, 255, 255)
-    --love.graphics.draw(self.player.sprite, self.player.x, self.player.y, 0, 1,1)
+    --love.graphics.draw(self.hero.sprite, self.hero.x, self.hero.y, 0, 1,1)
     -- draw the hero
     love.graphics.setColor(255,255,255,255)
-    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, self.zoom)
+    love.graphics.draw(self.hero.image, self.hero.quads[self.hero.direction][self.hero.iterator], self.hero.x,self.hero.y, self.hero.rotate, self.hero.zoom)
     love.graphics.setColor(173,212,88,125)
     --love.graphics.draw(self.player.sprite, hero.x/8 + 32,hero.y/8 + 32, hero.rotate, hero.zoom/8)
 
@@ -147,14 +147,14 @@ function love.load( )
   end
 
   map:removeLayer("Objects")
-  world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
+  world:add(playerLayer.hero, playerLayer.hero.x, playerLayer.hero.y, playerLayer.hero.width, playerLayer.hero.height)
   world:add(robotsLayer.start, robotsLayer.start.x, robotsLayer.start.y, robotsLayer.start.width, robotsLayer.start.height)
 
   map:bump_init(world)
 end
 
 function love.update(dt)
-  playerLayer:update(dt)
+  playerLayer.hero:update(dt)
   map:update(dt)
 end
 
