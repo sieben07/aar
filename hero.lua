@@ -7,9 +7,9 @@ local Quad = love.graphics.newQuad
 local hero = {
     action = {
         ["top"]     = function() message = "wup wup" end,
-        ["right"]   = function() hero.x = hero.x - hero.x_vel end,
+        ["right"]   = function() self.x = self.x - self.x_vel end,
         ["bottom"]  = function() message = "down down" end,
-        ["left"]    = function() hero.x = hero.x - hero.x_vel end,
+        ["left"]    = function() self.x = self.x - self.x_vel end,
         ["invalid"] = function() message = "invalid" end
     },
     falling = nil,
@@ -201,18 +201,18 @@ function hero:update(dt)
 
    function love.keypressed(key)
     if key == "left" then
-        hero.x_vel = -hero.vel
-        hero.status = "shootLeft"
+        self.x_vel = -self.vel
+        self.status = "shootLeft"
     end
 
     if key == "right" then
-        hero.x_vel = hero.vel
-        hero.status = "shootRight"
+        self.x_vel = self.vel
+        self.status = "shootRight"
     end
 
-    if (key == "up" or key =="a") and hero.y_vel == 0 then
-        hero.jump = 24
-        hero.iterator = 1
+    if (key == "up" or key =="a") and self.y_vel == 0 then
+        self.jump = 24
+        self.iterator = 1
     end
 
     if key == "space" or key == "s" then
@@ -227,17 +227,15 @@ end
 
 function love.keyreleased(key)
     if key == "left" then
-        hero.x_vel = 0
-
+        self.x_vel = 0
     end
 
     if key == "right" then
-        hero.x_vel = 0
-
+        self.x_vel = 0
     end
 
     if key == "s" or key == "space" then
-        hero.shooting = false
+        self.shooting = false
     end
 end
 
@@ -250,37 +248,20 @@ end
         self.y_vel = self.y_vel - self.gravity
     end
 
--- ToDo: Replace with bump
-    -- for i = 1,  #tiles do
-    --     if tiles[i].colideable == true then
-    --         if checkCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h) or hero.x + hero.w > 1024 or hero.x < 0  then
-    --             --hero.x = hero.x - hero.x_vel
-    --             hero.action[sideCollision(hero.x, hero.y, hero.w, hero.h, tiles[i].x, tiles[i].y, tiles[i].w, tiles[i].h)]()
-    --         else
-    --             hero.action["invalid"]()
-    --         end
-    --     end
-    -- end
-
-
     if self.jump ~= 0 then
-        print(self.jump)
         self.jump = self.jump - (self.gravity / 2)
         self.y_vel = self.jump
         
         goalY = self.y - self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
         self.y = actualY
-
-
-        -- for i,v in ipairs(tiles) do
-        --     if v.colideable == true then
-        --         if checkCollision(self.x, self.y, self.w, self.h, v.x, v.y, v.w, v.h) then
-        --             self.y = self.y + self.y_vel
-        --         end
-        --     end
-        -- end
-
+        
+        for i=1,len do
+            local col = cols[i]
+                if(col.normal.y == 1) then
+                    self.jump = 0
+                end
+        end
     end
 
     if self.jump == 0 then
@@ -289,17 +270,14 @@ end
         goalY = self.y + self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
         self.y = actualY
-
-        -- for i,v in ipairs(tiles) do
-        --     if v.colideable == true then
-        --             if checkCollision(hero.x, hero.y, hero.w, hero.h, v.x, v.y, v.w, v.h) then
-        --             hero.y_vel = 0
-        --             hero.y = hero.y - hero.gravity
-        --         end
-        --     end
-        -- end
+        
+        for i=1,len do
+            local col = cols[i]
+            if(col.normal.y == -1) then
+                self.y_vel = 0
+            end
+        end
     end
 end
 
 return hero
-
