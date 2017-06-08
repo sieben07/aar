@@ -27,9 +27,7 @@ function love.load( )
       start = object
     end
   end
-
-  local sprite = love.graphics.newImage("assets/img/player/orange.png")
-
+  
   playerLayer.hero         = hero
   playerLayer.hero.falling = player.properties.falling
   playerLayer.hero.name    = player.name
