@@ -76,7 +76,7 @@ function love.load( )
     love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x/8 + 32, self.y/8 + 32, self.rotate, self.zoom/8)
 
     love.graphics.setFont(orangekid)
-    love.graphics.setColor(240, 240, 240)
+    love.graphics.setColor(205, 34, 77)
     if self.score > 1 then
       love.graphics.print( self.score..' | points', 32,  8)
     else

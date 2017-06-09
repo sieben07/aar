@@ -25,7 +25,7 @@ local hero = {
     x_vel = 0,
     y_vel = 0,
     vel = 4,
-    gravity = 4,
+    gravity = 40,
     jump = 0,
     shooting = false,
     shoots = {}, -- holds our fired shoots
@@ -211,7 +211,7 @@ function hero:update(dt)
     end
 
     if (key == "up" or key =="a") and self.y_vel == 0 then
-        self.jump = 24
+        self.jump = 7
         self.iterator = 1
     end
 
@@ -237,6 +237,10 @@ function love.keyreleased(key)
     if key == "s" or key == "space" then
         self.shooting = false
     end
+
+    if (key == "up" or key =="a") and self.y_vel >= 0 and self.jump > 0 then
+        self.jump = 1
+    end
 end
 
 -- Move the Hero Right or Left
@@ -244,12 +248,8 @@ end
     local actualX, actualY, cols, len = world:move(self, goalX, self.y)
     self.x = actualX
 
-    if self.y_vel > self.gravity then
-        self.y_vel = self.y_vel - self.gravity
-    end
-
-    if self.jump ~= 0 then
-        self.jump = self.jump - (self.gravity / 2)
+    if self.jump > 0 then
+        self.jump = self.jump - self.gravity / 3.5 * dt
         self.y_vel = self.jump
         
         goalY = self.y - self.y_vel
@@ -258,14 +258,14 @@ end
         
         for i=1,len do
             local col = cols[i]
-                if(col.normal.y == 1) then
-                    self.jump = 0
+                if(col.normal.y == 1) and self.jump > 1 then
+                    self.jump = 1
                 end
         end
     end
 
-    if self.jump == 0 then
-        self.y_vel = self.gravity
+    if self.jump <= 0 then
+        self.y_vel = self.y_vel + self.gravity / 1.2 * dt
         
         goalY = self.y + self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
