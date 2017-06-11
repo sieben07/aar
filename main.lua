@@ -2,8 +2,6 @@ local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
 local flux = require "assets.libs.flux.flux"
 
-local timer = 0 -- Zeit Variable fuer Animation
-
 -- fonts
 defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24)
 orial = love.graphics.newFont("assets/font/Orial_Bold.otf", 57)
@@ -69,18 +67,26 @@ function love.load( )
 
   function playerLayer:draw()
     -- player
-    love.graphics.setColor(255, 255, 255)
     love.graphics.setColor(255,255,255,255)
     love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, self.zoom)
     love.graphics.setColor(173,212,88,125)
     love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x/8 + 32, self.y/8 + 32, self.rotate, self.zoom/8)
 
+    
+    -- shoots
+    for _, shoot in pairs(self.shoots) do
+      love.graphics.setColor(30, 144, 255)
+      love.graphics.rectangle("fill", shoot.x, shoot.y, shoot.width, shoot.height )
+      love.graphics.draw(self.image, self.quads['bulletLeft'][1], shoot.x, shoot.y, 0, 1)
+    end
+
+
     love.graphics.setFont(orangekid)
     love.graphics.setColor(205, 34, 77)
     if self.score > 1 then
-      love.graphics.print( self.score..' | points', 32,  8)
+      love.graphics.print( self.score..' | points', 32,  4)
     else
-      love.graphics.print( '. | one point left', 32,  8)
+      love.graphics.print( '. | one point left', 32,  4)
     end
 
   end
@@ -96,7 +102,7 @@ function love.load( )
     love.graphics.rectangle("fill", start.x, start.y, start.width, start.height )
 
     love.graphics.setFont(ormont)
-    love.graphics.setColor(255, 165, 7)
+    love.graphics.setColor(255, 165, 7, colorFade.alpha)
     love.graphics.printf( "activate all robots", 0, 167, love.graphics.getWidth(), 'center')
     love.graphics.setFont(ormontMiddle)
     love.graphics.print( self.start.name, startPosition.x, startPosition.y)

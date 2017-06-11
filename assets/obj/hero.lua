@@ -1,23 +1,14 @@
 local hub = 32 -- Höhe und Breite eines Sprites
 local big_hub = 256 -- Höhe und Breite des Spritesheets
 
-message = ""
 local Quad = love.graphics.newQuad
 
 local hero = {
-    action = {
-        ["top"]     = function() message = "wup wup" end,
-        ["right"]   = function() self.x = self.x - self.x_vel end,
-        ["bottom"]  = function() message = "down down" end,
-        ["left"]    = function() self.x = self.x - self.x_vel end,
-        ["invalid"] = function() message = "invalid" end
-    },
+
     falling = nil,
     name = nil,
-    sprite = nil,
     title = nil,
-    jumpVelocity = 128,
-
+    
     x = 0,
     y = 0,
     width = 32,
@@ -43,9 +34,7 @@ local hero = {
 
     -- the frames of the hero
     quads =
-    {
-
-        right = {
+    {   right = {
             Quad( hub*4,  hub, hub, hub, big_hub, big_hub);
             Quad( hub*5,  hub, hub, hub, big_hub, big_hub);
             Quad( hub*6,  hub, hub, hub, big_hub, big_hub);
@@ -63,7 +52,6 @@ local hero = {
 
         };
 
-
         left = {
             Quad( hub*3,  hub, hub, hub, big_hub, big_hub);
             Quad( hub*2,  hub, hub, hub, big_hub, big_hub);
@@ -79,8 +67,6 @@ local hero = {
             Quad( hub*0,  hub*3, hub, hub, big_hub, big_hub);
             Quad( hub*1,  hub*3, hub, hub, big_hub, big_hub);
         };
-
-
 
         jumpRight = {
             Quad( hub*4,  hub*2, hub, hub, big_hub, big_hub);
@@ -106,6 +92,14 @@ local hero = {
             Quad( hub,  hub*2, hub, hub, big_hub, big_hub);
         };
 
+        bulletLeft = {
+            Quad( hub * 2, hub * 5, hub, hub, big_hub, big_hub)
+        };
+
+        bulletRight = {
+            Quad( hub * 5, hub * 5, hub, hub, big_hub, big_hub)
+        };
+
     }
 
 }
@@ -115,19 +109,47 @@ function hero:shoot()
     local shoot = {}
     if self.status == "shootRight" then
         shoot.x = self.x + self.width
-        shoot.y = self.y + 16
+        shoot.y = self.y
+        shoot.width = 32
+        shoot.height = 32
         shoot.dir = 8
         table.insert(self.shoots, shoot)
+        world:add(shoot, shoot.x, shoot.y, 32, 32)
     end
     if self.status == "shootLeft" then
-        shoot.x = self.x
-        shoot.y = self.y + 16
+        shoot.x = self.x - 32
+        shoot.y = self.y
+        shoot.width = 32
+        shoot.height = 32
         shoot.dir = -8
         table.insert(self.shoots, shoot)
+        world:add(shoot, shoot.x, shoot.y, 32, 32)
     end
 end
 
+function hero:updateShoots()
+    local remShot = {}
+    for i, shoot in pairs(self.shoots) do
+        -- move them
+        local goalX = shoot.x + shoot.dir
+        local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y)
+        shoot.x = actualX
+
+        if len ~= 0 then
+            table.insert(remShot, {index = i, obj = shoot})
+        end
+    end
+
+    for i,v in pairs(remShot) do
+        world:remove(v.obj)
+        table.remove(hero.shoots, v.index)
+
+    end
+end
+
+
 function hero:update(dt)
+    self:updateShoots()
     -- Animation Framerate
     if self.x_vel ~= 0 and self.y_vel == 0  then
         self.timer = self.timer + dt
@@ -244,7 +266,7 @@ function love.keyreleased(key)
 end
 
 -- Move the Hero Right or Left
-    goalX = self.x + self.x_vel
+    local goalX = self.x + self.x_vel
     local actualX, actualY, cols, len = world:move(self, goalX, self.y)
     self.x = actualX
 
@@ -267,7 +289,7 @@ end
     if self.jump <= 0 then
         self.y_vel = self.y_vel + self.gravity / 1.2 * dt
         
-        goalY = self.y + self.y_vel
+        local goalY = self.y + self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
         self.y = actualY
         
