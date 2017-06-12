@@ -113,7 +113,7 @@ function hero:shoot()
         shoot.width = 32
         shoot.height = 32
         shoot.dir = 8
-        table.insert(self.shoots, shoot)
+        shoot.type = 'bullet'
         world:add(shoot, shoot.x, shoot.y, 32, 32)
     end
     if self.status == "shootLeft" then
@@ -122,37 +122,40 @@ function hero:shoot()
         shoot.width = 32
         shoot.height = 32
         shoot.dir = -8
-        table.insert(self.shoots, shoot)
+        shoot.type ='bullet'
         world:add(shoot, shoot.x, shoot.y, 32, 32)
     end
 end
 
 function hero:updateShoots()
-    local remShot = {}
-    for i, shoot in pairs(self.shoots) do
-        -- move them
-        local goalX = shoot.x + shoot.dir
-        local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y)
-        shoot.x = actualX
+    local shoots, _ = world:getItems() 
 
-        for i=1, len do
-            local col = cols[i]
-            if col.other.name == "Start" then
-                print(col.other.falling)
-                col.other.falling = true
+    for i, shoot in pairs(shoots) do
+        if shoot.type == 'bullet' then
+            -- move them
+            local goalX = shoot.x + shoot.dir
+            local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y)
+            shoot.x = actualX
+
+            for i=1, len do
+                local col = cols[i]
+                
+                if col.other.name == "Start" then
+                    print(col.other.falling)
+                    col.other.falling = true
+                end
+
             end
+            
+            if len ~= 0 then
+                print()
+                world:remove(shoot)
+            end
+
         end
 
+    end
 
-        if len ~= 0 then
-            table.insert(remShot, {index = i, obj = shoot})
-        end
-    end
-    
-    for i,v in pairs(remShot) do
-        world:remove(v.obj)
-        table.remove(hero.shoots, v.index)
-    end
 end
 
 

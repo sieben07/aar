@@ -87,10 +87,14 @@ function game:enter( )
 
     
     -- shoots
-    for _, shoot in pairs(self.shoots) do
-      love.graphics.setColor(30, 144, 255)
-      love.graphics.rectangle("fill", shoot.x, shoot.y, shoot.width, shoot.height )
-      love.graphics.draw(self.image, self.quads['bulletLeft'][1], shoot.x, shoot.y, 0, 1)
+    local shoots, _ = world:getItems() 
+
+    for i, shoot in pairs(shoots) do
+      if shoot.type == 'bullet' then
+        love.graphics.setColor(30, 144, 255)
+        love.graphics.rectangle("fill", shoot.x, shoot.y, shoot.width, shoot.height )
+        love.graphics.draw(self.image, self.quads['bulletLeft'][1], shoot.x, shoot.y, 0, 1)
+      end
     end
 
 
@@ -146,7 +150,7 @@ function game:enter( )
 end
 
 function love.load( )
- --Gamestate.registerEvents()
+ Gamestate.registerEvents()
  Gamestate.switch(game)
 end
 
