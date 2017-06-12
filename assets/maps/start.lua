@@ -1,7 +1,7 @@
 return {
   version = "1.1",
   luaversion = "5.1",
-  tiledversion = "0.18.2",
+  tiledversion = "1.0.0",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
@@ -18,12 +18,17 @@ return {
       tileheight = 32,
       spacing = 0,
       margin = 0,
-      image = "../maps/tiles.png",
+      image = "tiles.png",
       imagewidth = 192,
       imageheight = 128,
       tileoffset = {
         x = 0,
         y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 32,
+        height = 32
       },
       properties = {},
       terrains = {},
@@ -83,7 +88,7 @@ return {
         {
           id = 1,
           name = "Start",
-          type = "Start Robot",
+          type = "robot",
           shape = "rectangle",
           x = 496,
           y = 480,

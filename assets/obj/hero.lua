@@ -135,15 +135,23 @@ function hero:updateShoots()
         local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y)
         shoot.x = actualX
 
+        for i=1, len do
+            local col = cols[i]
+            if col.other.name == "Start" then
+                print(col.other.falling)
+                col.other.falling = true
+            end
+        end
+
+
         if len ~= 0 then
             table.insert(remShot, {index = i, obj = shoot})
         end
     end
-
+    
     for i,v in pairs(remShot) do
         world:remove(v.obj)
         table.remove(hero.shoots, v.index)
-
     end
 end
 
@@ -220,58 +228,13 @@ function hero:update(dt)
 
       end
    end
-
-   function love.keypressed(key)
-    if key == "left" then
-        self.x_vel = -self.vel
-        self.status = "shootLeft"
-    end
-
-    if key == "right" then
-        self.x_vel = self.vel
-        self.status = "shootRight"
-    end
-
-    if (key == "up" or key =="a") and self.y_vel == 0 then
-        self.jump = 7
-        self.iterator = 1
-    end
-
-    if key == "space" or key == "s" then
-        self:shoot()
-        self.shooting = true
-    end
-
-    if key == "escape" then
-        love.event.push("quit")   -- actually causes the app to quit
-    end
-end
-
-function love.keyreleased(key)
-    if key == "left" then
-        self.x_vel = 0
-    end
-
-    if key == "right" then
-        self.x_vel = 0
-    end
-
-    if key == "s" or key == "space" then
-        self.shooting = false
-    end
-
-    if (key == "up" or key =="a") and self.y_vel >= 0 and self.jump > 0 then
-        self.jump = 1
-    end
-end
-
--- Move the Hero Right or Left
+   -- Move the Hero Right or Left
     local goalX = self.x + self.x_vel
     local actualX, actualY, cols, len = world:move(self, goalX, self.y)
     self.x = actualX
 
     if self.jump > 0 then
-        self.jump = self.jump - self.gravity / 3.5 * dt
+        self.jump = self.jump - self.gravity / 2.5 * dt
         self.y_vel = self.jump
         
         goalY = self.y - self.y_vel

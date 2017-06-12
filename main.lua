@@ -1,6 +1,12 @@
+local game = {}
+
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
 local flux = require "assets.libs.flux.flux"
+local Gamestate = require "assets.libs.hump.gamestate"
+
+local levels = {'start', 'level0'}
+local level = ''
 
 -- fonts
 defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24)
@@ -10,12 +16,17 @@ ormontMiddle = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28)
 ormontSmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 18)
 orangekid = love.graphics.newFont("assets/font/orangekid.ttf", 23)
 
-
-function love.load( )
+function game:enter( )
+  level = levels[1]
+  table.remove(levels, 1)
+  
   local hero = require('assets.obj.hero')
-  love.graphics.setBackgroundColor(102, 51, 0)
-  map = sti("assets/maps/start.lua", {"bump"})
+  map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
+
+  love.graphics.setBackgroundColor(102, 51, 0)
+  --map = sti("assets/maps/start.lua", {"bump"})
+  --world = bump.newWorld(32)
 
   map:addCustomLayer("playerLayer", 7)
   --playerLayer = map.layers["playerLayer"]
@@ -27,7 +38,7 @@ function love.load( )
       player = object
     end
 
-    if object.name == "Start" then
+    if object.type == "robot" then
       start = object
     end
   end
@@ -42,12 +53,14 @@ function love.load( )
   playerLayer.title   = player.type
 
   robotsLayer.start = {
+    vel = 4,
     name = start.name,
     x = start.x,
     y = start.y,
     height = start.height,
     width = start.width,
-    title = start.type
+    title = start.type,
+    falling = start.properties.falling
   }
 
   colorFade = {
@@ -99,13 +112,29 @@ function love.load( )
     
     
     love.graphics.setColor(30, 144, 255)
-    love.graphics.rectangle("fill", start.x, start.y, start.width, start.height )
+    love.graphics.rectangle("fill", self.start.x, self.start.y, self.start.width, self.start.height )
+    love.graphics.rectangle("fill", self.start.x/8, self.start.y/8, self.start.width/8, self.start.height/8 )
 
     love.graphics.setFont(ormont)
     love.graphics.setColor(255, 165, 7, colorFade.alpha)
     love.graphics.printf( "activate all robots", 0, 167, love.graphics.getWidth(), 'center')
     love.graphics.setFont(ormontMiddle)
-    love.graphics.print( self.start.name, startPosition.x, startPosition.y)
+    love.graphics.print( self.start.name, self.start.x, self.start.y)
+  end
+
+  function robotsLayer:update( dt ) 
+    if self.start.falling == true then
+      self.start.vel = self.start.vel + 40 / 1.2 * dt
+      local goalY = self.start.y + self.start.vel
+      local actualX, actualY, cols, len = world:move(self.start, self.start.x, goalY)
+      self.start.y = actualY
+
+      if len ~= 0 then
+        self.start.falling = false
+      end
+
+    end
+
   end
 
   map:removeLayer("Objects")
@@ -113,12 +142,19 @@ function love.load( )
   world:add(robotsLayer.start, robotsLayer.start.x, robotsLayer.start.y, robotsLayer.start.width, robotsLayer.start.height)
 
   map:bump_init(world)
+
+end
+
+function love.load( )
+ --Gamestate.registerEvents()
+ Gamestate.switch(game)
 end
 
 function love.update(dt)
   flux.update(dt)
   playerLayer:update(dt)
-  map:update(dt)
+  robotsLayer:update( dt ) 
+  --map:update(dt)
 end
 
 function love.draw()
@@ -131,4 +167,54 @@ function love.draw()
   love.graphics.setColor(255, 255, 255, 50)
   map:bump_draw(world, 256,256,0.125, 0.125)
   --]]
+end
+
+function love.keypressed(key, code, isrepat)
+    print(key .. ' ' .. code)
+    if key == 'return' then
+        return Gamestate.switch(game)
+    end
+
+    if key == "left" then
+        playerLayer.x_vel = -playerLayer.vel
+        playerLayer.status = "shootLeft"
+    end
+
+    if key == "right" then
+        playerLayer.x_vel = playerLayer.vel
+        playerLayer.status = "shootRight"
+    end
+
+    if (key == "up" or key =="a") and playerLayer.y_vel == 0 then
+        playerLayer.jump = 7
+        playerLayer.iterator = 1
+    end
+
+    if key == "space" or key == "s" then
+        playerLayer:shoot()
+        playerLayer.shooting = true
+    end
+
+    if key == "escape" then
+        love.event.push("quit")   -- actually causes the app to quit
+    end
+end
+
+
+function love.keyreleased(key)
+    if key == "left" then
+        playerLayer.x_vel = 0
+    end
+
+    if key == "right" then
+        playerLayer.x_vel = 0
+    end
+
+    if key == "s" or key == "space" then
+        playerLayer.shooting = false
+    end
+
+    if (key == "up" or key =="a") and playerLayer.y_vel >= 0 and playerLayer.jump > 0 then
+        playerLayer.jump = 1
+    end
 end
