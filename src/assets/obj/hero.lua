@@ -141,14 +141,12 @@ function hero:updateShoots()
                 local col = cols[i]
                 
                 if col.other.name == "Start" then
-                    print(col.other.falling)
                     col.other.falling = true
                 end
 
             end
             
             if len ~= 0 then
-                print()
                 world:remove(shoot)
             end
 
@@ -237,7 +235,7 @@ function hero:update(dt)
     self.x = actualX
 
     if self.jump > 0 then
-        self.jump = self.jump - self.gravity / 2.5 * dt
+        self.jump = self.jump - self.gravity / 3 * dt
         self.y_vel = self.jump
         
         goalY = self.y - self.y_vel
@@ -253,7 +251,7 @@ function hero:update(dt)
     end
 
     if self.jump <= 0 then
-        self.y_vel = self.y_vel + self.gravity / 1.2 * dt
+        self.y_vel = self.y_vel + self.gravity / 3 * dt
         
         local goalY = self.y + self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)

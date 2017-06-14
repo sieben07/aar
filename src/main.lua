@@ -174,7 +174,6 @@ function love.draw()
 end
 
 function love.keypressed(key, code, isrepat)
-    print(key .. ' ' .. code)
     if key == 'return' then
         return Gamestate.switch(game)
     end

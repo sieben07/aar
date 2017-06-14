@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+<%
+extend ::Kramdown::Utils::Html
+title = ''
+h = @converter.root.children.find {|c| c.type == :header}
+if h
+  collector = lambda {|c| c.children.collect {|cc| cc.type == :text ? escape_html(cc.value, :text) : collector.call(cc)}.join('')}
+  title = collector.call(h)
+end
+%>
+    <title><%= title %></title>
+    <meta name="generator" content="kramdown <%= ::Kramdown::VERSION %>" />
+</head>
+<body>
+    <header>
+        <hgroup>
+            <h1>Activate all robots!</h1>
+            <h4>Orhan Küçükyılmaz</h4>
+        </hgroup>
+    </header>
+    <section>
+        <%= @body %>
+    </section>
+    <footer>
+        <%= Time.now.strftime("Letze Änderung: %d.%m.%Y") %>
+    </footer>
+</body>
+</html>
