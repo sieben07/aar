@@ -1,14 +1,14 @@
 return {
   version = "1.1",
   luaversion = "5.1",
-  tiledversion = "1.0.0",
+  tiledversion = "1.0.1",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
   height = 20,
   tilewidth = 32,
   tileheight = 32,
-  nextobjectid = 3,
+  nextobjectid = 7,
   properties = {},
   tilesets = {
     {
@@ -103,8 +103,8 @@ return {
         },
         {
           id = 2,
-          name = "Player",
-          type = "Player Robot",
+          name = "Mini",
+          type = "hero",
           shape = "rectangle",
           x = 320,
           y = 448,
@@ -115,6 +115,52 @@ return {
           properties = {
             ["collidable"] = true,
             ["falling"] = true
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "Texts",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 4,
+          name = "One Point Left",
+          type = "text",
+          shape = "rectangle",
+          x = 0,
+          y = 128,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["align"] = "center",
+            ["color"] = "#ff000000",
+            ["font"] = "orial"
+          }
+        },
+        {
+          id = 6,
+          name = "activate all robots",
+          type = "text",
+          shape = "rectangle",
+          x = 0,
+          y = 167,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["align"] = "center",
+            ["color"] = "#ffffa507",
+            ["font"] = "ormont"
           }
         }
       }

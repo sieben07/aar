@@ -93,11 +93,11 @@ local hero = {
         };
 
         bulletLeft = {
-            Quad( hub * 2, hub * 5, hub, hub, big_hub, big_hub)
+            Quad( hub * 2, hub * 5, 14, 14, big_hub, big_hub)
         };
 
         bulletRight = {
-            Quad( hub * 5, hub * 5, hub, hub, big_hub, big_hub)
+            Quad( hub * 5, hub * 5, 14, 14, big_hub, big_hub)
         };
 
     }
