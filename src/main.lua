@@ -4,16 +4,24 @@ local global = {
     current = 1
   },
   color = {
-      red = 0,
-      green = 0,
-      blue = 0,
-      alpha = 255
+    red = 0,
+    green = 0,
+    blue = 0,
+    alpha = 255
+  },
+  background = {
+    color = {
+      red = 77,
+      green = 77,
+      blue = 77
     }
+  }
 }
 
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
+local transition = require "assets.helper.transitions"
 
 local levels = {'start', 'level0'}
 local level = ''
@@ -36,7 +44,7 @@ function game:enter( )
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
 
-  love.graphics.setBackgroundColor(77, 77, 77)
+  love.graphics.setBackgroundColor(global.background.color.red, global.background.color.red, global.background.color.red)
 
   map:addCustomLayer("playerLayer", 7)
   playerLayer = map.layers["playerLayer"]
@@ -170,15 +178,23 @@ function game:draw()
   --]]
 end
 
+function game:update(dt)
+  playerLayer:update(dt)
+  robotsLayer:update(dt)
+  if transition.shouldstart == true then
+    transition:selector(game, "randomColor", Gamestate, global, dt)
+    love.graphics.setBackgroundColor(global.background.color.red, global.background.color.red, global.background.color.red)
+  end
+  --map:update(dt)
+end
+
 function love.load( )
  Gamestate.registerEvents()
  Gamestate.switch(game)
 end
 
 function love.update(dt)
-  playerLayer:update(dt)
-  robotsLayer:update(dt) 
-  --map:update(dt)
+  
 end
 
 function love.draw()
@@ -186,7 +202,8 @@ end
 
 function love.keypressed(key, code, isrepat)
     if key == 'return' then
-        return Gamestate.switch(game)
+        -- return Gamestate.switch(game)
+        transition.shouldstart = true
     end
 
     if key == "left" then
@@ -210,7 +227,7 @@ function love.keypressed(key, code, isrepat)
     end
 
     if key == "escape" then
-        love.event.push("quit")   -- actually causes the app to quit
+        love.event.push("quit")
     end
 end
 

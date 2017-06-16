@@ -1,28 +1,41 @@
+flux = require "assets.libs.flux.flux"
+
 local transitions = {
     shouldstart = false,
-    A = 255,
-    B = 0,
-    secondshelper = 2
 }
 
-function transitions:selector(state, transitiontype, Gamestate, dt)
-    -- Random Color Level Transition
-    if transitiontype == "randomColor" then
-        self.A = self.A - (255/self.secondshelper*dt)
-        self.B = self.B + (255/self.secondshelper*dt)
-        print(math.random(self.A))
-        love.graphics.setColor(math.random(self.A), math.random(self.A), math.random(self.A))
-        love.graphics.setBackgroundColor(self.B, self.B, self.B, self.A)
+local tween = nil
+
+function transitions:selector(state, transitiontype, Gamestate, global, dt)
+
+    if tween == nil then
+        tween = flux.to(global.color,4, {red = 255, green = 255, blue = 255, alpha=255})
     end
 
-    if self.A < 0 then
-        print('self A smaller than zeor')
+    -- Random Color Level Transition
+    if transitiontype == "randomColor" then
+        flux.update(dt)
+        print(global.color.red)
+        --flux.to(global.background.color,4, {red = 77, green = 77, blue = 77, alpha=255})
+    end
+
+    if global.color.red == 255 then
+        tween = nil
         love.timer.sleep(1.7)
 
         transitions.shouldstart = false
 
         self.A = 255
         self.B = 0
+
+        global.color.red = 255
+        global.color.green = 255
+        global.color.blue = 255
+
+
+        global.background.color.red = 77
+        global.background.color.green = 77
+        global.background.color.blue = 77
 
         Gamestate.switch(state)
     end
