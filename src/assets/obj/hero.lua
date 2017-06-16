@@ -109,21 +109,23 @@ function hero:shoot()
     local shoot = {}
     if self.status == "shootRight" then
         shoot.x = self.x + self.width
-        shoot.y = self.y
-        shoot.width = 32
-        shoot.height = 32
-        shoot.dir = 8
-        shoot.type = 'bullet'
-        world:add(shoot, shoot.x, shoot.y, 32, 32)
+        shoot.y = self.y + 12
+        shoot.width = 14
+        shoot.height = 14
+        shoot.x_vel = 8
+        shoot.type = "bullet"
+        shoot.dir = "bulletRight"
+        world:add(shoot, shoot.x, shoot.y, shoot.width, shoot.height)
     end
     if self.status == "shootLeft" then
-        shoot.x = self.x - 32
-        shoot.y = self.y
-        shoot.width = 32
-        shoot.height = 32
-        shoot.dir = -8
-        shoot.type ='bullet'
-        world:add(shoot, shoot.x, shoot.y, 32, 32)
+        shoot.x = self.x - 14
+        shoot.y = self.y + 12
+        shoot.width = 14
+        shoot.height = 14
+        shoot.x_vel = -8
+        shoot.type ="bullet"
+        shoot.dir = "bulletLeft"
+        world:add(shoot, shoot.x, shoot.y, shoot.width, shoot.height)
     end
 end
 
@@ -133,7 +135,7 @@ function hero:updateShoots()
     for i, shoot in pairs(shoots) do
         if shoot.type == 'bullet' then
             -- move them
-            local goalX = shoot.x + shoot.dir
+            local goalX = shoot.x + shoot.x_vel
             local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y)
             shoot.x = actualX
 

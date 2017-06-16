@@ -2,7 +2,13 @@ local game = {}
 local global = {
   level = {
     current = 1
-  }
+  },
+  color = {
+      red = 0,
+      green = 0,
+      blue = 0,
+      alpha = 255
+    }
 }
 
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -88,9 +94,9 @@ function game:enter( )
     local shoots, _ = world:getItems() 
 
     for i, shoot in pairs(shoots) do
-      if shoot.type == 'bullet' then
-        love.graphics.rectangle("fill", shoot.x, shoot.y, shoot.width, shoot.height )
-        love.graphics.draw(self.image, self.quads['bulletLeft'][1], shoot.x, shoot.y, 0, 1)
+      if shoot.type == "bullet" then
+        -- love.graphics.rectangle("fill", shoot.x, shoot.y, shoot.width, shoot.height )
+        love.graphics.draw(self.image, self.quads[shoot.dir][1], shoot.x, shoot.y, 0, 1)
       end
     end
 
@@ -140,7 +146,7 @@ function game:enter( )
   end
 
   map:removeLayer("Objects")
-  for k,v in pairs(map) do
+  for k,v in pairs(map.layers) do
     if k == 'Texts' then
       map:removeLayer("Texts")
     end
@@ -153,11 +159,15 @@ function game:enter( )
 end
 
 function game:draw()
-  love.graphics.setColor(0, 0, 0,255)
+  love.graphics.setColor(global.color.red, global.color.green , global.color.blue, global.color.alpha)
   map:draw()
   playerLayer:draw()
   robotsLayer:draw()
   textLayer:draw()
+   --[[ -- Collision map
+  love.graphics.setColor(248, 248, 255, 50)
+  map:bump_draw(world, 256,256,0.125, 0.125)
+  --]]
 end
 
 function love.load( )
@@ -172,10 +182,6 @@ function love.update(dt)
 end
 
 function love.draw()
-  --[[ -- Collision map
-  love.graphics.setColor(248, 248, 255, 50)
-  map:bump_draw(world, 256,256,0.125, 0.125)
-  --]]
 end
 
 function love.keypressed(key, code, isrepat)
