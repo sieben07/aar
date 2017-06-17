@@ -15,7 +15,8 @@ local global = {
       green = 77,
       blue = 77
     }
-  }
+  },
+  countdown = 4
 }
 
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -40,6 +41,8 @@ function game:enter( )
   level = levels[global.level.current]
   global.level.current = global.level.current + 1
   
+  print('level', level)
+
   local hero = require('assets.obj.hero')
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
@@ -172,10 +175,6 @@ function game:draw()
   playerLayer:draw()
   robotsLayer:draw()
   textLayer:draw()
-   --[[ -- Collision map
-  love.graphics.setColor(248, 248, 255, 50)
-  map:bump_draw(world, 256,256,0.125, 0.125)
-  --]]
 end
 
 function game:update(dt)

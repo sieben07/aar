@@ -234,7 +234,7 @@ function hero:update(dt)
    -- Move the Hero Right or Left
     local goalX = self.x + self.x_vel
     local actualX, actualY, cols, len = world:move(self, goalX, self.y)
-    self.x = actualX
+    self.x = math.floor(actualX)
 
     if self.jump > 0 then
         self.jump = self.jump - self.gravity / 3 * dt
@@ -242,7 +242,7 @@ function hero:update(dt)
         
         goalY = self.y - self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
-        self.y = actualY
+        self.y = math.floor(actualY)
         
         for i=1,len do
             local col = cols[i]
@@ -257,7 +257,7 @@ function hero:update(dt)
         
         local goalY = self.y + self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
-        self.y = actualY
+        self.y = math.floor(actualY)
         
         for i=1,len do
             local col = cols[i]
