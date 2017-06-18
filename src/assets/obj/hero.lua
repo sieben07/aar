@@ -145,6 +145,10 @@ function hero:updateShoots()
                 if col.other.name == "Start" then
                     col.other.falling = true
                 end
+                if col.other.name == "Jump" then
+                    col.other.jump = true
+                    col.other.vel = -128
+                end
 
             end
             

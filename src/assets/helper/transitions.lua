@@ -12,14 +12,13 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
         global.color.red = 0
         global.color.green = 0
         global.color.blue = 0
-        tween = flux.to(global.color,4, {red = 255, green = 255, blue = 255, alpha=255})
-        countdown = flux.to(global, 4, {countdown = 0})
+        tween = flux.to(global.color, 1, {red = 255, green = 255, blue = 255, alpha=255})
+        countdown = flux.to(global, 1, {countdown = 0})
     end
 
     -- Random Color Level Transition
     if transitiontype == "randomColor" then
         flux.update(dt)
-        print(global.color.red)
         global.color.red = love.math.random(global.color.red);
         global.color.green = love.math.random(global.color.green);
         global.color.blue = love.math.random(global.color.blue);

@@ -2,9 +2,9 @@
 
 export LANG=en_CA.UTF-8
 source "$HOME/.rvm/scripts/rvm"
-PROJECT="game/opl/doc"
-MYPATH="Work/$PROJECT"
-PDFLATEX="/usr/texbin/pdflatex"
+PROJECT="game/aar/doc"
+MYPATH="work/$PROJECT"
+PDFLATEX="/Library/TeX/texbin/pdflatex"
 TEMPLATE_HTML="$HOME/$MYPATH/template.html.erb"
 TEMPLATE_LATEX="$HOME/$MYPATH/template.tex"
 INPUT="$HOME/$MYPATH/md/index.md"

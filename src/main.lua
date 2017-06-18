@@ -24,7 +24,7 @@ local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
 local transition = require "assets.helper.transitions"
 
-local levels = {'start', 'level0'}
+local levels = {'start', 'level01'}
 local level = ''
 
 -- fonts
@@ -41,8 +41,6 @@ function game:enter( )
   level = levels[global.level.current]
   global.level.current = global.level.current + 1
   
-  print('level', level)
-
   local hero = require('assets.obj.hero')
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
@@ -56,7 +54,8 @@ function game:enter( )
   map:addCustomLayer("textLayer", 9)
   textLayer = map.layers['textLayer']
 
-  texts = {}
+  local texts = {}
+  local robots = {}
 
   for k, object in pairs(map.objects) do
     if object.type == "hero" then
@@ -64,7 +63,11 @@ function game:enter( )
     end
 
     if object.type == "robot" then
-      robot = object
+      object.vel = 0
+      object.falling = object.properties.falling
+      object.jump_vel = -128
+      object.gravity = -200
+      table.insert(robots, object)
     end
 
     if object.type == 'text' then
@@ -80,17 +83,10 @@ function game:enter( )
   -- merge map info into playerLayer
   for k,v in pairs(player) do playerLayer[k] = v end
 
-
-  robotsLayer.robot = {
-    vel = 4,
-    name = robot.name,
-    x = robot.x,
-    y = robot.y,
-    height = robot.height,
-    width = robot.width,
-    title = robot.type,
-    falling = robot.properties.falling
-  }
+  robotsLayer.robots = {}
+  for i, robot in ipairs(robots) do
+    table.insert(robotsLayer.robots, robot)
+  end
 
   textLayer.texts = {}
   for i, text in ipairs(texts) do
@@ -123,29 +119,57 @@ function game:enter( )
   end
 
   function robotsLayer:draw()
-    -- start robot
-    love.graphics.setColor(248, 248, 255)
-    love.graphics.rectangle("fill", self.robot.x, self.robot.y, self.robot.width, self.robot.height )
+    for i, robot in ipairs(self.robots) do
+      love.graphics.setColor(248, 248, 255)
+      love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height )
     
     
-    love.graphics.setFont(fonts.ormontMiddle)
-    love.graphics.setColor(255, 165, 7, 255)
-    love.graphics.print( self.robot.name, self.robot.x, self.robot.y)
+      love.graphics.setFont(fonts.ormontMiddle)
+      love.graphics.setColor(255, 165, 7, 255)
+      love.graphics.print( robot.name, robot.x, robot.y)
+    end
   end
 
-  function robotsLayer:update( dt ) 
-    if self.robot.falling == true then
-      self.robot.vel = self.robot.vel + 40 / 1.2 * dt
-      local goalY = self.robot.y + self.robot.vel
-      local actualX, actualY, cols, len = world:move(self.robot, self.robot.x, goalY)
-      self.robot.y = actualY
+  function robotsLayer:update( dt )
+    for i, robot in ipairs(self.robots) do
+      if robot.falling == true then
+        robot.vel = robot.vel + 40 / 1.2 * dt
+        local goalY = robot.y + robot.vel
+        local actualX, actualY, cols, len = world:move(robot, robot.x, goalY)
+        robot.y = actualY
 
-      if len ~= 0 then
-        self.robot.falling = false
+        if len ~= 0 then
+          robot.falling = false
+        end
       end
 
-    end
+      if robot.jump == true then
+        if robot.vel <= 0 then
+          --robot.vel = robot.jump_vel
+        end
+        if robot.vel ~= 0 then
+          robot.goalY = robot.y + robot.vel * dt
+          robot.vel = robot.vel - robot.gravity * dt
 
+          local actualX, actualY, cols, len = world:move(robot, robot.x, robot.goalY)
+          robot.y = actualY
+
+          if len ~= 0 then
+            robot.vel = robot.jump_vel
+          end
+        end
+      end
+
+      if robot.move == true then
+        print('should move')
+        robot.move = false
+      end
+
+      if robot.shoot == true then
+        print('should fire')
+        robot.shoot = false
+      end
+    end
   end
 
   function textLayer:draw( )
@@ -164,7 +188,9 @@ function game:enter( )
   end
   
   world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
-  world:add(robotsLayer.robot, robotsLayer.robot.x, robotsLayer.robot.y, robotsLayer.robot.width, robotsLayer.robot.height)
+  for i, robot in ipairs(robotsLayer.robots) do
+    world:add(robot, robot.x, robot.y, robot.width, robot.height)
+  end
 
   map:bump_init(world)
 end
@@ -193,7 +219,6 @@ function love.load( )
 end
 
 function love.update(dt)
-  
 end
 
 function love.draw()
