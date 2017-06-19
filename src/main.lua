@@ -130,7 +130,7 @@ function game:enter( )
     end
   end
 
-  function robotsLayer:update( dt )
+  function robotsLayer:update(dt)
     for i, robot in ipairs(self.robots) do
       if robot.falling == true then
         robot.vel = robot.vel + 40 / 1.2 * dt

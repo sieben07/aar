@@ -1,6 +1,5 @@
-local hub = 32 -- Höhe und Breite eines Sprites
-local big_hub = 256 -- Höhe und Breite des Spritesheets
-
+local WNH = 32 -- WIDTH 'n' HEIGHT of Sprites
+local BIG_WNH  = 256 -- WIDTH 'n' HEIGHT of the Sprite-sheet
 local Quad = love.graphics.newQuad
 
 local hero = {
@@ -11,12 +10,12 @@ local hero = {
     
     x = 0,
     y = 0,
-    width = 32,
-    height = 32,
+    WIDTH = 32,
+    HEIGHT = 32,
     x_vel = 0,
     y_vel = 0,
     vel = 4,
-    gravity = 40,
+    GRAVITY = 40,
     jump = 0,
     shooting = false,
     shoots = {}, -- holds our fired shoots
@@ -35,69 +34,69 @@ local hero = {
     -- the frames of the hero
     quads =
     {   right = {
-            Quad( hub*4,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*5,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*6,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*7,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*6,  hub, hub, hub, big_hub, big_hub);
+            Quad( WNH * 4,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 5,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 6,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 7,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 6,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
 
         };
 
         rightShooting = {
-            Quad( hub*4,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*5,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*6,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*7,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*6,  hub*3, hub, hub, big_hub, big_hub);
+            Quad( WNH * 4,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 5,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 6,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 7,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 6,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
 
         };
 
         left = {
-            Quad( hub*3,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*2,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*1,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*0,  hub, hub, hub, big_hub, big_hub);
-            Quad( hub*1,  hub, hub, hub, big_hub, big_hub);
+            Quad( WNH * 3,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 2,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 1,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 0,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 1,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         leftShooting = {
-            Quad( hub*3,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*2,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*1,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*0,  hub*3, hub, hub, big_hub, big_hub);
-            Quad( hub*1,  hub*3, hub, hub, big_hub, big_hub);
+            Quad( WNH * 3,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 2,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 1,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 0,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( WNH * 1,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         jumpRight = {
-            Quad( hub*4,  hub*2, hub, hub, big_hub, big_hub);
+            Quad( WNH * 4,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         jumpLeft = {
-            Quad( hub*3,  hub*2, hub, hub, big_hub, big_hub);
+            Quad( WNH * 3,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         jumpRightMoving = {
-            Quad( hub*5,  hub*2, hub, hub, big_hub, big_hub);
+            Quad( WNH * 5,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         jumpLeftMoving = {
-            Quad( hub*2,  hub*2, hub, hub, big_hub, big_hub);
+            Quad( WNH * 2,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         jumpRightShooting = {
-            Quad( hub*6,  hub*2, hub, hub, big_hub, big_hub);
+            Quad( WNH * 6,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         jumpLeftShooting = {
-            Quad( hub,  hub*2, hub, hub, big_hub, big_hub);
+            Quad( WNH ,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
         };
 
         bulletLeft = {
-            Quad( hub * 2, hub * 5, 14, 14, big_hub, big_hub)
+            Quad( WNH  * 2, WNH  * 5, 14, 14, BIG_WNH , BIG_WNH )
         };
 
         bulletRight = {
-            Quad( hub * 5, hub * 5, 14, 14, big_hub, big_hub)
+            Quad( WNH  * 5, WNH  * 5, 14, 14, BIG_WNH , BIG_WNH )
         };
 
     }
@@ -108,24 +107,24 @@ function hero:shoot()
     self.score = self.score - 1
     local shoot = {}
     if self.status == "shootRight" then
-        shoot.x = self.x + self.width
+        shoot.x = self.x + self.WIDTH
         shoot.y = self.y + 12
-        shoot.width = 14
-        shoot.height = 14
+        shoot.WIDTH = 14
+        shoot.HEIGHT = 14
         shoot.x_vel = 8
         shoot.type = "bullet"
         shoot.dir = "bulletRight"
-        world:add(shoot, shoot.x, shoot.y, shoot.width, shoot.height)
+        world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
     end
     if self.status == "shootLeft" then
         shoot.x = self.x - 14
         shoot.y = self.y + 12
-        shoot.width = 14
-        shoot.height = 14
+        shoot.WIDTH = 14
+        shoot.HEIGHT = 14
         shoot.x_vel = -8
         shoot.type ="bullet"
         shoot.dir = "bulletLeft"
-        world:add(shoot, shoot.x, shoot.y, shoot.width, shoot.height)
+        world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
     end
 end
 
@@ -241,7 +240,7 @@ function hero:update(dt)
     self.x = math.floor(actualX)
 
     if self.jump > 0 then
-        self.jump = self.jump - self.gravity / 3 * dt
+        self.jump = self.jump - self.GRAVITY / 3 * dt
         self.y_vel = self.jump
         
         goalY = self.y - self.y_vel
@@ -257,7 +256,7 @@ function hero:update(dt)
     end
 
     if self.jump <= 0 then
-        self.y_vel = self.y_vel + self.gravity / 3 * dt
+        self.y_vel = self.y_vel + self.GRAVITY / 3 * dt
         
         local goalY = self.y + self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
