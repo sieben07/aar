@@ -70,3 +70,38 @@ robot to activate.
 But first let us take a look at the elements of the first level:  
 
 ![ The Title ](../output_md/assets/img/title.png "The Title")
+
+
+
+
+
+
+# Project goals #
+
+No project is ever done if there are no goals set. To know when the Version 1.0.0 is done of
+this game, some goals are set.
+
+Some of this gaols will be hard set goals, like the number of different levels, robots, boss
+robots and such. some goals will be soft, like graphics, sound, all the look and feel.
+
+## Levels ##
+
+A minimum of at least 5 levels
+
+### Level Structure ###
+
+Each level exist of 5 sub-levels. Each new level introduces a new robot, each sub-level
+introduces a a new sub-version of the robot.
+
+e.g.
+
+__Start Level__
+
++ 0-0 (Start Level) Start Robot
++ 0-1 (Start Level) Exit Robot
++ 0-2 (Start Level) Reset Robot
++ 0-3 (Start Level) 
+
++ 1-1 Jump Robot
++ 1-2 
+
