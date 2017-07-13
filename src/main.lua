@@ -1,3 +1,11 @@
+--[[--
+Summary. This is the main file
+@author Orhan Kücükyilmaz
+--]]
+
+local Hero = require "assets.obj.Hero2"
+local hero2 = Hero()
+
 local game = {}
 local global = {
   level = {
@@ -40,7 +48,7 @@ fonts = {
 function game:enter( )
   level = levels[global.level.current]
   global.level.current = global.level.current + 1
-  
+
   local hero = require('assets.obj.hero')
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
@@ -95,10 +103,10 @@ function game:enter( )
 
   function playerLayer:draw()
     -- player
-    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, self.zoom)
-    
+    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, 2)
+
     -- shoots
-    local shoots, _ = world:getItems() 
+    local shoots, _ = world:getItems()
 
     for i, shoot in pairs(shoots) do
       if shoot.type == "bullet" then
@@ -122,14 +130,18 @@ function game:enter( )
     for i, robot in ipairs(self.robots) do
       love.graphics.setColor(248, 248, 255)
       love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height )
-    
-    
+
+
       love.graphics.setFont(fonts.ormontMiddle)
       love.graphics.setColor(255, 165, 7, 255)
       love.graphics.print( robot.name, robot.x, robot.y)
     end
   end
 
+  --[[--
+  robotsLayer:update updates the robots.
+  @param dt delta time
+  --]]
   function robotsLayer:update(dt)
     for i, robot in ipairs(self.robots) do
       if robot.falling == true then
@@ -186,7 +198,7 @@ function game:enter( )
       map:removeLayer("Texts")
     end
   end
-  
+
   world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
   for i, robot in ipairs(robotsLayer.robots) do
     world:add(robot, robot.x, robot.y, robot.width, robot.height)

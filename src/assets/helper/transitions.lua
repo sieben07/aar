@@ -1,3 +1,8 @@
+--[[--
+Summary. This is the main file
+@author Orhan Kücükyilmaz
+--]]
+
 flux = require "assets.libs.flux.flux"
 
 local transitions = {
@@ -6,6 +11,14 @@ local transitions = {
 
 local tween = nil
 
+--[[--
+transitions:selector select the transition.
+@param state
+@param transitiontype
+@param Gamestate
+@param global
+@param dt delta time
+--]]
 function transitions:selector(state, transitiontype, Gamestate, global, dt)
 
     if tween == nil then
@@ -28,7 +41,7 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
     if global.countdown == 0 then
         tween = nil
         global.countdown = 4
-        
+
         transitions.shouldstart = false
 
         self.A = 255
