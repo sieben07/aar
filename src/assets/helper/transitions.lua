@@ -1,8 +1,3 @@
---[[--
-Summary. This is the main file
-@author Orhan Kücükyilmaz
---]]
-
 flux = require "assets.libs.flux.flux"
 
 local transitions = {
