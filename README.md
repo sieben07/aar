@@ -1,11 +1,3 @@
--   [Change History](#change-history)
--   [Introduction](#introduction)
--   [Levels, Robots, and more](#levels-robots-and-more)
-    -   [Level 0 - The Start/Menu level](#level-0---the-startmenu-level)
--   [Project goals](#project-goals)
-    -   [Levels](#levels)
-        -   [Level Structure](#level-structure)
-
 # Change History
 
 | Version | Who                    | What                | When       |
