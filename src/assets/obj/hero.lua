@@ -7,7 +7,7 @@ local hero = {
     falling = nil,
     name = nil,
     title = nil,
-    
+
     x = 0,
     y = 0,
     WIDTH = 32,
@@ -21,7 +21,7 @@ local hero = {
     shoots = {}, -- holds our fired shoots
     score = 7,
     timer = 0, -- Zeit Variable fuer Animation
-    
+
     -- Animation
     iterator = 1,
     max = 5,
@@ -129,7 +129,7 @@ function hero:shoot()
 end
 
 function hero:updateShoots()
-    local shoots, _ = world:getItems() 
+    local shoots, _ = world:getItems()
 
     for i, shoot in pairs(shoots) do
         if shoot.type == 'bullet' then
@@ -140,17 +140,20 @@ function hero:updateShoots()
 
             for i=1, len do
                 local col = cols[i]
-                
+
+
+                -- This is wrong, every Robot should know
+                -- by himself what to do if hit.
                 if col.other.name == "Start" then
                     col.other.falling = true
                 end
                 if col.other.name == "Jump" then
                     col.other.jump = true
-                    col.other.vel = -128
+                    col.other.velocity = -128
                 end
 
             end
-            
+
             if len ~= 0 then
                 world:remove(shoot)
             end
@@ -242,11 +245,11 @@ function hero:update(dt)
     if self.jump > 0 then
         self.jump = self.jump - self.GRAVITY / 3 * dt
         self.y_vel = self.jump
-        
+
         goalY = self.y - self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
         self.y = math.floor(actualY)
-        
+
         for i=1,len do
             local col = cols[i]
                 if(col.normal.y == 1) and self.jump > 1 then
@@ -257,11 +260,11 @@ function hero:update(dt)
 
     if self.jump <= 0 then
         self.y_vel = self.y_vel + self.GRAVITY / 3 * dt
-        
+
         local goalY = self.y + self.y_vel
         local actualX, actualY, cols, len = world:move(self, self.x, goalY)
         self.y = math.floor(actualY)
-        
+
         for i=1,len do
             local col = cols[i]
             if(col.normal.y == -1) then

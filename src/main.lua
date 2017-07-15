@@ -2,10 +2,6 @@
 Summary. This is the main file
 @author Orhan Kücükyilmaz
 --]]
-
-local Hero = require "assets.obj.Hero2"
-local hero2 = Hero()
-
 local game = {}
 local global = {
   level = {
@@ -35,6 +31,9 @@ local transition = require "assets.helper.transitions"
 local levels = {'start', 'level01'}
 local level = ''
 
+local Robot = require "assets.obj.Robot"
+local helper = require "assets.helper.Helper"
+
 -- fonts
 fonts = {
   defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24),
@@ -46,6 +45,7 @@ fonts = {
 }
 
 function game:enter( )
+  local robotEntity = Robot.new();
   level = levels[global.level.current]
   global.level.current = global.level.current + 1
 
@@ -71,10 +71,12 @@ function game:enter( )
     end
 
     if object.type == "robot" then
-      object.vel = 0
+      object = helper.merge(robotEntity, object)
+      for k,v in pairs(robotEntity) do object[k] = v end
+      --object.vel = 0
+      --object.jumpVelocity = -128
+      --object.gravity = -200
       object.falling = object.properties.falling
-      object.jump_vel = -128
-      object.gravity = -200
       table.insert(robots, object)
     end
 
@@ -87,9 +89,9 @@ function game:enter( )
   end
 
   -- merge hero object into playerLayer
-  for k,v in pairs(hero) do playerLayer[k] = v end
+  playerLayer = helper.merge(hero, playerLayer) --for k,v in pairs(hero) do playerLayer[k] = v end
   -- merge map info into playerLayer
-  for k,v in pairs(player) do playerLayer[k] = v end
+  playerLayer = helper.merge(player, playerLayer) --for k,v in pairs(player) do playerLayer[k] = v end
 
   robotsLayer.robots = {}
   for i, robot in ipairs(robots) do
@@ -103,7 +105,7 @@ function game:enter( )
 
   function playerLayer:draw()
     -- player
-    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, 2)
+    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x,self.y, self.rotate, self.zoom)
 
     -- shoots
     local shoots, _ = world:getItems()
@@ -144,9 +146,10 @@ function game:enter( )
   --]]
   function robotsLayer:update(dt)
     for i, robot in ipairs(self.robots) do
+
       if robot.falling == true then
-        robot.vel = robot.vel + 40 / 1.2 * dt
-        local goalY = robot.y + robot.vel
+        robot.velocity = robot.velocity + 40 / 1.2 * dt
+        local goalY = robot.y + robot.velocity
         local actualX, actualY, cols, len = world:move(robot, robot.x, goalY)
         robot.y = actualY
 
@@ -156,18 +159,19 @@ function game:enter( )
       end
 
       if robot.jump == true then
-        if robot.vel <= 0 then
-          --robot.vel = robot.jump_vel
+        if robot.velocity <= 0 then
+          --robot.velocity = robot.jumpVelocity
         end
-        if robot.vel ~= 0 then
-          robot.goalY = robot.y + robot.vel * dt
-          robot.vel = robot.vel - robot.gravity * dt
+
+        if robot.velocity ~= 0 then
+          robot.goalY = robot.y + robot.velocity * dt
+          robot.velocity = robot.velocity - robot.gravity * dt
 
           local actualX, actualY, cols, len = world:move(robot, robot.x, robot.goalY)
           robot.y = actualY
 
           if len ~= 0 then
-            robot.vel = robot.jump_vel
+            robot.velocity = robot.jumpVelocity
           end
         end
       end
