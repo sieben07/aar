@@ -23,19 +23,24 @@
 <section>
 <nav id="TOC">
 <ul>
+<li><a href="#activate-all-robots">Activate all Robots</a><ul>
 <li><a href="#change-history">Change History</a></li>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#levels-robots-and-more">Levels, Robots, and more</a><ul>
 <li><a href="#level-0---the-startmenu-level">Level 0 - The Start/Menu level</a></li>
 </ul></li>
 <li><a href="#project-goals">Project goals</a><ul>
-<li><a href="#levels">Levels</a><ul>
-<li><a href="#level-structure">Level Structure</a></li>
+<li><a href="#levels">Levels</a></li>
+</ul></li>
+<li><a href="#robots">Robots</a><ul>
+<li><a href="#start-level">Start Level</a></li>
+<li><a href="#jump-level">Jump Level</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </nav>
-<h1 id="change-history">Change History</h1>
+<h1 id="activate-all-robots">Activate all Robots</h1>
+<h2 id="change-history">Change History</h2>
 <table>
 <thead>
 <tr class="header">
@@ -66,7 +71,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="introduction">Introduction</h1>
+<h2 id="introduction">Introduction</h2>
 <pre><code>a jump&#39;n&#39;shoot riddle game</code></pre>
 <p>After the Hero's attack, it's your duty to...</p>
 <blockquote>
@@ -82,9 +87,9 @@
 <img src="./src/assets/img/aar.png" title="His name is mini" alt="His name is mini" />
 <p class="caption">His name is mini</p>
 </div>
-<h1 id="levels-robots-and-more">Levels, Robots, and more</h1>
+<h2 id="levels-robots-and-more">Levels, Robots, and more</h2>
 <p>In this Section it's all about the levels the robots and more.</p>
-<h2 id="level-0---the-startmenu-level">Level 0 - The Start/Menu level</h2>
+<h3 id="level-0---the-startmenu-level">Level 0 - The Start/Menu level</h3>
 <p>Most games don't have a playable menu level. What is a playable menu level?, you ask. Good question very good question indeed.</p>
 <p>What is a menu?</p>
 <p>Before a person can start a game he usually select from a menu what he wants to do. The menu is usually something like:</p>
@@ -102,22 +107,62 @@
 <img src="./src/assets/img/title.png" title="The Title" alt="The Title" />
 <p class="caption">The Title</p>
 </div>
-<h1 id="project-goals">Project goals</h1>
+<h2 id="project-goals">Project goals</h2>
 <p>No project is ever done if there are no goals set. To know when the Version 1.0.0 is done of this game, some goals are set.</p>
 <p>Some of this gaols will be hard set goals, like the number of different levels, robots, boss robots and such. Some goals will be soft, like graphics, sound, all the look and feel.</p>
-<h2 id="levels">Levels</h2>
+<h3 id="levels">Levels</h3>
 <p>A minimum of at least 5 levels</p>
-<h3 id="level-structure">Level Structure</h3>
+<h4 id="level-structure">Level Structure</h4>
 <p>Each level exist of 5 sub-levels. Each new level introduces a new robot, each sub-level introduces a a new sub-version of the robot.</p>
-<p>e.g.</p>
-<p><strong>Start Level</strong></p>
+<h2 id="robots">Robots</h2>
+<h3 id="start-level">Start Level</h3>
 <ul>
-<li>0-0 (Start Level) Start Robot</li>
-<li>0-1 (Start Level) Exit Robot</li>
-<li>0-2 (Start Level) Reset Robot</li>
-<li><p>0-3 (Start Level)</p></li>
-<li>1-1 Jump Robot</li>
-<li><p>1-2</p></li>
+<li>Start Robot
+<ul>
+<li>the Start Robot has to be activated</li>
+<li>if activated it falls down</li>
+</ul></li>
+<li>Exit Robot
+<ul>
+<li>the exit robot appears if (all) the robots are activated</li>
+<li>has to be activated also to leave the room</li>
+</ul></li>
+<li>Reset Robot
+<ul>
+<li>can be activated if to many activation shoots where used to leave level 0-0</li>
+<li>resets the points to seven</li>
+<li>resets the start robot and the exit robot also.</li>
+</ul></li>
+<li>Continue Robot
+<ul>
+<li>appears if the level 1-0 to 1-4 are mastered</li>
+<li>can be activated to continue the last played level</li>
+</ul></li>
+<li>Start Boss Robot
+<ul>
+<li>a hidden level? and a hidden boss?</li>
+<li>sleeping tiger hidden dragon</li>
+</ul></li>
+</ul>
+<h3 id="jump-level">Jump Level</h3>
+<ul>
+<li>Jump Robot
+<ul>
+<li>starts jumping when activated</li>
+<li>helps get higher grounds</li>
+<li>blocks passages sometimes</li>
+<li>open passages by jumping away</li>
+</ul></li>
+<li>High Jump Robot
+<ul>
+<li>like the jump robot</li>
+<li>just jumps higher</li>
+</ul></li>
+<li>Gravity Jump Robot
+<ul>
+<li>jumps from the ground to the ceiling</li>
+<li>can sometimes be like an elevator</li>
+</ul></li>
 </ul>
 </section>
 </body>
