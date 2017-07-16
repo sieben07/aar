@@ -18,7 +18,7 @@ Every `'activation-shoot'` costs you `points`. For every robot, machine or trap 
 
 > > ... *GAME OVER!*
 
-![His name is mini](./assets/img/aar.png "His name is mini")
+![His name is mini](./src/assets/img/aar.png "His name is mini")
 
 # Levels, Robots, and more
 
@@ -46,7 +46,7 @@ Level 0 teaches the player how to play the game, and presents him the first robo
 
 But first let us take a look at the elements of the first level:
 
-![The Title](./assets/img/title.png "The Title")
+![The Title](./src/assets/img/title.png "The Title")
 
 # Project goals
 

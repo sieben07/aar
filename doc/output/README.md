@@ -1,5 +1,5 @@
 ---
-css: './assets/css/style.css'
+css: './src/assets/css/style.css'
 documentclass: scrartcl
 classoption: twopages
 title: .| One point left
@@ -34,7 +34,7 @@ than you have only `one` _ONE_ shoot to make points or it's ...
 
 > >... _GAME OVER!_
 
-![ His name is mini ](./assets/img/aar.png "His name is mini")
+![ His name is mini ](./src/assets/img/aar.png "His name is mini")
 
 # Levels, Robots, and more #
 
@@ -70,7 +70,7 @@ robot to activate.
 
 But first let us take a look at the elements of the first level:
 
-![ The Title ](./assets/img/title.png "The Title")
+![ The Title ](./src/assets/img/title.png "The Title")
 
 # Project goals #
 
