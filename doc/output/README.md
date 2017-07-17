@@ -122,8 +122,12 @@ introduces a a new sub-version of the robot.
 + High Jump Robot
     - like the jump robot
     - just jumps higher
++ Water Pump Jump Robot
+    - shoots water to jump
+    - can be on his back
 + Gravity Jump Robot
     - jumps from the ground to the ceiling
     - can sometimes be like an elevator
-
-
++ Jump Boss Robot
+    - does everything the other jump robots does
+    - turned up to eleven
