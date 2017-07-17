@@ -13,6 +13,3 @@ OUTPUT_MD="$HOME/$MYPATH/README.md"
 pandoc -s --template=$TEMPLATE_HTML $INPUT --toc -o $OUTPUT_HTML
 pandoc -s --template=$TEMPLATE_LATEX $INPUT --toc -o $OUTPUT_PDF
 pandoc -t markdown_github --atx --normalize --reference-location=block -s -o $OUTPUT_MD $INPUT
-
-open -a Preview  $OUTPUT/aar.pdf
-

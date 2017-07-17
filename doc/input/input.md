@@ -95,39 +95,57 @@ introduces a a new sub-version of the robot.
 
 ### Start Level ###
 
-+ Start Robot
-    - the Start Robot has to be activated
-    - if activated it falls down
-+ Exit Robot
-    - the exit robot appears if (all) the robots are activated
-    - has to be activated also to leave the room
-+ Reset Robot
-    - can be activated if to many activation shoots where used to leave level 0-0
-    - resets the points to seven
-    - resets the start robot and the exit robot also.
-+ Continue Robot
-    - appears if the level 1-0 to 1-4 are mastered
-    - can be activated to continue the last played level
-+ Start Boss Robot
-    - a hidden level? and a hidden boss?
-    - sleeping tiger hidden dragon
+- Start Robot
+
+> + the Start Robot has to be activated  
+> + if activated it falls down  
+
+- Exit Robot
+
+> + the exit robot appears if (all) the robots are activated
+> + has to be activated also to leave the room
+
+- Reset Robot
+
+> + can be activated if to many activation shoots where used to leave level 0-0
+> + resets the points to seven
+> + resets the start robot and the exit robot also.
+
+- Continue Robot
+
+> + appears if the level 1-0 to 1-4 are mastered
+> + can be activated to continue the last played level
+
+- Start Boss Robot
+
+> + a hidden level? and a hidden boss?
+> + sleeping tiger hidden dragon
 
 ### Jump Level ###
 
 + Jump Robot
-    - starts jumping when activated
-    - helps get higher grounds
-    - blocks passages sometimes
-    - open passages by jumping away
+
+>  - starts jumping when activated
+>  - helps get higher grounds
+>  - blocks passages sometimes
+>  - open passages by jumping away
+
 + High Jump Robot
-    - like the jump robot
-    - just jumps higher
+
+>  - like the jump robot
+>  - just jumps higher
+
 + Water Pump Jump Robot
-    - shoots water to jump
-    - can be on his back
+
+>  - shoots water to jump
+>  - can be on his back
+
 + Gravity Jump Robot
-    - jumps from the ground to the ceiling
-    - can sometimes be like an elevator
+
+>  - jumps from the ground to the ceiling
+>  - can sometimes be like an elevator
+
 + Jump Boss Robot
-    - does everything the other jump robots does
-    - turned up to eleven
+
+>  - does everything the other jump robots does
+>  - turned up to eleven
