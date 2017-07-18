@@ -1,5 +1,4 @@
 --[[--
-Summary. This is the main file
 @author Orhan Kücükyilmaz
 --]]
 local game = {}

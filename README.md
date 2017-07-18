@@ -10,7 +10,7 @@
 
 ## Introduction
 
-    a jump'n'shoot riddle game
+> a jump'n'shoot riddle game
 
 After the Hero's attack, it's your duty to...
 
@@ -18,7 +18,7 @@ After the Hero's attack, it's your duty to...
 
 Every `'activation-shoot'` costs you `points`. For every robot, machine or trap you activate, you get `points`. If you get hit, you lose a `point`. If you have only *`one point left`* than you have only `one` *ONE* shoot to make points or it's ...
 
-> > ... *GAME OVER!*
+> ... *GAME OVER!*
 
 ![His name is mini](./src/assets/img/aar.png "His name is mini")
 
