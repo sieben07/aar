@@ -48,7 +48,7 @@ function game:enter( )
   level = levels[global.level.current]
   global.level.current = global.level.current + 1
 
-  local hero = require('assets.obj.hero')
+  local heroEntity = require('assets.obj.hero')
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
 
@@ -61,36 +61,12 @@ function game:enter( )
   map:addCustomLayer("textLayer", 9)
   textLayer = map.layers['textLayer']
 
-  local texts = {}
-  local robots = {}
-
-  for k, object in pairs(map.objects) do
-    if object.type == "hero" then
-      player = object
-    end
-
-    if object.type == "robot" then
-      object = helper.merge(robotEntity, object)
-      for k,v in pairs(robotEntity) do object[k] = v end
-      --object.vel = 0
-      --object.jumpVelocity = -128
-      --object.gravity = -200
-      object.falling = object.properties.falling
-      table.insert(robots, object)
-    end
-
-    if object.type == 'text' then
-      -- hex to rgb
-      local _,_,a, r, g, b = object.properties.color:find('(%x%x)(%x%x)(%x%x)(%x%x)')
-      object.properties.color = {tonumber(r,16),tonumber(g,16),tonumber(b,16),tonumber(a,16)}
-      table.insert(texts, object)
-    end
-  end
+  local heroRobot, robots, texts = helper.LoadRobots(map.objects, robotEntity);
 
   -- merge hero object into playerLayer
-  playerLayer = helper.merge(hero, playerLayer) --for k,v in pairs(hero) do playerLayer[k] = v end
+  helper.merge(playerLayer, heroEntity) --for k,v in pairs(hero) do playerLayer[k] = v end
   -- merge map info into playerLayer
-  playerLayer = helper.merge(player, playerLayer) --for k,v in pairs(player) do playerLayer[k] = v end
+  helper.merge(playerLayer, heroRobot) --for k,v in pairs(player) do playerLayer[k] = v end
 
   robotsLayer.robots = {}
   for i, robot in ipairs(robots) do
@@ -202,6 +178,7 @@ function game:enter( )
     end
   end
 
+print('player width', playerLayer.width)
   world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
   for i, robot in ipairs(robotsLayer.robots) do
     world:add(robot, robot.x, robot.y, robot.width, robot.height)

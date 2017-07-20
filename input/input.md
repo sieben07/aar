@@ -1,5 +1,5 @@
 ---
-css: './src/assets/css/style.css'
+css: './src/assets/css/ldoc.css'
 documentclass: scrartcl
 classoption: twopages
 title: .| One point left
@@ -34,7 +34,7 @@ If you get hit, you lose a `point`.
 If you have only _`one point left`_
 than you have only `one` _ONE_ shoot to make points or it's ...
 
->... _GAME OVER!_
+> ... _GAME OVER!_
 
 ![ His name is mini ](./src/assets/img/aar.png "His name is mini")
 

@@ -104,8 +104,8 @@ return {
         },
         {
           id = 4,
-          name = "Player",
-          type = "Player Robot",
+          name = "Mini",
+          type = "hero",
           shape = "rectangle",
           x = 320,
           y = 448,
