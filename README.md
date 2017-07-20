@@ -10,7 +10,7 @@
 
 ## Introduction
 
-> a jump'n'shoot riddle game
+    a jump'n'shoot riddle game
 
 After the Hero's attack, it's your duty to...
 
