@@ -281,8 +281,8 @@ table.module_list td {
     border-style: solid;
     border-color: #cccccc;
 }
-table.module_list td.name { background-color: #f0f0f0; ; min-width: 200px; }
-table.module_list td.summary { width: 100%; }
+table.module_list td.name { background-color: #f0f0f0;min-width: 200px; }
+table.module_list td.summary { width: 100%; background-color: #f0f0f0; }
 
 table.function_list {
     border-width: 1px;
@@ -296,8 +296,8 @@ table.function_list td {
     border-style: solid;
     border-color: #cccccc;
 }
-table.function_list td.name { background-color: #f6f6ff; ; min-width: 200px; }
-table.function_list td.summary { width: 100%; }
+table.function_list td.name { background-color: #f6f6ff; min-width: 200px; }
+table.function_list td.summary {background-color: #f6f6ff; width: 100%; }
 
 dl.table dt, dl.function dt {border-top: 1px solid #ccc; padding-top: 1em;}
 dl.table dd, dl.function dd {padding-bottom: 1em; margin: 10px 0 0 20px;}
@@ -316,7 +316,7 @@ ul ol { margin-top: 0px; }
 
 /* make the target distinct; helps when we're navigating to a function */
 a:target + * {
-  background-color: #FF9;
+  color:#ff6600;
 }
 
 /* styles for prettification of source */
@@ -357,5 +357,5 @@ ul ul{margin-left:15px;}
 ul{padding:0;margin:0;}
 table{border-collapse:collapse;margin-bottom:12px;width:100%;}
 table th {color:#97af95; text-align:left}
-table tr:nth-child(even){background-color:#999999}
-table tr:nth-child(even) td{color:#f5f5f5}
+/*table tr:nth-child(even){background-color:#999999}
+table tr:nth-child(even) td{color:#f5f5f5}*/

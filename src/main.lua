@@ -27,7 +27,7 @@ local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
 local transition = require "assets.helper.transitions"
 
-local levels = {'start', 'level01'}
+local levels = {'start', 'level01', 'level02', 'level03', 'level04'}
 local level = ''
 
 local Robot = require "assets.obj.Robot"
@@ -61,7 +61,7 @@ function game:enter( )
   map:addCustomLayer("textLayer", 9)
   textLayer = map.layers['textLayer']
 
-  local heroRobot, robots, texts = helper.LoadRobots(map.objects, robotEntity);
+  local heroRobot, robots, texts = helper.loadRobots(map.objects, robotEntity);
 
   -- merge hero object into playerLayer
   helper.merge(playerLayer, heroEntity) --for k,v in pairs(hero) do playerLayer[k] = v end
@@ -165,7 +165,7 @@ function game:enter( )
 
   function textLayer:draw( )
     for i, text in ipairs(self.texts) do
-      love.graphics.setColor(text.properties.color[1], text.properties.color[2], text.properties.color[3], text.properties.color[4])
+      love.graphics.setColor(text.properties.color.red, text.properties.color.green, text.properties.color.blue, text.properties.color.alpha)
       love.graphics.setFont(fonts[text.properties.font])
       love.graphics.printf( text.name, text.x, text.y, love.graphics.getWidth() , text.properties.align)
     end
@@ -178,7 +178,6 @@ function game:enter( )
     end
   end
 
-print('player width', playerLayer.width)
   world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
   for i, robot in ipairs(robotsLayer.robots) do
     world:add(robot, robot.x, robot.y, robot.width, robot.height)

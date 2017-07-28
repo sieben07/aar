@@ -17,34 +17,63 @@ function Helper.merge(first, second)
     end
 end
 
-function Helper.LoadRobots(objects, robotEntity)
+--[[--
+sorts and loads `robots`.
+it sorts the robot tables returned from sti
+robot.types are:
+
++ hero
++ robot
++ text
+
+robot.names are
+
++ Start
++ Jump
+
+@function loadRobots
+@tparam object mapRobots the robot table loaded from sti
+@tparam object robotEntity a robot table from Robot
+--]]--
+function Helper.loadRobots(mapRobots, robotEntity)
     local hero = {}
     local robots = {}
     local texts = {}
 
-    for _, object in pairs(objects) do
-        if object.type == "hero" then
-            hero = object
+    for _, mapRobot in pairs(mapRobots) do
+        if mapRobot.type == "hero" then
+            hero = mapRobot
         end
 
-        if object.type == "robot" then
-            Helper.merge(object, robotEntity)
-            object.falling = object.properties.falling
-            table.insert(robots, object)
+        if mapRobot.type == "robot" then
+            Helper.merge(mapRobot, robotEntity)
+            mapRobot.falling = mapRobot.properties.falling
+            table.insert(robots, mapRobot)
         end
 
-        if object.type == 'text' then
-            object.properties.color = Helper.hexToArgb(object.properties.color)
-            table.insert(texts, object)
+        if mapRobot.type == 'text' then
+            mapRobot.properties.color = Helper.hexToRgba(mapRobot.properties.color)
+            table.insert(texts, mapRobot)
         end
     end
 
     return hero, robots, texts
 end
 
-function Helper.hexToArgb(colorHex)
-    local _, _, a, r, g, b = colorHex:find('(%x%x)(%x%x)(%x%x)(%x%x)')
-    return {tonumber(r,16),tonumber(g,16),tonumber(b,16),tonumber(a,16)}
+--[[--
+hex color string to rgba color string
+@function hexToArgb
+@param colorHex a color coded in a hex string
+@treturn {number,...} a table with the r g b a colors as number
+--]]--
+function Helper.hexToRgba(colorHex)
+    local x, y, a, r, g, b = colorHex:find('(%x%x)(%x%x)(%x%x)(%x%x)')
+    local rgba = {}
+    rgba.red = tonumber(r,16)
+    rgba.green = tonumber(g,16)
+    rgba.blue = tonumber(b,16)
+    rgba.alpha = tonumber(a,16)
+    return rgba
 end
 
 return Helper

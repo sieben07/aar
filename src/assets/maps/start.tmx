@@ -55,7 +55,7 @@
   <object id="4" name="One Point Left" type="text" x="0" y="128" width="32" height="32">
    <properties>
     <property name="align" value="center"/>
-    <property name="color" type="color" value="#ff000000"/>
+    <property name="color" type="color" value="#ff585858"/>
     <property name="font" value="orial"/>
    </properties>
   </object>

@@ -8,7 +8,7 @@ return {
   height = 20,
   tilewidth = 32,
   tileheight = 32,
-  nextobjectid = 7,
+  nextobjectid = 10,
   properties = {},
   tilesets = {
     {
@@ -97,6 +97,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
+            ["acitve"] = false,
             ["collidable"] = true,
             ["falling"] = false
           }
@@ -115,6 +116,22 @@ return {
           properties = {
             ["collidable"] = true,
             ["falling"] = true
+          }
+        },
+        {
+          id = 7,
+          name = "Exit",
+          type = "robot",
+          shape = "rectangle",
+          x = 32,
+          y = 576,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = false,
+          properties = {
+            ["active"] = false,
+            ["collidable"] = true
           }
         }
       }
@@ -142,7 +159,7 @@ return {
           visible = true,
           properties = {
             ["align"] = "center",
-            ["color"] = "#ff000000",
+            ["color"] = "#ff585858",
             ["font"] = "orial"
           }
         },
