@@ -27,7 +27,7 @@ local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
 local transition = require "assets.helper.transitions"
 
-local levels = {'start', 'level01', 'level02', 'level03', 'level04'}
+local levels = {'start', 'level01' } --, 'level02', 'level03', 'level04'}
 local level = ''
 
 local Robot = require "assets.obj.Robot"
@@ -46,7 +46,11 @@ fonts = {
 function game:enter( )
   local robotEntity = Robot.new();
   level = levels[global.level.current]
-  global.level.current = global.level.current + 1
+  if global.level.current < #levels then
+    global.level.current = global.level.current + 1
+  else
+    global.level.current = 1
+  end
 
   local heroEntity = require('assets.obj.hero')
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
@@ -76,6 +80,11 @@ function game:enter( )
   textLayer.texts = {}
   for i, text in ipairs(texts) do
     table.insert(textLayer.texts, text)
+  end
+
+  function playerLayer:push(dx, dy)
+    local ax, ay, cols, len = world:move(self, self.x, self.y + dy)
+    self.x, self.y = ax, ay
   end
 
   function playerLayer:draw()
@@ -119,18 +128,37 @@ function game:enter( )
   robotsLayer:update updates the robots.
   @param dt delta time
   --]]
+
+  local filter = function(item, other)
+  print(other.name)
+    if other.name == 'Mini' then return 'cross' else return 'touch' end
+  end
+
   function robotsLayer:update(dt)
+
     for i, robot in ipairs(self.robots) do
 
       if robot.falling == true then
         robot.velocity = robot.velocity + 40 / 1.2 * dt
         local goalY = robot.y + robot.velocity
-        local actualX, actualY, cols, len = world:move(robot, robot.x, goalY)
+        local actualX, actualY, cols, len = world:move(robot, robot.x, goalY, filter)
         robot.y = actualY
 
         if len ~= 0 then
           robot.falling = false
         end
+
+        local col, dx, dy
+        for i = 1, len do
+          col = cols[i]
+          dx = robot.velocity * (1 - col.ti)
+          dy = robot.velocity * (1- col.ti)
+
+          if col.other.name == 'Mini' then
+          col.other:push(dx,dy)
+        end
+        end
+
       end
 
       if robot.jump == true then
@@ -139,15 +167,36 @@ function game:enter( )
         end
 
         if robot.velocity ~= 0 then
-          robot.goalY = robot.y + robot.velocity * dt
+          local goalY = robot.y + robot.velocity * dt
           robot.velocity = robot.velocity - robot.gravity * dt
 
-          local actualX, actualY, cols, len = world:move(robot, robot.x, robot.goalY)
+          local actualX, actualY, cols, len = world:move(robot, robot.x, goalY, filter)
           robot.y = actualY
 
           if len ~= 0 then
-            robot.velocity = robot.jumpVelocity
+            for key,value in pairs(cols) do
+              print('value', value.ti)
+              if value.other.name ~= 'Mini' then
+                robot.velocity = robot.jumpVelocity
+              end
+            end
           end
+
+          local col, dx, dy
+          for i = 1, len do
+            col = cols[i]
+            dx =  (1 - col.ti)
+            dy =  (1 - col.ti)
+
+
+            if col.other.name == 'Mini' then
+            print(col.ti, dx, dy)
+                col.other:push(dy,dy)
+            end
+          end
+
+
+
         end
       end
 
@@ -197,10 +246,12 @@ end
 function game:update(dt)
   playerLayer:update(dt)
   robotsLayer:update(dt)
+
   if transition.shouldstart == true then
     transition:selector(game, "randomColor", Gamestate, global, dt)
     love.graphics.setBackgroundColor(global.background.color.red, global.background.color.red, global.background.color.red)
   end
+
   --map:update(dt)
 end
 
