@@ -103,7 +103,7 @@ function game:enter( )
 
 
     love.graphics.setFont(fonts.orangekid)
-    love.graphics.setColor(255, 165, 7)
+    love.graphics.setColor(1, 0.64, 0.02)
     if self.score > 1 then
       love.graphics.print( self.score..' | points', 32,  4)
     else
@@ -114,25 +114,27 @@ function game:enter( )
 
   function robotsLayer:draw()
     for i, robot in ipairs(self.robots) do
-      love.graphics.setColor(248, 248, 255)
+      love.graphics.setColor(248/255, 248/255, 255/255)
       love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height )
 
 
       love.graphics.setFont(fonts.ormontMiddle)
-      love.graphics.setColor(255, 165, 7, 255)
+      love.graphics.setColor(255/255, 165/255, 7/255, 255/255)
       love.graphics.print( robot.name, robot.x, robot.y)
     end
   end
 
-  --[[--
-  robotsLayer:update updates the robots.
-  @param dt delta time
-  --]]
+
 
   local filter = function(item, other)
   print(other.name)
     if other.name == 'Mini' then return 'cross' else return 'touch' end
   end
+  
+  --[[--
+  robotsLayer:update updates the robots.
+  @param dt delta time
+  --]]
 
   function robotsLayer:update(dt)
 
@@ -214,7 +216,7 @@ function game:enter( )
 
   function textLayer:draw( )
     for i, text in ipairs(self.texts) do
-      love.graphics.setColor(text.properties.color.red, text.properties.color.green, text.properties.color.blue, text.properties.color.alpha)
+      love.graphics.setColor(text.properties.color.red/255, text.properties.color.green/255, text.properties.color.blue/255, text.properties.color.alpha/255)
       love.graphics.setFont(fonts[text.properties.font])
       love.graphics.printf( text.name, text.x, text.y, love.graphics.getWidth() , text.properties.align)
     end
@@ -236,7 +238,7 @@ function game:enter( )
 end
 
 function game:draw()
-  love.graphics.setColor(global.color.red, global.color.green , global.color.blue, global.color.alpha)
+  love.graphics.setColor(global.color.red/255, global.color.green/255, global.color.blue/255, global.color.alpha/255)
   map:draw()
   playerLayer:draw()
   robotsLayer:draw()

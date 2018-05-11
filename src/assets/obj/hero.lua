@@ -1,5 +1,5 @@
-local WNH = 32 -- WIDTH 'n' HEIGHT of Sprites
-local BIG_WNH  = 256 -- WIDTH 'n' HEIGHT of the Sprite-sheet
+local SIZE = 32
+local BIG_SIZE  = SIZE * 8
 local Quad = love.graphics.newQuad
 
 local hero = {
@@ -34,69 +34,69 @@ local hero = {
     -- the frames of the hero
     quads =
     {   right = {
-            Quad( WNH * 4,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 5,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 6,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 7,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 6,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 4,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 5,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 6,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 7,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 6,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
 
         };
 
         rightShooting = {
-            Quad( WNH * 4,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 5,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 6,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 7,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 6,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 4,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 5,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 6,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 7,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 6,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
 
         };
 
         left = {
-            Quad( WNH * 3,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 2,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 1,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 0,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 1,  WNH , WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 3,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 2,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 1,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 0,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 1,  SIZE , SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         leftShooting = {
-            Quad( WNH * 3,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 2,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 1,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 0,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
-            Quad( WNH * 1,  WNH * 3, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 3,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 2,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 1,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 0,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
+            Quad( SIZE * 1,  SIZE * 3, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         jumpRight = {
-            Quad( WNH * 4,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 4,  SIZE * 2, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         jumpLeft = {
-            Quad( WNH * 3,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 3,  SIZE * 2, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         jumpRightMoving = {
-            Quad( WNH * 5,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 5,  SIZE * 2, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         jumpLeftMoving = {
-            Quad( WNH * 2,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 2,  SIZE * 2, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         jumpRightShooting = {
-            Quad( WNH * 6,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE * 6,  SIZE * 2, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         jumpLeftShooting = {
-            Quad( WNH ,  WNH * 2, WNH , WNH , BIG_WNH , BIG_WNH );
+            Quad( SIZE ,  SIZE * 2, SIZE , SIZE , BIG_SIZE , BIG_SIZE );
         };
 
         bulletLeft = {
-            Quad( WNH  * 2, WNH  * 5, 14, 14, BIG_WNH , BIG_WNH )
+            Quad( SIZE  * 2, SIZE  * 5, 14, 14, BIG_SIZE , BIG_SIZE )
         };
 
         bulletRight = {
-            Quad( WNH  * 5, WNH  * 5, 14, 14, BIG_WNH , BIG_WNH )
+            Quad( SIZE  * 5, SIZE  * 5, 14, 14, BIG_SIZE , BIG_SIZE )
         };
 
     }

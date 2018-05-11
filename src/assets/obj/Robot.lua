@@ -11,8 +11,8 @@ function Robot.new()
     local self = {};
 
     self.velocity = 0;
-    self.jumpVelocity = -128 -- the jump Velocity
-    self.gravity = -200 -- the gravity
+    self.jumpVelocity = -128
+    self.gravity = -200
 
     return self;
 end
