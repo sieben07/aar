@@ -56,7 +56,7 @@ function game:enter( )
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
 
-  love.graphics.setBackgroundColor(global.background.color.red, global.background.color.red, global.background.color.red)
+  love.graphics.setBackgroundColor(global.background.color.red/255, global.background.color.red/255, global.background.color.red/255)
 
   map:addCustomLayer("playerLayer", 7)
   playerLayer = map.layers["playerLayer"]
@@ -251,7 +251,7 @@ function game:update(dt)
 
   if transition.shouldstart == true then
     transition:selector(game, "randomColor", Gamestate, global, dt)
-    love.graphics.setBackgroundColor(global.background.color.red, global.background.color.red, global.background.color.red)
+    love.graphics.setBackgroundColor(global.background.color.red/255, global.background.color.red/255, global.background.color.red/255)
   end
 
   --map:update(dt)
