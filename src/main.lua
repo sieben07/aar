@@ -1,29 +1,5 @@
---[[--
-@author Orhan Kücükyilmaz
---]]
-
--- 
-
 local game = {}
-local global = {
-  level = {
-    current = 1
-  },
-  color = {
-    red = 0,
-    green = 0,
-    blue = 0,
-    alpha = 255
-  },
-  background = {
-    color = {
-      red = 77,
-      green = 77,
-      blue = 77
-    }
-  },
-  countdown = 4
-}
+local global = require "assets.obj.global"
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
