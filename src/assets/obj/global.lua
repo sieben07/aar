@@ -10,9 +10,9 @@ local global = {
     },
     background = {
         color = {
-            red = 77,
-            green = 77,
-            blue = 77
+            red = 77 / 255,
+            green = 77 / 255,
+            blue = 77 / 255
         }
     },
     countdown = 4
