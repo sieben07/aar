@@ -1,6 +1,9 @@
 --[[--
 @author Orhan Kücükyilmaz
 --]]
+
+-- 
+
 local game = {}
 local global = {
   level = {
@@ -22,46 +25,52 @@ local global = {
   countdown = 4
 }
 
+-- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
+
+-- helper
 local transition = require "assets.helper.transitions"
-
-local levels = {'start', 'level01' } --, 'level02', 'level03', 'level04'}
-local level = ''
-
-local Robot = require "assets.obj.Robot"
 local helper = require "assets.helper.Helper"
 
+-- levels
+local levels = require "assets.maps.levels"
+local level = ''
+
 -- fonts
-fonts = {
-  defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24),
-  orial = love.graphics.newFont("assets/font/Orial_Bold.otf", 57),
-  ormont = love.graphics.newFont("assets/font/Ormont_Light.ttf", 38),
-  ormontMiddle = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28),
-  ormontSmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 18),
-  orangekid = love.graphics.newFont("assets/font/orangekid.ttf", 23)
-}
+local fonts = require "assets.font.fonts"
+
+-- game
 
 function game:enter( )
-  local robotEntity = Robot.new();
+  -- ToDo: constructor for robot and hero
+  local robotEntity = require "assets.obj.robot"
+  local heroEntity = require('assets.obj.hero')
+
   level = levels[global.level.current]
+  
   if global.level.current < #levels then
     global.level.current = global.level.current + 1
   else
     global.level.current = 1
   end
 
-  local heroEntity = require('assets.obj.hero')
+  -- create the world from triles
   map = sti("assets/maps/" .. level .. ".lua", {"bump"})
   world = bump.newWorld(32)
 
   love.graphics.setBackgroundColor(global.background.color.red/255, global.background.color.red/255, global.background.color.red/255)
 
+  -- hero
   map:addCustomLayer("playerLayer", 7)
   playerLayer = map.layers["playerLayer"]
+  
+  -- robots
   map:addCustomLayer("robotsLayer", 8)
   robotsLayer = map.layers['robotsLayer']
+  
+  -- text
   map:addCustomLayer("textLayer", 9)
   textLayer = map.layers['textLayer']
 
@@ -120,14 +129,13 @@ function game:enter( )
 
       love.graphics.setFont(fonts.ormontMiddle)
       love.graphics.setColor(255/255, 165/255, 7/255, 255/255)
-      love.graphics.print( robot.name, robot.x, robot.y)
+      love.graphics.print( robot.name, robot.x + 16, robot.y)
     end
   end
 
 
 
   local filter = function(item, other)
-  print(other.name)
     if other.name == 'Mini' then return 'cross' else return 'touch' end
   end
   
@@ -157,8 +165,8 @@ function game:enter( )
           dy = robot.velocity * (1- col.ti)
 
           if col.other.name == 'Mini' then
-          col.other:push(dx,dy)
-        end
+            col.other:push(dx,dy)
+          end
         end
 
       end
@@ -172,12 +180,11 @@ function game:enter( )
           local goalY = robot.y + robot.velocity * dt
           robot.velocity = robot.velocity - robot.gravity * dt
 
-          local actualX, actualY, cols, len = world:move(robot, robot.x, goalY, filter)
+          local actualX, actualY, cols, len = world:move(robot, robot.x, goalY)
           robot.y = actualY
 
           if len ~= 0 then
             for key,value in pairs(cols) do
-              print('value', value.ti)
               if value.other.name ~= 'Mini' then
                 robot.velocity = robot.jumpVelocity
               end
@@ -192,8 +199,7 @@ function game:enter( )
 
 
             if col.other.name == 'Mini' then
-            print(col.ti, dx, dy)
-                col.other:push(dy,dy)
+              col.other:push(dy,dy)
             end
           end
 
@@ -203,12 +209,10 @@ function game:enter( )
       end
 
       if robot.move == true then
-        print('should move')
         robot.move = false
       end
 
       if robot.shoot == true then
-        print('should fire')
         robot.shoot = false
       end
     end
@@ -257,16 +261,16 @@ function game:update(dt)
   --map:update(dt)
 end
 
+
+-- register GAME
+
 function love.load( )
  Gamestate.registerEvents()
  Gamestate.switch(game)
 end
 
-function love.update(dt)
-end
 
-function love.draw()
-end
+-- keypressed and keyreleased
 
 function love.keypressed(key, code, isrepat)
     if key == 'return' then
@@ -298,7 +302,6 @@ function love.keypressed(key, code, isrepat)
         love.event.push("quit")
     end
 end
-
 
 function love.keyreleased(key)
     if key == "left" then
