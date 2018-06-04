@@ -18,7 +18,6 @@ local level = ""
 local fonts = require "assets.font.fonts"
 
 -- game
-
 function game:enter()
   -- ToDo: constructor for robot and hero
   local robotEntity = require "assets.obj.robot"
@@ -78,6 +77,7 @@ function game:enter()
 
   function playerLayer:draw()
     -- player
+    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
     love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x, self.y, self.rotate, self.zoom)
 
     -- shoots
@@ -101,12 +101,12 @@ function game:enter()
 
   function robotsLayer:draw()
     for i, robot in ipairs(self.robots) do
-      love.graphics.setColor(248 / 255, 248 / 255, 255 / 255)
+      love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
       love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
 
-      love.graphics.setFont(fonts.ormontMiddle)
-      love.graphics.setColor(255 / 255, 165 / 255, 7 / 255, 255 / 255)
-      love.graphics.print(robot.name, robot.x + 16, robot.y)
+      love.graphics.setFont(fonts.ormontSmall)
+      love.graphics.setColor(1, 0.647, 0.027, 1)
+      love.graphics.print(robot.name, robot.x + 40 , robot.y)
     end
   end
 
@@ -192,10 +192,10 @@ function game:enter()
   function textLayer:draw()
     for i, text in ipairs(self.texts) do
       love.graphics.setColor(
-        text.properties.color.red / 255,
-        text.properties.color.green / 255,
-        text.properties.color.blue / 255,
-        text.properties.color.alpha / 255
+        text.properties.color.red,
+        text.properties.color.green,
+        text.properties.color.blue,
+        text.properties.color.alpha
       )
       love.graphics.setFont(fonts[text.properties.font])
       love.graphics.printf(text.name, text.x, text.y, love.graphics.getWidth(), text.properties.align)
@@ -218,22 +218,17 @@ function game:enter()
 end
 
 function game:draw()
-  love.graphics.setColor(
-    global.color.red,
-    global.color.green,
-    global.color.blue,
-    global.color.alpha
-  )
+  love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
   map:draw()
-  playerLayer:draw()
-  robotsLayer:draw()
   textLayer:draw()
+  robotsLayer:draw()
+  playerLayer:draw()
 end
 
 function game:update(dt)
   robotsLayer:update(dt)
   playerLayer:update(dt)
-  
+
   if transition.shouldstart == true then
     transition:selector(game, "randomColor", Gamestate, global, dt)
     love.graphics.setBackgroundColor(

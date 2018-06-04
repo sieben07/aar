@@ -69,10 +69,10 @@ hex color string to rgba color string
 function Helper.hexToRgba(colorHex)
     local x, y, a, r, g, b = colorHex:find('(%x%x)(%x%x)(%x%x)(%x%x)')
     local rgba = {}
-    rgba.red = tonumber(r,16)
-    rgba.green = tonumber(g,16)
-    rgba.blue = tonumber(b,16)
-    rgba.alpha = tonumber(a,16)
+    rgba.red = tonumber(r,16) / 255
+    rgba.green = tonumber(g,16) / 255
+    rgba.blue = tonumber(b,16) / 255
+    rgba.alpha = tonumber(a,16) / 255
     return rgba
 end
 

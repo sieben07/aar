@@ -37,7 +37,6 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
         global.color.red = love.math.random(color.red) / 255
         global.color.green = love.math.random(color.green) / 255
         global.color.blue = love.math.random(color.blue) / 255
-        print(global.color.red, color.red);
     end
 
     if global.countdown == 0 then
