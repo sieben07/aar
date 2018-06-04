@@ -71,7 +71,7 @@ function game:enter()
   end
 
   function playerLayer:push(dx, dy)
-    local ax, ay, cols, len = world:move(self, self.x, self.y + dy)
+    local ax, ay, cols, len = world:move(self, self.x + dx, self.y + dy)
     self.x, self.y = ax, ay
   end
 
@@ -106,18 +106,13 @@ function game:enter()
 
       love.graphics.setFont(fonts.ormontSmall)
       love.graphics.setColor(1, 0.647, 0.027, 1)
-      love.graphics.print(robot.name, robot.x + 40 , robot.y)
+      love.graphics.print(robot.name, robot.x + 40, robot.y)
     end
   end
 
-  local filter = function(item, other)
-    if other.name == "Mini" then
-      return "cross"
-    else
-      return "touch"
-    end
+  function filter (a, b)
+    return "cross"
   end
-
   --[[--
   robotsLayer:update updates the robots.
   @param dt delta time
@@ -127,31 +122,32 @@ function game:enter()
       if robot.falling == true then
         robot.velocity = robot.velocity + 40 / 1.2 * dt
         local goalY = robot.y + robot.velocity
-        local actualX, actualY, cols, len = world:move(robot, robot.x, goalY, filter)
+        local actualX, actualY, cols, len = world:move(robot, robot.x, goalY)
         robot.y = actualY
 
         if len ~= 0 then
           robot.falling = false
         end
-
-        local col, dx, dy
-        for i = 1, len do
-          col = cols[i]
-          dx = robot.velocity * (1 - col.ti)
-          dy = robot.velocity * (1 - col.ti)
-
-          if col.other.name == "Mini" then
-            col.other:push(dx, dy)
-          end
-        end
       end
 
       if robot.jump == true then
-        if robot.velocity <= 0 then
-        --robot.velocity = robot.jumpVelocity
+        if robot.velocity < 0 then
+          local goalY = robot.y + robot.velocity * dt
+          robot.velocity = robot.velocity - robot.gravity * dt
+
+          local actualX, actualY, cols, len = world:move(robot, robot.x, goalY, filter)
+          robot.y = actualY
+
+          local col, dx, dy
+          for i = 1, len do
+            col = cols[i]
+            -- dx = (1 - col.ti)
+            dy = goalY - 32
+            col.other:push(0, dy)
+          end
         end
 
-        if robot.velocity ~= 0 then
+        if robot.velocity >= 0 then
           local goalY = robot.y + robot.velocity * dt
           robot.velocity = robot.velocity - robot.gravity * dt
 
@@ -159,32 +155,9 @@ function game:enter()
           robot.y = actualY
 
           if len ~= 0 then
-            for key, value in pairs(cols) do
-              if value.other.name ~= "Mini" then
-                robot.velocity = robot.jumpVelocity
-              end
-            end
-          end
-
-          local col, dx, dy
-          for i = 1, len do
-            col = cols[i]
-            dx = (1 - col.ti)
-            dy = (1 - col.ti)
-
-            if col.other.name == "Mini" then
-              col.other:push(dy, dy)
-            end
+            robot.velocity = robot.jumpVelocity
           end
         end
-      end
-
-      if robot.move == true then
-        robot.move = false
-      end
-
-      if robot.shoot == true then
-        robot.shoot = false
       end
     end
   end
