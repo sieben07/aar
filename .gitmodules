@@ -1,0 +1,12 @@
+[submodule "src/assets/libs/Simple-Tiled-Implementation"]
+	path = src/assets/libs/Simple-Tiled-Implementation
+	url = https://github.com/karai17/Simple-Tiled-Implementation.git
+[submodule "src/assets/libs/bump"]
+	path = src/assets/libs/bump
+	url = https://github.com/kikito/bump.lua.git
+[submodule "src/assets/libs/hump"]
+	path = src/assets/libs/hump
+	url = https://github.com/vrld/hump.git
+[submodule "src/assets/libs/flux"]
+	path = src/assets/libs/flux
+	url = https://github.com/rxi/flux.git
