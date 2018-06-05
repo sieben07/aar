@@ -18,6 +18,11 @@ local level = ""
 local fonts = require "assets.font.fonts"
 
 -- game
+
+function game:init()
+  print('init once')
+end
+
 function game:enter()
   -- ToDo: constructor for robot and hero
   local robotEntity = require "assets.obj.robot"
@@ -127,6 +132,9 @@ function game:enter()
 
         if len ~= 0 then
           robot.falling = false
+          if robot.name == "Start" then
+             transition.shouldstart = true
+          end
         end
       end
 
@@ -220,13 +228,7 @@ function love.load()
 end
 
 -- keypressed and keyreleased
-
 function love.keypressed(key, code, isrepat)
-  if key == "return" then
-    -- return Gamestate.switch(game)
-    transition.shouldstart = true
-  end
-
   if key == "left" then
     playerLayer.x_vel = -playerLayer.vel
     playerLayer.status = "shootLeft"

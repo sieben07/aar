@@ -48,6 +48,7 @@ function Helper.loadRobots(mapRobots, robotEntity)
         if mapRobot.type == "robot" then
             Helper.merge(mapRobot, robotEntity)
             mapRobot.falling = mapRobot.properties.falling
+            mapRobot.active = mapRobot.properties.active
             table.insert(robots, mapRobot)
         end
 

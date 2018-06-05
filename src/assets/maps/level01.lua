@@ -98,12 +98,13 @@ return {
           rotation = 0,
           visible = true,
           properties = {
+            ["active"] = false,
             ["collidable"] = true,
             ["jumping"] = false
           }
         },
         {
-          id = 4,
+          id = 2,
           name = "Mini",
           type = "hero",
           shape = "rectangle",
@@ -119,7 +120,7 @@ return {
           }
         },
         {
-          id = 5,
+          id = 3,
           name = "Exit",
           type = "robot",
           shape = "rectangle",
@@ -130,6 +131,7 @@ return {
           rotation = 0,
           visible = false,
           properties = {
+            ["active"] = false,
             ["collidable"] = false
           }
         }

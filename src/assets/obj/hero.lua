@@ -121,6 +121,13 @@ function hero:updateShoots()
 
             for i = 1, len do
                 local col = cols[i]
+                print(col.other.active, col.other.type)
+                if col.other.type == "robot" and col.other.active == false then
+                    print('HERE')
+                    col.other.active = true
+                    self.score = self.score + 7
+                end
+
 
                 -- This is wrong, every Robot should know
                 -- by himself what to do if hit.

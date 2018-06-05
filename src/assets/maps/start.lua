@@ -97,7 +97,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["acitve"] = false,
+            ["active"] = false,
             ["collidable"] = true,
             ["falling"] = false
           }
@@ -116,22 +116,6 @@ return {
           properties = {
             ["collidable"] = true,
             ["falling"] = true
-          }
-        },
-        {
-          id = 7,
-          name = "Exit",
-          type = "robot",
-          shape = "rectangle",
-          x = 32,
-          y = 576,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = false,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true
           }
         }
       }

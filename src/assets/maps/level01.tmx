@@ -33,6 +33,7 @@
  <objectgroup name="Objects">
   <object id="1" name="Jump" type="robot" x="496" y="576" width="32" height="32">
    <properties>
+    <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
    </properties>
@@ -45,6 +46,7 @@
   </object>
   <object id="5" name="Exit" type="robot" x="32" y="576" width="32" height="32" visible="0">
    <properties>
+    <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="false"/>
    </properties>
   </object>

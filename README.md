@@ -32,7 +32,7 @@ Most games don't have a playable menu level. What is a playable menu level?, you
 
 What is a menu?
 
-Before a person can start a game he usually select from a menu what he wants to do. The menu is usually something like:
+Before a person can start a game he usually selects from a menu what he wants to do. The menu is usually something like:
 
 -   Start
 -   Options

@@ -33,7 +33,7 @@
  <objectgroup name="Objects">
   <object id="1" name="Start" type="robot" x="496" y="480" width="32" height="32">
    <properties>
-    <property name="acitve" type="bool" value="false"/>
+    <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="falling" type="bool" value="false"/>
    </properties>
@@ -44,22 +44,16 @@
     <property name="falling" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="7" name="Exit" type="robot" x="32" y="576" width="32" height="32" visible="0">
-   <properties>
-    <property name="active" type="bool" value="false"/>
-    <property name="collidable" type="bool" value="true"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup name="Texts">
-  <object id="4" name="One Point Left" type="text" x="0" y="128" width="32" height="32">
+  <object id="3" name="One Point Left" type="text" x="0" y="128" width="32" height="32">
    <properties>
     <property name="align" value="center"/>
     <property name="color" type="color" value="#ff585858"/>
     <property name="font" value="orial"/>
    </properties>
   </object>
-  <object id="6" name="activate all robots" type="text" x="0" y="167" width="32" height="32">
+  <object id="3" name="activate all robots" type="text" x="0" y="167" width="32" height="32">
    <properties>
     <property name="align" value="center"/>
     <property name="color" type="color" value="#ffffa507"/>

@@ -15,7 +15,8 @@ local global = {
             blue = 77 / 255
         }
     },
-    countdown = 4
+    countdown = 4,
+    score = nil
 }
 
 return global
