@@ -21,11 +21,9 @@ local fonts = require "assets.font.fonts"
 -- game
 
 function game:init()
-  print('init once')
-  Signal.register( 'score', function(value)
-    global.score = global.score + value
-    end
-    )
+  Signal.register('score', function(value) global.score = global.score + value end )
+  Signal.register('bounce', function() end )
+  Signal.register('allActive', function() transition.shouldstart = true end )
 end
 
 function game:enter()
@@ -128,7 +126,9 @@ function game:enter()
   @param dt delta time
   --]]
   function robotsLayer:update(dt)
+    local allActive = {}
     for i, robot in ipairs(self.robots) do
+      table.insert(allActive, robot.active)
       if robot.falling == true then
         robot.velocity = robot.velocity + 40 / 1.2 * dt
         local goalY = robot.y + robot.velocity
@@ -137,9 +137,6 @@ function game:enter()
 
         if len ~= 0 then
           robot.falling = false
-          if robot.name == "Start" then
-             transition.shouldstart = true
-          end
         end
       end
 
@@ -168,10 +165,15 @@ function game:enter()
           robot.y = actualY
 
           if len ~= 0 then
+            Signal.emit('bounce')
             robot.velocity = robot.jumpVelocity
           end
         end
       end
+    end
+
+    if helper.areAllRobotsActive(allActive) then
+      Signal.emit('allActive')
     end
   end
 

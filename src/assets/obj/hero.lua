@@ -17,8 +17,7 @@ local hero = {
     jump = 0,
     shooting = false,
     shoots = {}, -- holds our fired shoots
-    score = 7,
-    timer = 0, -- Zeit Variable fuer Animation
+    animationTimer = 0, --
     -- Animation
     iterator = 1,
     max = 5,
@@ -153,9 +152,9 @@ function hero:update(dt)
     self:updateShoots()
     -- Animation Framerate
     if self.x_vel ~= 0 and self.y_vel == 0 then
-        self.timer = self.timer + dt
-        if self.timer > 0.04 then
-            self.timer = 0
+        self.animationTimer = self.animationTimer + dt
+        if self.animationTimer > 0.04 then
+            self.animationTimer = 0
             self.iterator = self.iterator + 1
             if self.iterator > self.max then
                 self.iterator = 2

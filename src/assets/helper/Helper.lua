@@ -77,6 +77,20 @@ function Helper.hexToRgba(colorHex)
     return rgba
 end
 
+function Helper.areAllRobotsActive(t)
+    local allTrue = 0
+    for _, value in ipairs(t) do
+      if value == false then
+        allTrue = allTrue + 1
+      end
+    end
+    if allTrue == 0 then
+      return true
+  else
+    return false
+    end
+end
+
 return Helper
 
 
