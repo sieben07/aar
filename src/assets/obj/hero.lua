@@ -125,6 +125,7 @@ function hero:updateShoots()
                 if col.other.type == "robot" and col.other.active == false then
                     print('HERE')
                     col.other.active = true
+                    Signal.emit('shoot')
                     self.score = self.score + 7
                 end
 

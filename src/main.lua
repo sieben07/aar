@@ -1,5 +1,6 @@
 local game = {}
 local global = require "assets.obj.global"
+Signal = require "assets.libs.hump.signal"
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -21,6 +22,7 @@ local fonts = require "assets.font.fonts"
 
 function game:init()
   print('init once')
+  Signal.register( 'shoot', function() print( "peng peng" ) end )
 end
 
 function game:enter()
