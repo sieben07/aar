@@ -16,7 +16,7 @@ local global = {
         }
     },
     countdown = 4,
-    score = nil
+    score = 7
 }
 
 return global

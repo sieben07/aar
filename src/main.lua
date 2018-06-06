@@ -22,7 +22,10 @@ local fonts = require "assets.font.fonts"
 
 function game:init()
   print('init once')
-  Signal.register( 'shoot', function() print( "peng peng" ) end )
+  Signal.register( 'score', function(value)
+    global.score = global.score + value
+    end
+    )
 end
 
 function game:enter()
@@ -99,8 +102,8 @@ function game:enter()
 
     love.graphics.setFont(fonts.orangekid)
     love.graphics.setColor(1, 0.64, 0.02)
-    if self.score > 1 then
-      love.graphics.print(self.score .. " | points", 32, 4)
+    if global.score > 1 then
+      love.graphics.print(global.score .. " | points", 32, 4)
     else
       love.graphics.print(". | one point left", 32, 4)
     end

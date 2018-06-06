@@ -85,7 +85,7 @@ local hero = {
 }
 
 function hero:shoot()
-    self.score = self.score - 1
+    Signal.emit('score', -1)
     local shoot = {}
     if self.status == "shootRight" then
         shoot.x = self.x + self.WIDTH
@@ -125,8 +125,7 @@ function hero:updateShoots()
                 if col.other.type == "robot" and col.other.active == false then
                     print('HERE')
                     col.other.active = true
-                    Signal.emit('shoot')
-                    self.score = self.score + 7
+                    Signal.emit('score', 7)
                 end
 
 
