@@ -4,14 +4,15 @@ function love.conf(t)
     t.identity          = "opl"             -- The name of the save directory (string)
     t.version           = "11.1"          -- The LÖVE version this game was made for (string)
     t.release           = false             -- Enable release mode (boolean)
-    
-    t.window.icon = "assets/img/mini.png"  
+    t.appendidentity = true
+
+    t.window.icon = "assets/img/mini.png"
     t.window.width      = 32*32             -- The window width (number)
     t.window.height     = 32*20             -- The window height (number)
     t.window.fullscreen = false             -- Enable fullscreen (boolean)
     t.window.vsync      = true              -- Enable vertical sync (boolean)
     t.window.fsaa       = 0                 -- The number of FSAA-buffers (number)
-    
+
     t.modules.joystick  = false             -- Enable the joystick module (boolean)
     t.modules.audio     = true              -- Enable the audio module (boolean)
     t.modules.keyboard  = true              -- Enable the keyboard module (boolean)

@@ -21,6 +21,8 @@ local fonts = require "assets.font.fonts"
 -- game
 
 function game:init()
+  file = love.filesystem.newFile( 'global.lua' )
+  love.success = love.filesystem.write('global.lua', table.tostring(global))
   Signal.register('score', function(value) global.score = global.score + value end )
   Signal.register('bounce', function() end )
   Signal.register('allActive', function() transition.shouldstart = true end )
