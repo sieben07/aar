@@ -84,7 +84,7 @@ local hero = {
 }
 
 function hero:shoot()
-    Signal.emit('score', -1)
+    Signal.emit("score", -1)
     local shoot = {}
     if self.status == "shootRight" then
         shoot.x = self.x + self.WIDTH
@@ -120,13 +120,10 @@ function hero:updateShoots()
 
             for i = 1, len do
                 local col = cols[i]
-                print(col.other.active, col.other.type)
                 if col.other.type == "robot" and col.other.active == false then
-                    print('HERE')
                     col.other.active = true
-                    Signal.emit('score', 7)
+                    Signal.emit("score", 7)
                 end
-
 
                 -- This is wrong, every Robot should know
                 -- by himself what to do if hit.
@@ -153,7 +150,7 @@ function hero:update(dt)
     -- Animation Framerate
     if self.x_vel ~= 0 and self.y_vel == 0 then
         self.animationTimer = self.animationTimer + dt
-        if self.animationTimer > 0.04 then
+        if self.animationTimer > 0.07 then
             self.animationTimer = 0
             self.iterator = self.iterator + 1
             if self.iterator > self.max then
@@ -162,11 +159,7 @@ function hero:update(dt)
         end
     end
 
-    if self.x_vel == 0 then
-        self.iterator = 1
-    end
-
-    if self.y_vel ~= 0 then
+    if self.x_vel == 0 or self.y_vel ~= 0 then
         self.iterator = 1
     end
 
@@ -188,9 +181,11 @@ function hero:update(dt)
     end
 
     if
-        self.direction == "left" or self.direction == "leftShooting" or self.direction == "jumpLeft" or
-            self.direction == "jumpLeftShooting" or
-            self.direction == "jumpLeftMoving"
+        self.direction == "left" or
+        self.direction == "leftShooting" or
+        self.direction == "jumpLeft" or
+        self.direction == "jumpLeftShooting" or
+        self.direction == "jumpLeftMoving"
      then
         if not self.shooting and self.y_vel == 0 and self.x_vel == 0 then
             self.direction = "left"
@@ -232,6 +227,7 @@ function hero:update(dt)
             self.direction = "jumpRightShooting"
         end
     end
+
     -- Move the Hero Right or Left
     local goalX = self.x + self.x_vel
     local actualX, actualY, cols, len = world:move(self, goalX, self.y)
