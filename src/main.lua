@@ -153,6 +153,7 @@ function game:enter()
           local col, dx, dy
           for i = 1, len do
             col = cols[i]
+            print(unpack(col.normal))
             -- dx = (1 - col.ti)
             dy = goalY - 32
             col.other:push(0, dy)

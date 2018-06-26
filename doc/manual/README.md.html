@@ -26,9 +26,6 @@
 <br/>
 <h1>.| One point left</h1>
 
-<ul>
-  <li><a href="../index.html">Index</a></li>
-</ul>
 
 <h2>Contents</h2>
 <ul>
@@ -46,9 +43,7 @@
 </ul>
 <h2>Libraries</h2>
 <ul class="nowrap">
-  <li><a href="../libraries/Helper.html">Helper</a></li>
-  <li><a href="../libraries/Robot.html">Robot</a></li>
-  <li><a href="../libraries/main.html">main</a></li>
+  <li><a href="../index.html">Helper</a></li>
 </ul>
 
 </div>
@@ -89,6 +84,12 @@
 <td> Added Project Goals </td>
 <td> 02.07.2017 </td>
 </tr>
+<tr>
+<td> 0.0.4   </td>
+<td> Orhan Küçükyılmaz (OK) </td>
+<td> Change Game Over    </td>
+<td> 21.06.2018 </td>
+</tr>
 </tbody>
 </table>
 
@@ -97,49 +98,60 @@
 
 <h2>Introduction</h2>
 
-<pre>
-a jump<span class="string">'n'</span>shoot riddle game
-</pre>
+<p><em>a jump’n’shoot riddle game</em></p>
 
-
-<p>After the Hero&rsquo;s attack, it&rsquo;s your duty to&hellip;</p>
+<p>After the Hero’s attack, it’s your duty to…</p>
 
 <blockquote><p><em>activate all robots!</em></p></blockquote>
 
-<p>Every <code>&apos;activation-shoot&apos;</code> costs you <code>points</code>. For every robot, machine or trap you activate, you get <code>points</code>. If you get hit, you lose a <code>point</code>. If you have only <em><code>one point left</code></em> than you have only <em>one</em> <em>ONE</em> shoot to make points or it&rsquo;s &hellip;</p>
+<p>Every <code>&apos;activation-shoot&apos;</code> reduces <code>points</code>.<br/>
+Every activated robot, machine or trap adds <code>points</code>.<br/>
+Getting hit removes <code>points</code>.<br/>
+If the player has only <em><code>one point left</code></em> he gets <code>warned</code> that only
+<code>one</code> <em>ONE</em> shoot is left …</p>
 
-<blockquote><p>&hellip; <em>GAME OVER!</em></p></blockquote>
+<p><del>> … <em>GAME OVER!</em></del></p>
 
-<p><img src="./src/assets/img/aar.png" title="His name is mini" alt="His name is mini" /></p>
+<blockquote><p>… <em>AND ATFTER THAT,HE HAS NEGATIVE SCORE</em></p></blockquote>
+
+<p><img src="./src/assets/img/mini.png" title="His name is mini" alt="His name is mini" /></p>
 
 <p><a name="Levels__Robots__and_more"></a></p>
 
 <h2>Levels, Robots, and more</h2>
 
-<p>In this Section it&rsquo;s all about the levels the robots and more.</p>
+<p>In this Section it’s all about the levels the robots and more.</p>
 
 <h3>Level 0 - The Start/Menu level</h3>
 
-<p>Most games don&rsquo;t have a playable menu level. What is a playable menu level?, you ask. Good question very good question indeed.</p>
+<p>Most games don’t have a playable menu level. What is a playable menu
+level?, you ask. Good question very good question indeed.</p>
 
 <p>What is a menu?</p>
 
-<p>Before a person can start a game he usually select from a menu what he wants to do. The menu is usually something like:</p>
+<p>Before a person can start a game he usually select from a menu what he
+wants to do. The menu is usually something like:</p>
 
 <ul>
 <li>Start</li>
 <li>Options</li>
-<li>&hellip;(something something)</li>
+<li>…(something something)</li>
 </ul>
 
 
 <p>Here the controls are different to the controls in the game.</p>
 
-<p>Up and down on a joy-pad, joystick or on a keyboard (sometimes &ldquo;w&rdquo; for up and &ldquo;s&rdquo; for down) toggle between the menu items. With one button on the joy-pad, joystick or keyboard (sometime space or enter) the user select what he wants to do.</p>
+<p>Up and down on a joy-pad, joystick or on a keyboard (sometimes “w” for
+up and “s” for down) toggle between the menu items. With one button on
+the joy-pad, joystick or keyboard (sometime space or enter) the user
+select what he wants to do.</p>
 
-<p>In this game the menu is a playable level. Why? So the user uses the actual controls of the game and not some extra controls for the menu. So he can learn the controls for the game early.</p>
+<p>In this game the menu is a playable level. Why? So the user uses the
+actual controls of the game and not some extra controls for the menu. So
+he can learn the controls for the game early.</p>
 
-<p>Level 0 teaches the player how to play the game, and presents him the first robot to activate.</p>
+<p>Level 0 teaches the player how to play the game, and presents him the
+first robot to activate.</p>
 
 <p>But first let us take a look at the elements of the first level:</p>
 
@@ -149,9 +161,12 @@ a jump<span class="string">'n'</span>shoot riddle game
 
 <h2>Project goals</h2>
 
-<p>No project is ever done if there are no goals set. To know when the Version 1.0.0 is done of this game, some goals are set.</p>
+<p>No project is ever done if there are no goals set. To know when the
+Version 1.0.0 is done of this game, some goals are set.</p>
 
-<p>Some of this gaols will be hard set goals, like the number of different levels, robots, boss robots and such. Some goals will be soft, like graphics, sound, all the look and feel.</p>
+<p>Some of this gaols will be hard set goals, like the number of different
+levels, robots, boss robots and such. Some goals will be soft, like
+graphics, sound, all the look and feel.</p>
 
 <h3>Levels</h3>
 
@@ -159,7 +174,8 @@ a jump<span class="string">'n'</span>shoot riddle game
 
 <h4>Level Structure</h4>
 
-<p>Each level exist of 5 sub-levels. Each new level introduces a new robot, each sub-level introduces a a new sub-version of the robot.</p>
+<p>Each level exist of 5 sub-levels. Each new level introduces a new robot,
+each sub-level introduces a a new sub-version of the robot.</p>
 
 <p><a name="Robots"></a></p>
 
@@ -195,7 +211,8 @@ a jump<span class="string">'n'</span>shoot riddle game
 
 
 <blockquote><ul>
-<li>can be activated if to many activation shoots where used to leave level 0-0</li>
+<li>can be activated if to many activation shoots where used to leave
+level 0-0</li>
 <li>resets the points to seven</li>
 <li>resets the start robot and the exit robot also.</li>
 </ul>
@@ -282,11 +299,15 @@ a jump<span class="string">'n'</span>shoot riddle game
 </ul>
 </blockquote>
 
+<h3>And more!</h3>
+
+<p>I HAVE CHANGED</p>
+
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2017-07-21 01:25:59 </i>
+<i style="float:right;">Last updated 2018-06-24 19:46:24 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

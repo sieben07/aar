@@ -4,9 +4,9 @@ function love.conf(t)
     t.identity          = "opl"             -- The name of the save directory (string)
     t.version           = "11.1"          -- The LÖVE version this game was made for (string)
     t.release           = false             -- Enable release mode (boolean)
-    t.appendidentity = true
+    t.appendidentity    = true
 
-    t.window.icon = "assets/img/mini.png"
+    t.window.icon       = "assets/img/mini.png"
     t.window.width      = 32*32             -- The window width (number)
     t.window.height     = 32*20             -- The window height (number)
     t.window.fullscreen = false             -- Enable fullscreen (boolean)
