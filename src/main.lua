@@ -19,7 +19,6 @@ local level = ""
 local fonts = require "assets.font.fonts"
 
 -- game
-
 function game:init()
   file = love.filesystem.newFile( 'global.lua' )
   love.success = love.filesystem.write('global.lua', table.tostring(global))
@@ -29,9 +28,8 @@ function game:init()
 end
 
 function game:enter()
-  -- ToDo: constructor for robot and hero
-  local robotEntity = require "assets.obj.robot"
-  local heroEntity = require("assets.obj.hero")
+  local robotObject = require "assets.obj.robot"
+  local heroObject  = require("assets.obj.hero")
 
   level = levels[global.level.current]
 
@@ -59,30 +57,33 @@ function game:enter()
   map:addCustomLayer("robotsLayer", 8)
   robotsLayer = map.layers["robotsLayer"]
 
+  for k, v in pairs(robotsLayer) do
+    print(k, v)
+  end
+
   -- text
   map:addCustomLayer("textLayer", 9)
   textLayer = map.layers["textLayer"]
 
-  local heroRobot, robots, texts = helper.loadRobots(map.objects, robotEntity)
+  local heroAttributeFromMap, robotAttributesFromMap, textAttributesFromMap = helper.loadRobots(map.objects, robotObject)
 
   -- merge hero object into playerLayer
-  helper.merge(playerLayer, heroEntity) --for k,v in pairs(hero) do playerLayer[k] = v end
+  helper.merge(playerLayer, heroObject) --for k,v in pairs(hero) do playerLayer[k] = v end
   -- merge map info into playerLayer
-  helper.merge(playerLayer, heroRobot) --for k,v in pairs(player) do playerLayer[k] = v end
+  helper.merge(playerLayer, heroAttributeFromMap) --for k,v in pairs(player) do playerLayer[k] = v end
 
   robotsLayer.robots = {}
-  for i, robot in ipairs(robots) do
-    table.insert(robotsLayer.robots, robot)
+  for _, robotAttribute in ipairs(robotAttributesFromMap) do
+    table.insert(robotsLayer.robots, robotAttribute)
   end
 
   textLayer.texts = {}
-  for i, text in ipairs(texts) do
+  for _, text in ipairs(textAttributesFromMap) do
     table.insert(textLayer.texts, text)
   end
 
   function playerLayer:push(dx, dy)
-    local ax, ay, cols, len = world:move(self, self.x + dx, self.y + dy)
-    self.x, self.y = ax, ay
+    local cols, len = move(world, self, self.x + dx, self.y + dy)
   end
 
   function playerLayer:draw()
@@ -93,9 +94,8 @@ function game:enter()
     -- shoots
     local shoots, _ = world:getItems()
 
-    for i, shoot in pairs(shoots) do
+    for _, shoot in pairs(shoots) do
       if shoot.type == "bullet" then
-        -- love.graphics.rectangle("fill", shoot.x, shoot.y, shoot.width, shoot.height )
         love.graphics.draw(self.image, self.quads[shoot.dir][1], shoot.x, shoot.y, 0, 1)
       end
     end
@@ -120,22 +120,21 @@ function game:enter()
     end
   end
 
-  function filter (a, b)
-    return "cross"
-  end
+
   --[[--
   robotsLayer:update updates the robots.
   @param dt delta time
   --]]
   function robotsLayer:update(dt)
     local allActive = {}
+
     for i, robot in ipairs(self.robots) do
       table.insert(allActive, robot.active)
+
       if robot.falling == true then
         robot.velocity = robot.velocity + 40 / 1.2 * dt
         local goalY = robot.y + robot.velocity
-        local actualX, actualY, cols, len = world:move(robot, robot.x, goalY)
-        robot.y = actualY
+        local cols, len = move(world, robot, robot.x, goalY)
 
         if len ~= 0 then
           robot.falling = false
@@ -147,13 +146,10 @@ function game:enter()
           local goalY = robot.y + robot.velocity * dt
           robot.velocity = robot.velocity - robot.gravity * dt
 
-          local actualX, actualY, cols, len = world:move(robot, robot.x, goalY, filter)
-          robot.y = actualY
+          local cols, len = move(world, robot, robot.x, goalY, "cross")
 
-          local col, dx, dy
-          for i = 1, len do
-            col = cols[i]
-            print(unpack(col.normal))
+          local dx, dy
+          for _, col in ipairs(cols) do
             -- dx = (1 - col.ti)
             dy = goalY - 32
             col.other:push(0, dy)
@@ -164,8 +160,7 @@ function game:enter()
           local goalY = robot.y + robot.velocity * dt
           robot.velocity = robot.velocity - robot.gravity * dt
 
-          local actualX, actualY, cols, len = world:move(robot, robot.x, goalY)
-          robot.y = actualY
+          local cols, len = move(world, robot, robot.x, goalY)
 
           if len ~= 0 then
             Signal.emit('bounce')
@@ -280,4 +275,14 @@ function love.keyreleased(key)
   if (key == "up" or key == "a") and playerLayer.y_vel >= 0 and playerLayer.jump > 0 then
     playerLayer.jump = 1
   end
+end
+
+-- don't repeat yourself
+-- funtcions
+
+function move (w, r, gx, gy, filter)
+  if filter == nil then filter = "slide" end
+  local ax, ay, cs, l = w:move(r, gx, gy, function(a, b) return filter end)
+  r.x, r.y = ax, ay
+  return cs, l
 end
