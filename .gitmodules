@@ -10,3 +10,6 @@
 [submodule "src/assets/libs/flux"]
 	path = src/assets/libs/flux
 	url = https://github.com/rxi/flux.git
+[submodule "src/assets/libs/lua-fsm"]
+	path = src/assets/libs/lua-fsm
+	url = https://github.com/unindented/lua-fsm.git

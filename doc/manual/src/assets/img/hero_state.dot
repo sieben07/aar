@@ -1,0 +1,112 @@
+digraph heroState {
+    node [shape = doublecircle,style=filled,color=white]; right;
+    node [shape = oval];
+    rankdir = TB;
+    newrank=true;
+
+
+    subgraph cluster_0 {
+        label = "RIGHT";
+        style=filled;
+        color=lightgrey;
+        node [style=filled,color=white];
+
+        right -> rightInAir;
+        right -> rightMoving;
+        right -> rightShooting;
+
+        rightInAir -> right;
+        rightInAir -> rightInAirMoving;
+        rightInAir -> rightInAirShooting;
+
+        rightMoving -> right;
+        rightMoving -> rightInAirMoving;
+        rightMoving -> rightMovingShooting;
+
+        rightShooting -> right;
+        rightShooting -> rightInAirShooting;
+        rightShooting -> rightMovingShooting;
+
+        rightInAirMoving -> rightInAir;
+        rightInAirMoving -> rightInAirMovingShooting;
+        rightInAirMoving -> rightMoving;
+
+        rightInAirShooting -> rightInAir;
+        rightInAirShooting -> rightShooting;
+        rightInAirShooting -> rightInAirMovingShooting;
+
+        rightMovingShooting -> rightShooting;
+        rightMovingShooting -> rightMoving;
+        rightMovingShooting -> rightInAirMovingShooting;
+
+        rightInAirMovingShooting -> rightInAirMoving;
+        rightInAirMovingShooting -> rightInAirShooting;
+        rightInAirMovingShooting -> rightMovingShooting;
+
+    }
+
+
+    subgraph cluster_1 {
+        label = "LEFT";
+        style=filled;
+        color=white;
+        node [style=filled,color=lightgrey,fontcolor=white];
+
+        left -> leftInAir;
+        left -> leftMoving;
+        left -> leftShooting;
+
+        leftInAir -> left;
+        leftInAir -> leftInAirMoving;
+        leftInAir -> leftInAirShooting;
+
+        leftMoving -> left;
+        leftMoving -> leftInAirMoving;
+        leftMoving -> leftMovingShooting;
+
+        leftShooting -> left;
+        leftShooting -> leftInAirShooting;
+        leftShooting -> leftMovingShooting;
+
+        leftInAirMoving -> leftInAir;
+        leftInAirMoving -> leftInAirMovingShooting;
+        leftInAirMoving -> leftMoving;
+
+        leftInAirShooting -> leftInAir;
+        leftInAirShooting -> leftShooting;
+        leftInAirShooting -> leftInAirMovingShooting;
+
+        leftMovingShooting -> leftShooting;
+        leftMovingShooting -> leftMoving;
+        leftMovingShooting -> leftInAirMovingShooting;
+
+        leftInAirMovingShooting -> leftInAirMoving;
+        leftInAirMovingShooting -> leftInAirShooting;
+        leftInAirMovingShooting -> leftMovingShooting;
+
+    }
+    right                    -> leftMoving;
+    rightInAir               -> leftInAirMoving;
+    rightInAirMoving         -> leftInAirMoving;
+    rightInAirMovingShooting -> leftInAirMovingShooting;
+    rightInAirShooting       -> leftInAirMovingShooting;
+    rightMoving              -> leftMoving;
+    rightMovingShooting      -> leftMovingShooting;
+    rightShooting            -> leftMovingShooting;
+
+    left                     -> rightMoving;
+    leftInAir                -> rightInAirMoving;
+    leftInAirMoving          -> rightInAirMoving;
+    leftInAirMovingShooting  -> rightInAirMovingShooting;
+    leftInAirShooting        -> rightInAirMovingShooting;
+    leftMoving               -> rightMoving;
+    leftMovingShooting       -> rightMovingShooting;
+    leftShooting             -> rightMovingShooting;
+
+
+    { rank=same; rightShooting; rightInAir; rightMoving; leftShooting; leftInAir; leftMoving }
+    { rank=same; rightInAirMoving; rightMovingShooting; rightInAirShooting; leftInAirMoving; leftMovingShooting; leftInAirShooting; }
+    {rank = same; rightInAirMovingShooting; leftInAirMovingShooting}
+
+
+}

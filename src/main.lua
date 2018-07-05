@@ -1,6 +1,80 @@
 local game = {}
+isInAir = false;
 local global = require "assets.obj.global"
 Signal = require "assets.libs.hump.signal"
+
+-- HERO STATE MACHINE
+local machine = require('assets.libs.lua-fsm.src.fsm')
+heroState = machine.create({
+  initial = "right",
+  events = {
+    { name = "jumpPress", from = "right", to = "rightInAir" },
+    { name = "rightPress", from = "right", to = "rightMoving" },
+    { name = "shootPress", from = "right", to = "rightShooting" },
+    { name = "collisionGround", from = "rightInAir", to = "right" },
+    { name = "rightPress", from = "rightInAir", to = "rightInAirMoving" },
+    { name = "shootPress", from = "rightInAir", to = "rightInAirShooting" },
+    { name = "rightReleased", from = "rightMoving", to = "right" },
+    { name = "jumpPress", from = "rightMoving", to = "rightInAirMoving" },
+    { name = "shootPress", from = "rightMoving", to = "rightMovingShooting" },
+    { name = "shootReleased", from = "rightShooting", to = "right" },
+    { name = "jumpPress", from = "rightShooting", to = "rightInAirShooting" },
+    { name = "rightPress", from = "rightShooting", to = "rightMovingShooting" },
+    { name = "rightReleased", from = "rightInAirMoving", to = "rightInAir" },
+    { name = "shootPress", from = "rightInAirMoving", to = "rightInAirMovingShooting" },
+    { name = "collisionGround", from = "rightInAirMoving", to = "rightMoving" },
+    { name = "shootReleased", from = "rightInAirShooting", to = "rightInAir" },
+    { name = "collisionGround", from = "rightInAirShooting", to = "rightShooting" },
+    { name = "rightPress", from = "rightInAirShooting", to = "rightInAirMovingShooting" },
+    { name = "rightReleased", from = "rightMovingShooting", to = "rightShooting" },
+    { name = "shootReleased", from = "rightMovingShooting", to = "rightMoving" },
+    { name = "jumpPress", from = "rightMovingShooting", to = "rightInAirMovingShooting" },
+    { name = "shootReleased", from = "rightInAirMovingShooting", to = "rightInAirMoving" },
+    { name = "rightReleased", from = "rightInAirMovingShooting", to = "rightInAirShooting" },
+    { name = "collisionGround", from = "rightInAirMovingShooting", to = "rightMovingShooting" },
+    { name = "jumpPress", from = "left", to = "leftInAir" },
+    { name = "leftPress", from = "left", to = "leftMoving" },
+    { name = "shootPress", from = "left", to = "leftShooting" },
+    { name = "collisionGround", from = "leftInAir", to = "left" },
+    { name = "leftPress", from = "leftInAir", to = "leftInAirMoving" },
+    { name = "shootPress", from = "leftInAir", to = "leftInAirShooting" },
+    { name = "leftReleased", from = "leftMoving", to = "left" },
+    { name = "jumpPress", from = "leftMoving", to = "leftInAirMoving" },
+    { name = "shootPress", from = "leftMoving", to = "leftMovingShooting" },
+    { name = "shootReleased", from = "leftShooting", to = "left" },
+    { name = "jumpPress", from = "leftShooting", to = "leftInAirShooting" },
+    { name = "leftPress", from = "leftShooting", to = "leftMovingShooting" },
+    { name = "leftReleased", from = "leftInAirMoving", to = "leftInAir" },
+    { name = "shootPress", from = "leftInAirMoving", to = "leftInAirMovingShooting" },
+    { name = "collisionGround", from = "leftInAirMoving", to = "leftMoving" },
+    { name = "shootReleased", from = "leftInAirShooting", to = "leftInAir" },
+    { name = "collisionGround", from = "leftInAirShooting", to = "leftShooting" },
+    { name = "leftPress", from = "leftInAirShooting", to = "leftInAirMovingShooting" },
+    { name = "leftReleased", from = "leftMovingShooting", to = "leftShooting" },
+    { name = "shootReleased", from = "leftMovingShooting", to = "leftMoving" },
+    { name = "jumpPress", from = "leftMovingShooting", to = "leftInAirMovingShooting" },
+    { name = "shootReleased", from = "leftInAirMovingShooting", to = "leftInAirMoving" },
+    { name = "leftReleased", from = "leftInAirMovingShooting", to = "leftInAirShooting" },
+    { name = "collisionGround", from = "leftInAirMovingShooting", to = "leftMovingShooting" },
+    { name = "leftPress", from = "right", to = "leftMoving" },
+    { name = "leftPress", from = "rightInAir", to = "leftInAirMoving" },
+    { name = "leftPress", from = "rightInAirMoving", to = "leftInAirMoving" },
+    { name = "leftPress", from = "rightInAirMovingShooting", to = "leftInAirMovingShooting" },
+    { name = "leftPress", from = "rightInAirShooting", to = "leftInAirMovingShooting" },
+    { name = "leftPress", from = "rightMoving", to = "leftMoving" },
+    { name = "leftPress", from = "rightMovingShooting", to = "leftMovingShooting" },
+    { name = "leftPress", from = "rightShooting", to = "leftMovingShooting" },
+    { name = "rightPress", from = "left", to = "rightMoving" },
+    { name = "rightPress", from = "leftInAir", to = "rightInAirMoving" },
+    { name = "rightPress", from = "leftInAirMoving", to = "rightInAirMoving" },
+    { name = "rightPress", from = "leftInAirMovingShooting", to = "rightInAirMovingShooting" },
+    { name = "rightPress", from = "leftInAirShooting", to = "rightInAirMovingShooting" },
+    { name = "rightPress", from = "leftMoving", to = "rightMoving" },
+    { name = "rightPress", from = "leftMovingShooting", to = "rightMovingShooting" },
+    { name = "rightPress", from = "leftShooting", to = "rightMovingShooting" },
+  }
+})
+
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -28,8 +102,8 @@ function game:init()
 end
 
 function game:enter()
-  local robotObject = require "assets.obj.robot"
-  local heroObject  = require("assets.obj.hero")
+  local robotPrototype = require "assets.obj.robot"
+  local heroPrototype = require("assets.obj.hero")
 
   level = levels[global.level.current]
 
@@ -45,51 +119,49 @@ function game:enter()
 
   love.graphics.setBackgroundColor(
     global.background.color.red,
-    global.background.color.red,
-    global.background.color.red
+    global.background.color.green,
+    global.background.color.blue
   )
 
   -- hero
-  map:addCustomLayer("playerLayer", 7)
-  playerLayer = map.layers["playerLayer"]
+  map:addCustomLayer("hero", 7)
+  hero = map.layers["hero"]
 
   -- robots
-  map:addCustomLayer("robotsLayer", 8)
-  robotsLayer = map.layers["robotsLayer"]
+  map:addCustomLayer("robots", 8)
+  robots = map.layers["robots"]
 
-  for k, v in pairs(robotsLayer) do
-    print(k, v)
-  end
 
   -- text
-  map:addCustomLayer("textLayer", 9)
-  textLayer = map.layers["textLayer"]
+  map:addCustomLayer("texts", 9)
+  texts = map.layers["texts"]
 
-  local heroAttributeFromMap, robotAttributesFromMap, textAttributesFromMap = helper.loadRobots(map.objects, robotObject)
+  local heroAttributeFromMap, robotAttributesFromMap, textAttributesFromMap = helper.loadRobots(map.objects, robotPrototype)
 
-  -- merge hero object into playerLayer
-  helper.merge(playerLayer, heroObject) --for k,v in pairs(hero) do playerLayer[k] = v end
-  -- merge map info into playerLayer
-  helper.merge(playerLayer, heroAttributeFromMap) --for k,v in pairs(player) do playerLayer[k] = v end
+  -- merge hero object into hero
+  helper.merge(hero, heroPrototype) --for k,v in pairs(hero) do hero[k] = v end
+  -- merge map info into hero
+  helper.merge(hero, heroAttributeFromMap) --for k,v in pairs(player) do hero[k] = v end
 
-  robotsLayer.robots = {}
+  robots.robots = {}
   for _, robotAttribute in ipairs(robotAttributesFromMap) do
-    table.insert(robotsLayer.robots, robotAttribute)
+    table.insert(robots.robots, robotAttribute)
   end
 
-  textLayer.texts = {}
+  texts.texts = {}
   for _, text in ipairs(textAttributesFromMap) do
-    table.insert(textLayer.texts, text)
+    table.insert(texts.texts, text)
   end
 
-  function playerLayer:push(dx, dy)
+  function hero:push(dx, dy)
     local cols, len = move(world, self, self.x + dx, self.y + dy)
   end
 
-  function playerLayer:draw()
+  function hero:draw()
     -- player
-    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
-    love.graphics.draw(self.image, self.quads[self.direction][self.iterator], self.x, self.y, self.rotate, self.zoom)
+    love.graphics.setColor(1,1,1,1)   --global.color.red, global.color.green, global.color.blue, global.color.alpha)
+    love.graphics.rectangle("fill", self.x, self.y, 32, 32)
+    love.graphics.draw(self.image, self.quads[self.state][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 
     -- shoots
     local shoots, _ = world:getItems()
@@ -109,7 +181,7 @@ function game:enter()
     end
   end
 
-  function robotsLayer:draw()
+  function robots:draw()
     for i, robot in ipairs(self.robots) do
       love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
       love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
@@ -122,13 +194,13 @@ function game:enter()
 
 
   --[[--
-  robotsLayer:update updates the robots.
+  robots:update updates the robots.
   @param dt delta time
   --]]
-  function robotsLayer:update(dt)
+  function robots:update(dt)
     local allActive = {}
 
-    for i, robot in ipairs(self.robots) do
+    for _, robot in ipairs(self.robots) do
       table.insert(allActive, robot.active)
 
       if robot.falling == true then
@@ -175,7 +247,7 @@ function game:enter()
     end
   end
 
-  function textLayer:draw()
+  function texts:draw()
     for i, text in ipairs(self.texts) do
       love.graphics.setColor(
         text.properties.color.red,
@@ -195,8 +267,8 @@ function game:enter()
     end
   end
 
-  world:add(playerLayer, playerLayer.x, playerLayer.y, playerLayer.width, playerLayer.height)
-  for i, robot in ipairs(robotsLayer.robots) do
+  world:add(hero, hero.x, hero.y, hero.width, hero.height)
+  for i, robot in ipairs(robots.robots) do
     world:add(robot, robot.x, robot.y, robot.width, robot.height)
   end
 
@@ -206,14 +278,14 @@ end
 function game:draw()
   love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
   map:draw()
-  textLayer:draw()
-  robotsLayer:draw()
-  playerLayer:draw()
+  texts:draw()
+  robots:draw()
+  hero:draw()
 end
 
 function game:update(dt)
-  robotsLayer:update(dt)
-  playerLayer:update(dt)
+  robots:update(dt)
+  hero:update(dt)
 
   if transition.shouldstart == true then
     transition:selector(game, "randomColor", Gamestate, global, dt)
@@ -235,23 +307,27 @@ end
 -- keypressed and keyreleased
 function love.keypressed(key, code, isrepat)
   if key == "left" then
-    playerLayer.x_vel = -playerLayer.vel
-    playerLayer.status = "shootLeft"
+    heroState.leftPress()
+    hero.x_vel = -hero.vel
+    hero.shootState = "shootLeft"
   end
 
   if key == "right" then
-    playerLayer.x_vel = playerLayer.vel
-    playerLayer.status = "shootRight"
+    heroState.rightPress()
+    hero.x_vel = hero.vel
+    hero.shootState = "shootRight"
   end
 
-  if (key == "up" or key == "a") and playerLayer.y_vel == 0 then
-    playerLayer.jump = 7
-    playerLayer.iterator = 1
+  if (key == "up" or key == "a") and hero.y_vel == 0 then
+    heroState.jumpPress()
+    hero.jump = 7
+    hero.iterator = 1
   end
 
-  if key == "space" or key == "s" then
-    playerLayer:shoot()
-    playerLayer.shooting = true
+  if key == "s" or key == "space" then
+    heroState.shootPress()
+    hero:shoot()
+    hero.shooting = true
   end
 
   if key == "escape" then
@@ -260,20 +336,23 @@ function love.keypressed(key, code, isrepat)
 end
 
 function love.keyreleased(key)
-  if key == "left" then
-    playerLayer.x_vel = 0
+  if key == "left" and string.match(heroState.current, "left") ~= nil then
+    heroState.leftReleased()
+    hero.x_vel = 0
   end
 
-  if key == "right" then
-    playerLayer.x_vel = 0
+  if key == "right" and string.match(heroState.current, "right") ~= nil then
+    heroState.rightReleased()
+    hero.x_vel = 0
   end
 
   if key == "s" or key == "space" then
-    playerLayer.shooting = false
+    heroState.shootReleased()
+    hero.shooting = false
   end
 
-  if (key == "up" or key == "a") and playerLayer.y_vel >= 0 and playerLayer.jump > 0 then
-    playerLayer.jump = 1
+  if (key == "up" or key == "a") and hero.y_vel >= 0 and hero.jump > 0 then
+    hero.jump = 1
   end
 end
 
