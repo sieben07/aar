@@ -3,78 +3,6 @@ isInAir = false;
 local global = require "assets.obj.global"
 Signal = require "assets.libs.hump.signal"
 
--- HERO STATE MACHINE
-local machine = require('assets.libs.lua-fsm.src.fsm')
-heroState = machine.create({
-  initial = "right",
-  events = {
-    { name = "jumpPress", from = "right", to = "rightInAir" },
-    { name = "rightPress", from = "right", to = "rightMoving" },
-    { name = "shootPress", from = "right", to = "rightShooting" },
-    { name = "collisionGround", from = "rightInAir", to = "right" },
-    { name = "rightPress", from = "rightInAir", to = "rightInAirMoving" },
-    { name = "shootPress", from = "rightInAir", to = "rightInAirShooting" },
-    { name = "rightReleased", from = "rightMoving", to = "right" },
-    { name = "jumpPress", from = "rightMoving", to = "rightInAirMoving" },
-    { name = "shootPress", from = "rightMoving", to = "rightMovingShooting" },
-    { name = "shootReleased", from = "rightShooting", to = "right" },
-    { name = "jumpPress", from = "rightShooting", to = "rightInAirShooting" },
-    { name = "rightPress", from = "rightShooting", to = "rightMovingShooting" },
-    { name = "rightReleased", from = "rightInAirMoving", to = "rightInAir" },
-    { name = "shootPress", from = "rightInAirMoving", to = "rightInAirMovingShooting" },
-    { name = "collisionGround", from = "rightInAirMoving", to = "rightMoving" },
-    { name = "shootReleased", from = "rightInAirShooting", to = "rightInAir" },
-    { name = "collisionGround", from = "rightInAirShooting", to = "rightShooting" },
-    { name = "rightPress", from = "rightInAirShooting", to = "rightInAirMovingShooting" },
-    { name = "rightReleased", from = "rightMovingShooting", to = "rightShooting" },
-    { name = "shootReleased", from = "rightMovingShooting", to = "rightMoving" },
-    { name = "jumpPress", from = "rightMovingShooting", to = "rightInAirMovingShooting" },
-    { name = "shootReleased", from = "rightInAirMovingShooting", to = "rightInAirMoving" },
-    { name = "rightReleased", from = "rightInAirMovingShooting", to = "rightInAirShooting" },
-    { name = "collisionGround", from = "rightInAirMovingShooting", to = "rightMovingShooting" },
-    { name = "jumpPress", from = "left", to = "leftInAir" },
-    { name = "leftPress", from = "left", to = "leftMoving" },
-    { name = "shootPress", from = "left", to = "leftShooting" },
-    { name = "collisionGround", from = "leftInAir", to = "left" },
-    { name = "leftPress", from = "leftInAir", to = "leftInAirMoving" },
-    { name = "shootPress", from = "leftInAir", to = "leftInAirShooting" },
-    { name = "leftReleased", from = "leftMoving", to = "left" },
-    { name = "jumpPress", from = "leftMoving", to = "leftInAirMoving" },
-    { name = "shootPress", from = "leftMoving", to = "leftMovingShooting" },
-    { name = "shootReleased", from = "leftShooting", to = "left" },
-    { name = "jumpPress", from = "leftShooting", to = "leftInAirShooting" },
-    { name = "leftPress", from = "leftShooting", to = "leftMovingShooting" },
-    { name = "leftReleased", from = "leftInAirMoving", to = "leftInAir" },
-    { name = "shootPress", from = "leftInAirMoving", to = "leftInAirMovingShooting" },
-    { name = "collisionGround", from = "leftInAirMoving", to = "leftMoving" },
-    { name = "shootReleased", from = "leftInAirShooting", to = "leftInAir" },
-    { name = "collisionGround", from = "leftInAirShooting", to = "leftShooting" },
-    { name = "leftPress", from = "leftInAirShooting", to = "leftInAirMovingShooting" },
-    { name = "leftReleased", from = "leftMovingShooting", to = "leftShooting" },
-    { name = "shootReleased", from = "leftMovingShooting", to = "leftMoving" },
-    { name = "jumpPress", from = "leftMovingShooting", to = "leftInAirMovingShooting" },
-    { name = "shootReleased", from = "leftInAirMovingShooting", to = "leftInAirMoving" },
-    { name = "leftReleased", from = "leftInAirMovingShooting", to = "leftInAirShooting" },
-    { name = "collisionGround", from = "leftInAirMovingShooting", to = "leftMovingShooting" },
-    { name = "leftPress", from = "right", to = "leftMoving" },
-    { name = "leftPress", from = "rightInAir", to = "leftInAirMoving" },
-    { name = "leftPress", from = "rightInAirMoving", to = "leftInAirMoving" },
-    { name = "leftPress", from = "rightInAirMovingShooting", to = "leftInAirMovingShooting" },
-    { name = "leftPress", from = "rightInAirShooting", to = "leftInAirMovingShooting" },
-    { name = "leftPress", from = "rightMoving", to = "leftMoving" },
-    { name = "leftPress", from = "rightMovingShooting", to = "leftMovingShooting" },
-    { name = "leftPress", from = "rightShooting", to = "leftMovingShooting" },
-    { name = "rightPress", from = "left", to = "rightMoving" },
-    { name = "rightPress", from = "leftInAir", to = "rightInAirMoving" },
-    { name = "rightPress", from = "leftInAirMoving", to = "rightInAirMoving" },
-    { name = "rightPress", from = "leftInAirMovingShooting", to = "rightInAirMovingShooting" },
-    { name = "rightPress", from = "leftInAirShooting", to = "rightInAirMovingShooting" },
-    { name = "rightPress", from = "leftMoving", to = "rightMoving" },
-    { name = "rightPress", from = "leftMovingShooting", to = "rightMovingShooting" },
-    { name = "rightPress", from = "leftShooting", to = "rightMovingShooting" },
-  }
-})
-
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -307,25 +235,25 @@ end
 -- keypressed and keyreleased
 function love.keypressed(key, code, isrepat)
   if key == "left" then
-    heroState.leftPress()
+    hero.fsm.leftPress()
     hero.x_vel = -hero.vel
     hero.shootState = "shootLeft"
   end
 
   if key == "right" then
-    heroState.rightPress()
+    hero.fsm.rightPress()
     hero.x_vel = hero.vel
     hero.shootState = "shootRight"
   end
 
-  if (key == "up" or key == "a") and hero.y_vel == 0 then
-    heroState.jumpPress()
+  if (key == "up" or key == "a") and hero.fsm.can('jumpPress') then
+    hero.fsm.jumpPress()
     hero.jump = 7
     hero.iterator = 1
   end
 
   if key == "s" or key == "space" then
-    heroState.shootPress()
+    hero.fsm.shootPress()
     hero:shoot()
     hero.shooting = true
   end
@@ -336,18 +264,18 @@ function love.keypressed(key, code, isrepat)
 end
 
 function love.keyreleased(key)
-  if key == "left" and string.match(heroState.current, "left") ~= nil then
-    heroState.leftReleased()
+  if key == "left" and string.match(hero.fsm.current, "left") ~= nil then
+    hero.fsm.leftReleased()
     hero.x_vel = 0
   end
 
-  if key == "right" and string.match(heroState.current, "right") ~= nil then
-    heroState.rightReleased()
+  if key == "right" and string.match(hero.fsm.current, "right") ~= nil then
+    hero.fsm.rightReleased()
     hero.x_vel = 0
   end
 
   if key == "s" or key == "space" then
-    heroState.shootReleased()
+    hero.fsm.shootReleased()
     hero.shooting = false
   end
 

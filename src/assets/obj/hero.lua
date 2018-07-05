@@ -2,6 +2,8 @@ local SIZE = 32
 local BIG_SIZE = SIZE * 8
 local Quad = love.graphics.newQuad
 
+local machine = require("assets.libs.lua-fsm.src.fsm")
+
 local hero = {
   falling = nil,
   name = nil,
@@ -27,6 +29,77 @@ local hero = {
   rotate = 0,
   zoom = 1,
   image = love.graphics.newImage "assets/img/minimega.png",
+
+  -- the states of the hero
+  fsm = machine.create({
+  initial = "right",
+  events = {
+    { name = "jumpPress", from = "right", to = "rightInAir" },
+    { name = "rightPress", from = "right", to = "rightMoving" },
+    { name = "shootPress", from = "right", to = "rightShooting" },
+    { name = "collisionGround", from = "rightInAir", to = "right" },
+    { name = "rightPress", from = "rightInAir", to = "rightInAirMoving" },
+    { name = "shootPress", from = "rightInAir", to = "rightInAirShooting" },
+    { name = "rightReleased", from = "rightMoving", to = "right" },
+    { name = "jumpPress", from = "rightMoving", to = "rightInAirMoving" },
+    { name = "shootPress", from = "rightMoving", to = "rightMovingShooting" },
+    { name = "shootReleased", from = "rightShooting", to = "right" },
+    { name = "jumpPress", from = "rightShooting", to = "rightInAirShooting" },
+    { name = "rightPress", from = "rightShooting", to = "rightMovingShooting" },
+    { name = "rightReleased", from = "rightInAirMoving", to = "rightInAir" },
+    { name = "shootPress", from = "rightInAirMoving", to = "rightInAirMovingShooting" },
+    { name = "collisionGround", from = "rightInAirMoving", to = "rightMoving" },
+    { name = "shootReleased", from = "rightInAirShooting", to = "rightInAir" },
+    { name = "collisionGround", from = "rightInAirShooting", to = "rightShooting" },
+    { name = "rightPress", from = "rightInAirShooting", to = "rightInAirMovingShooting" },
+    { name = "rightReleased", from = "rightMovingShooting", to = "rightShooting" },
+    { name = "shootReleased", from = "rightMovingShooting", to = "rightMoving" },
+    { name = "jumpPress", from = "rightMovingShooting", to = "rightInAirMovingShooting" },
+    { name = "shootReleased", from = "rightInAirMovingShooting", to = "rightInAirMoving" },
+    { name = "rightReleased", from = "rightInAirMovingShooting", to = "rightInAirShooting" },
+    { name = "collisionGround", from = "rightInAirMovingShooting", to = "rightMovingShooting" },
+    { name = "jumpPress", from = "left", to = "leftInAir" },
+    { name = "leftPress", from = "left", to = "leftMoving" },
+    { name = "shootPress", from = "left", to = "leftShooting" },
+    { name = "collisionGround", from = "leftInAir", to = "left" },
+    { name = "leftPress", from = "leftInAir", to = "leftInAirMoving" },
+    { name = "shootPress", from = "leftInAir", to = "leftInAirShooting" },
+    { name = "leftReleased", from = "leftMoving", to = "left" },
+    { name = "jumpPress", from = "leftMoving", to = "leftInAirMoving" },
+    { name = "shootPress", from = "leftMoving", to = "leftMovingShooting" },
+    { name = "shootReleased", from = "leftShooting", to = "left" },
+    { name = "jumpPress", from = "leftShooting", to = "leftInAirShooting" },
+    { name = "leftPress", from = "leftShooting", to = "leftMovingShooting" },
+    { name = "leftReleased", from = "leftInAirMoving", to = "leftInAir" },
+    { name = "shootPress", from = "leftInAirMoving", to = "leftInAirMovingShooting" },
+    { name = "collisionGround", from = "leftInAirMoving", to = "leftMoving" },
+    { name = "shootReleased", from = "leftInAirShooting", to = "leftInAir" },
+    { name = "collisionGround", from = "leftInAirShooting", to = "leftShooting" },
+    { name = "leftPress", from = "leftInAirShooting", to = "leftInAirMovingShooting" },
+    { name = "leftReleased", from = "leftMovingShooting", to = "leftShooting" },
+    { name = "shootReleased", from = "leftMovingShooting", to = "leftMoving" },
+    { name = "jumpPress", from = "leftMovingShooting", to = "leftInAirMovingShooting" },
+    { name = "shootReleased", from = "leftInAirMovingShooting", to = "leftInAirMoving" },
+    { name = "leftReleased", from = "leftInAirMovingShooting", to = "leftInAirShooting" },
+    { name = "collisionGround", from = "leftInAirMovingShooting", to = "leftMovingShooting" },
+    { name = "leftPress", from = "right", to = "leftMoving" },
+    { name = "leftPress", from = "rightInAir", to = "leftInAirMoving" },
+    { name = "leftPress", from = "rightInAirMoving", to = "leftInAirMoving" },
+    { name = "leftPress", from = "rightInAirMovingShooting", to = "leftInAirMovingShooting" },
+    { name = "leftPress", from = "rightInAirShooting", to = "leftInAirMovingShooting" },
+    { name = "leftPress", from = "rightMoving", to = "leftMoving" },
+    { name = "leftPress", from = "rightMovingShooting", to = "leftMovingShooting" },
+    { name = "leftPress", from = "rightShooting", to = "leftMovingShooting" },
+    { name = "rightPress", from = "left", to = "rightMoving" },
+    { name = "rightPress", from = "leftInAir", to = "rightInAirMoving" },
+    { name = "rightPress", from = "leftInAirMoving", to = "rightInAirMoving" },
+    { name = "rightPress", from = "leftInAirMovingShooting", to = "rightInAirMovingShooting" },
+    { name = "rightPress", from = "leftInAirShooting", to = "rightInAirMovingShooting" },
+    { name = "rightPress", from = "leftMoving", to = "rightMoving" },
+    { name = "rightPress", from = "leftMovingShooting", to = "rightMovingShooting" },
+    { name = "rightPress", from = "leftShooting", to = "rightMovingShooting" },
+  }
+}),
   -- the frames of the hero
   quads = {
     -- 1
@@ -231,9 +304,9 @@ end
 function hero:update(dt)
   self:updateShoots()
   -- Check if falling
-  if self.falling and string.match(heroState.current, "InAir") == nil then
-    print(heroState.current)
-    heroState.jumpPress()
+  if self.falling and self.fsm.can("jumpPress") then
+    print(self.fsm.current)
+    self.fsm.jumpPress()
   end
   -- Animation Framerate
   self.animationTimer = self.animationTimer + dt
@@ -246,7 +319,7 @@ function hero:update(dt)
   end
 
   -- Animation Direciton
-  self.state = heroState.current
+  self.state = self.fsm.current
 
   -- Move the Hero Right or Left
   local goalX = self.x + self.x_vel
@@ -262,7 +335,7 @@ function hero:update(dt)
     local actualX, actualY, cols, len = world:move(self, self.x, goalY)
     self.y = math.floor(actualY)
 
-    for col in ipairs(cols) do
+    for _, col in ipairs(cols) do
       if (col.normal.y == 1) and self.jump > 1 then
         self.jump = 1
       end
@@ -282,8 +355,8 @@ function hero:update(dt)
         self.y_vel = 0
         self.jump = 0
         self.falling = false
-      if string.match(heroState.current, "InAir") ~= nil then
-          heroState.collisionGround()
+      if self.fsm.can('collisionGround') then
+          self.fsm.collisionGround()
       end
       end
     end
