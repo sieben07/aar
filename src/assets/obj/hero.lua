@@ -19,12 +19,13 @@ local hero = {
   jump = 0,
   shooting = false,
   shoots = {}, -- holds our fired shoots
-  animationTimer = 0, --
+  animationTimer = 0,
+  sticky = false, -- the platform takes controll over movement while sticky
 
   -- Animation
   quadIndex = 1,
   max = 5,
-  state = "right",
+  -- state = "right", state  is now fully in fsm.current
   shootState = "shootRight",
   rotate = 0,
   zoom = 1,
@@ -302,12 +303,9 @@ function hero:updateShoots()
 end
 
 function hero:update(dt)
+  -- Handle Shooting
   self:updateShoots()
-  -- Check if falling
-  if self.falling and self.fsm.can("jumpPress") then
-    print(self.fsm.current)
-    self.fsm.jumpPress()
-  end
+
   -- Animation Framerate
   self.animationTimer = self.animationTimer + dt
   if self.animationTimer > 0.07 then
@@ -319,11 +317,16 @@ function hero:update(dt)
   end
 
   -- Animation Direciton
-  self.state = self.fsm.current
+  -- in now fully in fsm.current
+
+  -- Check if falling
+  if self.falling and self.fsm.can("jumpPress") then
+    self.fsm.jumpPress()
+  end
 
   -- Move the Hero Right or Left
   local goalX = self.x + self.x_vel
-  local actualX, actualY, cols, len = world:move(self, goalX, self.y)
+  local actualX, _, _, len = world:move(self, goalX, self.y)
   self.x = math.floor(actualX)
 
   if self.jump > 0 then

@@ -89,7 +89,7 @@ function game:enter()
     -- player
     love.graphics.setColor(1,1,1,1)   --global.color.red, global.color.green, global.color.blue, global.color.alpha)
     love.graphics.rectangle("fill", self.x, self.y, 32, 32)
-    love.graphics.draw(self.image, self.quads[self.state][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
+    love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 
     -- shoots
     local shoots, _ = world:getItems()
