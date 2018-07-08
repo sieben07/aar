@@ -23,7 +23,7 @@
 <section>
 <nav id="TOC">
 <ul>
-<li><a href="#activate-all-robots">Activate all Robots</a><ul>
+<li><a href="#activate-all-robots">Activate all robots</a><ul>
 <li><a href="#change-history">Change History</a></li>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#levels-robots-and-more">Levels, Robots, and more</a><ul>
@@ -33,13 +33,14 @@
 <li><a href="#levels">Levels</a></li>
 </ul></li>
 <li><a href="#robots">Robots</a><ul>
-<li><a href="#start-level">Start Level</a></li>
-<li><a href="#jump-level">Jump Level</a></li>
+<li><a href="#start-level-00">Start Level (00)</a></li>
+<li><a href="#jump-level-01">Jump Level (01)</a></li>
+<li><a href="#todo">TODO</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </nav>
-<h1 id="activate-all-robots">Activate all Robots</h1>
+<h1 id="activate-all-robots">Activate all robots</h1>
 <h2 id="change-history">Change History</h2>
 <table>
 <thead>
@@ -69,42 +70,56 @@
 <td>Added Project Goals</td>
 <td>02.07.2017</td>
 </tr>
+<tr class="even">
+<td>0.0.4</td>
+<td>Orhan Küçükyılmaz (OK)</td>
+<td>Change Game Over</td>
+<td>21.06.2018</td>
+</tr>
+<tr class="odd">
+<td>0.0.5</td>
+<td>Orhan Küçükyılmaz (OK)</td>
+<td>First Jump Robot</td>
+<td>08.07.2018</td>
+</tr>
 </tbody>
 </table>
 <h2 id="introduction">Introduction</h2>
-<pre><code>a jump&#39;n&#39;shoot riddle game</code></pre>
-<p>After the Hero's attack, it's your duty to...</p>
+<p><em>a jump’n’shoot riddle game</em></p>
+<p>After the Hero’s attack, it’s your duty to…</p>
 <blockquote>
 <p><em>activate all robots!</em></p>
 </blockquote>
-<p>Every <code>'activation-shoot'</code> costs you <code>points</code>. For every robot, machine or trap you activate, you get <code>points</code>. If you get hit, you lose a <code>point</code>. If you have only <em><code>one point left</code></em> than you have only <em>one</em> <em>ONE</em> shoot to make points or it's ...</p>
+<p>Every <code>'activation-shoot'</code> reduces <code>points</code>.<br />
+Every activated robot, machine or trap adds <code>points</code>.<br />
+Getting hit removes <code>points</code>.<br />
+If the player has only <em><code>one point left</code></em> he gets <code>warned</code> that only <code>one</code> <em>ONE</em> shoot is left …</p>
+<p><del>&gt; … <em>GAME OVER!</em></del></p>
 <blockquote>
-<p>... <em>GAME OVER!</em></p>
+<p>… <em>AND ATFTER THAT,HE HAS NEGATIVE SCORE</em></p>
 </blockquote>
-<div class="figure">
-<img src="./src/assets/img/aar.png" title="His name is mini" alt="His name is mini" />
-<p class="caption">His name is mini</p>
-</div>
+<figure>
+<img src="./src/assets/img/mini.png" title="His name is mini" alt="His name is mini" /><figcaption>His name is mini</figcaption>
+</figure>
 <h2 id="levels-robots-and-more">Levels, Robots, and more</h2>
-<p>In this Section it's all about the levels the robots and more.</p>
+<p>In this Section it’s all about the levels the robots and more.</p>
 <h3 id="level-0---the-startmenu-level">Level 0 - The Start/Menu level</h3>
-<p>Most games don't have a playable menu level. What is a playable menu level?, you ask. Good question very good question indeed.</p>
+<p>Most games don’t have a playable menu level. What is a playable menu level?, you ask. Good question very good question indeed.</p>
 <p>What is a menu?</p>
 <p>Before a person can start a game he usually select from a menu what he wants to do. The menu is usually something like:</p>
 <ul>
 <li>Start</li>
 <li>Options</li>
-<li>...(something something)</li>
+<li>…(something something)</li>
 </ul>
 <p>Here the controls are different to the controls in the game.</p>
-<p>Up and down on a joy-pad, joystick or on a keyboard (sometimes &quot;w&quot; for up and &quot;s&quot; for down) toggle between the menu items. With one button on the joy-pad, joystick or keyboard (sometime space or enter) the user select what he wants to do.</p>
+<p>Up and down on a joy-pad, joystick or on a keyboard (sometimes “w” for up and “s” for down) toggle between the menu items. With one button on the joy-pad, joystick or keyboard (sometime space or enter) the user select what he wants to do.</p>
 <p>In this game the menu is a playable level. Why? So the user uses the actual controls of the game and not some extra controls for the menu. So he can learn the controls for the game early.</p>
 <p>Level 0 teaches the player how to play the game, and presents him the first robot to activate.</p>
 <p>But first let us take a look at the elements of the first level:</p>
-<div class="figure">
-<img src="./src/assets/img/title.png" title="The Title" alt="The Title" />
-<p class="caption">The Title</p>
-</div>
+<figure>
+<img src="./src/assets/img/title.png" title="The Title" alt="The Title" /><figcaption>The Title</figcaption>
+</figure>
 <h2 id="project-goals">Project goals</h2>
 <p>No project is ever done if there are no goals set. To know when the Version 1.0.0 is done of this game, some goals are set.</p>
 <p>Some of this gaols will be hard set goals, like the number of different levels, robots, boss robots and such. Some goals will be soft, like graphics, sound, all the look and feel.</p>
@@ -113,14 +128,13 @@
 <h4 id="level-structure">Level Structure</h4>
 <p>Each level exist of 5 sub-levels. Each new level introduces a new robot, each sub-level introduces a a new sub-version of the robot.</p>
 <h2 id="robots">Robots</h2>
-<h3 id="start-level">Start Level</h3>
+<h3 id="start-level-00">Start Level (00)</h3>
 <ul>
 <li>Start Robot</li>
 </ul>
 <blockquote>
 <ul>
-<li>the Start Robot has to be activated<br />
-</li>
+<li>the Start Robot has to be activated</li>
 <li>if activated it falls down</li>
 </ul>
 </blockquote>
@@ -161,16 +175,16 @@
 <li>sleeping tiger hidden dragon</li>
 </ul>
 </blockquote>
-<h3 id="jump-level">Jump Level</h3>
+<h3 id="jump-level-01">Jump Level (01)</h3>
 <ul>
 <li>Jump Robot</li>
 </ul>
 <blockquote>
 <ul>
-<li>starts jumping when activated</li>
-<li>helps get higher grounds</li>
-<li>blocks passages sometimes</li>
-<li>open passages by jumping away</li>
+<li>[x] starts jumping when activated</li>
+<li>[x] helps get higher grounds</li>
+<li>[] blocks passages sometimes</li>
+<li>[] open passages by jumping away</li>
 </ul>
 </blockquote>
 <ul>
@@ -209,6 +223,17 @@
 <li>turned up to eleven</li>
 </ul>
 </blockquote>
+<h3 id="todo">TODO</h3>
+<ul>
+<li>[] JUMP ROBOTS COLLIDE BUG</li>
+<li>[] HIT ANIMATION</li>
+<li>[] STATE SHOULD CHANGE DEPENDENT VARIABLES</li>
+<li>[]</li>
+<li>[]</li>
+<li>[]</li>
+<li>[]</li>
+<li>[]</li>
+</ul>
 </section>
 </body>
 </html>

@@ -4,6 +4,7 @@ fonts = {
   ormont = love.graphics.newFont("assets/font/Ormont_Light.ttf", 38),
   ormontMiddle = love.graphics.newFont("assets/font/Ormont_Light.ttf", 28),
   ormontSmall = love.graphics.newFont("assets/font/Ormont_Light.ttf", 18),
+  ormont_tiny = love.graphics.newFont("assets/font/Ormont_Light.ttf", 7),
   orangekid = love.graphics.newFont("assets/font/orangekid.ttf", 23)
 }
 

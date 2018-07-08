@@ -1,52 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="32" tileheight="32" nextobjectid="7">
- <tileset firstgid="1" name="generic_platformer_tiles" tilewidth="32" tileheight="32" tilecount="24" columns="6">
-  <image source="tiles.png" trans="ff00ff" width="192" height="128"/>
- </tileset>
- <layer name="Solid" width="32" height="20">
-  <properties>
-   <property name="collidable" type="bool" value="true"/>
-  </properties>
-  <data encoding="csv">
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-</data>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="1" nextobjectid="1">
+ <layer name="Kachelebene 1" width="100" height="100">
+  <data encoding="csv"/>
  </layer>
- <objectgroup name="Objects">
-  <object id="1" name="Jump" type="robot" x="496" y="576" width="32" height="32">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-    <property name="jumping" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="4" name="Mini" type="hero" x="320" y="448" width="32" height="32">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-    <property name="falling" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="7" name="Exit" type="robot" x="960" y="577" width="32" height="32" visible="0">
-   <properties>
-    <property name="collidable" type="bool" value="false"/>
-   </properties>
-  </object>
- </objectgroup>
 </map>

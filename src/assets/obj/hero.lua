@@ -20,7 +20,7 @@ local hero = {
   shooting = false,
   shoots = {}, -- holds our fired shoots
   animationTimer = 0,
-  sticky = false, -- the platform takes controll over movement while sticky
+  stick_to = '', -- the platform takes controll over movement while sticky
 
   -- Animation
   quadIndex = 1,
@@ -130,10 +130,10 @@ local hero = {
     -- 4
     rightShooting = {
       Quad(SIZE * 4, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 5, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 6, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 7, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 6, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE)
+      Quad(SIZE * 4, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
+      Quad(SIZE * 4, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
+      Quad(SIZE * 4, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
+      Quad(SIZE * 4, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE)
     },
     -- 5
     rightInAirMoving = {
@@ -194,10 +194,10 @@ local hero = {
     -- 4
     leftShooting = {
       Quad(SIZE * 3, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 2, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 1, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 0, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
-      Quad(SIZE * 1, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
+      Quad(SIZE * 3, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
+      Quad(SIZE * 3, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
+      Quad(SIZE * 3, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
+      Quad(SIZE * 3, SIZE * 3, SIZE, SIZE, BIG_SIZE, BIG_SIZE),
     },
     -- 5
     leftInAirMoving = {
@@ -302,6 +302,7 @@ function hero:updateShoots()
   end
 end
 
+
 function hero:update(dt)
   -- Handle Shooting
   self:updateShoots()
@@ -318,9 +319,14 @@ function hero:update(dt)
 
   -- Animation Direciton
   -- in now fully in fsm.current
+  if self.stick_to ~= '' and self.stick_to.name ~= nil then
+    -- TO DO add or remove the delta of x and y direction?
+    self.y = self.stick_to.y - 32
+  end
 
   -- Check if falling
   if self.falling and self.fsm.can("jumpPress") then
+    self.stick_to = ''
     self.fsm.jumpPress()
   end
 
@@ -358,6 +364,7 @@ function hero:update(dt)
         self.y_vel = 0
         self.jump = 0
         self.falling = false
+        self.stick_to = col.other
       if self.fsm.can('collisionGround') then
           self.fsm.collisionGround()
       end

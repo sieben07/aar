@@ -9,7 +9,7 @@ abstract:
     - a jump'n'shoot riddle game
 ---
 
-# Activate all Robots
+# Activate all robots
 
 ## Change History
 
@@ -19,6 +19,7 @@ abstract:
 | 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image       | 08.07.2015 |
 | 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals | 02.07.2017 |
 | 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over    | 21.06.2018 |
+| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot    | 08.07.2018 |
 
 ## Introduction
 
@@ -95,7 +96,7 @@ introduces a a new sub-version of the robot.
 
 ## Robots
 
-### Start Level
+### Start Level (00)
 
 -   Start Robot
 
@@ -123,14 +124,14 @@ introduces a a new sub-version of the robot.
 > -   a hidden level? and a hidden boss?
 > -   sleeping tiger hidden dragon
 
-### Jump Level
+### Jump Level (01)
 
 -   Jump Robot
 
-> -   starts jumping when activated
-> -   helps get higher grounds
-> -   blocks passages sometimes
-> -   open passages by jumping away
+> -   [x] starts jumping when activated
+> -   [x] helps get higher grounds
+> -   [] blocks passages sometimes
+> -   [] open passages by jumping away
 
 -   High Jump Robot
 
@@ -152,6 +153,13 @@ introduces a a new sub-version of the robot.
 > -   does everything the other jump robots does
 > -   turned up to eleven
 
-### And more!
+### TODO
 
-I HAVE CHANGED
+-   [] JUMP ROBOTS COLLIDE BUG
+-   [] HIT ANIMATION
+-   [] STATE SHOULD CHANGE DEPENDENT VARIABLES
+-   []
+-   []
+-   []
+-   []
+-   []
