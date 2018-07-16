@@ -121,7 +121,7 @@ each sub-level introduces a a new sub-version of the robot.
 
 >   - \[x\] starts jumping when activated
 >   - \[x\] helps get higher grounds
->   - \[\] blocks passages sometimes
+>   - \[x\] blocks passages sometimes
 >   - \[\] open passages by jumping away
 
   - High Jump Robot
@@ -149,8 +149,6 @@ each sub-level introduces a a new sub-version of the robot.
   - \[\] JUMP ROBOTS COLLIDE BUG
   - \[\] HIT ANIMATION
   - \[\] STATE SHOULD CHANGE DEPENDENT VARIABLES
-  - \[\]
-  - \[\]
   - \[\]
   - \[\]
   - \[\]

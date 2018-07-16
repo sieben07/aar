@@ -10,13 +10,13 @@ OUTPUT_MD=$(realpath README.md)
 
 all: html pdf markdown ldoc
 
+html: $(OUTPUT_HTML)
+$(OUTPUT_HTML): $(INPUT)
+	$(PANDOC) --template=$(TEMPLATE_HTML) $(INPUT) --toc -o $(OUTPUT_HTML)
+
 pdf: $(OUTPUT_PDF)
 $(OUTPUT_PDF): $(INPUT)
 	$(PANDOC) -s --template=$(TEMPLATE_LATEX) $(INPUT) --toc -o $(OUTPUT_PDF)
-
-html: $(OUTPUT_HTML)
-$(OUTPUT_HTML): $(INPUT)
-	$(PANDOC) -s --template=$(TEMPLATE_HTML) $(INPUT) --toc -o $(OUTPUT_HTML)
 
 markdown: $(OUTPUT_MD)
 $(OUTPUT_MD): $(INPUT)

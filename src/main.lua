@@ -79,7 +79,7 @@ function game:enter()
 
    function hero:draw()
       -- player
-      love.graphics.setColor(1,1,1,1)   --global.color.red, global.color.green, global.color.blue, global.color.alpha)
+      love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
       love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 
       -- shoots
@@ -135,12 +135,17 @@ function game:enter()
             if robot.velocity < 0 then
                local goalY = robot.y + robot.velocity * dt
                robot.velocity = robot.velocity - robot.gravity * dt
-               local cols, len = move(world, robot, robot.x, goalY, "cross")
+               local cols, len = move(world, robot, robot.x, goalY, function (item , other) if other.type == 'hero' then return 'cross' else return 'slide' end end)
                local dx, dy
-
+              
                for _, col in ipairs(cols) do
+                if col.other.type == 'robot' then
+                  robot.velocity = 0
+               end
                   dy = goalY - 32
-                  col.other:push(0, dy)
+                  if col.other.type == 'hero' then
+                    col.other:push(0, dy)
+                  end
                end
             end
 
@@ -272,9 +277,8 @@ end
 
 -- don't repeat yourself
 -- funtcions
-function move (w, r, gx, gy, filter)
-  if filter == nil then filter = "slide" end
-  local ax, ay, cs, l = w:move(r, gx, gy, function(a, b) return filter end)
+function move(w, r, gx, gy, filter)
+  local ax, ay, cs, l = w:move(r, gx, gy, filter)
   r.x, r.y = ax, ay
   return cs, l
 end

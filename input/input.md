@@ -114,7 +114,7 @@ introduces a a new sub-version of the robot.
 > -   resets the points to seven
 > -   resets the start robot and the exit robot also.
 
--   Continue Robot
+- Continue Robot
 
 > -   appears if the level 1-0 to 1-4 are mastered
 > -   can be activated to continue the last played level
@@ -130,7 +130,7 @@ introduces a a new sub-version of the robot.
 
 > -   [x] starts jumping when activated
 > -   [x] helps get higher grounds
-> -   [] blocks passages sometimes
+> -   [x] blocks passages sometimes
 > -   [] open passages by jumping away
 
 -   High Jump Robot
@@ -158,8 +158,6 @@ introduces a a new sub-version of the robot.
 -   [] JUMP ROBOTS COLLIDE BUG
 -   [] HIT ANIMATION
 -   [] STATE SHOULD CHANGE DEPENDENT VARIABLES
--   []
--   []
 -   []
 -   []
 -   []
