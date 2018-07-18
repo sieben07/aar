@@ -333,7 +333,7 @@ function hero:update(dt)
   -- Move the Hero Right or Left
   local goalX = self.x + self.x_vel
   local actualX, _, _, len = world:move(self, goalX, self.y)
-  self.x = math.floor(actualX)
+  self.x = actualX
 
   if self.jump > 0 then
     self.falling = true
@@ -342,7 +342,7 @@ function hero:update(dt)
 
     local goalY = self.y - self.y_vel
     local actualX, actualY, cols, len = world:move(self, self.x, goalY)
-    self.y = math.floor(actualY)
+    self.y = actualY
 
     for _, col in ipairs(cols) do
       if (col.normal.y == 1) and self.jump > 1 then
@@ -357,7 +357,7 @@ function hero:update(dt)
 
     local goalY = self.y + self.y_vel
     local actualX, actualY, cols, len = world:move(self, self.x, goalY)
-    self.y = math.floor(actualY)
+    self.y = actualY
 
     for _, col in ipairs(cols) do
       if (col.normal.y == -1) then
@@ -365,9 +365,11 @@ function hero:update(dt)
         self.jump = 0
         self.falling = false
         self.stick_to = col.other
-      if self.fsm.can('collisionGround') then
+
+        if self.fsm.can('collisionGround') then
           self.fsm.collisionGround()
-      end
+        end
+
       end
     end
   end

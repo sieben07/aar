@@ -1,4 +1,4 @@
-local game = { version = "0.0.5" }
+local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
 Signal = require "assets.libs.hump.signal"
 
@@ -91,7 +91,7 @@ function game:enter()
          end
       end
 
-      love.graphics.setFont(fonts.orangekid)
+      love.graphics.setFont(fonts.orange_kid)
       love.graphics.setColor(1, 0.64, 0.02)
       if global.score > 1 then
          love.graphics.print(global.score .. " | points", 32, 4)
@@ -102,10 +102,14 @@ function game:enter()
 
    function robots:draw()
       for i, robot in ipairs(self.robots) do
-         love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
+        if robot.active and  transition.shouldstart ~= true then
+        love.graphics.setColor(robot.properties.color.red, robot.properties.color.green, robot.properties.color.blue)
+        else
+          love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
+        end
          love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
 
-         love.graphics.setFont(fonts.ormontSmall)
+         love.graphics.setFont(fonts.ormont_small)
          love.graphics.setColor(1, 0.647, 0.027, 1)
          love.graphics.print(robot.name, robot.x + 40, robot.y)
       end
@@ -137,16 +141,17 @@ function game:enter()
                robot.velocity = robot.velocity - robot.gravity * dt
                local cols, len = move(world, robot, robot.x, goalY, function (item , other) if other.type == 'hero' then return 'cross' else return 'slide' end end)
                local dx, dy
-              
+
                for _, col in ipairs(cols) do
                 if col.other.type == 'robot' then
                   robot.velocity = 0
-               end
-                  dy = goalY - 32
-                  if col.other.type == 'hero' then
-                    col.other:push(0, dy)
-                  end
-               end
+                end
+
+                dy = goalY - 32
+                if col.other.type == 'hero' then
+                  col.other:push(0, dy)
+                end
+              end
             end
 
             if robot.velocity >= 0 then
@@ -155,6 +160,12 @@ function game:enter()
                local cols, len = move(world, robot, robot.x, goalY)
 
                if len ~= 0 then
+                  robot.properties.color.red = math.random()
+                  robot.properties.color.geen = math.random()
+                  robot.properties.color.blue = math.random()
+
+                  love.graphics.setBackgroundColor(math.random(), math.random(), math.random())
+
                   robot.velocity = robot.jumpVelocity
                end
             end

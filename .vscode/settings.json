@@ -1,0 +1,6 @@
+{
+    "[lua]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 3
+    }
+}

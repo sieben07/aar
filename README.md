@@ -9,6 +9,7 @@
 | 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals | 02.07.2017 |
 | 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over    | 21.06.2018 |
 | 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot    | 08.07.2018 |
+| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots       | 18.07.2018 |
 
 ## Introduction
 
@@ -18,11 +19,10 @@ After the Hero’s attack, it’s your duty to…
 
 > *activate all robots\!*
 
-Every `'activation-shoot'` reduces `points`.  
-Every activated robot, machine or trap adds `points`.  
-Getting hit removes `points`.  
-If the player has only *`one point left`* he gets `warned` that only
-`one` *ONE* shoot is left …
+Every `'activation-shoot'` reduces `points`. Every activated robot,
+machine or trap adds `points`. Getting hit removes `points`. If the
+player has only *`one point left`* he gets `warned` that only `one`
+*ONE* shoot is left …
 
 ~~\> … *GAME OVER\!*~~
 
@@ -146,7 +146,8 @@ each sub-level introduces a a new sub-version of the robot.
 
 ### TODO
 
-  - \[\] JUMP ROBOTS COLLIDE BUG
+  - \[x\] JUMP ROBOTS COLLIDE BUG
+  - \[\] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
   - \[\] HIT ANIMATION
   - \[\] STATE SHOULD CHANGE DEPENDENT VARIABLES
   - \[\]

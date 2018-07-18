@@ -49,6 +49,7 @@ function Helper.loadRobots(mapRobots, robotEntity)
             Helper.merge(mapRobot, robotEntity)
             mapRobot.falling = mapRobot.properties.falling
             mapRobot.active = mapRobot.properties.active
+            mapRobot.properties.color = { red = 0.596, green = 1, blue = 0.596}
             table.insert(robots, mapRobot)
         end
 
