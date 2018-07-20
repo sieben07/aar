@@ -1,18 +1,18 @@
 local global = {
-    level = {
+   level = {
       current = 1
    },
    color = {
       red = 0,
-      green = 0,
+      green =0,
       blue = 0,
-      alpha = 255
+      alpha = 1
    },
    background = {
       color = {
-         red = 77 / 255,
-         green = 77 / 255,
-         blue = 77 / 255
+         red = 64 / 255,
+         green = 61 / 255,
+         blue = 57 / 255
       }
    },
    countdown = 4,

@@ -111,7 +111,7 @@ return {
           visible = true,
           properties = {
             ["align"] = "center",
-            ["color"] = "#ffffa507",
+            ["color"] = "#ffeb5e28",
             ["font"] = "ormont"
           }
         },
@@ -128,7 +128,7 @@ return {
           visible = true,
           properties = {
             ["align"] = "center",
-            ["color"] = "#ff585858",
+            ["color"] = "#ff252422",
             ["font"] = "orial"
           }
         }

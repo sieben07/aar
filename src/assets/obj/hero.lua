@@ -272,7 +272,7 @@ function hero:updateShoots()
     if shoot.type == "bullet" then
       -- move them
       local goalX = shoot.x + shoot.x_vel
-      local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y)
+      local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y, function(item, other) return "cross" end )
       shoot.x = actualX
 
       for i = 1, len do

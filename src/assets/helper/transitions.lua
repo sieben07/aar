@@ -1,4 +1,5 @@
 flux = require "assets.libs.flux.flux"
+Helper = require "assets.helper.Helper"
 
 local transitions = {
     shouldstart = false
@@ -34,9 +35,7 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
     -- Random Color Level Transition
     if transitiontype == "randomColor" then
         flux.update(dt)
-        global.color.red = love.math.random(color.red) / 255
-        global.color.green = love.math.random(color.green) / 255
-        global.color.blue = love.math.random(color.blue) / 255
+        global.color = Helper.randomColor()
     end
 
     if global.countdown == 0 then
@@ -48,13 +47,8 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
         self.A = 255
         self.B = 0
 
-        global.color.red = 1
-        global.color.green = 1
-        global.color.blue = 1
-
-        global.background.color.red = 77 / 255
-        global.background.color.green = 77 / 255
-        global.background.color.blue = 77 / 255
+        global.color = Helper.hexToRgba("#FFfffcf2")
+        global.background.color = Helper.hexToRgba("#FFccc59b")
 
         Gamestate.switch(state)
     end

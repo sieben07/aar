@@ -7,9 +7,9 @@ local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
 
--- helper
+-- Helper
 local transition = require "assets.helper.transitions"
-local helper = require "assets.helper.Helper"
+local Helper = require "assets.helper.Helper"
 
 -- levels
 local levels = require "assets.maps.levels"
@@ -20,11 +20,11 @@ local fonts = require "assets.font.fonts"
 
 -- game
 function game:init()
-   file = love.filesystem.newFile( 'global.lua' )
-   love.success = love.filesystem.write('global.lua', table.tostring(global))
-   Signal.register('score', function(value) global.score = global.score + value end )
-   Signal.register('bounce', function() end )
-   Signal.register('allActive', function() transition.shouldstart = true end )
+   file = love.filesystem.newFile( "global.lua" )
+   love.success = love.filesystem.write("global.lua", table.tostring(global))
+   Signal.register("score", function(value) global.score = global.score + value end )
+   Signal.register("bounce", function() end )
+   Signal.register("allActive", function() transition.shouldstart = true end )
 end
 
 function game:enter()
@@ -56,12 +56,12 @@ function game:enter()
    map:addCustomLayer("texts", 9)
    texts = map.layers["texts"]
 
-   local heroAttributeFromMap, robotAttributesFromMap, textAttributesFromMap = helper.loadRobots(map.objects, robotPrototype)
+   local heroAttributeFromMap, robotAttributesFromMap, textAttributesFromMap = Helper.loadRobots(map.objects, robotPrototype)
 
    -- merge hero object into hero
-   helper.merge(hero, heroPrototype) --for k,v in pairs(hero) do hero[k] = v end
+   Helper.merge(hero, heroPrototype) --for k,v in pairs(hero) do hero[k] = v end
    -- merge map info into hero
-   helper.merge(hero, heroAttributeFromMap) --for k,v in pairs(player) do hero[k] = v end
+   Helper.merge(hero, heroAttributeFromMap) --for k,v in pairs(player) do hero[k] = v end
 
    robots.robots = {}
    for _, robotAttribute in ipairs(robotAttributesFromMap) do
@@ -115,12 +115,30 @@ function game:enter()
       end
    end
 
+
    --[[--
    robots:update updates the robots.
    @param dt delta time
    --]]
    function robots:update(dt)
       local allActive = {}
+      local function filterUp(item , other)
+        print("UP", other.type)
+        if other.type == "hero" or other.type == "bullet" then
+          return "cross"
+        else
+          return "slide"
+        end
+      end
+
+      local function filterDown(item, other)
+        print("Down", other.type)
+        if other.type == "bullet" then
+          return nil
+        else
+          return "slide"
+        end
+      end
 
       for _, robot in ipairs(self.robots) do
          table.insert(allActive, robot.active)
@@ -139,16 +157,16 @@ function game:enter()
             if robot.velocity < 0 then
                local goalY = robot.y + robot.velocity * dt
                robot.velocity = robot.velocity - robot.gravity * dt
-               local cols, len = move(world, robot, robot.x, goalY, function (item , other) if other.type == 'hero' then return 'cross' else return 'slide' end end)
+               local cols, len = move(world, robot, robot.x, goalY, filterUp)
                local dx, dy
 
                for _, col in ipairs(cols) do
-                if col.other.type == 'robot' then
+                if col.other.type == "robot" then
                   robot.velocity = 0
                 end
 
                 dy = goalY - 32
-                if col.other.type == 'hero' then
+                if col.other.type == "hero" then
                   col.other:push(0, dy)
                 end
               end
@@ -157,14 +175,11 @@ function game:enter()
             if robot.velocity >= 0 then
                local goalY = robot.y + robot.velocity * dt
                robot.velocity = robot.velocity - robot.gravity * dt
-               local cols, len = move(world, robot, robot.x, goalY)
+               local cols, len = move(world, robot, robot.x, goalY, filterDown)
 
                if len ~= 0 then
-                  robot.properties.color.red = math.random()
-                  robot.properties.color.geen = math.random()
-                  robot.properties.color.blue = math.random()
-
-                  love.graphics.setBackgroundColor(math.random(), math.random(), math.random())
+                  robot.properties.color = Helper.randomColor()
+                  love.graphics.setBackgroundColor(1 - robot.properties.color.red, 1 - robot.properties.color.green, 1 - robot.properties.color.blue, 1)
 
                   robot.velocity = robot.jumpVelocity
                end
@@ -172,8 +187,8 @@ function game:enter()
          end
       end
 
-      if helper.areAllRobotsActive(allActive) then
-         Signal.emit('allActive')
+      if Helper.areAllRobotsActive(allActive) then
+         Signal.emit("allActive")
       end
    end
 
@@ -247,10 +262,10 @@ function love.keypressed(key, code, isrepat)
       hero.shootState = "shootRight"
    end
 
-   if (key == "up" or key == "a") and hero.fsm.can('jumpPress') then
+   if (key == "up" or key == "a") and hero.fsm.can("jumpPress") then
       hero.fsm.jumpPress()
       hero.jump = 7
-      hero.stick_to = ''
+      hero.stick_to = ""
       hero.iterator = 1
    end
 
@@ -286,7 +301,7 @@ function love.keyreleased(key)
    end
 end
 
--- don't repeat yourself
+-- don"t repeat yourself
 -- funtcions
 function move(w, r, gx, gy, filter)
   local ax, ay, cs, l = w:move(r, gx, gy, filter)

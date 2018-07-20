@@ -12,8 +12,8 @@ merges into `first` table values from the `second` table.
 @param second the second table
 --]]--
 function Helper.merge(first, second)
-    for key ,value in pairs(second) do
-        first[key] = value
+   for key ,value in pairs(second) do
+      first[key] = value
     end
 end
 
@@ -36,60 +36,74 @@ robot.names are
 @tparam object robotEntity a robot table from Robot
 --]]--
 function Helper.loadRobots(mapRobots, robotEntity)
-    local hero = {}
-    local robots = {}
-    local texts = {}
+   local hero = {}
+   local robots = {}
+   local texts = {}
 
-    for _, mapRobot in pairs(mapRobots) do
-        if mapRobot.type == "hero" then
-            hero = mapRobot
-        end
+   for _, mapRobot in pairs(mapRobots) do
+      if mapRobot.type == "hero" then
+         hero = mapRobot
+      end
 
-        if mapRobot.type == "robot" then
-            Helper.merge(mapRobot, robotEntity)
-            mapRobot.falling = mapRobot.properties.falling
-            mapRobot.active = mapRobot.properties.active
-            mapRobot.properties.color = { red = 0.596, green = 1, blue = 0.596}
-            table.insert(robots, mapRobot)
-        end
+      if mapRobot.type == "robot" then
+         Helper.merge(mapRobot, robotEntity)
+         mapRobot.falling = mapRobot.properties.falling
+         mapRobot.active = mapRobot.properties.active
+         mapRobot.properties.color = { red = 0.8, green = 0.772, blue = 0.725 }
+         table.insert(robots, mapRobot)
+      end
 
-        if mapRobot.type == 'text' then
-            mapRobot.properties.color = Helper.hexToRgba(mapRobot.properties.color)
-            table.insert(texts, mapRobot)
-        end
-    end
+      if mapRobot.type == 'text' then
+         mapRobot.properties.color = Helper.hexToRgba(mapRobot.properties.color)
+         table.insert(texts, mapRobot)
+      end
+   end
 
-    return hero, robots, texts
+   return hero, robots, texts
 end
 
 --[[--
 hex color string to rgba color string
 @function hexToArgb
-@param colorHex a color coded in a hex string
+@param colorHex a color coded in a hex string with alpha value as first hex number
 @treturn {number,...} a table with the r g b a colors as number
 --]]--
 function Helper.hexToRgba(colorHex)
-    local x, y, a, r, g, b = colorHex:find('(%x%x)(%x%x)(%x%x)(%x%x)')
-    local rgba = {}
-    rgba.red = tonumber(r,16) / 255
-    rgba.green = tonumber(g,16) / 255
-    rgba.blue = tonumber(b,16) / 255
-    rgba.alpha = tonumber(a,16) / 255
-    return rgba
+   local x, y, a, r, g, b = colorHex:find('(%x%x)(%x%x)(%x%x)(%x%x)')
+   local rgba = {}
+   rgba.red = tonumber(r,16) / 255
+   rgba.green = tonumber(g,16) / 255
+   rgba.blue = tonumber(b,16) / 255
+   rgba.alpha = tonumber(a,16) / 255
+   return rgba
+end
+
+function Helper.randomColor()
+   local rgba = {}
+   rgba.red = math.random()
+   rgba.green = math.random()
+   rgba.blue =  math.random()
+   rgba.alpha = 1
+   return rgba
+end
+
+function Helper.randomColorTable()
+  return { math.random(), math.random(), math.random(), 1 }
 end
 
 function Helper.areAllRobotsActive(t)
-    local allTrue = 0
-    for _, value in ipairs(t) do
+   local allTrue = 0
+   for _, value in ipairs(t) do
       if value == false then
-        allTrue = allTrue + 1
+         allTrue = allTrue + 1
       end
-    end
-    if allTrue == 0 then
+   end
+
+   if allTrue == 0 then
       return true
-  else
-    return false
-    end
+   else
+      return false
+   end
 end
 
 
