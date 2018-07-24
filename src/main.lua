@@ -123,7 +123,6 @@ function game:enter()
    function robots:update(dt)
       local allActive = {}
       local function filterUp(item , other)
-        print("UP", other.type)
         if other.type == "hero" or other.type == "bullet" then
           return "cross"
         else
@@ -132,7 +131,6 @@ function game:enter()
       end
 
       local function filterDown(item, other)
-        print("Down", other.type)
         if other.type == "bullet" then
           return nil
         else
