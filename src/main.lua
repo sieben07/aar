@@ -23,7 +23,7 @@ function game:init()
    file = love.filesystem.newFile( "global.lua" )
    love.success = love.filesystem.write("global.lua", table.tostring(global))
    Signal.register("score", function(value) global.score = global.score + value end )
-   Signal.register("bounce", function() end )
+   Signal.register("bounce", function(robot) robot.properties.color = Helper.randomColor() end )
    Signal.register("allActive", function() transition.shouldstart = true end )
 end
 
@@ -176,9 +176,8 @@ function game:enter()
                local cols, len = move(world, robot, robot.x, goalY, filterDown)
 
                if len ~= 0 then
-                  robot.properties.color = Helper.randomColor()
-                  love.graphics.setBackgroundColor(1 - robot.properties.color.red, 1 - robot.properties.color.green, 1 - robot.properties.color.blue, 1)
-
+                  -- love.graphics.setBackgroundColor(1 - robot.properties.color.red, 1 - robot.properties.color.green, 1 - robot.properties.color.blue, 1)
+                  Signal.emit("bounce", robot)
                   robot.velocity = robot.jumpVelocity
                end
             end
