@@ -21,6 +21,7 @@ abstract:
 | 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over    | 21.06.2018 |
 | 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot    | 08.07.2018 |
 | 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots       | 18.07.2018 |
+| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide        | 06.08.2018 |
 
 ## Introduction
 
@@ -158,6 +159,7 @@ introduces a a new sub-version of the robot.
 
 -   [x] JUMP ROBOTS COLLIDE BUG
 -   [x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
+-   [] SHOOT COLLIDES ANIMATION
 -   [] HIT ANIMATION
 -   [] STATE SHOULD CHANGE DEPENDENT VARIABLES
 -   []

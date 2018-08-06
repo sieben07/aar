@@ -1,4 +1,5 @@
 local global = {
+   hits = {},
    level = {
       current = 1
    },

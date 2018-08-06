@@ -13,3 +13,6 @@
 [submodule "src/assets/libs/lua-fsm"]
 	path = src/assets/libs/lua-fsm
 	url = https://github.com/unindented/lua-fsm.git
+[submodule "src/assets/libs/shack"]
+	path = src/assets/libs/shack
+	url = https://github.com/Ulydev/shack.git

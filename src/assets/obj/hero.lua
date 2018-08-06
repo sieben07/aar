@@ -275,8 +275,8 @@ function hero:updateShoots()
       local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y, function(item, other) return "cross" end )
       shoot.x = actualX
 
-      for i = 1, len do
-        local col = cols[i]
+      for _, col in ipairs(cols) do
+        Signal.emit("hit", col.touch)
         if col.other.type == "robot" and col.other.active == false then
           col.other.active = true
           Signal.emit("score", 7)

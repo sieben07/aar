@@ -1,6 +1,8 @@
 local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
+local screen = require "assets.libs.shack.shack"
 Signal = require "assets.libs.hump.signal"
+
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -25,6 +27,11 @@ function game:init()
    Signal.register("score", function(value) global.score = global.score + value end )
    Signal.register("bounce", function(robot) robot.properties.color = Helper.randomColor() end )
    Signal.register("allActive", function() transition.shouldstart = true end )
+   Signal.register("hit", function(touch)
+      screen:setShake(20)
+      screen:getRotation(.3)
+      screen:setScale(1.005, 1.005)
+   end )
 end
 
 function game:enter()
@@ -56,6 +63,9 @@ function game:enter()
    map:addCustomLayer("texts", 9)
    texts = map.layers["texts"]
 
+   mySolid = map.layers["Solid"]
+
+
    local heroAttributeFromMap, robotAttributesFromMap, textAttributesFromMap = Helper.loadRobots(map.objects, robotPrototype)
 
    -- merge hero object into hero
@@ -85,7 +95,7 @@ function game:enter()
       -- shoots
       local shoots, _ = world:getItems()
 
-      for _, shoot in pairs(shoots) do
+      for _, shoot in ipairs(shoots) do
          if shoot.type == "bullet" then
             love.graphics.draw(self.image, self.quads[shoot.dir][1], shoot.x, shoot.y, 0, 1)
          end
@@ -101,7 +111,7 @@ function game:enter()
    end
 
    function robots:draw()
-      for i, robot in ipairs(self.robots) do
+      for _, robot in ipairs(self.robots) do
         if robot.active and  transition.shouldstart ~= true then
         love.graphics.setColor(robot.properties.color.red, robot.properties.color.green, robot.properties.color.blue)
         else
@@ -206,7 +216,7 @@ function game:enter()
 
    world:add(hero, hero.x, hero.y, hero.width, hero.height)
 
-   for i, robot in ipairs(robots.robots) do
+   for _, robot in ipairs(robots.robots) do
       world:add(robot, robot.x, robot.y, robot.width, robot.height)
    end
 
@@ -214,10 +224,14 @@ function game:enter()
 end
 
 function game:draw()
+   screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
-   map:draw()
-   texts:draw()
-   robots:draw()
+   map:drawLayer(texts)
+   map:drawLayer(mySolid)
+   map:drawLayer(robots)
+   -- map:bump_draw(world,1,1,1,1)
+   -- texts:draw()
+   -- robots:draw()
    hero:draw()
    love.graphics.setColor(0.7,0.7,0.7,1)
    love.graphics.setFont(fonts.ormont_tiny)
@@ -225,6 +239,7 @@ function game:draw()
 end
 
 function game:update(dt)
+   screen:update(dt)
    robots:update(dt)
    hero:update(dt)
 
