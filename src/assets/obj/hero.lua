@@ -15,7 +15,7 @@ local hero = {
   x_vel = 0,
   y_vel = 0,
   vel = 4,
-  GRAVITY = 40,
+  GRAVITY = 16,
   jump = 0,
   shooting = false,
   shoots = {}, -- holds our fired shoots
@@ -318,7 +318,7 @@ function hero:update(dt)
   end
 
   -- Animation Direciton
-  -- in now fully in fsm.current
+  -- is now fully in fsm.current
   if self.stick_to ~= '' and self.stick_to.name ~= nil then
     -- TO DO add or remove the delta of x and y direction?
     self.y = self.stick_to.y - 32
@@ -330,19 +330,20 @@ function hero:update(dt)
     self.fsm.jumpPress()
   end
 
-  -- Move the Hero Right or Left
+  -- Move the Hero LEFT or RIGHT
   local goalX = self.x + self.x_vel
   local actualX, _, _, len = world:move(self, goalX, self.y)
   self.x = actualX
 
+  -- Move the Hero UP or DOWN
   if self.jump > 0 then
     self.falling = true
-    self.jump = self.jump - self.GRAVITY / 3 * dt
+    self.jump = self.jump - self.GRAVITY * dt
     self.y_vel = self.jump
 
     local goalY = self.y - self.y_vel
-    local actualX, actualY, cols, len = world:move(self, self.x, goalY)
-    self.y = actualY
+    local actualX, actualY, cols, len = world:move(self, self.x, math.ceil(goalY))
+    self.y = math.floor(actualY)
 
     for _, col in ipairs(cols) do
       if (col.normal.y == 1) and self.jump > 1 then
@@ -353,11 +354,11 @@ function hero:update(dt)
 
   if self.jump <= 0 then
     self.falling = true
-    self.y_vel = self.y_vel + self.GRAVITY / 3 * dt
+    self.y_vel = self.y_vel + self.GRAVITY  * dt
 
     local goalY = self.y + self.y_vel
-    local actualX, actualY, cols, len = world:move(self, self.x, goalY)
-    self.y = actualY
+    local actualX, actualY, cols, len = world:move(self, self.x, math.ceil(goalY))
+    self.y = math.floor(actualY)
 
     for _, col in ipairs(cols) do
       if (col.normal.y == -1) then

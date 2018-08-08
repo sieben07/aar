@@ -103,7 +103,7 @@ function game:enter()
 
       love.graphics.setFont(fonts.orange_kid)
       love.graphics.setColor(1, 0.64, 0.02)
-      if global.score > 1 then
+      if global.score ~= 1 then
          love.graphics.print(global.score .. " | points", 32, 4)
       else
          love.graphics.print(". | one point left", 32, 4)
@@ -124,7 +124,6 @@ function game:enter()
          love.graphics.print(robot.name, robot.x + 40, robot.y)
       end
    end
-
 
    --[[--
    robots:update updates the robots.
@@ -276,7 +275,7 @@ function love.keypressed(key, code, isrepat)
 
    if (key == "up" or key == "a") and hero.fsm.can("jumpPress") then
       hero.fsm.jumpPress()
-      hero.jump = 7
+      hero.jump = 8
       hero.stick_to = ""
       hero.iterator = 1
    end
