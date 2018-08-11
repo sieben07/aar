@@ -5,18 +5,18 @@ local Quad = love.graphics.newQuad
 local machine = require("assets.libs.lua-fsm.src.fsm")
 
 local hero = {
-  falling = nil,
-  name = nil,
-  title = nil,
-  x = 0,
-  y = 0,
+   falling = nil,
+   name = nil,
+   title = nil,
+   x = 0,
+   y = 0,
   WIDTH = 32,
   HEIGHT = 32,
   x_vel = 0,
-  y_vel = 0,
+  y_vel = 1,
   vel = 4,
-  GRAVITY = 16,
-  jump = 0,
+  jump_vel = -384,
+  GRAVITY = -768,
   shooting = false,
   shoots = {}, -- holds our fired shoots
   animationTimer = 0,
@@ -304,6 +304,7 @@ end
 
 
 function hero:update(dt)
+   print(dt)
   -- Handle Shooting
   self:updateShoots()
 
@@ -335,45 +336,31 @@ function hero:update(dt)
   local actualX, _, _, len = world:move(self, goalX, self.y)
   self.x = actualX
 
-  -- Move the Hero UP or DOWN
-  if self.jump > 0 then
-    self.falling = true
-    self.jump = self.jump - self.GRAVITY * dt
-    self.y_vel = self.jump
+   -- Move the Hero UP or DOWN
+   if self.y_vel ~= 0 then
+      self.falling = true
+      self.y = self.y + self.y_vel * dt
+      self.y_vel = self.y_vel - self.GRAVITY * dt
+      local goalY = self.y
+      local aX, aY, cols, len = world:move(self, self.x, goalY)
+      self.y = aY
 
-    local goalY = self.y - self.y_vel
-    local actualX, actualY, cols, len = world:move(self, self.x, math.ceil(goalY))
-    self.y = math.floor(actualY)
-
-    for _, col in ipairs(cols) do
-      if (col.normal.y == 1) and self.jump > 1 then
-        self.jump = 1
-      end
-    end
-  end
-
-  if self.jump <= 0 then
-    self.falling = true
-    self.y_vel = self.y_vel + self.GRAVITY  * dt
-
-    local goalY = self.y + self.y_vel
-    local actualX, actualY, cols, len = world:move(self, self.x, math.ceil(goalY))
-    self.y = math.floor(actualY)
-
-    for _, col in ipairs(cols) do
-      if (col.normal.y == -1) then
-        self.y_vel = 0
-        self.jump = 0
-        self.falling = false
-        self.stick_to = col.other
-
-        if self.fsm.can('collisionGround') then
-          self.fsm.collisionGround()
+      if len > 0 then
+        for _, col in ipairs(cols) do
+          if (col.normal.y == 1) then
+            self.falling = false
+            self.y_vel = 1
+          else
+            self.falling = false
+            self.y_vel = 1
+            self.stick_to = col.other
+            if self.fsm.can('collisionGround') then
+              self.fsm.collisionGround()
+            end
+          end
         end
-
       end
     end
-  end
 end
 
 return hero

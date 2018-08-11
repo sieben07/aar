@@ -1,13 +1,15 @@
 local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
-Signal = require "assets.libs.hump.signal"
 
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
+Signal = require "assets.libs.hump.signal"
+local Camera = require "assets.libs.hump.camera"
+
 
 -- Helper
 local transition = require "assets.helper.transitions"
@@ -29,8 +31,9 @@ function game:init()
    Signal.register("allActive", function() transition.shouldstart = true end )
    Signal.register("hit", function(touch)
       screen:setShake(20)
-      screen:getRotation(.3)
-      screen:setScale(1.005, 1.005)
+      screen:getRotation(.5)
+      -- screen:setShear(-2,2)
+      screen:setScale(1.007)
    end )
 end
 
@@ -151,7 +154,7 @@ function game:enter()
          table.insert(allActive, robot.active)
 
          if robot.falling == true then
-            robot.velocity = robot.velocity + 40 / 1.2 * dt
+            robot.velocity = robot.velocity + 33.3 * dt
             local goalY = robot.y + robot.velocity
             local cols, len = move(world, robot, robot.x, goalY)
 
@@ -223,24 +226,29 @@ function game:enter()
 end
 
 function game:draw()
+  -- camera:attach()
    screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    map:drawLayer(texts)
    map:drawLayer(mySolid)
    map:drawLayer(robots)
+   -- love.graphics.setColor(0, 1, 0, 1)
    -- map:bump_draw(world,1,1,1,1)
    -- texts:draw()
    -- robots:draw()
-   hero:draw()
+   map:drawLayer(hero)
    love.graphics.setColor(0.7,0.7,0.7,1)
    love.graphics.setFont(fonts.ormont_tiny)
    love.graphics.print(game.version, 32,  32)
+   -- camera:detach()
 end
 
 function game:update(dt)
    screen:update(dt)
    robots:update(dt)
    hero:update(dt)
+
+   -- camera:lookAt(hero.x, hero.y)
 
    if transition.shouldstart == true then
       transition:selector(game, "randomColor", Gamestate, global, dt)
@@ -257,6 +265,7 @@ end
 function love.load()
    Gamestate.registerEvents()
    Gamestate.switch(game)
+   -- camera = Camera.new(nil, nil, 2)
 end
 
 -- keypressed and keyreleased
@@ -275,7 +284,7 @@ function love.keypressed(key, code, isrepat)
 
    if (key == "up" or key == "a") and hero.fsm.can("jumpPress") then
       hero.fsm.jumpPress()
-      hero.jump = 8
+      hero.y_vel = hero.jump_vel
       hero.stick_to = ""
       hero.iterator = 1
    end
@@ -307,15 +316,15 @@ function love.keyreleased(key)
       hero.shooting = false
    end
 
-   if (key == "up" or key == "a") and hero.y_vel >= 0 and hero.jump > 0 then
-      hero.jump = 1
+   if (key == "up" or key == "a") and hero.y_vel < 0 then
+      hero.y_vel = 1
    end
 end
 
 -- don"t repeat yourself
 -- funtcions
 function move(w, r, gx, gy, filter)
-  local ax, ay, cs, l = w:move(r, gx, gy, filter)
-  r.x, r.y = ax, ay
-  return cs, l
+   local ax, ay, cs, l = w:move(r, gx, gy, filter)
+   r.x, r.y = ax, ay
+   return cs, l
 end
