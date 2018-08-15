@@ -304,7 +304,6 @@ end
 
 
 function hero:update(dt)
-   print(dt)
   -- Handle Shooting
   self:updateShoots()
 
