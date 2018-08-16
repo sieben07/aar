@@ -302,6 +302,20 @@ function hero:updateShoots()
   end
 end
 
+function hero:draw()
+   -- player
+   love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
+
+   -- shoots
+   local shoots, _ = world:getItems()
+
+   for _, shoot in ipairs(shoots) do
+      if shoot.type == "bullet" then
+         love.graphics.draw(self.image, self.quads[shoot.dir][1], shoot.x, shoot.y, 0, 1)
+      end
+   end
+end
+
 
 function hero:update(dt)
   -- Handle Shooting

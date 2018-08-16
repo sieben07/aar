@@ -29,12 +29,13 @@ function game:init()
    Signal.register("score", function(value) global.score = global.score + value end )
    Signal.register("bounce", function(robot) robot.properties.color = Helper.randomColor() end )
    Signal.register("allActive", function() transition.shouldstart = true end )
+
    Signal.register("hit", function(touch)
-      screen:setShake(7)
-      screen:setRotation(.07)
-      -- screen:setShear(-2,2)
-      screen:setScale(1.007)
-   end )
+         screen:setShake(7)
+         screen:setRotation(.07)
+         screen:setScale(1.007)
+      end
+   )
 end
 
 function game:enter()
@@ -88,29 +89,6 @@ function game:enter()
 
    function hero:push(dx, dy)
       local cols, len = move(world, self, self.x + dx, self.y + dy)
-   end
-
-   function hero:draw()
-      -- player
-      love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
-      love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
-
-      -- shoots
-      local shoots, _ = world:getItems()
-
-      for _, shoot in ipairs(shoots) do
-         if shoot.type == "bullet" then
-            love.graphics.draw(self.image, self.quads[shoot.dir][1], shoot.x, shoot.y, 0, 1)
-         end
-      end
-
-      love.graphics.setFont(fonts.orange_kid)
-      love.graphics.setColor(1, 0.64, 0.02)
-      if global.score ~= 1 then
-         love.graphics.print(global.score .. " | points", 32, 4)
-      else
-         love.graphics.print(". | one point left", 32, 4)
-      end
    end
 
    function robots:draw()
@@ -207,6 +185,14 @@ function game:enter()
          love.graphics.setFont(fonts[text.properties.font])
          love.graphics.printf(text.name, text.x, text.y, love.graphics.getWidth(), text.properties.align)
       end
+
+      love.graphics.setFont(fonts.orange_kid)
+       love.graphics.setColor(1, 0.64, 0.02)
+       if global.score ~= 1 then
+          love.graphics.print(global.score .. " | points", 32, 4)
+       else
+          love.graphics.print(". | one point left", 32, 4)
+      end
    end
 
    map:removeLayer("Objects")
@@ -226,29 +212,22 @@ function game:enter()
 end
 
 function game:draw()
-  -- camera:attach()
    screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    map:drawLayer(texts)
    map:drawLayer(mySolid)
    map:drawLayer(robots)
-   -- love.graphics.setColor(0, 1, 0, 1)
-   -- map:bump_draw(world,1,1,1,1)
-   -- texts:draw()
-   -- robots:draw()
    map:drawLayer(hero)
+
    love.graphics.setColor(0.7,0.7,0.7,1)
    love.graphics.setFont(fonts.ormont_tiny)
    love.graphics.print(game.version, 32,  32)
-   -- camera:detach()
 end
 
 function game:update(dt)
    screen:update(dt)
    robots:update(dt)
    hero:update(dt)
-
-   -- camera:lookAt(hero.x, hero.y)
 
    if transition.shouldstart == true then
       transition:selector(game, "randomColor", Gamestate, global, dt)
@@ -265,7 +244,6 @@ end
 function love.load()
    Gamestate.registerEvents()
    Gamestate.switch(game)
-   -- camera = Camera.new(nil, nil, 2)
 end
 
 -- keypressed and keyreleased
@@ -321,8 +299,6 @@ function love.keyreleased(key)
    end
 end
 
--- don"t repeat yourself
--- funtcions
 function move(w, r, gx, gy, filter)
    local ax, ay, cs, l = w:move(r, gx, gy, filter)
    r.x, r.y = ax, ay
