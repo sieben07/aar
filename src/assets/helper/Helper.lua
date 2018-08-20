@@ -49,12 +49,10 @@ function Helper.loadRobots(mapRobots, robotEntity)
          Helper.merge(mapRobot, robotEntity)
          mapRobot.falling = mapRobot.properties.falling
          mapRobot.active = mapRobot.properties.active
-         mapRobot.properties.color = { red = 0.8, green = 0.772, blue = 0.725 }
          table.insert(robots, mapRobot)
       end
 
       if mapRobot.type == 'text' then
-         mapRobot.properties.color = Helper.hexToRgba(mapRobot.properties.color)
          table.insert(texts, mapRobot)
       end
    end

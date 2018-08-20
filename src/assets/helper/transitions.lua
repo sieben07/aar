@@ -47,8 +47,8 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
         self.A = 255
         self.B = 0
 
-        global.color = Helper.hexToRgba("#FFfffcf2")
-        global.background.color = Helper.hexToRgba("#FFccc59b")
+        global.color = Helper.hexToRgba("#FFFFFFFF")
+        global.background.color = Helper.hexToRgba("#FF9bbbcc")
 
         Gamestate.switch(state)
     end

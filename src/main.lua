@@ -27,7 +27,7 @@ function game:init()
    file = love.filesystem.newFile( "global.lua" )
    love.success = love.filesystem.write("global.lua", table.tostring(global))
    Signal.register("score", function(value) global.score = global.score + value end )
-   Signal.register("bounce", function(robot) robot.properties.color = Helper.randomColor() end )
+   Signal.register("bounce", function() global.background.color = Helper.randomColor() end )
    Signal.register("allActive", function() transition.shouldstart = true end )
 
    Signal.register("hit", function(touch)
@@ -53,7 +53,7 @@ function game:enter()
    -- create the world from triles
    map = sti("assets/maps/" .. level .. ".lua", {"bump"})
    world = bump.newWorld(32)
-   love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue)
+   love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
 
    -- hero
    map:addCustomLayer("hero", 7)
@@ -94,14 +94,14 @@ function game:enter()
    function robots:draw()
       for _, robot in ipairs(self.robots) do
         if robot.active and  transition.shouldstart ~= true then
-        love.graphics.setColor(robot.properties.color.red, robot.properties.color.green, robot.properties.color.blue)
+        love.graphics.setColor(global.background.color.red,global.background.color.green,global.background.color.blue)
         else
           love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
         end
          love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
 
          love.graphics.setFont(fonts.ormont_small)
-         love.graphics.setColor(1, 0.647, 0.027, 1)
+         love.graphics.setColor(1, 191/255, 0, 1)
          love.graphics.print(robot.name, robot.x + 40, robot.y)
       end
    end
@@ -181,7 +181,7 @@ function game:enter()
 
    function texts:draw()
       for _, text in ipairs(self.texts) do
-         love.graphics.setColor(text.properties.color.red, text.properties.color.green, text.properties.color.blue, text.properties.color.alpha)
+         love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
          love.graphics.setFont(fonts[text.properties.font])
          love.graphics.printf(text.name, text.x, text.y, love.graphics.getWidth(), text.properties.align)
       end
@@ -233,8 +233,8 @@ function game:update(dt)
       transition:selector(game, "randomColor", Gamestate, global, dt)
       love.graphics.setBackgroundColor(
          global.background.color.red,
-         global.background.color.red,
-         global.background.color.red
+         global.background.color.green,
+         global.background.color.blue
       )
    end
 end
