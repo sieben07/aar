@@ -130,10 +130,10 @@ introduces a a new sub-version of the robot.
 
 -   Jump Robot
 
-> -   [x] starts jumping when activated
-> -   [x] helps get higher grounds
-> -   [x] blocks passages sometimes
-> -   [] open passages by jumping away
+> - [x] starts jumping when activated
+> - [x] helps get higher grounds
+> - [x] blocks passages sometimes
+> - [ ] open passages by jumping away
 
 -   High Jump Robot
 
@@ -157,11 +157,8 @@ introduces a a new sub-version of the robot.
 
 ### TODO
 
--   [x] JUMP ROBOTS COLLIDE BUG
--   [x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
--   [] SHOOT COLLIDES ANIMATION
--   [] HIT ANIMATION
--   [] STATE SHOULD CHANGE DEPENDENT VARIABLES
--   []
--   []
--   []
+- [x] JUMP ROBOTS COLLIDE BUG
+- [x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
+- [ ] SHOOT COLLIDES ANIMATION
+- [ ] HIT ANIMATION
+- [ ] STATE SHOULD CHANGE DEPENDENT VARIABLES
