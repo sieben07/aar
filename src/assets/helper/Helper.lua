@@ -35,30 +35,39 @@ robot.names are
 @tparam object mapRobots the robot table loaded from sti
 @tparam object robotEntity a robot table from Robot
 --]]--
-function Helper.loadRobots(mapRobots, robotEntity)
-   local hero = {}
-   local robots = {}
+function Helper.getTextsFromMapObjects(mapObjects)
    local texts = {}
 
-   for _, mapRobot in pairs(mapRobots) do
-      if mapRobot.type == "hero" then
-         hero = mapRobot
-      end
-
-      if mapRobot.type == "robot" then
-         Helper.merge(mapRobot, robotEntity)
-         mapRobot.falling = mapRobot.properties.falling
-         mapRobot.active = mapRobot.properties.active
-         table.insert(robots, mapRobot)
-      end
-
-      if mapRobot.type == 'text' then
-         table.insert(texts, mapRobot)
+   for _,object in pairs(mapObjects) do
+      if object.type == 'text' then
+         table.insert(texts, object)
       end
    end
 
-   return hero, robots, texts
+   return texts
 end
+
+function Helper.getHeroFromMapObjects(mapObjects)
+   for _,object in pairs(mapObjects) do
+      if object.type == "hero" then
+         return object
+      end
+   end
+end
+
+function Helper.getRobotsFromMapObjects(mapObjects, entity)
+   local robots = {}
+   for _,object in pairs(mapObjects) do
+      if object.type == "robot" then
+         Helper.merge(object, entity)
+         object.falling = object.properties.falling
+         object.active = object.properties.active
+         table.insert(robots, object)
+      end
+   end
+   return robots
+end
+
 
 --[[--
 hex color string to rgba color string

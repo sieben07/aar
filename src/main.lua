@@ -39,7 +39,7 @@ function game:init()
 end
 
 function game:enter()
-   local robotPrototype = require "assets.obj.robot"
+   local robotEntity = require "assets.obj.robot"
    local heroPrototype = require("assets.obj.hero")
 
    level = levels[global.level.current]
@@ -50,7 +50,7 @@ function game:enter()
       global.level.current = 1
    end
 
-   -- create the world from triles
+   -- create the world from tiles
    map = sti("assets/maps/" .. level .. ".lua", {"bump"})
    world = bump.newWorld(32)
    love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
@@ -70,20 +70,22 @@ function game:enter()
    mySolid = map.layers["Solid"]
 
 
-   local heroAttributeFromMap, robotAttributesFromMap, textAttributesFromMap = Helper.loadRobots(map.objects, robotPrototype)
+   local heroObjectFromMap = Helper.getHeroFromMapObjects(map.objects);
+   local robotObjectsFromMap = Helper.getRobotsFromMapObjects(map.objects, robotEntity);
+   local textObjectsFromMap = Helper.getTextsFromMapObjects(map.objects)
 
    -- merge hero object into hero
    Helper.merge(hero, heroPrototype) --for k,v in pairs(hero) do hero[k] = v end
    -- merge map info into hero
-   Helper.merge(hero, heroAttributeFromMap) --for k,v in pairs(player) do hero[k] = v end
+   Helper.merge(hero, heroObjectFromMap) --for k,v in pairs(player) do hero[k] = v end
 
    robots.robots = {}
-   for _, robotAttribute in ipairs(robotAttributesFromMap) do
+   for _, robotAttribute in ipairs(robotObjectsFromMap) do
       table.insert(robots.robots, robotAttribute)
    end
 
    texts.texts = {}
-   for _, text in ipairs(textAttributesFromMap) do
+   for _, text in ipairs(textObjectsFromMap) do
       table.insert(texts.texts, text)
    end
 
