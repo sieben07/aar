@@ -239,7 +239,7 @@ function game:draw()
    for _, hit in pairs(global.hits) do
       local hitColor = Helper.randomColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
-      love.graphics.draw(hitCanvas, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 8, 8)
+      love.graphics.draw(hitCanvas, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 0, 0)
    end
 
    love.graphics.setColor(0.7,0.7,0.7,1)
