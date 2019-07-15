@@ -54,4 +54,17 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
     end
 end
 
+function transitions:hitsTween(hits, dt)
+    for index, hit in ipairs(hits) do
+        if hit.time >= 0 then
+            hit.time = hit.time - dt
+            hit.zoom = hit.zoom + dt
+            hit.rotate = hit.rotate + 15
+            hit.alpha = hit.alpha - dt
+        else
+            table.remove(hits, index)
+        end
+    end
+end
+
 return transitions

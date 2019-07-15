@@ -2,6 +2,7 @@ local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
 
+local hitCanvas = love.graphics.newImage("assets/img/white.png")
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -28,10 +29,21 @@ function game:init()
    love.success = love.filesystem.write("global.lua", table.tostring(global))
    
    Signal.register("score", function(value) global.score = global.score + value end )
-   Signal.register("bounce", function() global.background.color = Helper.randomColor() end )
-   Signal.register("allActive", function() transition.shouldstart = true end )
+   Signal.register("bounce", function()
+      global.background.color = Helper.randomColor()
+
+   end )
+   
+   Signal.register("allActive", function()
+      transition.shouldstart = true
+   end )
 
    Signal.register("hit", function(touch)
+         touch.time = 0.5
+         touch.zoom = 1
+         touch.rotate = 0
+         touch.alpha = 1
+
          table.insert(global.hits, touch)
          screen:setShake(7)
          screen:setRotation(.07)
@@ -225,7 +237,9 @@ function game:draw()
    map:drawLayer(hero)
 
    for _, hit in pairs(global.hits) do
-      love.graphics.rectangle("line", hit.x, hit.y, 16, 16)
+      local hitColor = Helper.randomColor()
+      love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
+      love.graphics.draw(hitCanvas, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 8, 8)
    end
 
    love.graphics.setColor(0.7,0.7,0.7,1)
@@ -246,6 +260,9 @@ function game:update(dt)
          global.background.color.blue
       )
    end
+
+   transition:hitsTween(global.hits, dt)
+
 end
 
 
