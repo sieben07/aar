@@ -30,6 +30,8 @@ local hero = {
    rotate = 0,
    zoom = 1,
    image = love.graphics.newImage "assets/img/minimega.png",
+   bulletImage = love.graphics.newImage "assets/img/white.png",
+
    
    -- the states of the hero
    fsm = machine.create({
@@ -276,7 +278,7 @@ function hero:updateShoots()
          shoot.x = actualX
          
          for _, col in ipairs(cols) do
-            Signal.emit("hit", col.touch)
+            Signal.emit("hit", col.touch, self.shootState)
             if col.other.type == "robot" and col.other.active == false then
                col.other.active = true
                Signal.emit("score", 7)
@@ -311,7 +313,7 @@ function hero:draw()
    
    for _, shoot in ipairs(shoots) do
       if shoot.type == "bullet" then
-         love.graphics.draw(self.image, self.quads[shoot.dir][1], shoot.x, shoot.y, 0, 1)
+      love.graphics.draw(self.bulletImage, shoot.x, shoot.y)
       end
    end
 end

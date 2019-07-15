@@ -2,7 +2,7 @@ local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
 
-local hitCanvas = love.graphics.newImage("assets/img/white.png")
+local bulletHit = love.graphics.newImage("assets/img/white.png")
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -38,11 +38,12 @@ function game:init()
       transition.shouldstart = true
    end )
 
-   Signal.register("hit", function(touch)
-         touch.time = 0.5
-         touch.zoom = 1
-         touch.rotate = 0
-         touch.alpha = 1
+   Signal.register("hit", function(touch, direction)
+      print(direction)
+      touch.time = 0.5
+      touch.zoom = 1
+      touch.rotate = 0
+      touch.alpha = 1
 
          table.insert(global.hits, touch)
          screen:setShake(7)
@@ -239,7 +240,8 @@ function game:draw()
    for _, hit in pairs(global.hits) do
       local hitColor = Helper.randomColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
-      love.graphics.draw(hitCanvas, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 0, 0)
+      -- love.graphics.draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
+      love.graphics.draw(bulletHit, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 22, -8)
    end
 
    love.graphics.setColor(0.7,0.7,0.7,1)
