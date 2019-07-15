@@ -11,9 +11,9 @@ local global = {
    },
    background = {
       color = {
-         red   = 77 / 255,
+         red   = 76 / 255,
          green = 77 / 255,
-         blue  = 77 / 255,
+         blue  = 78 / 255,
          alpha = 1
       }
    },

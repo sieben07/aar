@@ -26,11 +26,13 @@ local fonts = require "assets.font.fonts"
 function game:init()
    file = love.filesystem.newFile( "global.lua" )
    love.success = love.filesystem.write("global.lua", table.tostring(global))
+   
    Signal.register("score", function(value) global.score = global.score + value end )
    Signal.register("bounce", function() global.background.color = Helper.randomColor() end )
    Signal.register("allActive", function() transition.shouldstart = true end )
 
    Signal.register("hit", function(touch)
+         table.insert(global.hits, touch)
          screen:setShake(7)
          screen:setRotation(.07)
          screen:setScale(1.007)
@@ -67,7 +69,7 @@ function game:enter()
    map:addCustomLayer("texts", 9)
    texts = map.layers["texts"]
 
-   mySolid = map.layers["Solid"]
+   mapLayerSolid = map.layers["Solid"]
 
 
    local heroObjectFromMap = Helper.getHeroFromMapObjects(map.objects);
@@ -95,15 +97,15 @@ function game:enter()
 
    function robots:draw()
       for _, robot in ipairs(self.robots) do
-        if robot.active and  transition.shouldstart ~= true then
-        love.graphics.setColor(global.background.color.red,global.background.color.green,global.background.color.blue)
+        if robot.active and transition.shouldstart ~= true then
+         love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
         else
-          love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
+         love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
         end
          love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
 
          love.graphics.setFont(fonts.ormont_small)
-         love.graphics.setColor(1, 191/255, 0, 1)
+         love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
          love.graphics.print(robot.name, robot.x + 40, robot.y)
       end
    end
@@ -189,7 +191,8 @@ function game:enter()
       end
 
       love.graphics.setFont(fonts.orange_kid)
-       love.graphics.setColor(1, 0.64, 0.02)
+      --  love.graphics.setColor(1, 0.64, 0.02)
+      love.graphics.setColor(0.5, 0.5, 0.5)
        if global.score ~= 1 then
           love.graphics.print(global.score .. " | points", 32, 4)
        else
@@ -217,9 +220,13 @@ function game:draw()
    screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    map:drawLayer(texts)
-   map:drawLayer(mySolid)
+   map:drawLayer(mapLayerSolid)
    map:drawLayer(robots)
    map:drawLayer(hero)
+
+   for _, hit in pairs(global.hits) do
+      love.graphics.rectangle("line", hit.x, hit.y, 16, 16)
+   end
 
    love.graphics.setColor(0.7,0.7,0.7,1)
    love.graphics.setFont(fonts.ormont_tiny)

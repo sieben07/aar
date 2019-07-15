@@ -31,7 +31,7 @@ robot.names are
 + Start
 + Jump
 
-@function loadRobots
+@function getTextsFromMapObjects
 @tparam object mapRobots the robot table loaded from sti
 @tparam object robotEntity a robot table from Robot
 --]]--
@@ -43,10 +43,14 @@ function Helper.getTextsFromMapObjects(mapObjects)
          table.insert(texts, object)
       end
    end
-
    return texts
 end
 
+--[[--
+@function getHeroFromMapObjects
+@tparam object mapRobots the robot table loaded from sti
+@tparam object robotEntity a robot table from Robot
+--]]--
 function Helper.getHeroFromMapObjects(mapObjects)
    for _,object in pairs(mapObjects) do
       if object.type == "hero" then
@@ -55,6 +59,11 @@ function Helper.getHeroFromMapObjects(mapObjects)
    end
 end
 
+--[[--
+@function getRobotsFromMapObjects
+@tparam object mapRobots the robot table loaded from sti
+@tparam object robotEntity a robot table from Robot
+--]]--
 function Helper.getRobotsFromMapObjects(mapObjects, entity)
    local robots = {}
    for _,object in pairs(mapObjects) do
@@ -84,7 +93,10 @@ function Helper.hexToRgba(colorHex)
    rgba.alpha = tonumber(a,16) / 255
    return rgba
 end
-
+--[[--
+@function randomColor
+@treturn {number,...} a table with r g b a colors as numbers
+--]]--
 function Helper.randomColor()
    local rgba = {}
    rgba.red = math.random()
