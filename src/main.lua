@@ -54,6 +54,10 @@ function game:init()
 
    Signal.register("hit", function(touch, direction)
          touch.direction = direction
+         if direction == "shootRight" then
+            touch.x = touch.x + 14
+            touch.y = touch.y + 7
+         end
          Helper.merge(touch, hitAnimation)
          table.insert(global.hits, touch)
          screen:setShake(7)
@@ -251,9 +255,9 @@ function game:draw()
       local hitColor = Helper.randomColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
       if hit.direction == "shootRight" then 
-         love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 0.3, 0.3)
-      else 
          love.graphics.draw(hitParticle, hit.x, hit.y, 0, 0.3, 0.3)
+      else 
+         love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 0.3, 0.3)
       end
       
    end
