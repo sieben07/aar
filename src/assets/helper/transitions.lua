@@ -58,8 +58,6 @@ function transitions:hitsTween(hits, dt)
     for index, hit in ipairs(hits) do
         if hit.time >= 0 then
             hit.time = hit.time - dt
-            hit.zoom = hit.zoom + 0.001
-            hit.rotate = hit.rotate + 15
             hit.alpha = hit.alpha - dt
         else
             table.remove(hits, index)

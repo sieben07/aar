@@ -24,11 +24,15 @@ local fonts = require "assets.font.fonts"
 -- particle system
 
 local hitImage = love.graphics.newImage("assets/img/white.png")
+local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
+hitParticle:setParticleLifetime(1, 5)
+hitParticle:setLinearAcceleration(-20, -30, 20, 30)
+hitParticle:setSpeed(20, 30)
+hitParticle:setSpin(20, 50)
+hitParticle:setSpinVariation(0.7)
 
 local hitAnimation = {
-   time = 0.1,
-   zoom = 1,
-   rotate = 0,
+   time = 0.5,
    alpha = 1,
 }
 
@@ -49,7 +53,7 @@ function game:init()
    end )
 
    Signal.register("hit", function(touch, direction)
-      
+         touch.direction = direction
          Helper.merge(touch, hitAnimation)
          table.insert(global.hits, touch)
          screen:setShake(7)
@@ -244,10 +248,14 @@ function game:draw()
    map:drawLayer(hero)
 
    for _, hit in pairs(global.hits) do
-      -- local hitColor = Helper.randomColor()
-      -- love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
-      -- love.graphics.draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
-      love.graphics.draw(hitImage, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 22, -8)
+      local hitColor = Helper.randomColor()
+      love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
+      if hit.direction == "shootRight" then 
+         love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 0.3, 0.3)
+      else 
+         love.graphics.draw(hitParticle, hit.x, hit.y, 0, 0.3, 0.3)
+      end
+      
    end
 
    love.graphics.setColor(0.7,0.7,0.7,1)
@@ -259,6 +267,10 @@ function game:update(dt)
    screen:update(dt)
    robots:update(dt)
    hero:update(dt)
+   hitParticle:update(dt)
+   hitParticle:emit(32)
+   
+   transition:hitsTween(global.hits, dt)
 
    if transition.shouldstart == true then
       transition:selector(game, "randomColor", Gamestate, global, dt)
@@ -268,9 +280,6 @@ function game:update(dt)
          global.background.color.blue
       )
    end
-
-   transition:hitsTween(global.hits, dt)
-
 end
 
 
