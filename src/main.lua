@@ -2,8 +2,6 @@ local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
 
-local bulletHit = love.graphics.newImage("assets/img/white.png")
-
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
@@ -23,6 +21,18 @@ local level = ""
 -- fonts
 local fonts = require "assets.font.fonts"
 
+-- particle system
+
+local hitImage = love.graphics.newImage("assets/img/white.png")
+
+local hitAnimation = {
+   time = 0.1,
+   zoom = 1,
+   rotate = 0,
+   alpha = 1,
+}
+
+
 -- game
 function game:init()
    file = love.filesystem.newFile( "global.lua" )
@@ -39,12 +49,8 @@ function game:init()
    end )
 
    Signal.register("hit", function(touch, direction)
-      print(direction)
-      touch.time = 0.5
-      touch.zoom = 1
-      touch.rotate = 0
-      touch.alpha = 1
-
+      
+         Helper.merge(touch, hitAnimation)
          table.insert(global.hits, touch)
          screen:setShake(7)
          screen:setRotation(.07)
@@ -238,10 +244,10 @@ function game:draw()
    map:drawLayer(hero)
 
    for _, hit in pairs(global.hits) do
-      local hitColor = Helper.randomColor()
-      love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
+      -- local hitColor = Helper.randomColor()
+      -- love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
       -- love.graphics.draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
-      love.graphics.draw(bulletHit, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 22, -8)
+      love.graphics.draw(hitImage, hit.x, hit.y, math.deg(hit.rotate), hit.zoom, hit.zoom, 22, -8)
    end
 
    love.graphics.setColor(0.7,0.7,0.7,1)
