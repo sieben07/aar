@@ -17,7 +17,6 @@ local hero = {
    vel = 4,
    jump_vel = -384,
    GRAVITY = -768,
-   shooting = false,
    shoots = {}, -- holds our fired shoots
    animationTimer = 0,
    stick_to = '', -- the platform takes controll over movement while sticky
@@ -25,7 +24,6 @@ local hero = {
    -- Animation
    quadIndex = 1,
    max = 5,
-   -- state = "right", state  is now fully in fsm.current
    shootState = "shootRight",
    rotate = 0,
    zoom = 1,
@@ -102,7 +100,27 @@ local hero = {
          { name = "rightPress", from = "leftMovingShooting", to = "rightMovingShooting" },
          { name = "rightPress", from = "leftShooting", to = "rightMovingShooting" },
       }
+      -- ,
+      -- callbacks = {
+      --    on_right = function(self, event, from, to, msg) print(self, event, from, to, msg) end,
+      --    on_rightInAir = function() end,
+      --    on_rightMoving = function() end,
+      --    on_rightShooting = function() end,
+      --    on_rightInAirMoving = function() end,
+      --    on_rightInAirShooting = function() end,
+      --    on_rightMovingShooting = function() end,
+      --    on_rightInAirMovingShooting = function() end,
+      --    on_left = function(self, event, from, to, msg) print(self, event, from, to, msg) end,
+      --    on_leftInAir = function() end,
+      --    on_leftMoving = function() end,
+      --    on_leftShooting = function() end,
+      --    on_leftInAirMoving = function() end,
+      --    on_leftInAirShooting = function() end,
+      --    on_leftMovingShooting = function() end,
+      --    on_leftInAirMovingShooting = function() end
+      -- }
    }),
+
    -- the frames of the hero
    quads = {
       -- 1
@@ -333,8 +351,6 @@ function hero:update(dt)
       end
    end
    
-   -- Animation Direciton
-   -- is now fully in fsm.current
    if self.stick_to ~= '' and self.stick_to.name ~= nil then
       -- TO DO add or remove the delta of x and y direction?
       self.y = self.stick_to.y - 32
@@ -354,6 +370,7 @@ function hero:update(dt)
    -- Move the Hero UP or DOWN
    if self.y_vel ~= 0 then
       self.falling = true
+      --self.fsm.fallingAction()
       self.y = self.y + self.y_vel * dt
       self.y_vel = self.y_vel - self.GRAVITY * dt
       local goalY = self.y
@@ -361,13 +378,10 @@ function hero:update(dt)
       self.y = aY
       
       if len > 0 then
+         self.falling = false
+         self.y_vel = 1
          for _, col in ipairs(cols) do
-            if (col.normal.y == 1) then
-               self.falling = false
-               self.y_vel = 1
-            else
-               self.falling = false
-               self.y_vel = 1
+            if (col.normal.y ~= 1) then
                self.stick_to = col.other
                if self.fsm.can('collisionGround') then
                   self.fsm.collisionGround()

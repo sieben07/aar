@@ -317,7 +317,6 @@ function love.keypressed(key, code, isrepat)
    if key == "s" or key == "space" then
       hero.fsm.shootPress()
       hero:shoot()
-      hero.shooting = true
    end
 
    if key == "escape" then
@@ -338,7 +337,6 @@ function love.keyreleased(key)
 
    if key == "s" or key == "space" then
       hero.fsm.shootReleased()
-      hero.shooting = false
    end
 
    if (key == "up" or key == "a") and hero.y_vel < 0 then

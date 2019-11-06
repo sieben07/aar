@@ -26,7 +26,7 @@ robot.types are:
 + robot
 + text
 
-robot.names are
+robot.names are:
 
 + Start
 + Jump
