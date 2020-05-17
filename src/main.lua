@@ -53,6 +53,7 @@ function game:init()
    end )
 
    Signal.register("hit", function(touch, direction)
+         -- WHY HERE
          touch.direction = direction
          if direction == "shootRight" then
             touch.x = touch.x + 14
