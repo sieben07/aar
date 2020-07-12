@@ -33,27 +33,16 @@ hitParticle:setSpinVariation(0.7)
 
 local hitAnimation = {
    time = 0.5,
-   alpha = 1,
+   alpha = 1
 }
 
-
 -- game
-function game:init()
-   file = love.filesystem.newFile( "global.lua" )
-   love.success = love.filesystem.write("global.lua", table.tostring(global))
-   
+function game.init()
    Signal.register("score", function(value) global.score = global.score + value end )
-   Signal.register("bounce", function()
-      global.background.color = Helper.randomColor()
-
-   end )
-   
-   Signal.register("allActive", function()
-      transition.shouldstart = true
-   end )
+   Signal.register("bounce", function() global.background.color = Helper.randomColor() end )
+   Signal.register("allActive", function() transition.shouldstart = true end )
 
    Signal.register("hit", function(touch, direction)
-         -- WHY HERE
          touch.direction = direction
          if direction == "shootRight" then
             touch.x = touch.x + 14
@@ -68,7 +57,7 @@ function game:init()
    )
 end
 
-function game:enter()
+function game.enter()
    local robotEntity = require "assets.obj.robot"
    local heroPrototype = require("assets.obj.hero")
 
@@ -119,10 +108,6 @@ function game:enter()
       table.insert(texts.texts, text)
    end
 
-   function hero:push(dx, dy)
-      local cols, len = move(world, self, self.x + dx, self.y + dy)
-   end
-
    function robots:draw()
       for _, robot in ipairs(self.robots) do
         if robot.active and transition.shouldstart ~= true then
@@ -144,7 +129,7 @@ function game:enter()
    --]]
    function robots:update(dt)
       local allActive = {}
-      local function filterUp(item , other)
+      local function filterUp(_ , other)
         if other.type == "hero" or other.type == "bullet" then
           return "cross"
         else
@@ -152,7 +137,7 @@ function game:enter()
         end
       end
 
-      local function filterDown(item, other)
+      local function filterDown(_, other)
         if other.type == "bullet" then
           return nil
         else
@@ -187,7 +172,7 @@ function game:enter()
 
                 dy = goalY - 32
                 if col.other.type == "hero" then
-                  col.other:push(0, dy)
+                  move(world, col.other, col.other.x, col.other.y + dy)
                 end
               end
             end
@@ -255,12 +240,12 @@ function game:draw()
    for _, hit in pairs(global.hits) do
       local hitColor = Helper.randomColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
-      if hit.direction == "shootRight" then 
+      if hit.direction == "shootRight" then
          love.graphics.draw(hitParticle, hit.x, hit.y, 0, 0.3, 0.3)
-      else 
+      else
          love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 0.3, 0.3)
       end
-      
+
    end
 
    love.graphics.setColor(0.7,0.7,0.7,1)
@@ -274,7 +259,7 @@ function game:update(dt)
    hero:update(dt)
    hitParticle:update(dt)
    hitParticle:emit(32)
-   
+
    transition:hitsTween(global.hits, dt)
 
    if transition.shouldstart == true then

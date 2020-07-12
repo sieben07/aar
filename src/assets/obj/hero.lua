@@ -15,12 +15,12 @@ local hero = {
    x_vel = 0,
    y_vel = 1,
    vel = 4,
-   jump_vel = -384,
-   GRAVITY = -768,
+   jump_vel = -6,
+   GRAVITY = -0.2,
    shoots = {}, -- holds our fired shoots
    animationTimer = 0,
    stick_to = '', -- the platform takes controll over movement while sticky
-   
+
    -- Animation
    quadIndex = 1,
    max = 5,
@@ -30,7 +30,7 @@ local hero = {
    image = love.graphics.newImage "assets/img/minimega.png",
    bulletImage = love.graphics.newImage "assets/img/white.png",
 
-   
+
    -- the states of the hero
    fsm = machine.create({
       initial = "right",
@@ -287,21 +287,21 @@ end
 
 function hero:updateShoots()
    local shoots, _ = world:getItems()
-   
+
    for _, shoot in pairs(shoots) do
       if shoot.type == "bullet" then
          -- move them
          local goalX = shoot.x + shoot.x_vel
          local actualX, actualY, cols, len = world:move(shoot, goalX, shoot.y, function(item, other) return "cross" end )
          shoot.x = actualX
-         
+
          for _, col in ipairs(cols) do
             Signal.emit("hit", col.touch, self.shootState)
             if col.other.type == "robot" and col.other.active == false then
                col.other.active = true
                Signal.emit("score", 7)
             end
-            
+
             -- This is wrong, every Robot should know
             -- by himself what to do if hit.
             if col.other.name == "Start" then
@@ -314,7 +314,7 @@ function hero:updateShoots()
                end
             end
          end
-         
+
          if len ~= 0 then
             world:remove(shoot)
          end
@@ -325,10 +325,10 @@ end
 function hero:draw()
    -- player
    love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
-   
+
    -- shoots
    local shoots, _ = world:getItems()
-   
+
    for _, shoot in ipairs(shoots) do
       if shoot.type == "bullet" then
       love.graphics.draw(self.bulletImage, shoot.x, shoot.y)
@@ -340,7 +340,7 @@ end
 function hero:update(dt)
    -- Handle Shooting
    self:updateShoots()
-   
+
    -- Animation Framerate
    self.animationTimer = self.animationTimer + dt
    if self.animationTimer > 0.07 then
@@ -350,33 +350,34 @@ function hero:update(dt)
          self.quadIndex = 2
       end
    end
-   
+
    if self.stick_to ~= '' and self.stick_to.name ~= nil then
       -- TO DO add or remove the delta of x and y direction?
       self.y = self.stick_to.y - 32
    end
-   
+
    -- Check if falling
    if self.falling and self.fsm.can("jumpPress") then
       self.stick_to = ''
       self.fsm.jumpPress()
    end
-   
+
    -- Move the Hero LEFT or RIGHT
    local goalX = self.x + self.x_vel
    local actualX, _, _, len = world:move(self, goalX, self.y)
    self.x = actualX
-   
-   -- Move the Hero UP or DOWN
+
+   -- TODO: DON'T TEST ON y_vel find something else
    if self.y_vel ~= 0 then
       self.falling = true
       --self.fsm.fallingAction()
-      self.y = self.y + self.y_vel * dt
-      self.y_vel = self.y_vel - self.GRAVITY * dt
+      self.y = self.y + self.y_vel
+      self.y_vel = self.y_vel - self.GRAVITY
+
       local goalY = self.y
       local aX, aY, cols, len = world:move(self, self.x, goalY)
       self.y = aY
-      
+
       if len > 0 then
          self.falling = false
          self.y_vel = 1
