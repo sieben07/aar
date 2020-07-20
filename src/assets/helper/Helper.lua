@@ -162,6 +162,125 @@ function table.tostring( tbl )
   return "{" .. table.concat( result, "," ) .. "}"
 end
 
+-- move and update the hero
+
+function Helper.shoot(hero, world)
+   Signal.emit("score", -1)
+   local shoot = {}
+   if hero.shootState == "shootRight" then
+      shoot.x = hero.x + hero.WIDTH
+      shoot.y = hero.y + 12
+      shoot.WIDTH = 14
+      shoot.HEIGHT = 14
+      shoot.x_vel = 8
+      shoot.type = "bullet"
+      shoot.dir = "bulletRight"
+      world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
+   end
+   if hero.shootState == "shootLeft" then
+      shoot.x = hero.x - 14
+      shoot.y = hero.y + 12
+      shoot.WIDTH = 14
+      shoot.HEIGHT = 14
+      shoot.x_vel = -8
+      shoot.type = "bullet"
+      shoot.dir = "bulletLeft"
+      world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
+   end
+end
+
+function Helper.updateShoots(hero, world)
+   local shoots, _ = world:getItems()
+
+   for _, shoot in pairs(shoots) do
+      if shoot.type == "bullet" then
+         -- move them
+         local goalX = shoot.x + shoot.x_vel
+         local actualX, _, cols, len = world:move(shoot, goalX, shoot.y, function(_, _) return "cross" end )
+         shoot.x = actualX
+
+         for _, col in ipairs(cols) do
+            Signal.emit("hit", col.touch, hero.shootState)
+            if col.other.type == "robot" and col.other.active == false then
+               col.other.active = true
+               Signal.emit("score", 7)
+            end
+
+            -- This is wrong, every Robot should know
+            -- by himself what to do if hit.
+            if col.other.name == "Start" then
+               col.other.falling = true
+            end
+            if col.other.name == "Jump" then
+               if col.other.jump ~= true then
+                  col.other.jump = true
+                  col.other.velocity = -128
+               end
+            end
+         end
+
+         if len ~= 0 then
+            world:remove(shoot)
+         end
+      end
+   end
+end
+
+function Helper.update(dt, hero, world)
+   -- Handle Shooting
+   Helper.updateShoots(hero, world)
+
+   -- Animation Framerate
+   hero.animationTimer = hero.animationTimer + dt
+   if hero.animationTimer > 0.07 then
+      hero.animationTimer = 0
+      hero.quadIndex = hero.quadIndex + 1
+      if hero.quadIndex > hero.max then
+         hero.quadIndex = 2
+      end
+   end
+
+   if hero.stick_to ~= '' and hero.stick_to.name ~= nil then
+      -- TO DO add or remove the delta of x and y direction?
+      hero.y = hero.stick_to.y - 32
+   end
+
+   -- Check if falling
+   if hero.falling and hero.fsm.can("jumpPress") then
+      hero.stick_to = ''
+      hero.fsm.jumpPress()
+   end
+
+   -- Move the Hero LEFT or RIGHT
+   local goalX = hero.x + hero.x_vel
+   local actualX, _, _, len = world:move(hero, goalX, hero.y)
+   hero.x = actualX
+
+   -- TODO: DON'T TEST ON y_vel find something else
+   if hero.y_vel ~= 0 then
+      hero.falling = true
+      --hero.fsm.fallingAction()
+      hero.y = hero.y + hero.y_vel
+      hero.y_vel = hero.y_vel - hero.GRAVITY
+
+      local goalY = hero.y
+      local aX, aY, cols, len = world:move(hero, hero.x, goalY)
+      hero.y = aY
+
+      if len > 0 then
+         hero.falling = false
+         hero.y_vel = 1
+         for _, col in ipairs(cols) do
+            if (col.normal.y ~= 1) then
+               hero.stick_to = col.other
+               if hero.fsm.can('collisionGround') then
+                  hero.fsm.collisionGround()
+               end
+            end
+         end
+      end
+   end
+end
 
 
 return Helper

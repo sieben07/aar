@@ -1,13 +1,15 @@
 local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
+local map
+local hero
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
 Signal = require "assets.libs.hump.signal"
-local Camera = require "assets.libs.hump.camera"
+-- local Camera = require "assets.libs.hump.camera"
 
 
 -- Helper
@@ -229,7 +231,7 @@ function game.enter()
    map:bump_init(world)
 end
 
-function game:draw()
+function game.draw()
    screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    map:drawLayer(texts)
@@ -256,7 +258,8 @@ end
 function game:update(dt)
    screen:update(dt)
    robots:update(dt)
-   hero:update(dt)
+   Helper.update(dt, hero, world)
+   -- hero:update(dt)
    hitParticle:update(dt)
    hitParticle:emit(32)
 
@@ -302,7 +305,7 @@ function love.keypressed(key, code, isrepat)
 
    if key == "s" or key == "space" then
       hero.fsm.shootPress()
-      hero:shoot()
+      Helper.shoot(hero, world)
    end
 
    if key == "escape" then
