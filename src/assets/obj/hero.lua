@@ -260,18 +260,4 @@ local hero = {
    }
 }
 
-function hero:draw()
-   -- player
-   love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
-
-   -- shoots
-   local shoots, _ = world:getItems()
-
-   for _, shoot in ipairs(shoots) do
-      if shoot.type == "bullet" then
-      love.graphics.draw(self.bulletImage, shoot.x, shoot.y)
-      end
-   end
-end
-
 return hero

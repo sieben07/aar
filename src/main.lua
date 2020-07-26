@@ -79,6 +79,7 @@ function game.enter()
    -- hero
    map:addCustomLayer("hero", 7)
    hero = map.layers["hero"]
+   hero.draw = Helper.drawFactory(hero, world)
 
    -- robots
    map:addCustomLayer("robots", 8)

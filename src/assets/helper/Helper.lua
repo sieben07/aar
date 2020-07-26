@@ -282,6 +282,22 @@ function Helper.update(dt, hero, world)
    end
 end
 
+function Helper.drawFactory(robot, world)
+   local draw = function ()
+      -- player
+      love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
+
+      -- shoots
+      local shoots, _ = world:getItems()
+
+      for _, shoot in ipairs(shoots) do
+         if shoot.type == "bullet" then
+            love.graphics.draw(robot.bulletImage, shoot.x, shoot.y)
+         end
+      end
+   end
+   return draw
+end
 
 return Helper
 
