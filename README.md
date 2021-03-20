@@ -37,19 +37,19 @@ In this Section it’s all about the levels the robots and more.
 
 ### Level 0 - The Start/Menu level
 
-Most games don’t have a playable menu level. What is a playable menu
-level?, you ask. Good question very good question indeed.
+Most games don’t have a playable menu screen level. What is a playable menu screen
+level, you ask? Good question, very good question indeed.
 
-What is a menu?
+What is a menu screen?
 
-Before a person can start a game he usually select from a menu what he
-wants to do. The menu is usually something like:
+Before a person can start a game he usually select on the menu screen what he
+wants to do. The menu screen usually cointains a list of selectable items:
 
   - Start
   - Options
   - …(something something)
 
-Here the controls are different to the controls in the game.
+On the menue screen the controls are different to the controls in the game.
 
 Up and down on a joy-pad, joystick or on a keyboard (sometimes “w” for
 up and “s” for down) toggle between the menu items. With one button on
@@ -78,12 +78,18 @@ graphics, sound, all the look and feel.
 
 ### Levels
 
-A minimum of at least 5 levels
+A Minimum of 5 levels.
+Every Level has 5 Stages.
+
+Level Zero is the playable menu level.
+
 
 #### Level Structure
 
-Each level exist of 5 sub-levels. Each new level introduces a new robot,
-each sub-level introduces a a new sub-version of the robot.
+Each level exist of 5 stages. Each level has one theme and one kind of robot.
+4 stages of one level introduce one new robot, the 5th stage is the Endgengner stage.
+Each level introduces a new kind of robot,
+each stage introduces a new version of the robot.
 
 ## Robots
 
@@ -123,32 +129,41 @@ each sub-level introduces a a new sub-version of the robot.
 >   - [x] starts jumping when activated
 >   - [x] helps get higher grounds
 >   - [x] blocks passages sometimes
->   - [ ] open passages by jumping away
+>   - [x] open passages by jumping away
+
+### Jump Level (02)
 
   - High Jump Robot
 
 >   - like the jump robot
->   - just jumps higher
+>   -  [x] just jumps higher
+
+### Jump Level (03)
 
   - Water Pump Jump Robot
 
->   - shoots water to jump
->   - can be on his back
+>   - [ ] shoots water to jump
+>   - [ ]  can be on his back
+
+### Jump Level (04)
 
   - Gravity Jump Robot
 
->   - jumps from the ground to the ceiling
->   - can sometimes be like an elevator
+>   - [ ] jumps from the ground to the ceiling
+>   - [ ] can sometimes be like an elevator
+
+### Jump Level (ENDGEGNER)
 
   - Jump Boss Robot
 
 >   - does everything the other jump robots does
->   - turned up to eleven
+>   -  - [ ] turned up to eleven
 
 ### TODO
 
   - [x] JUMP ROBOTS COLLIDE BUG
   - [x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
-  - [ ] SHOOT COLLIDES ANIMATION
+  - [x] SHOOT COLLIDES ANIMATION
   - [ ] HIT ANIMATION
-  - [ ] STATE SHOULD CHANGE DEPENDENT VARIABLES
+  - [] STATE MASHINE STATE functions update variables
+  - [ ] Helper Shoot: hero and world not as arg
