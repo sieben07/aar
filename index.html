@@ -4,23 +4,13 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="author" content="Orhan Küçükyılmaz">
-  <title>.| One point left</title>
+  <title>input</title>
   <style type="text/css">code{white-space: pre;}</style>
-  <link rel="stylesheet" href="./src/assets/css/ldoc.css">
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 </head>
 <body>
-<header>
-  <hgroup>
-    <h1 class="title">.| One point left</h1>
-            <h2 class="subtitle">Activate all robots!</h2>
-                  <h4 class="author">Orhan Küçükyılmaz</h4>
-        </hgroup>
-</header>
-<section>
 <nav id="TOC">
 <ul>
 <li><a href="#activate-all-robots">Activate all robots</a>
@@ -39,6 +29,10 @@
 <ul>
 <li><a href="#start-level-00">Start Level (00)</a></li>
 <li><a href="#jump-level-01">Jump Level (01)</a></li>
+<li><a href="#jump-level-02">Jump Level (02)</a></li>
+<li><a href="#jump-level-03">Jump Level (03)</a></li>
+<li><a href="#jump-level-04">Jump Level (04)</a></li>
+<li><a href="#jump-level-endgegner">Jump Level (ENDGEGNER)</a></li>
 <li><a href="#todo">TODO</a></li>
 </ul></li>
 </ul></li>
@@ -95,8 +89,14 @@
 <tr class="odd">
 <td>0.0.7</td>
 <td>Orhan Küçükyılmaz (OK)</td>
-<td>Shoots collision annimation</td>
+<td>Shoot Colide</td>
 <td>06.08.2018</td>
+</tr>
+<tr class="even">
+<td>0.0.8</td>
+<td>Orhan Küçükyılmaz (OK)</td>
+<td>State updates hero variables</td>
+<td>21.03.2021</td>
 </tr>
 </tbody>
 </table>
@@ -117,15 +117,15 @@
 <h2 id="levels-robots-and-more">Levels, Robots, and more</h2>
 <p>In this Section it’s all about the levels the robots and more.</p>
 <h3 id="level-0---the-startmenu-level">Level 0 - The Start/Menu level</h3>
-<p>Most games don’t have a playable menu level. What is a playable menu level?, you ask. Good question very good question indeed.</p>
-<p>What is a menu?</p>
-<p>Before a person can start a game he usually select from a menu what he wants to do. The menu is usually something like:</p>
+<p>Most games don’t have a playable menu screen level. What is a playable menu screen level, you ask? Good question, very good question indeed.</p>
+<p>What is a menu screen?</p>
+<p>Before a person can start a game he usually can selects on the menu screen what he wants to do. The menu screen usually cointains a list of selectable items:</p>
 <ul>
 <li>Start</li>
 <li>Options</li>
-<li>…(something something)</li>
+<li><em>(something something)</em></li>
 </ul>
-<p>Here the controls are different to the controls in the game.</p>
+<p>On this menue screen the controls are usually different than the controls in the game.</p>
 <p>Up and down on a joy-pad, joystick or on a keyboard (sometimes “w” for up and “s” for down) toggle between the menu items. With one button on the joy-pad, joystick or keyboard (sometime space or enter) the user select what he wants to do.</p>
 <p>In this game the menu is a playable level. Why? So the user uses the actual controls of the game and not some extra controls for the menu. So he can learn the controls for the game early.</p>
 <p>Level 0 teaches the player how to play the game, and presents him the first robot to activate.</p>
@@ -137,9 +137,10 @@
 <p>No project is ever done if there are no goals set. To know when the Version 1.0.0 is done of this game, some goals are set.</p>
 <p>Some of this gaols will be hard set goals, like the number of different levels, robots, boss robots and such. Some goals will be soft, like graphics, sound, all the look and feel.</p>
 <h3 id="levels">Levels</h3>
-<p>A minimum of at least 5 levels</p>
+<p>A Minimum of 5 levels. Every Level has 5 Stages.</p>
+<p>Level Zero is the playable menu level.</p>
 <h4 id="level-structure">Level Structure</h4>
-<p>Each level exist of 5 sub-levels. Each new level introduces a new robot, each sub-level introduces a a new sub-version of the robot.</p>
+<p>Each level exist of 5 stages. Each level has one theme and one kind of robot. 4 stages of one level introduce one new robot, the 5th stage is the Endgengner stage. Each level introduces a new kind of robot, each stage introduces a new version of the robot.</p>
 <h2 id="robots">Robots</h2>
 <h3 id="start-level-00">Start Level (00)</h3>
 <ul>
@@ -200,44 +201,56 @@ starts jumping when activated</li>
 helps get higher grounds</li>
 <li><input type="checkbox" disabled="" checked="" />
 blocks passages sometimes</li>
-<li><input type="checkbox" disabled="" />
+<li><input type="checkbox" disabled="" checked="" />
 open passages by jumping away</li>
 </ul>
 </blockquote>
+<h3 id="jump-level-02">Jump Level (02)</h3>
 <ul>
 <li>High Jump Robot</li>
 </ul>
 <blockquote>
 <ul>
 <li>like the jump robot</li>
-<li>just jumps higher</li>
+<li><input type="checkbox" disabled="" />
+just jumps higher</li>
 </ul>
 </blockquote>
+<h3 id="jump-level-03">Jump Level (03)</h3>
 <ul>
 <li>Water Pump Jump Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>shoots water to jump</li>
-<li>can be on his back</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+shoots water to jump</li>
+<li><input type="checkbox" disabled="" />
+can be on his back</li>
 </ul>
 </blockquote>
+<h3 id="jump-level-04">Jump Level (04)</h3>
 <ul>
 <li>Gravity Jump Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>jumps from the ground to the ceiling</li>
-<li>can sometimes be like an elevator</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+jumps from the ground to the ceiling</li>
+<li><input type="checkbox" disabled="" />
+can sometimes be like an elevator</li>
 </ul>
 </blockquote>
+<h3 id="jump-level-endgegner">Jump Level (ENDGEGNER)</h3>
 <ul>
 <li>Jump Boss Robot</li>
 </ul>
 <blockquote>
 <ul>
 <li>does everything the other jump robots does</li>
-<li>turned up to eleven</li>
+<li><ul class="task-list">
+<li><input type="checkbox" disabled="" />
+turned up to eleven</li>
+</ul></li>
 </ul>
 </blockquote>
 <h3 id="todo">TODO</h3>
@@ -250,8 +263,10 @@ ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE</li>
 SHOOT COLLIDES ANIMATION</li>
 <li><input type="checkbox" disabled="" />
 HIT ANIMATION</li>
+<li><input type="checkbox" disabled="" checked="" />
+STATE MASHINE STATE functions update variables</li>
 <li><input type="checkbox" disabled="" />
-STATE SHOULD CHANGE DEPENDENT VARIABLES</li>
+Helper Shoot: hero and world not as arg</li>
 </ul>
 </section>
 </body>
