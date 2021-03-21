@@ -112,45 +112,7 @@ function Helper.areAllRobotsActive(t)
    end
 end
 
-
-function table.val_to_str ( v )
-  if "string" == type( v ) then
-    v = string.gsub( v, "\n", "\\n" )
-    if string.match( string.gsub(v,"[^'\"]",""), '^"+$' ) then
-      return "'" .. v .. "'"
-    end
-    return '"' .. string.gsub(v,'"', '\\"' ) .. '"'
-  else
-    return "table" == type( v ) and table.tostring( v ) or
-      tostring( v )
-  end
-end
-
-function table.key_to_str ( k )
-  if "string" == type( k ) and string.match( k, "^[_%a][_%a%d]*$" ) then
-    return k
-  else
-    return "[" .. table.val_to_str( k ) .. "]"
-  end
-end
-
-function table.tostring( tbl )
-  local result, done = {}, {}
-  for k, v in ipairs( tbl ) do
-    table.insert( result, table.val_to_str( v ) )
-    done[ k ] = true
-  end
-  for k, v in pairs( tbl ) do
-    if not done[ k ] then
-      table.insert( result,
-        table.key_to_str( k ) .. "=" .. table.val_to_str( v ) )
-    end
-  end
-  return "{" .. table.concat( result, "," ) .. "}"
-end
-
 -- move and update the hero
-
 function Helper.shoot(hero, world)
    Signal.emit("score", -1)
    local shoot = {}
@@ -195,9 +157,7 @@ function Helper.updateShoots(hero, world)
 
             -- This is wrong, every Robot should know
             -- by himself what to do if hit.
-            print(col.other.name)
             if col.other.name == "Start" then
-               print("HIT")
                col.other.falling = true
             end
             if col.other.name == "Jump" then
@@ -237,7 +197,7 @@ function Helper.update(dt, hero, world)
    -- Check if falling
    if hero.falling and hero.fsm.can("jumpPress") then
       hero.stick_to = ''
-      hero.fsm.jumpPress()
+      hero.fsm.jumpPress(1)
    end
 
    -- Move the Hero LEFT or RIGHT
@@ -274,7 +234,6 @@ end
 function Helper.drawFactory(robot, world)
    local draw = function ()
       -- player
-      love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
 
       -- shoots
       local shoots, _ = world:getItems()

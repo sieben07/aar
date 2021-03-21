@@ -96,17 +96,44 @@ function game.enter()
 
    function robotsLayer:draw()
       for _, robot in ipairs(self.robots) do
-        if robot.active and transition.shouldstart ~= true then
-         love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
-        else
-         love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
-        end
-         love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
-
-         love.graphics.setFont(fonts.ormont_small)
-         love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
-         love.graphics.print(robot.name, robot.x + 40, robot.y)
+         if robot.type == "hero" then
+            love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
+         end
+         if robot.type == "bullet" then
+            print(robot.type)
+            love.graphics.draw(robot.bulletImage, shoot.x, shoot.y)
+         end
+         if robot.type == "robot" then
+            if robot.active and transition.shouldstart ~= true then
+               love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
+            else
+               love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
+            end
+            love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
+            love.graphics.setFont(fonts.ormont_small)
+            love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
+            love.graphics.print(robot.name, robot.x + 40, robot.y)
+         end
+         if robot.type == "text" then
+            love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
+            love.graphics.setFont(fonts[robot.properties.font])
+            love.graphics.printf(robot.name, robot.x, robot.y, love.graphics.getWidth(), robot.properties.align)
+         end
       end
+
+      -- score
+      love.graphics.setFont(fonts.orange_kid)
+      love.graphics.setColor(1, 0.64, 0.02)
+      if global.score ~= 1 then
+         love.graphics.print(global.score .. " | points", 32, 4)
+      else
+         love.graphics.print(". | one point left", 32, 4)
+      end
+
+      -- version
+      love.graphics.setColor(0.7,0.7,0.7,1)
+      love.graphics.setFont(fonts.ormont_tiny)
+      love.graphics.print(game.version, 32,  32)
    end
 
    --[[--
@@ -181,32 +208,13 @@ function game.enter()
       end
    end
 
-   -- function texts:draw()
-   --    for _, text in ipairs(self.texts) do
-   --       love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
-   --       love.graphics.setFont(fonts[text.properties.font])
-   --       love.graphics.printf(text.name, text.x, text.y, love.graphics.getWidth(), text.properties.align)
-   --    end
-
-   --    love.graphics.setFont(fonts.orange_kid)
-   --    --  love.graphics.setColor(1, 0.64, 0.02)
-   --    love.graphics.setColor(0.5, 0.5, 0.5)
-   --     if global.score ~= 1 then
-   --        love.graphics.print(global.score .. " | points", 32, 4)
-   --     else
-   --        love.graphics.print(". | one point left", 32, 4)
-   --    end
-   -- end
-
    map:removeLayer("Objects")
 
-   -- for k, v in pairs(map.layers) do
-   --    if k == "Texts" then
-   --       map:removeLayer("Texts")
-   --    end
-   -- end
-
-   -- world:add(hero, hero.x, hero.y, hero.width, hero.height)
+   for k, v in pairs(map.layers) do
+      if k == "Texts" then
+         map:removeLayer("Texts")
+      end
+   end
 
    for _, robot in ipairs(robotsLayer.robots) do
       world:add(robot, robot.x, robot.y, robot.width, robot.height)
@@ -234,10 +242,6 @@ function game.draw()
       end
 
    end
-
-   love.graphics.setColor(0.7,0.7,0.7,1)
-   love.graphics.setFont(fonts.ormont_tiny)
-   love.graphics.print(game.version, 32,  32)
 end
 
 function game:update(dt)
