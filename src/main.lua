@@ -228,9 +228,7 @@ function game.draw()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    map:draw()
    map:drawLayer(robotsLayer)
-
-   love.graphics.setColor(1, 0, 0)
-	map:bump_draw()
+   Helper.drawShoots(hero.bulletImage, world)
 
    for _, hit in pairs(global.hits) do
       local hitColor = Helper.nextColor()
@@ -274,21 +272,14 @@ end
 function love.keypressed(key, code, isrepat)
    if key == "left" then
       hero.fsm.leftPress()
-      hero.x_vel = -hero.vel
-      hero.shootState = "shootLeft"
    end
 
    if key == "right" then
       hero.fsm.rightPress()
-      hero.x_vel = hero.vel
-      hero.shootState = "shootRight"
    end
 
    if (key == "up" or key == "a") and hero.fsm.can("jumpPress") then
-      hero.fsm.jumpPress()
-      hero.y_vel = hero.jump_vel
-      hero.stick_to = ""
-      hero.iterator = 1
+      hero.fsm.jumpPress(0)
    end
 
    if key == "s" or key == "space" then
@@ -304,12 +295,10 @@ end
 function love.keyreleased(key)
    if key == "left" and string.match(hero.fsm.current, "left") ~= nil then
       hero.fsm.leftReleased()
-      hero.x_vel = 0
    end
 
    if key == "right" and string.match(hero.fsm.current, "right") ~= nil then
       hero.fsm.rightReleased()
-      hero.x_vel = 0
    end
 
    if key == "s" or key == "space" then
@@ -317,7 +306,7 @@ function love.keyreleased(key)
    end
 
    if (key == "up" or key == "a") and hero.y_vel < 0 then
-      hero.y_vel = 1
+      hero.fsm.on_jumpReleased()
    end
 end
 

@@ -15,7 +15,7 @@ local hero = {
    x_vel = 0,
    y_vel = 1,
    vel = 4,
-   jump_vel = -6,
+   jump_vel = -7,
    GRAVITY = -0.2,
    shoots = {}, -- holds our fired shoots
    animationTimer = 0,
@@ -239,14 +239,30 @@ hero.fsm = machine.create({
       { name = "rightPress", from = "leftShooting", to = "rightMovingShooting" }
    },
    callbacks = {
-      on_rightPress = function(self, event, from, to, msg)  end,
-      on_rightReleased = function(self, event, from, to, msg)  end,
-      on_leftPress = function(self, event, from, to, msg)  end,
-      on_leftReleased = function(self, event, from, to, msg)  end,
+      on_rightPress = function(self, event, from, to, msg)
+         hero.x_vel = hero.vel
+         hero.shootState = "shootRight"
+      end,
+      on_rightReleased = function(self, event, from, to, msg)
+         hero.x_vel = 0
+      end,
+      on_leftPress = function(self, event, from, to, msg)
+         hero.x_vel = -hero.vel
+         hero.shootState = "shootLeft"
+      end,
+      on_leftReleased = function(self, event, from, to, msg)
+          hero.x_vel = 0
+      end,
       on_shootPress = function() end,
       on_shootReleased = function() end,
-      on_jumpPress = function(_, _, _, _, _, falling) end,
-      on_jumpReleased = function(_, _, _, _, _, falling) end
+      on_jumpPress = function(_, _, _, _, falling)
+         hero.y_vel = hero.jump_vel + (falling * (-hero.jump_vel + 1))
+         hero.stick_to = ""
+         hero.iterator = 1
+      end,
+      on_jumpReleased = function()
+         hero.y_vel = 1
+      end
    }
 })
 

@@ -196,7 +196,6 @@ function Helper.update(dt, hero, world)
 
    -- Check if falling
    if hero.falling and hero.fsm.can("jumpPress") then
-      hero.stick_to = ''
       hero.fsm.jumpPress(1)
    end
 
@@ -231,22 +230,14 @@ function Helper.update(dt, hero, world)
    end
 end
 
-function Helper.drawFactory(robot, world)
-   local draw = function ()
-      -- player
-
-      -- shoots
-      local shoots, _ = world:getItems()
-
-      for _, shoot in ipairs(shoots) do
-         if shoot.type == "bullet" then
-            love.graphics.draw(robot.bulletImage, shoot.x, shoot.y)
-         end
+function Helper.drawShoots(bulletImage, world)
+   -- shoots
+   local shoots, _ = world:getItems()
+   for _, shoot in ipairs(shoots) do
+      if shoot.type == "bullet" then
+         love.graphics.draw(bulletImage, shoot.x, shoot.y)
       end
    end
-   return draw
 end
 
 return Helper
-
-
