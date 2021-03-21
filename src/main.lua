@@ -2,7 +2,8 @@ local game = { version = "0.0.6" }
 local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
 local map
-local hero
+local robotsLayer
+local hero = require("assets.obj.hero")
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -41,7 +42,11 @@ local hitAnimation = {
 -- game
 function game.init()
    Signal.register("score", function(value) global.score = global.score + value end )
-   Signal.register("bounce", function() global.background.color = Helper.randomColor() end )
+   Signal.register("bounce", function(robot)
+      global.background.color = Helper.nextColor()
+      robot.velocity = robot.jumpVelocity
+      love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
+   end)
    Signal.register("allActive", function() transition.shouldstart = true end )
 
    Signal.register("hit", function(touch, direction)
@@ -60,9 +65,7 @@ function game.init()
 end
 
 function game.enter()
-   local robotEntity = require "assets.obj.robot"
-   local heroPrototype = require("assets.obj.hero")
-
+   love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
    level = levels[global.level.current]
 
    if global.level.current < #levels then
@@ -74,44 +77,24 @@ function game.enter()
    -- create the world from tiles
    map = sti("assets/maps/" .. level .. ".lua", {"bump"})
    world = bump.newWorld(32)
-   love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
 
-   -- hero
-   map:addCustomLayer("hero", 7)
-   hero = map.layers["hero"]
-   hero.draw = Helper.drawFactory(hero, world)
+   map:addCustomLayer("Robot Layer", 99)
+   robotsLayer = map.layers["Robot Layer"]
+   robotsLayer.robots = {}
+   local heroFromMap, robotsFromMap, textsFromMap = Helper.getSpritesFromMap(map.objects)
 
-   -- robots
-   map:addCustomLayer("robots", 8)
-   robots = map.layers["robots"]
+   Helper.merge(hero, heroFromMap)
 
-   -- text
-   map:addCustomLayer("texts", 9)
-   texts = map.layers["texts"]
-
-   mapLayerSolid = map.layers["Solid"]
-
-
-   local heroObjectFromMap = Helper.getHeroFromMapObjects(map.objects);
-   local robotObjectsFromMap = Helper.getRobotsFromMapObjects(map.objects, robotEntity);
-   local textObjectsFromMap = Helper.getTextsFromMapObjects(map.objects)
-
-   -- merge hero object into hero
-   Helper.merge(hero, heroPrototype) --for k,v in pairs(hero) do hero[k] = v end
-   -- merge map info into hero
-   Helper.merge(hero, heroObjectFromMap) --for k,v in pairs(player) do hero[k] = v end
-
-   robots.robots = {}
-   for _, robotAttribute in ipairs(robotObjectsFromMap) do
-      table.insert(robots.robots, robotAttribute)
+   table.insert(robotsLayer.robots, hero)
+   for _, robotAttribute in ipairs(robotsFromMap) do
+      table.insert(robotsLayer.robots, robotAttribute)
    end
 
-   texts.texts = {}
-   for _, text in ipairs(textObjectsFromMap) do
-      table.insert(texts.texts, text)
+   for _, text in ipairs(textsFromMap) do
+      table.insert(robotsLayer.robots, text)
    end
 
-   function robots:draw()
+   function robotsLayer:draw()
       for _, robot in ipairs(self.robots) do
         if robot.active and transition.shouldstart ~= true then
          love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
@@ -130,7 +113,7 @@ function game.enter()
    robots:update updates the robots.
    @param dt delta time
    --]]
-   function robots:update(dt)
+   function robotsLayer:update(dt)
       local allActive = {}
       local function filterUp(_ , other)
         if other.type == "hero" or other.type == "bullet" then
@@ -149,9 +132,10 @@ function game.enter()
       end
 
       for _, robot in ipairs(self.robots) do
+
          table.insert(allActive, robot.active)
 
-         if robot.falling == true then
+         if robot.falling == true and robot.type ~= "hero" then
             robot.velocity = robot.velocity + 33.3 * dt
             local goalY = robot.y + robot.velocity
             local cols, len = move(world, robot, robot.x, goalY)
@@ -186,9 +170,7 @@ function game.enter()
                local cols, len = move(world, robot, robot.x, goalY, filterDown)
 
                if len ~= 0 then
-                  -- love.graphics.setBackgroundColor(1 - robot.properties.color.red, 1 - robot.properties.color.green, 1 - robot.properties.color.blue, 1)
                   Signal.emit("bounce", robot)
-                  robot.velocity = robot.jumpVelocity
                end
             end
          end
@@ -199,33 +181,34 @@ function game.enter()
       end
    end
 
-   function texts:draw()
-      for _, text in ipairs(self.texts) do
-         love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
-         love.graphics.setFont(fonts[text.properties.font])
-         love.graphics.printf(text.name, text.x, text.y, love.graphics.getWidth(), text.properties.align)
-      end
+   -- function texts:draw()
+   --    for _, text in ipairs(self.texts) do
+   --       love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
+   --       love.graphics.setFont(fonts[text.properties.font])
+   --       love.graphics.printf(text.name, text.x, text.y, love.graphics.getWidth(), text.properties.align)
+   --    end
 
-      love.graphics.setFont(fonts.orange_kid)
-      --  love.graphics.setColor(1, 0.64, 0.02)
-      love.graphics.setColor(0.5, 0.5, 0.5)
-       if global.score ~= 1 then
-          love.graphics.print(global.score .. " | points", 32, 4)
-       else
-          love.graphics.print(". | one point left", 32, 4)
-      end
-   end
+   --    love.graphics.setFont(fonts.orange_kid)
+   --    --  love.graphics.setColor(1, 0.64, 0.02)
+   --    love.graphics.setColor(0.5, 0.5, 0.5)
+   --     if global.score ~= 1 then
+   --        love.graphics.print(global.score .. " | points", 32, 4)
+   --     else
+   --        love.graphics.print(". | one point left", 32, 4)
+   --    end
+   -- end
 
    map:removeLayer("Objects")
-   for k, v in pairs(map.layers) do
-      if k == "Texts" then
-         map:removeLayer("Texts")
-      end
-   end
 
-   world:add(hero, hero.x, hero.y, hero.width, hero.height)
+   -- for k, v in pairs(map.layers) do
+   --    if k == "Texts" then
+   --       map:removeLayer("Texts")
+   --    end
+   -- end
 
-   for _, robot in ipairs(robots.robots) do
+   -- world:add(hero, hero.x, hero.y, hero.width, hero.height)
+
+   for _, robot in ipairs(robotsLayer.robots) do
       world:add(robot, robot.x, robot.y, robot.width, robot.height)
    end
 
@@ -235,13 +218,14 @@ end
 function game.draw()
    screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
-   map:drawLayer(texts)
-   map:drawLayer(mapLayerSolid)
-   map:drawLayer(robots)
-   map:drawLayer(hero)
+   map:draw()
+   map:drawLayer(robotsLayer)
+
+   love.graphics.setColor(1, 0, 0)
+	map:bump_draw()
 
    for _, hit in pairs(global.hits) do
-      local hitColor = Helper.randomColor()
+      local hitColor = Helper.nextColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
       if hit.direction == "shootRight" then
          love.graphics.draw(hitParticle, hit.x, hit.y, 0, 0.3, 0.3)
@@ -258,9 +242,8 @@ end
 
 function game:update(dt)
    screen:update(dt)
-   robots:update(dt)
+   robotsLayer:update(dt)
    Helper.update(dt, hero, world)
-   -- hero:update(dt)
    hitParticle:update(dt)
    hitParticle:emit(32)
 

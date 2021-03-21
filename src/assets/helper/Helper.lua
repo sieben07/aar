@@ -31,52 +31,30 @@ robot.names are:
 + Start
 + Jump
 
-@function getTextsFromMapObjects
+@function getSpritesFromMap
 @tparam object mapRobots the robot table loaded from sti
-@tparam object robotEntity a robot table from Robot
 --]]--
-function Helper.getTextsFromMapObjects(mapObjects)
-   local texts = {}
-
-   for _,object in pairs(mapObjects) do
-      if object.type == 'text' then
-         table.insert(texts, object)
-      end
-   end
-   return texts
-end
-
---[[--
-@function getHeroFromMapObjects
-@tparam object mapRobots the robot table loaded from sti
-@tparam object robotEntity a robot table from Robot
---]]--
-function Helper.getHeroFromMapObjects(mapObjects)
-   for _,object in pairs(mapObjects) do
-      if object.type == "hero" then
-         return object
-      end
-   end
-end
-
---[[--
-@function getRobotsFromMapObjects
-@tparam object mapRobots the robot table loaded from sti
-@tparam object robotEntity a robot table from Robot
---]]--
-function Helper.getRobotsFromMapObjects(mapObjects, entity)
+function Helper.getSpritesFromMap(map)
+   local entity = require "assets.obj.robot"
+   local hero
    local robots = {}
-   for _,object in pairs(mapObjects) do
+   local texts = {}
+   for _,object in pairs(map) do
+      if object.type == "hero" then
+         hero = object
+      end
       if object.type == "robot" then
          Helper.merge(object, entity)
          object.falling = object.properties.falling
          object.active = object.properties.active
          table.insert(robots, object)
       end
+      if object.type == 'text' then
+         table.insert(texts, object)
+      end
    end
-   return robots
+   return hero, robots, texts
 end
-
 
 --[[--
 hex color string to rgba color string
@@ -93,21 +71,30 @@ function Helper.hexToRgba(colorHex)
    rgba.alpha = tonumber(a,16) / 255
    return rgba
 end
+
 --[[--
 @function randomColor
 @treturn {number,...} a table with r g b a colors as numbers
 --]]--
 function Helper.randomColor()
-   local rgba = {}
-   rgba.red = math.random()
-   rgba.green = math.random()
-   rgba.blue =  math.random()
-   rgba.alpha = 1
-   return rgba
+  return { red = math.random(), green = math.random(), blue = math.random(), 1 }
 end
 
-function Helper.randomColorTable()
-  return { math.random(), math.random(), math.random(), 1 }
+local colorIndex = 0;
+
+function Helper.nextColor()
+   local a = {0.2078,0.3137,0.4392}
+   local b = {0.4275,0.349,0.4784}
+   local c = {0.7098,0.3961,0.4627}
+   local d = {0.898,0.4196,0.4353}
+   local e = {0.9176,0.6745,0.5451}
+   local colors = {a, b, c, d, e}
+   if colorIndex == #colors then
+      colorIndex = 0
+   end
+   colorIndex = colorIndex + 1
+   j = colors[colorIndex]
+   return {red = j[1], green = j[2], blue = j[3]}
 end
 
 function Helper.areAllRobotsActive(t)
@@ -208,7 +195,9 @@ function Helper.updateShoots(hero, world)
 
             -- This is wrong, every Robot should know
             -- by himself what to do if hit.
+            print(col.other.name)
             if col.other.name == "Start" then
+               print("HIT")
                col.other.falling = true
             end
             if col.other.name == "Jump" then
