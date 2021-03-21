@@ -2,15 +2,16 @@
 
 ## Change History
 
-| Version | Who                    | What                | When       |
-| ------- | ---------------------- | ------------------- | ---------- |
-| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document    | 17.04.2014 |
-| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image       | 08.07.2015 |
-| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals | 02.07.2017 |
-| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over    | 21.06.2018 |
-| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot    | 08.07.2018 |
-| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots       | 18.07.2018 |
-| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide        | 06.08.2018 |
+| Version | Who                    | What                         | When       |
+| ------- | ---------------------- | ---------------------------- | ---------- |
+| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document             | 17.04.2014 |
+| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                | 08.07.2015 |
+| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals          | 02.07.2017 |
+| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over             | 21.06.2018 |
+| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot             | 08.07.2018 |
+| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                | 18.07.2018 |
+| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                 | 06.08.2018 |
+| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables | 21.03.2021 |
 
 ## Introduction
 
@@ -42,14 +43,14 @@ level, you ask? Good question, very good question indeed.
 
 What is a menu screen?
 
-Before a person can start a game he usually select on the menu screen what he
+Before a person can start a game he usually can selects on the menu screen what he
 wants to do. The menu screen usually cointains a list of selectable items:
 
   - Start
   - Options
-  - …(something something)
+  - _(something something)_
 
-On the menue screen the controls are different to the controls in the game.
+On this menue screen the controls are usually different than the controls in the game.
 
 Up and down on a joy-pad, joystick or on a keyboard (sometimes “w” for
 up and “s” for down) toggle between the menu items. With one button on
@@ -136,7 +137,7 @@ each stage introduces a new version of the robot.
   - High Jump Robot
 
 >   - like the jump robot
->   -  [x] just jumps higher
+>   -  [ ] just jumps higher
 
 ### Jump Level (03)
 
@@ -165,5 +166,5 @@ each stage introduces a new version of the robot.
   - [x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
   - [x] SHOOT COLLIDES ANIMATION
   - [ ] HIT ANIMATION
-  - [] STATE MASHINE STATE functions update variables
+  - [x] STATE MASHINE STATE functions update variables
   - [ ] Helper Shoot: hero and world not as arg
