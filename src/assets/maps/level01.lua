@@ -1,13 +1,14 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.5",
+  tiledversion = "1.2.5",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 52,
   height = 32,
   tilewidth = 32,
   tileheight = 32,
+  nextlayerid = 3,
   nextobjectid = 8,
   properties = {},
   tilesets = {
@@ -18,6 +19,7 @@ return {
       tileheight = 32,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "tiles.png",
       imagewidth = 192,
       imageheight = 128,
@@ -40,6 +42,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "Solid",
       x = 0,
       y = 0,
@@ -90,6 +93,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 2,
       name = "Objects",
       visible = true,
       opacity = 1,
@@ -112,6 +116,7 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
+            ["jumpVelocity"] = -128,
             ["jumping"] = false
           }
         },

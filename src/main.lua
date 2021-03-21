@@ -41,14 +41,13 @@ local hitAnimation = {
 
 -- game
 function game.init()
-   Signal.register("score", function(value) global.score = global.score + value end )
+   Signal.register("score", function(value) global.score = global.score + value end)
    Signal.register("bounce", function(robot)
       global.background.color = Helper.nextColor()
-      robot.velocity = robot.jumpVelocity
+      robot.velocity = robot.properties.jumpVelocity
       love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
    end)
-   Signal.register("allActive", function() transition.shouldstart = true end )
-
+   Signal.register("allActive", function() transition.shouldstart = true end)
    Signal.register("hit", function(touch, direction)
          touch.direction = direction
          if direction == "shootRight" then
@@ -60,8 +59,7 @@ function game.init()
          screen:setShake(7)
          screen:setRotation(.07)
          screen:setScale(1.007)
-      end
-   )
+   end)
 end
 
 function game.enter()

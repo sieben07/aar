@@ -112,65 +112,61 @@ function Helper.areAllRobotsActive(t)
    end
 end
 
+Helper.shoots = {}
+
 -- move and update the hero
 function Helper.shoot(hero, world)
    Signal.emit("score", -1)
    local shoot = {}
+   shoot.y = hero.y + 12
+   shoot.WIDTH = 14
+   shoot.HEIGHT = 14
    if hero.shootState == "shootRight" then
       shoot.x = hero.x + hero.WIDTH
-      shoot.y = hero.y + 12
-      shoot.WIDTH = 14
-      shoot.HEIGHT = 14
       shoot.x_vel = 8
-      shoot.type = "bullet"
       shoot.dir = "bulletRight"
+      table.insert(Helper.shoots, shoot)
       world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
    end
    if hero.shootState == "shootLeft" then
       shoot.x = hero.x - 14
-      shoot.y = hero.y + 12
-      shoot.WIDTH = 14
-      shoot.HEIGHT = 14
       shoot.x_vel = -8
-      shoot.type = "bullet"
       shoot.dir = "bulletLeft"
+      table.insert(Helper.shoots, shoot)
       world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
    end
 end
 
 function Helper.updateShoots(hero, world)
-   local shoots, _ = world:getItems()
 
-   for _, shoot in pairs(shoots) do
-      if shoot.type == "bullet" then
-         -- move them
-         local goalX = shoot.x + shoot.x_vel
-         local actualX, _, cols, len = world:move(shoot, goalX, shoot.y, function(_, _) return "cross" end )
-         shoot.x = actualX
-
-         for _, col in ipairs(cols) do
-            Signal.emit("hit", col.touch, hero.shootState)
-            if col.other.type == "robot" and col.other.active == false then
-               col.other.active = true
-               Signal.emit("score", 7)
-            end
-
-            -- This is wrong, every Robot should know
-            -- by himself what to do if hit.
-            if col.other.name == "Start" then
-               col.other.falling = true
-            end
-            if col.other.name == "Jump" then
-               if col.other.jump ~= true then
-                  col.other.jump = true
-                  col.other.velocity = -128
-               end
-            end
+   for i, shoot in ipairs(Helper.shoots) do
+      -- move them
+      local goalX = shoot.x + shoot.x_vel
+      local actualX, _, cols, len = world:move(shoot, goalX, shoot.y, function(_, _) return "cross" end )
+      shoot.x = actualX
+      for _, col in ipairs(cols) do
+         Signal.emit("hit", col.touch, shoot.dir)
+         if col.other.type == "robot" and col.other.active == false then
+            col.other.active = true
+            Signal.emit("score", 7)
          end
 
-         if len ~= 0 then
-            world:remove(shoot)
+         -- This is wrong, every Robot should know
+         -- by himself what to do if hit.
+         if col.other.name == "Start" then
+            col.other.falling = true
          end
+         if col.other.name == "Jump" or col.other.name == "High Jump" then
+            if col.other.jump ~= true then
+               col.other.jump = true
+               Signal.emit("bounce", col.other)
+            end
+         end
+      end
+
+      if len ~= 0 then
+         world:remove(shoot)
+         table.remove(Helper.shoots, i)
       end
    end
 end
@@ -230,13 +226,9 @@ function Helper.update(dt, hero, world)
    end
 end
 
-function Helper.drawShoots(bulletImage, world)
-   -- shoots
-   local shoots, _ = world:getItems()
-   for _, shoot in ipairs(shoots) do
-      if shoot.type == "bullet" then
+function Helper.drawShoots(bulletImage)
+   for _, shoot in ipairs(Helper.shoots) do
          love.graphics.draw(bulletImage, shoot.x, shoot.y)
-      end
    end
 end
 

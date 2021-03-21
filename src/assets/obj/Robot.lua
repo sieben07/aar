@@ -1,6 +1,5 @@
 local robot = {
     velocity = 0,
-    jumpVelocity = -128,
     gravity = -200
 }
 
