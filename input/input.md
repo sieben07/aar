@@ -12,6 +12,8 @@
 | 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                | 18.07.2018 |
 | 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                 | 06.08.2018 |
 | 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables | 21.03.2021 |
+| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot              | 21.03.2021 |
+| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized             | 21.03.2021 |
 
 ## Introduction
 
@@ -137,7 +139,7 @@ each stage introduces a new version of the robot.
   - High Jump Robot
 
 >   - like the jump robot
->   -  [ ] just jumps higher
+>   -  [x] just jumps higher
 
 ### Jump Level (03)
 
@@ -167,4 +169,5 @@ each stage introduces a new version of the robot.
   - [x] SHOOT COLLIDES ANIMATION
   - [ ] HIT ANIMATION
   - [x] STATE MASHINE STATE functions update variables
-  - [ ] Helper Shoot: hero and world not as arg
+  - [ ] Hero shoots bolts and nuts
+  - [ ] platforms dont push you throug objects? how to solve this

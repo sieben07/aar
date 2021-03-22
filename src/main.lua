@@ -1,4 +1,4 @@
-local game = { version = "0.0.6" }
+local game = { version = "0.0.10" }
 local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
 local map
