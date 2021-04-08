@@ -266,4 +266,45 @@ hero.fsm = machine.create({
    }
 })
 
+hero.keyPressed = function(key, code, isrepeat)
+   if key == "left" then
+      hero.fsm.leftPress()
+   end
+
+   if key == "right" then
+      hero.fsm.rightPress()
+   end
+
+   if (key == "up" or key == "a") and hero.fsm.can("jumpPress") then
+      hero.fsm.jumpPress(0)
+   end
+
+   if key == "s" or key == "space" then
+      hero.fsm.shootPress()
+      Helper.shoot(hero, world)
+   end
+
+   if key == "escape" then
+      love.event.push("quit")
+   end
+end
+
+hero.keyReleased = function(key, code, isrepeat)
+   if key == "left" and string.match(hero.fsm.current, "left") ~= nil then
+      hero.fsm.leftReleased()
+   end
+
+   if key == "right" and string.match(hero.fsm.current, "right") ~= nil then
+      hero.fsm.rightReleased()
+   end
+
+   if key == "s" or key == "space" then
+      hero.fsm.shootReleased()
+   end
+
+   if (key == "up" or key == "a") and hero.y_vel < 0 then
+      hero.fsm.on_jumpReleased()
+   end
+end
+
 return hero
