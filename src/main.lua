@@ -3,18 +3,19 @@ local global = require "assets.obj.global"
 local screen = require "assets.libs.shack.shack"
 local map
 local robotsLayer
-local hero = require("assets.obj.hero")
+local hero = require "assets.obj.hero"
+local shoots = require "assets.obj.shoots"
+local particles = global.hits
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
-local bump = require "assets.libs.bump.bump"
 local Gamestate = require "assets.libs.hump.gamestate"
-Signal = require "assets.libs.hump.signal"
 -- local Camera = require "assets.libs.hump.camera"
-
+local signal = global.signal;
+local world = global.world
 
 -- Helper
-local transition = require "assets.helper.transitions"
+local transitions = require "assets.helper.transitions"
 local Helper = require "assets.helper.Helper"
 
 -- levels
@@ -25,7 +26,6 @@ local level = ""
 local fonts = require "assets.font.fonts"
 
 -- particle system
-
 local hitImage = love.graphics.newImage("assets/img/white.png")
 local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
 hitParticle:setParticleLifetime(1, 5)
@@ -39,23 +39,36 @@ local hitAnimation = {
    alpha = 1
 }
 
+local function move(w, r, gx, gy, filter)
+   local ax, ay, cs, l = w:move(r, gx, gy, filter)
+   r.x, r.y = ax, ay
+   return cs, l
+end
+
+local function clearWorld()
+   local items, _ = world:getItems()
+   for _, item in pairs(items) do
+      world:remove(item)
+   end
+end
+
 -- game
 function game.init()
-   Signal.register("score", function(value) global.score = global.score + value end)
-   Signal.register("bounce", function(robot)
+   signal:register("score", function(value) global.score = global.score + value end)
+   signal:register("bounce", function(robot)
       global.background.color = Helper.nextColor()
       robot.velocity = robot.properties.jumpVelocity
       love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
    end)
-   Signal.register("allActive", function() transition.shouldstart = true end)
-   Signal.register("hit", function(touch, direction)
+   signal:register("allActive", function() transitions.shouldstart = true end)
+   signal:register("hit", function(touch, direction)
          touch.direction = direction
-         if direction == "shootRight" then
+         if direction == "right" then
             touch.x = touch.x + 14
             touch.y = touch.y + 7
          end
          Helper.merge(touch, hitAnimation)
-         table.insert(global.hits, touch)
+         table.insert(particles, touch)
          screen:setShake(7)
          screen:setRotation(.07)
          screen:setScale(1.007)
@@ -63,6 +76,7 @@ function game.init()
 end
 
 function game.enter()
+   clearWorld()
    love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
    level = levels[global.level.current]
 
@@ -74,7 +88,6 @@ function game.enter()
 
    -- create the world from tiles
    map = sti("assets/maps/" .. level .. ".lua", {"bump"})
-   world = bump.newWorld(32)
 
    map:addCustomLayer("Robot Layer", 99)
    robotsLayer = map.layers["Robot Layer"]
@@ -97,12 +110,8 @@ function game.enter()
          if robot.type == "hero" then
             love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
          end
-         if robot.type == "bullet" then
-            print(robot.type)
-            love.graphics.draw(robot.bulletImage, shoot.x, shoot.y)
-         end
          if robot.type == "robot" then
-            if robot.active and transition.shouldstart ~= true then
+            if robot.active and transitions.shouldstart ~= true then
                love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
             else
                love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
@@ -163,7 +172,7 @@ function game.enter()
          if robot.falling == true and robot.type ~= "hero" then
             robot.velocity = robot.velocity + 33.3 * dt
             local goalY = robot.y + robot.velocity
-            local cols, len = move(world, robot, robot.x, goalY)
+            local _, len = move(world, robot, robot.x, goalY)
 
             if len ~= 0 then
                robot.falling = false
@@ -174,8 +183,8 @@ function game.enter()
             if robot.velocity < 0 then
                local goalY = robot.y + robot.velocity * dt
                robot.velocity = robot.velocity - robot.gravity * dt
-               local cols, len = move(world, robot, robot.x, goalY, filterUp)
-               local dx, dy
+               local cols, _ = move(world, robot, robot.x, goalY, filterUp)
+               local dy
 
                for _, col in ipairs(cols) do
                 if col.other.type == "robot" then
@@ -192,23 +201,23 @@ function game.enter()
             if robot.velocity >= 0 then
                local goalY = robot.y + robot.velocity * dt
                robot.velocity = robot.velocity - robot.gravity * dt
-               local cols, len = move(world, robot, robot.x, goalY, filterDown)
+               local _, len = move(world, robot, robot.x, goalY, filterDown)
 
                if len ~= 0 then
-                  Signal.emit("bounce", robot)
+                  signal:emit("bounce", robot)
                end
             end
          end
       end
 
       if Helper.areAllRobotsActive(allActive) then
-         Signal.emit("allActive")
+         signal:emit("allActive")
       end
    end
 
    map:removeLayer("Objects")
 
-   for k, v in pairs(map.layers) do
+   for k, _ in pairs(map.layers) do
       if k == "Texts" then
          map:removeLayer("Texts")
       end
@@ -226,12 +235,12 @@ function game.draw()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    map:draw()
    map:drawLayer(robotsLayer)
-   Helper.drawShoots(hero.bulletImage, world)
+   shoots.draw()
 
-   for _, hit in pairs(global.hits) do
+   for _, hit in pairs(particles) do
       local hitColor = Helper.nextColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
-      if hit.direction == "shootRight" then
+      if hit.direction == "right" then
          love.graphics.draw(hitParticle, hit.x, hit.y, 0, 0.3, 0.3)
       else
          love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 0.3, 0.3)
@@ -240,17 +249,18 @@ function game.draw()
    end
 end
 
-function game:update(dt)
+function game.update(_, dt)
    screen:update(dt)
    robotsLayer:update(dt)
    Helper.update(dt, hero, world)
+   shoots.update()
    hitParticle:update(dt)
    hitParticle:emit(32)
 
-   transition:hitsTween(global.hits, dt)
+   transitions.particlesTween(particles, dt)
 
-   if transition.shouldstart == true then
-      transition:selector(game, "randomColor", Gamestate, global, dt)
+   if transitions.shouldstart == true then
+      transitions:selector(game, "randomColor", Gamestate, global, dt)
       love.graphics.setBackgroundColor(
          global.background.color.red,
          global.background.color.green,
@@ -267,16 +277,43 @@ function love.load()
 end
 
 -- keypressed and keyreleased
-function love.keypressed(key, code, isrepeat)
-   hero.keyPressed(key, code, isrepeat)
+function love.keypressed(key)
+   if key == "left" then
+      signal:emit("leftPressed")
+   end
+
+   if key == "right" then
+      signal:emit("rightPressed")
+   end
+
+   if (key == "up" or key == "a") and hero.fsm.can("jumpPressed") then
+      signal:emit("jumpPressed")
+   end
+
+   if key == "s" or key == "space" then
+      signal:emit("shootPressed", hero)
+      signal:emit("score", -1)
+   end
+
+   if key == "escape" then
+      love.event.push("quit")
+   end
 end
 
-function love.keyreleased(key, code, isrepeat)
-   hero.keyReleased(key, code, isrepeat)
-end
+function love.keyreleased(key)
+   if key == "left" and string.match(hero.fsm.current, "left") ~= nil then
+      signal:emit("leftReleased")
+   end
 
-function move(w, r, gx, gy, filter)
-   local ax, ay, cs, l = w:move(r, gx, gy, filter)
-   r.x, r.y = ax, ay
-   return cs, l
+   if key == "right" and string.match(hero.fsm.current, "right") ~= nil then
+      signal:emit("rightReleased")
+   end
+
+   if (key == "up" or key == "a") and hero.y_vel < 0 then
+      signal:emit("jumpReleased")
+   end
+
+   if key == "s" or key == "space" then
+      signal:emit("shootReleased")
+   end
 end

@@ -1,4 +1,4 @@
-fonts = {
+local fonts = {
   defaultFont = love.graphics.newFont("assets/font/Orial_Bold.otf", 24),
   orial = love.graphics.newFont("assets/font/Orial_Bold.otf", 57),
   ormont = love.graphics.newFont("assets/font/Ormont_Light.ttf", 38),

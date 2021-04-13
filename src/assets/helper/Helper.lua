@@ -49,7 +49,7 @@ function Helper.getSpritesFromMap(map)
          object.active = object.properties.active
          table.insert(robots, object)
       end
-      if object.type == 'text' then
+      if object.type == "text" then
          table.insert(texts, object)
       end
    end
@@ -63,7 +63,7 @@ hex color string to rgba color string
 @treturn {number,...} a table with the r g b a colors as number
 --]]--
 function Helper.hexToRgba(colorHex)
-   local x, y, a, r, g, b = colorHex:find('(%x%x)(%x%x)(%x%x)(%x%x)')
+   local _, _, a, r, g, b = colorHex:find("(%x%x)(%x%x)(%x%x)(%x%x)")
    local rgba = {}
    rgba.red = tonumber(r,16) / 255
    rgba.green = tonumber(g,16) / 255
@@ -93,7 +93,7 @@ function Helper.nextColor()
       colorIndex = 0
    end
    colorIndex = colorIndex + 1
-   j = colors[colorIndex]
+   local j = colors[colorIndex]
    return {red = j[1], green = j[2], blue = j[3]}
 end
 
@@ -112,69 +112,7 @@ function Helper.areAllRobotsActive(t)
    end
 end
 
-Helper.shoots = {}
-
--- move and update the hero
-function Helper.shoot(hero, world)
-   Signal.emit("score", -1)
-   local shoot = {}
-   shoot.y = hero.y + 12
-   shoot.WIDTH = 14
-   shoot.HEIGHT = 14
-   if hero.shootState == "shootRight" then
-      shoot.x = hero.x + hero.WIDTH
-      shoot.x_vel = 8
-      shoot.dir = "bulletRight"
-      table.insert(Helper.shoots, shoot)
-      world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
-   end
-   if hero.shootState == "shootLeft" then
-      shoot.x = hero.x - 14
-      shoot.x_vel = -8
-      shoot.dir = "bulletLeft"
-      table.insert(Helper.shoots, shoot)
-      world:add(shoot, shoot.x, shoot.y, shoot.WIDTH, shoot.HEIGHT)
-   end
-end
-
-function Helper.updateShoots(hero, world)
-
-   for i, shoot in ipairs(Helper.shoots) do
-      -- move them
-      local goalX = shoot.x + shoot.x_vel
-      local actualX, _, cols, len = world:move(shoot, goalX, shoot.y, function(_, _) return "cross" end )
-      shoot.x = actualX
-      for _, col in ipairs(cols) do
-         Signal.emit("hit", col.touch, shoot.dir)
-         if col.other.type == "robot" and col.other.active == false then
-            col.other.active = true
-            Signal.emit("score", 7)
-         end
-
-         -- This is wrong, every Robot should know
-         -- by himself what to do if hit.
-         if col.other.name == "Start" then
-            col.other.falling = true
-         end
-         if col.other.name == "Jump" or col.other.name == "High Jump" then
-            if col.other.jump ~= true then
-               col.other.jump = true
-               Signal.emit("bounce", col.other)
-            end
-         end
-      end
-
-      if len ~= 0 then
-         world:remove(shoot)
-         table.remove(Helper.shoots, i)
-      end
-   end
-end
-
 function Helper.update(dt, hero, world)
-   -- Handle Shooting
-   Helper.updateShoots(hero, world)
-
    -- Animation Framerate
    hero.animationTimer = hero.animationTimer + dt
    if hero.animationTimer > 0.07 then
@@ -185,22 +123,22 @@ function Helper.update(dt, hero, world)
       end
    end
 
-   if hero.stick_to ~= '' and hero.stick_to.name ~= nil then
+   if hero.stick_to ~= "" and hero.stick_to.name ~= nil then
       -- TO DO add or remove the delta of x and y direction?
       hero.y = hero.stick_to.y - 32
    end
 
    -- Check if falling
-   if hero.falling and hero.fsm.can("jumpPress") then
-      hero.fsm.jumpPress(1)
+   if hero.falling and hero.fsm.can("jumpPressed") then
+      hero.fsm.jumpPressed(1)
    end
 
    -- Move the Hero LEFT or RIGHT
    local goalX = hero.x + hero.x_vel
-   local actualX, _, _, len = world:move(hero, goalX, hero.y)
+   local actualX = world:move(hero, goalX, hero.y)
    hero.x = actualX
 
-   -- TODO: DON'T TEST ON y_vel find something else
+   -- TODO: DON#T TEST ON y_vel find something else
    if hero.y_vel ~= 0 then
       hero.falling = true
       --hero.fsm.fallingAction()
@@ -208,7 +146,7 @@ function Helper.update(dt, hero, world)
       hero.y_vel = hero.y_vel - hero.GRAVITY
 
       local goalY = hero.y
-      local aX, aY, cols, len = world:move(hero, hero.x, goalY)
+      local _, aY, cols, len = world:move(hero, hero.x, goalY)
       hero.y = aY
 
       if len > 0 then
@@ -217,18 +155,12 @@ function Helper.update(dt, hero, world)
          for _, col in ipairs(cols) do
             if (col.normal.y ~= 1) then
                hero.stick_to = col.other
-               if hero.fsm.can('collisionGround') then
+               if hero.fsm.can("collisionGround") then
                   hero.fsm.collisionGround()
                end
             end
          end
       end
-   end
-end
-
-function Helper.drawShoots(bulletImage)
-   for _, shoot in ipairs(Helper.shoots) do
-         love.graphics.draw(bulletImage, shoot.x, shoot.y)
    end
 end
 

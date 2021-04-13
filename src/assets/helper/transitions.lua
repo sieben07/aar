@@ -1,5 +1,5 @@
-flux = require "assets.libs.flux.flux"
-Helper = require "assets.helper.Helper"
+local flux = require "assets.libs.flux.flux"
+local helper = require "assets.helper.Helper"
 
 local transitions = {
     shouldstart = false
@@ -21,7 +21,7 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
         global.color.green = 0
         global.color.blue = 0
 
-        color = {
+        local color = {
             red = 0,
             green = 0,
             blue = 0,
@@ -29,13 +29,12 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
         }
 
         tween = flux.to(color, 1, {red = 255, green = 255, blue = 255, alpha = 255})
-        countdown = flux.to(global, 1, {countdown = 0})
     end
 
     -- Random Color Level Transition
     if transitiontype == "randomColor" then
         flux.update(dt)
-        global.color = Helper.randomColor()
+        global.color = helper.randomColor()
     end
 
     if global.countdown == 0 then
@@ -47,20 +46,20 @@ function transitions:selector(state, transitiontype, Gamestate, global, dt)
         self.A = 255
         self.B = 0
 
-        global.color = Helper.hexToRgba("#FFFFFFFF")
-        global.background.color = Helper.hexToRgba("#FF9bbbcc")
+        global.color = helper.hexToRgba("#FFFFFFFF")
+        global.background.color = helper.hexToRgba("#FF9bbbcc")
 
         Gamestate.switch(state)
     end
 end
 
-function transitions:hitsTween(hits, dt)
-    for index, hit in ipairs(hits) do
+function transitions.particlesTween(particles, dt)
+    for index, hit in ipairs(particles) do
         if hit.time >= 0 then
             hit.time = hit.time - dt
             hit.alpha = hit.alpha - dt
         else
-            table.remove(hits, index)
+            table.remove(particles, index)
         end
     end
 end
