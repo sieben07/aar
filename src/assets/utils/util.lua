@@ -1,40 +1,31 @@
---[[--
-# Helper.
-## Has some functions that help.
-@module Helper
---]]--
-local Helper = {}
+local flux = require "assets.libs.flux.flux"
+local global = require "assets.obj.global"
+local signal = global.signal
+local transition = global.transition
 
---[[--
-merges into `first` table values from the `second` table.
-@function merge
-@param first the first table
-@param second the second table
---]]--
-function Helper.merge(first, second)
+local tween = {}
+local util = {}
+
+function util.move(w, r, gx, gy, filter)
+   local ax, ay, cs, l = w:move(r, gx, gy, filter)
+   r.x, r.y = ax, ay
+   return cs, l
+end
+
+function util.clear(world)
+   local items, _ = world:getItems()
+   for _, item in pairs(items) do
+      world:remove(item)
+   end
+end
+
+function util.merge(first, second)
    for key ,value in pairs(second) do
       first[key] = value
     end
 end
 
---[[--
-sorts and loads `robots`.
-it sorts the robot tables returned from sti
-robot.types are:
-
-+ hero
-+ robot
-+ text
-
-robot.names are:
-
-+ Start
-+ Jump
-
-@function getSpritesFromMap
-@tparam object mapRobots the robot table loaded from sti
---]]--
-function Helper.getSpritesFromMap(map)
+function util.getSpritesFromMap(map)
    local entity = require "assets.obj.robot"
    local hero
    local robots = {}
@@ -44,7 +35,7 @@ function Helper.getSpritesFromMap(map)
          hero = object
       end
       if object.type == "robot" then
-         Helper.merge(object, entity)
+         util.merge(object, entity)
          object.falling = object.properties.falling
          object.active = object.properties.active
          table.insert(robots, object)
@@ -56,13 +47,7 @@ function Helper.getSpritesFromMap(map)
    return hero, robots, texts
 end
 
---[[--
-hex color string to rgba color string
-@function hexToArgb
-@param colorHex a color coded in a hex string with alpha value as first hex number
-@treturn {number,...} a table with the r g b a colors as number
---]]--
-function Helper.hexToRgba(colorHex)
+local function hexToRgba(colorHex)
    local _, _, a, r, g, b = colorHex:find("(%x%x)(%x%x)(%x%x)(%x%x)")
    local rgba = {}
    rgba.red = tonumber(r,16) / 255
@@ -72,17 +57,13 @@ function Helper.hexToRgba(colorHex)
    return rgba
 end
 
---[[--
-@function randomColor
-@treturn {number,...} a table with r g b a colors as numbers
---]]--
-function Helper.randomColor()
+local function randomColor()
   return { red = math.random(), green = math.random(), blue = math.random(), 1 }
 end
 
 local colorIndex = 0;
 
-function Helper.nextColor()
+function util.nextColor()
    local a = {0.2078,0.3137,0.4392}
    local b = {0.4275,0.349,0.4784}
    local c = {0.7098,0.3961,0.4627}
@@ -97,7 +78,7 @@ function Helper.nextColor()
    return {red = j[1], green = j[2], blue = j[3]}
 end
 
-function Helper.areAllRobotsActive(t)
+function util.areAllRobotsActive(t)
    local allTrue = 0
    for _, value in ipairs(t) do
       if value == false then
@@ -112,7 +93,7 @@ function Helper.areAllRobotsActive(t)
    end
 end
 
-function Helper.update(dt, hero, world)
+function util.update(dt, hero, world)
    -- Animation Framerate
    hero.animationTimer = hero.animationTimer + dt
    if hero.animationTimer > 0.07 then
@@ -164,4 +145,43 @@ function Helper.update(dt, hero, world)
    end
 end
 
-return Helper
+function tween.start()
+    if transition.start == false then
+        transition.start = true
+        global.countdown = 4
+        global.color.red = 0
+        global.color.green = 0
+        global.color.blue = 0
+        flux.to(global, 0.5, {countdown = 0})
+    end
+end
+
+function tween.update(dt)
+    if transition.start == true then
+        flux.update(dt)
+        global.color = randomColor()
+    end
+
+    if global.countdown == 0 then
+        global.color = hexToRgba("#FFFFFFFF")
+        global.background.color = hexToRgba("#FF9bbbcc")
+        signal:emit("nextLevel")
+        global.countdown = 4
+        transition.start = false
+    end
+end
+
+function tween.particles(particles, dt)
+    for index, hit in ipairs(particles) do
+        if hit.time >= 0 then
+            hit.time = hit.time - dt
+            hit.alpha = hit.alpha - dt
+        else
+            table.remove(particles, index)
+        end
+    end
+end
+
+util.tween = tween
+
+return util
