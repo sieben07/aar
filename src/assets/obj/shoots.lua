@@ -19,19 +19,19 @@ shoots.fsm = machine.create({
 })
 shoots.items = {}
 
-shoots.addShootToWorld = function(player)
+shoots.addShootToWorld = function(position)
     local shoot = {}
-    shoot.y = player.y + OFFSET_Y
+    shoot.y = position.y + OFFSET_Y
     shoot.type = "bullet"
     shoot.direction = shoots.fsm.current
     if shoots.fsm.current == "right" then
-        shoot.x = player.x + PLAYER_WIDTH
+        shoot.x = position.x + PLAYER_WIDTH
         shoot.x_vel = 8
         table.insert(shoots.items, shoot)
         world:add(shoot, shoot.x, shoot.y, SHOOT_WIDTH, SHOOT_HEIGHT)
     end
     if shoots.fsm.current == "left" then
-        shoot.x = player.x - OFFSET_X
+        shoot.x = position.x - OFFSET_X
         shoot.x_vel = -8
         table.insert(shoots.items, shoot)
         world:add(shoot, shoot.x, shoot.y, SHOOT_WIDTH, SHOOT_HEIGHT)

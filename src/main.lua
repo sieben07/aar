@@ -6,6 +6,7 @@ local robotsLayer
 local hero = require "assets.obj.hero"
 local shoots = require "assets.obj.shoots"
 local particles = global.hits
+local transition = global.transition
 
 -- libs
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
@@ -15,7 +16,7 @@ local signal = global.signal;
 local world = global.world
 
 -- Helper
-local transitions = require "assets.helper.transitions"
+local tween = require "assets.helper.tween"
 local Helper = require "assets.helper.Helper"
 
 -- levels
@@ -54,13 +55,21 @@ end
 
 -- game
 function game.init()
+   signal:register("nextLevel", function() Gamestate.switch(game) end)
+   signal:register("allActive", function()
+      tween.start()
+      love.graphics.setBackgroundColor(
+         global.background.color.red,
+         global.background.color.green,
+         global.background.color.blue
+      )
+   end)
    signal:register("score", function(value) global.score = global.score + value end)
    signal:register("bounce", function(robot)
       global.background.color = Helper.nextColor()
       robot.velocity = robot.properties.jumpVelocity
       love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
    end)
-   signal:register("allActive", function() transitions.shouldstart = true end)
    signal:register("hit", function(touch, direction)
          touch.direction = direction
          if direction == "right" then
@@ -111,7 +120,7 @@ function game.enter()
             love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
          end
          if robot.type == "robot" then
-            if robot.active and transitions.shouldstart ~= true then
+            if robot.active and transition.start ~= true then
                love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
             else
                love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
@@ -210,7 +219,7 @@ function game.enter()
          end
       end
 
-      if Helper.areAllRobotsActive(allActive) then
+      if Helper.areAllRobotsActive(allActive) and transition.start == false then
          signal:emit("allActive")
       end
    end
@@ -257,16 +266,8 @@ function game.update(_, dt)
    hitParticle:update(dt)
    hitParticle:emit(32)
 
-   transitions.particlesTween(particles, dt)
-
-   if transitions.shouldstart == true then
-      transitions:selector(game, "randomColor", Gamestate, global, dt)
-      love.graphics.setBackgroundColor(
-         global.background.color.red,
-         global.background.color.green,
-         global.background.color.blue
-      )
-   end
+   tween.particles(particles, dt)
+   tween.update(dt)
 end
 
 
@@ -291,7 +292,7 @@ function love.keypressed(key)
    end
 
    if key == "s" or key == "space" then
-      signal:emit("shootPressed", hero)
+      signal:emit("shootPressed", {x = hero.x, y = hero.y})
       signal:emit("score", -1)
    end
 

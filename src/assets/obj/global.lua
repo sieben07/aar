@@ -5,6 +5,7 @@ local DIMENSIONS = 32
 local global = {
    world = bump.newWorld(DIMENSIONS),
    signal = Signal.new(),
+   transition = { start =  false };
    hits = {},
    level = {
       current = 1
