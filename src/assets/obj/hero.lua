@@ -8,9 +8,8 @@ local Quad = love.graphics.newQuad
 local machine = require("assets.libs.lua-fsm.src.fsm")
 
 local hero = {
-   falling = nil,
-   name = nil,
-   title = nil,
+   name = "mini",
+   title = "Robot",
    x = 0,
    y = 0,
    WIDTH = global.WIDTH,
@@ -20,14 +19,13 @@ local hero = {
    vel = 4,
    jump_vel = -7,
    GRAVITY = -0.2,
-   shoots = {}, -- holds our fired shoots
    animationTimer = 0,
    stick_to = "", -- the platform takes controll over movement while sticky
 
    -- Animation
    quadIndex = 1,
    max = 5,
-   shootState = "shootRight",
+   projectileDirection = {x = 1, y = 0},
    rotate = 0,
    zoom = 1,
    image = love.graphics.newImage "assets/img/minimega.png",
@@ -171,6 +169,17 @@ local hero = {
    }
 }
 
+function hero:animate(dt)
+   self.animationTimer = self.animationTimer + dt
+   if self.animationTimer > 0.07 then
+      self.animationTimer = 0
+      self.quadIndex = self.quadIndex + 1
+      if self.quadIndex > self.max then
+         self.quadIndex = 2
+      end
+   end
+end
+
  -- the states of the hero
 hero.fsm = machine.create({
    initial = "right",
@@ -243,14 +252,14 @@ hero.fsm = machine.create({
    callbacks = {
       on_rightPressed = function()
          hero.x_vel = hero.vel
-         hero.shootState = "shootRight"
+         hero.projectileDirection = {x = 1, y = 0}
       end,
       on_rightReleased = function()
          hero.x_vel = 0
       end,
       on_leftPressed = function()
          hero.x_vel = -hero.vel
-         hero.shootState = "shootLeft"
+         hero.projectileDirection = {x = -1, y = 0} -- how to math this
       end,
       on_leftReleased = function()
           hero.x_vel = 0

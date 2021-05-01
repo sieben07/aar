@@ -1,51 +1,34 @@
 local global = require "assets.obj.global"
-local machine = require "assets.libs.lua-fsm.src.fsm"
-local PLAYER_WIDTH = global.PLAYER_WIDTH
 local SHOOT_WIDTH = global.SHOOT_WIDTH
 local SHOOT_HEIGHT = global.SHOOT_HEIGHT
-local OFFSET_X = 14
-local OFFSET_Y = 12
 local bulletImage = love.graphics.newImage "assets/img/white.png"
+
+local shoots = {}
 
 local signal = global.signal
 local world = global.world
-local shoots = {}
-shoots.fsm = machine.create({
-    initial = "right",
-    events = {
-        {name = "rightPressed", from = {"left", "right"}, to = "right"},
-        {name = "leftPressed", from = {"left", "right"}, to = "left"}
-    }
-})
-shoots.items = {}
 
-shoots.addShootToWorld = function(position)
-    local shoot = {}
-    shoot.y = position.y + OFFSET_Y
-    shoot.type = "bullet"
-    shoot.direction = shoots.fsm.current
-    if shoots.fsm.current == "right" then
-        shoot.x = position.x + PLAYER_WIDTH
-        shoot.x_vel = 8
-        table.insert(shoots.items, shoot)
-        world:add(shoot, shoot.x, shoot.y, SHOOT_WIDTH, SHOOT_HEIGHT)
-    end
-    if shoots.fsm.current == "left" then
-        shoot.x = position.x - OFFSET_X
-        shoot.x_vel = -8
-        table.insert(shoots.items, shoot)
-        world:add(shoot, shoot.x, shoot.y, SHOOT_WIDTH, SHOOT_HEIGHT)
-    end
+local projectiles = {}
+
+local addProjectileToWorld = function(projectile)
+   projectile.x = projectile.x + 12 + (projectile.direction.x * 26)
+   projectile.y = projectile.y + 12 + (projectile.direction.y * 26)
+   projectile.x_vel = 8 * projectile.direction.x
+   projectile.y_vel = 8 * projectile.direction.y
+   table.insert(projectiles, projectile)
+   world:add(projectile, projectile.x, projectile.y, SHOOT_WIDTH, SHOOT_HEIGHT)
 end
 
 function shoots.update()
-   for i, shoot in ipairs(shoots.items) do
+   for i, projectile in ipairs(projectiles) do
       -- move them
-      local goalX = shoot.x + shoot.x_vel
-      local actualX, _, cols, len = world:move(shoot, goalX, shoot.y, function(_, _) return "cross" end )
-      shoot.x = actualX
+      local goalX = projectile.x + projectile.x_vel
+      local goalY = projectile.y + projectile.y_vel
+      local actualX, actualY, cols, len = world:move(projectile, goalX, goalY, function(_, _) return "cross" end )
+      projectile.x = actualX
+      projectile.y = actualY
       for _, col in ipairs(cols) do
-         signal:emit("hit", col.touch, shoot.direction)
+         signal:emit("hit", col.touch, projectile.direction)
          if col.other.type == "robot" and col.other.active == false then
             col.other.active = true
             signal:emit("score", 7)
@@ -65,26 +48,24 @@ function shoots.update()
       end
 
       if len ~= 0 then
-         world:remove(shoot)
-         table.remove(shoots.items, i)
+         world:remove(projectile)
+         table.remove(projectiles, i)
       end
    end
 end
 
 shoots.draw = function()
-   for _, shoot in ipairs(shoots.items) do
-         love.graphics.draw(bulletImage, shoot.x, shoot.y)
+   for _, projectile in ipairs(projectiles) do
+         love.graphics.draw(bulletImage, projectile.x, projectile.y)
    end
 end
 
-signal:register("shootPressed", function(player)
-   shoots.addShootToWorld(player)
+signal:register("addProjectile", function(projectile)
+   addProjectileToWorld(projectile)
 end)
-signal:register("leftPressed", function()
-    shoots.fsm.leftPressed()
-end)
-signal:register("rightPressed", function()
-    shoots.fsm.rightPressed()
+
+signal:register("nextLevel", function ()
+   projectiles = {}
 end)
 
 return shoots

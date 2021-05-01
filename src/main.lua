@@ -21,21 +21,33 @@ local solidLayer
 local transition = global.transition
 local world = global.world
 
-local areAllRobotsActive = util.areAllRobotsActive
-local clear = util.clear
+function world:m (item, goalX, goalY, filter)
+   local actualX, actualY, cols, length = self:move(item, goalX, goalY, filter);
+   item.x, item.y = actualX, actualY
+   return cols, length
+end
+
+function world:clear()
+   local items, _ = self:getItems()
+   for _, item in pairs(items) do
+      world:remove(item)
+   end
+end
+
 local merge = util.merge
-local move = util.move
 local nextColor = util.nextColor
 local getSpritesFromMap = util.getSpritesFromMap
 local tween = util.tween
 local update = util.update
 local currentLevel = global.level.current
 
-hitParticle:setLinearAcceleration(-20, -30, 20, 30)
-hitParticle:setParticleLifetime(1, 5)
-hitParticle:setSpeed(20, 30)
-hitParticle:setSpin(20, 50)
+hitParticle:setLinearAcceleration(5, -3, -50, 3)
+hitParticle:setParticleLifetime(1, 3)
+hitParticle:setSpeed(1, 3)
+hitParticle:setSpin(3, 9)
+hitParticle:setSizes(0.4, 0.5, 0.6, 0.7)
 hitParticle:setSpinVariation(0.7)
+hitParticle:setSizeVariation(0.7)
 
 function game.init()
    signal:register("nextLevel", function() Gamestate.switch(game) end)
@@ -55,7 +67,7 @@ function game.init()
    end)
    signal:register("hit", function(touch, direction)
          touch.direction = direction
-         if direction == "right" then
+         if direction.x == 1 then
             touch.x = touch.x + 14
             touch.y = touch.y + 7
          end
@@ -68,7 +80,7 @@ function game.init()
 end
 
 function game.enter()
-   clear(world)
+   world:clear()
    love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
    map = sti("assets/maps/" .. levels[currentLevel] .. ".lua", {"bump"})
 
@@ -133,76 +145,8 @@ function game.enter()
       love.graphics.print(game.version, 32,  32)
    end
 
-   --[[--
-   robots:update updates the robots.
-   @param dt delta time
-   --]]
    function robotsLayer:update(dt)
-      local allActive = {}
-      local function filterUp(_ , other)
-        if other.type == "hero" or other.type == "bullet" then
-          return "cross"
-        else
-          return "slide"
-        end
-      end
-
-      local function filterDown(_, other)
-        if other.type == "bullet" then
-          return nil
-        else
-          return "slide"
-        end
-      end
-
-      for _, robot in ipairs(self.robots) do
-
-         table.insert(allActive, robot.active)
-
-         if robot.falling == true and robot.type ~= "hero" then
-            robot.velocity = robot.velocity + 33.3 * dt
-            local goalY = robot.y + robot.velocity
-            local _, len = move(world, robot, robot.x, goalY)
-
-            if len ~= 0 then
-               robot.falling = false
-            end
-         end
-
-         if robot.jump == true then
-            if robot.velocity < 0 then
-               local goalY = robot.y + robot.velocity * dt
-               robot.velocity = robot.velocity - robot.gravity * dt
-               local cols, _ = move(world, robot, robot.x, goalY, filterUp)
-               local dy
-
-               for _, col in ipairs(cols) do
-                if col.other.type == "robot" then
-                  robot.velocity = 0
-                end
-
-                dy = goalY - 32
-                if col.other.type == "hero" then
-                  move(world, col.other, col.other.x, col.other.y + dy)
-                end
-              end
-            end
-
-            if robot.velocity >= 0 then
-               local goalY = robot.y + robot.velocity * dt
-               robot.velocity = robot.velocity - robot.gravity * dt
-               local _, len = move(world, robot, robot.x, goalY, filterDown)
-
-               if len ~= 0 then
-                  signal:emit("bounce", robot)
-               end
-            end
-         end
-      end
-
-      if areAllRobotsActive(allActive) and transition.start == false then
-         signal:emit("allActive")
-      end
+      update(self.robots, dt)
    end
 
    map:removeLayer("Objects")
@@ -230,10 +174,10 @@ function game.draw()
    for _, hit in pairs(particles) do
       local hitColor = nextColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
-      if hit.direction == "right" then
-         love.graphics.draw(hitParticle, hit.x, hit.y, 0, 0.3, 0.3)
+      if hit.direction.x == 1 then
+         love.graphics.draw(hitParticle, hit.x, hit.y, 0, 1, 1)
       else
-         love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 0.3, 0.3)
+         love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 1, 1)
       end
 
    end
@@ -242,15 +186,13 @@ end
 function game.update(_, dt)
    screen:update(dt)
    robotsLayer:update(dt)
-   update(dt, hero, world)
    shoots.update()
    hitParticle:update(dt)
-   hitParticle:emit(32)
+   hitParticle:emit(3000)
 
    tween.particles(particles, dt)
    tween.update(dt)
 end
-
 
 -- register GAME
 function love.load()
@@ -273,7 +215,13 @@ function love.keypressed(key)
    end
 
    if key == "s" or key == "space" then
-      signal:emit("shootPressed", {x = hero.x, y = hero.y})
+      signal:emit("shootPressed")
+      signal:emit("addProjectile", {
+         x = hero.x,
+         y = hero.y,
+         direction = hero.projectileDirection,
+         own = true
+      })
       signal:emit("score", -1)
    end
 
