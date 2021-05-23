@@ -65,7 +65,9 @@ function game.init()
       robot.velocity = robot.properties.jumpVelocity
       love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
    end)
-   signal:register("hit", function(touch, direction)
+
+   signal:register("hit", function(col, direction)
+         local touch = col.touch
          touch.direction = direction
          if direction.x == 1 then
             touch.x = touch.x + 14

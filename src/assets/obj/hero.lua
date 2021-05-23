@@ -301,4 +301,8 @@ signal:register("shootReleased", function()
    hero.fsm.shootReleased()
 end)
 
+signal:register("hit", function()
+   signal:emit("score", 7)
+end)
+
 return hero

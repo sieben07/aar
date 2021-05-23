@@ -3,11 +3,10 @@ local SHOOT_WIDTH = global.SHOOT_WIDTH
 local SHOOT_HEIGHT = global.SHOOT_HEIGHT
 local bulletImage = love.graphics.newImage "assets/img/white.png"
 
-local shoots = {}
-
 local signal = global.signal
 local world = global.world
 
+local shoots = {}
 local projectiles = {}
 
 local addProjectileToWorld = function(projectile)
@@ -24,20 +23,17 @@ function shoots.update()
       -- move them
       local goalX = projectile.x + projectile.x_vel
       local goalY = projectile.y + projectile.y_vel
-      local actualX, actualY, cols, len = world:move(projectile, goalX, goalY, function(_, _) return "cross" end )
+      local actualX, actualY, cols, len = world:move(projectile, goalX, goalY, function() return "cross" end )
       projectile.x = actualX
       projectile.y = actualY
       for _, col in ipairs(cols) do
-         signal:emit("hit", col.touch, projectile.direction)
-         if col.other.type == "robot" and col.other.active == false then
-            col.other.active = true
-            signal:emit("score", 7)
-         end
+         signal:emit("hit", col, projectile.direction)
+         col.other:switchToActive()
 
          -- This is wrong, every Robot should know
          -- by himself what to do if hit.
          if col.other.name == "Start" then
-            col.other.falling = true
+            col.other:setIsFalling(true)
          end
          if col.other.name == "Jump" or col.other.name == "High Jump" then
             if col.other.jump ~= true then
@@ -56,6 +52,7 @@ end
 
 shoots.draw = function()
    for _, projectile in ipairs(projectiles) do
+            love.graphics.setColor(1,0,0)
          love.graphics.draw(bulletImage, projectile.x, projectile.y)
    end
 end

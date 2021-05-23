@@ -1,5 +1,6 @@
 local flux = require "assets.libs.flux.flux"
 local global = require "assets.obj.global"
+local Robot = require "assets.obj.Robot"
 local signal = global.signal
 local transition = global.transition
 local world = global.world
@@ -95,26 +96,26 @@ end
 local updateText = function(robot, dt) end
 
 local updateRobot = function(robot, dt)
-   if robot.falling == true then
+   if robot:getIsFalling() == true then
       robot.velocity = robot.velocity + 33.3 * dt
       local goalY = robot.y + robot.velocity
       local _, len = world:m(robot, robot.x, goalY)
 
       if len ~= 0 then
-         robot.falling = false
+         robot:setIsFalling(false)
       end
    end
 
    if robot.jump == true then
       if robot.velocity < 0 then
          local goalY = robot.y + robot.velocity * dt
-         robot.velocity = robot.velocity - robot.gravity * dt
+         robot:updateVelocity(-dt)
          local cols, _ = world:m(robot, robot.x, goalY, filterUp)
          local dy
 
          for _, col in ipairs(cols) do
             if col.other.type == "robot" then
-               robot.velocity = 0
+               robot:setVelocity(0)
             end
 
             dy = goalY - 32
@@ -124,9 +125,9 @@ local updateRobot = function(robot, dt)
          end
       end
 
-      if robot.velocity >= 0 then
+      if robot:getVelocity() >= 0 then
          local goalY = robot.y + robot.velocity * dt
-         robot.velocity = robot.velocity - robot.gravity * dt
+         robot:updateVelocity(-dt)
          local _, len = world:m(robot, robot.x, goalY, filterDown)
 
          if len ~= 0 then
@@ -142,10 +143,7 @@ local updateAction = {
    text = updateText
 }
 
-
-
 function util.getSpritesFromMap(map)
-   local entity = require "assets.obj.robot"
    local hero
    local robots = {}
    local texts = {}
@@ -154,10 +152,8 @@ function util.getSpritesFromMap(map)
          hero = object
       end
       if object.type == "robot" then
-         util.merge(object, entity)
-         object.falling = object.properties.falling
-         object.active = object.properties.active
-         table.insert(robots, object)
+         local robot = Robot:new(object)
+         table.insert(robots, robot)
       end
       if object.type == "text" then
          table.insert(texts, object)
@@ -169,7 +165,9 @@ end
 function util.update(robots, dt)
    local allActive = {}
    for _, robot in ipairs(robots) do
-      table.insert(allActive, robot.active)
+      if robot.type == "robot" then
+         table.insert(allActive, robot:getIsActive())
+      end
       updateAction[robot.type](robot, dt);
    end
 
