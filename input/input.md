@@ -14,6 +14,7 @@
 | 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables | 21.03.2021 |
 | 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot              | 21.03.2021 |
 | 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized             | 21.03.2021 |
+| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added     | 24.05.2021 |
 
 ## Introduction
 
