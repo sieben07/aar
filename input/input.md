@@ -2,19 +2,20 @@
 
 ## Change History
 
-| Version | Who                    | What                         | When       |
-| ------- | ---------------------- | ---------------------------- | ---------- |
-| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document             | 17.04.2014 |
-| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                | 08.07.2015 |
-| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals          | 02.07.2017 |
-| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over             | 21.06.2018 |
-| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot             | 08.07.2018 |
-| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                | 18.07.2018 |
-| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                 | 06.08.2018 |
-| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables | 21.03.2021 |
-| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot              | 21.03.2021 |
-| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized             | 21.03.2021 |
-| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added     | 24.05.2021 |
+| Version | Who                    | What                          | When       |
+| ------- | ---------------------- | ----------------------------- | ---------- |
+| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document              | 17.04.2014 |
+| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                 | 08.07.2015 |
+| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals           | 02.07.2017 |
+| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over              | 21.06.2018 |
+| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot              | 08.07.2018 |
+| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                 | 18.07.2018 |
+| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                  | 06.08.2018 |
+| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables  | 21.03.2021 |
+| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot               | 21.03.2021 |
+| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized              | 21.03.2021 |
+| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
+| 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
 
 ## Introduction
 

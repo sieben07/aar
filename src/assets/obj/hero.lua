@@ -1,4 +1,5 @@
 local global = require "assets.obj.global"
+local projectile = require "src.assets.obj.projectile"
 local signal = global.signal
 
 local SIZE = 32
@@ -271,6 +272,17 @@ hero.fsm = machine.create({
       end,
       on_jumpReleased = function()
          hero.y_vel = 1
+      end,
+      on_shootPressed = function()
+         signal:emit(
+            "addProjectile",
+            projectile:new(
+               hero.x,
+               hero.y,
+               hero.projectileDirection.x,
+               hero.projectileDirection.y)
+            )
+         signal:emit("score", -1)
       end
    }
 })
@@ -302,7 +314,6 @@ signal:register("shootReleased", function()
 end)
 
 signal:register("hit", function()
-   signal:emit("score", 7)
 end)
 
 return hero

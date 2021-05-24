@@ -1,10 +1,10 @@
 local Robot = {
     velocity = 0,
-    gravity = -200
+    gravity = 200
 }
 
-function Robot:updateVelocity(dt)
-    self.velocity = self.velocity + (self.gravity * dt)
+function Robot:getVelocity()
+    return self.velocity
 end
 
 function Robot:setVelocity(value)
@@ -33,9 +33,8 @@ function Robot:switchToActive()
     end
 end
 
-
-function Robot:getVelocity()
-    return self.velocity
+function Robot:updateVelocity(dt)
+    self.velocity = self.velocity + (self.gravity * dt)
 end
 
 function Robot:new (o)

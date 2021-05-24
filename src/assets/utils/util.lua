@@ -109,7 +109,7 @@ local updateRobot = function(robot, dt)
    if robot.jump == true then
       if robot.velocity < 0 then
          local goalY = robot.y + robot.velocity * dt
-         robot:updateVelocity(-dt)
+         robot:updateVelocity(dt)
          local cols, _ = world:m(robot, robot.x, goalY, filterUp)
          local dy
 
@@ -127,7 +127,7 @@ local updateRobot = function(robot, dt)
 
       if robot:getVelocity() >= 0 then
          local goalY = robot.y + robot.velocity * dt
-         robot:updateVelocity(-dt)
+         robot:updateVelocity(dt)
          local _, len = world:m(robot, robot.x, goalY, filterDown)
 
          if len ~= 0 then
@@ -175,8 +175,6 @@ function util.update(robots, dt)
       signal:emit("allActive")
    end
 end
-
-
 
 function util.nextColor()
    local a = {0.2078,0.3137,0.4392}

@@ -66,8 +66,25 @@ function game.init()
       love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
    end)
 
-   signal:register("hit", function(col, direction)
-         local touch = col.touch
+   signal:register("collision", function(col, direction)
+      if col.other.type == "robot" then
+         if not col.other:getIsActive() then
+            col.other:switchToActive()
+            signal:emit("score", 7)
+         end
+      end
+
+      if col.other.name == "Start" then
+         col.other:setIsFalling(true)
+      end
+      if col.other.name == "Jump" or col.other.name == "High Jump" then
+         if not col.other.jump then
+            col.other.jump = true
+            signal:emit("bounce", col.other)
+         end
+      end
+
+      local touch = col.touch
          touch.direction = direction
          if direction.x == 1 then
             touch.x = touch.x + 14
@@ -218,13 +235,6 @@ function love.keypressed(key)
 
    if key == "s" or key == "space" then
       signal:emit("shootPressed")
-      signal:emit("addProjectile", {
-         x = hero.x,
-         y = hero.y,
-         direction = hero.projectileDirection,
-         own = true
-      })
-      signal:emit("score", -1)
    end
 
    if key == "escape" then
