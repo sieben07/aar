@@ -21,12 +21,6 @@ local solidLayer
 local transition = global.transition
 local world = global.world
 
-function world:m (item, goalX, goalY, filter)
-   local actualX, actualY, cols, length = self:move(item, goalX, goalY, filter);
-   item.x, item.y = actualX, actualY
-   return cols, length
-end
-
 function world:clear()
    local items, _ = self:getItems()
    for _, item in pairs(items) do
@@ -45,7 +39,7 @@ hitParticle:setLinearAcceleration(5, -3, -50, 3)
 hitParticle:setParticleLifetime(1, 3)
 hitParticle:setSpeed(1, 3)
 hitParticle:setSpin(3, 9)
-hitParticle:setSizes(0.4, 0.5, 0.6, 0.7)
+hitParticle:setSizes(0.4, 0.5, 0.6)
 hitParticle:setSpinVariation(0.7)
 hitParticle:setSizeVariation(0.7)
 

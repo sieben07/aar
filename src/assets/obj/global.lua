@@ -17,7 +17,13 @@ local global = {
    SHOOT_WIDTH = 14,
    signal = Signal.new(),
    transition = { start =  false },
-   world = bump.newWorld(DIMENSIONS)
+   world = bump.newWorld(DIMENSIONS),
 }
+
+function global.world:m (item, goalX, goalY, filter)
+   local actualX, actualY, cols, length = self:move(item, goalX, goalY, filter);
+   item.x, item.y = actualX, actualY
+   return cols, length
+end
 
 return global

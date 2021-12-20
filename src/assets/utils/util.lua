@@ -1,6 +1,7 @@
 local flux = require "assets.libs.flux.flux"
 local global = require "assets.obj.global"
-local Robot = require "assets.obj.Robot"
+local Robot = require "assets.obj.robots.robot"
+local JumpRobot = require "assets.obj.robots.Jump_Robot"
 local signal = global.signal
 local transition = global.transition
 local world = global.world
@@ -21,22 +22,6 @@ local function areAllRobotsActive(t)
       return true
    else
       return false
-   end
-end
-
-local function filterUp(_ , other)
-   if other.type == "hero" or other.type == "bullet" then
-      return "cross"
-   else
-      return "slide"
-   end
-end
-
-local function filterDown(_, other)
-   if other.type == "bullet" then
-      return "cross"
-   else
-      return "slide"
    end
 end
 
@@ -93,7 +78,7 @@ local updateHero = function(robot, dt)
    end
 end
 
-local updateText = function(robot, dt) end
+local updateText = function(_, _) end
 
 local updateRobot = function(robot, dt)
    if robot:getIsFalling() == true then
@@ -106,35 +91,7 @@ local updateRobot = function(robot, dt)
       end
    end
 
-   if robot.jump == true then
-      if robot.velocity < 0 then
-         local goalY = robot.y + robot.velocity * dt
-         robot:updateVelocity(dt)
-         local cols, _ = world:m(robot, robot.x, goalY, filterUp)
-         local dy
-
-         for _, col in ipairs(cols) do
-            if col.other.type == "robot" then
-               robot:setVelocity(0)
-            end
-
-            dy = goalY - 32
-            if col.other.type == "hero" then
-               world:m(col.other, col.other.x, col.other.y + dy)
-            end
-         end
-      end
-
-      if robot:getVelocity() >= 0 then
-         local goalY = robot.y + robot.velocity * dt
-         robot:updateVelocity(dt)
-         local _, len = world:m(robot, robot.x, goalY, filterDown)
-
-         if len ~= 0 then
-            signal:emit("bounce", robot)
-         end
-      end
-   end
+   robot:update(dt)
 end
 
 local updateAction = {
@@ -152,7 +109,14 @@ function util.getSpritesFromMap(map)
          hero = object
       end
       if object.type == "robot" then
-         local robot = Robot:new(object)
+         local robot;
+         if object.name == "Jump" then
+            robot = JumpRobot:new(object);
+         elseif object.name == "High_Jump" then
+            robot = JumpRobot:new(object);
+         else
+            robot = Robot:new(object)
+         end
          table.insert(robots, robot)
       end
       if object.type == "text" then

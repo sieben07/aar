@@ -37,6 +37,9 @@ function Robot:updateVelocity(dt)
     self.velocity = self.velocity + (self.gravity * dt)
 end
 
+function Robot:update(dt)
+end
+
 function Robot:new (o)
     o = o or {}
     setmetatable(o, self)

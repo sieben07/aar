@@ -304,7 +304,7 @@ dl.table h3, dl.function h3 {font-size: .95em;}
 
 ul.nowrap {
     overflow:auto;
-    whitespace:nowrap;
+    white-space:nowrap;
 }
 
 /* stop sublists from having initial vertical space */
