@@ -190,7 +190,7 @@ return {
         },
         {
           id = 9,
-          name = "High Jump",
+          name = "High_Jump",
           type = "robot",
           shape = "rectangle",
           x = 608,

@@ -100,6 +100,25 @@ local updateAction = {
    text = updateText
 }
 
+local newJumpRobot = function(obj)
+   return JumpRobot:new(obj)
+end
+
+local newStartRobot = function(obj)
+   return Robot:new(obj)
+end
+
+local newExitRobot = function(obj)
+   return Robot:new(obj)
+end
+
+local createRobot = {
+   Jump = newJumpRobot,
+   High_Jump = newJumpRobot,
+   Start = newStartRobot,
+   Exit = newExitRobot
+}
+
 function util.getSpritesFromMap(map)
    local hero
    local robots = {}
@@ -109,14 +128,8 @@ function util.getSpritesFromMap(map)
          hero = object
       end
       if object.type == "robot" then
-         local robot;
-         if object.name == "Jump" then
-            robot = JumpRobot:new(object);
-         elseif object.name == "High_Jump" then
-            robot = JumpRobot:new(object);
-         else
-            robot = Robot:new(object)
-         end
+         print(object.name)
+         local robot = createRobot[object.name](object)
          table.insert(robots, robot)
       end
       if object.type == "text" then
