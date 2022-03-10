@@ -128,7 +128,6 @@ function util.getSpritesFromMap(map)
          hero = object
       end
       if object.type == "robot" then
-         print(object.name)
          local robot = createRobot[object.name](object)
          table.insert(robots, robot)
       end

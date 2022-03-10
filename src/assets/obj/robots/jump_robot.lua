@@ -22,7 +22,6 @@ local function filterDown(_, other)
 end
 
 function JumpRobot:update(dt)
-   print(world)
     if self:getIsActive() then
         if self.velocity < 0 then
          local goalY = self.y + self.velocity * dt
