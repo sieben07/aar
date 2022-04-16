@@ -1,47 +1,55 @@
-# Activate all robots
+---
+author:
+- Orhan Kücükyilmaz
+date: 2022-04-16
+keywords:
+- One Point Left
+title: Activate All Robots
+---
 
 ## Change History
 
-| Version | Who                    | What                         | When       |
-|---------|------------------------|------------------------------|------------|
-| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document             | 17.04.2014 |
-| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                | 08.07.2015 |
-| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals          | 02.07.2017 |
-| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over             | 21.06.2018 |
-| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot             | 08.07.2018 |
-| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                | 18.07.2018 |
-| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                 | 06.08.2018 |
-| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables | 21.03.2021 |
-| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot              | 21.03.2021 |
-| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized             | 21.03.2021 |
-| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added     | 24.05.2021 |
+  Version   Who                      What                            When
+  --------- ------------------------ ------------------------------- ------------
+  0.0.1     Orhan Küçükyılmaz (OK)   Initial Document                17.04.2014
+  0.0.2     Orhan Küçükyılmaz (OK)   Updated Image                   08.07.2015
+  0.0.3     Orhan Küçükyılmaz (OK)   Added Project Goals             02.07.2017
+  0.0.4     Orhan Küçükyılmaz (OK)   Change Game Over                21.06.2018
+  0.0.5     Orhan Küçükyılmaz (OK)   First Jump Robot                08.07.2018
+  0.0.6     Orhan Küçükyılmaz (OK)   Active Robots                   18.07.2018
+  0.0.7     Orhan Küçükyılmaz (OK)   Shoot Colide                    06.08.2018
+  0.0.8     Orhan Küçükyılmaz (OK)   State updates hero variables    21.03.2021
+  0.0.9     Orhan Küçükyılmaz (OK)   High Jump Robot                 21.03.2021
+  0.0.10    Orhan Küçükyılmaz (OK)   Shoots optimized                21.03.2021
+  0.0.11    Orhan Küçükyılmaz (OK)   Simple Robot class added        24.05.2021
+  0.0.12    Orhan Küçükyılmaz (OK)   Simple Projectile class added   24.05.2021
 
 ## Introduction
 
-*a jump’n’shoot riddle game*
+*a jump'n'shoot riddle game*
 
-After the Hero’s attack, it’s your duty to…
+After the Hero's attack, it's your duty to...
 
 > *activate all robots!*
 
 Every `'activation-shoot'` reduces `points`. Every activated robot,
 machine or trap adds `points`. Getting hit removes `points`. If the
 player has only *`one point left`* he gets `warned` that only `one`
-*ONE* shoot is left …
+*ONE* shoot is left ...
 
-~~&gt; … *GAME OVER!*~~
+~~\> ... *GAME OVER!*~~
 
-> … *AND ATFTER THAT,HE HAS NEGATIVE SCORE*
+> ... *AND ATFTER THAT,HE HAS NEGATIVE SCORE*
 
 ![His name is mini](./src/assets/img/mini.png "His name is mini")
 
 ## Levels, Robots, and more
 
-In this Section it’s all about the levels the robots and more.
+In this Section it's all about the levels the robots and more.
 
 ### Level 0 - The Start/Menu level
 
-Most games don’t have a playable menu screen level. What is a playable
+Most games don't have a playable menu screen level. What is a playable
 menu screen level, you ask? Good question, very good question indeed.
 
 What is a menu screen?
@@ -57,8 +65,8 @@ selectable items:
 On this menue screen the controls are usually different than the
 controls in the game.
 
-Up and down on a joy-pad, joystick or on a keyboard (sometimes “w” for
-up and “s” for down) toggle between the menu items. With one button on
+Up and down on a joy-pad, joystick or on a keyboard (sometimes "w" for
+up and "s" for down) toggle between the menu items. With one button on
 the joy-pad, joystick or keyboard (sometime space or enter) the user
 select what he wants to do.
 
@@ -140,6 +148,10 @@ stage introduces a new version of the robot.
 -   High Jump Robot
 
 > -   like the jump robot
+>
+> ```{=html}
+> <!-- -->
+> ```
 > -   [x] just jumps higher
 
 ### Jump Level (03)
@@ -173,3 +185,4 @@ stage introduces a new version of the robot.
 -   [x] STATE MASHINE STATE functions update variables
 -   [ ] Hero shoots bolts and nuts
 -   [ ] platforms dont push you throug objects? how to solve this
+-   [ ] What ever

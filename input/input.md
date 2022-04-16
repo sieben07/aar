@@ -1,6 +1,19 @@
-# Activate all robots
+---
+title: "Activate All Robots"
+author: [Orhan Kücükyilmaz]
+date: "2022-04-16"
+keywords: [One Point Left]
+titlepage: true
+titlepage-color: "9BBBCC"
+titlepage-text-color: "000000"
+titlepage-rule-height: 32
+titlepage-rule-color: "FFFFFF"
+toc-own-page: true
+header-left: "\\leftmark"
+book: true
+...
 
-## Change History
+# Change History
 
 | Version | Who                    | What                          | When       |
 | ------- | ---------------------- | ----------------------------- | ---------- |
@@ -17,7 +30,7 @@
 | 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
 | 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
 
-## Introduction
+# Introduction
 
 *a jump’n’shoot riddle game*
 
@@ -36,11 +49,11 @@ player has only *`one point left`* he gets `warned` that only `one`
 
 ![His name is mini](./src/assets/img/mini.png "His name is mini")
 
-## Levels, Robots, and more
+# Levels, Robots, and more
 
 In this Section it’s all about the levels the robots and more.
 
-### Level 0 - The Start/Menu level
+## Level 0 - The Start/Menu level
 
 Most games don’t have a playable menu screen level. What is a playable menu screen
 level, you ask? Good question, very good question indeed.
@@ -72,7 +85,7 @@ But first let us take a look at the elements of the first level:
 
 ![The Title](./src/assets/img/title.png "The Title")
 
-## Project goals
+# Project goals
 
 No project is ever done if there are no goals set. To know when the
 Version 1.0.0 is done of this game, some goals are set.
@@ -81,7 +94,7 @@ Some of this gaols will be hard set goals, like the number of different
 levels, robots, boss robots and such. Some goals will be soft, like
 graphics, sound, all the look and feel.
 
-### Levels
+## Levels
 
 A Minimum of 5 levels.
 Every Level has 5 Stages.
@@ -89,16 +102,16 @@ Every Level has 5 Stages.
 Level Zero is the playable menu level.
 
 
-#### Level Structure
+### Level Structure
 
 Each level exist of 5 stages. Each level has one theme and one kind of robot.
 4 stages of one level introduce one new robot, the 5th stage is the Endgengner stage.
 Each level introduces a new kind of robot,
 each stage introduces a new version of the robot.
 
-## Robots
+# Robots
 
-### Start Level (00)
+## Start Level (00)
 
   - Start Robot
 
@@ -127,7 +140,7 @@ each stage introduces a new version of the robot.
 >   - a hidden level? and a hidden boss?
 >   - sleeping tiger hidden dragon
 
-### Jump Level (01)
+## Jump Level (01)
 
   - Jump Robot
 
@@ -136,35 +149,35 @@ each stage introduces a new version of the robot.
 >   - [x] blocks passages sometimes
 >   - [x] open passages by jumping away
 
-### Jump Level (02)
+## Jump Level (02)
 
   - High Jump Robot
 
 >   - like the jump robot
 >   -  [x] just jumps higher
 
-### Jump Level (03)
+## Jump Level (03)
 
   - Water Pump Jump Robot
 
 >   - [ ] shoots water to jump
 >   - [ ]  can be on his back
 
-### Jump Level (04)
+## Jump Level (04)
 
   - Gravity Jump Robot
 
 >   - [ ] jumps from the ground to the ceiling
 >   - [ ] can sometimes be like an elevator
 
-### Jump Level (ENDGEGNER)
+## Jump Level (ENDGEGNER)
 
   - Jump Boss Robot
 
 >   - does everything the other jump robots does
 >   -  - [ ] turned up to eleven
 
-### TODO
+# TODO
 
   - [x] JUMP ROBOTS COLLIDE BUG
   - [x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
