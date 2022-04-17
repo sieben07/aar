@@ -14,8 +14,9 @@
 | 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized              | 21.03.2021 |
 | 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
 | 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
+| 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 18.04.2022 |
 
-## Introduction
+# Introduction
 
 *a jump’n’shoot riddle game*
 
@@ -125,6 +126,8 @@ stage introduces a new version of the robot.
 > -   a hidden level? and a hidden boss?
 > -   sleeping tiger hidden dragon
 
+## Jump Level
+
 ### Jump Level (01)
 
 -   Jump Robot
@@ -155,12 +158,138 @@ stage introduces a new version of the robot.
 > -   ☐ jumps from the ground to the ceiling
 > -   ☐ can sometimes be like an elevator
 
-### Jump Level (ENDGEGNER)
+### Jump Level (FINAL)
 
 -   Jump Boss Robot
 
 > -   does everything the other jump robots does
 > -   ☐ turned up to eleven
+
+## Water level
+
+### Water Level (01)
+
+-   Swim Robot
+
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over water
+> -   ☐ blocks passages sometimes
+
+### Water Level (02)
+
+### Water Level (03)
+
+### Water Level (04)
+
+### Water Level (FINAL)
+
+## Gravity Level
+
+### Gravity Level (01)
+
+-   Swim Robot
+
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over Gravity
+> -   ☐ blocks passages sometimes
+
+### Gravity Level (02)
+
+### Gravity Level (03)
+
+### Gravity Level (04)
+
+### Gravity Level (FINAL)
+
+## Gravity Level
+
+### Fire Level (01)
+
+-   Swim Robot
+
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over Fire
+> -   ☐ blocks passages sometimes
+
+### Fire Level (02)
+
+### Fire Level (03)
+
+### Fire Level (04)
+
+### Fire Level (FINAL)
+
+## Electro Level
+
+### Electro Level (01)
+
+-   Swim Robot
+
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over Electro
+> -   ☐ blocks passages sometimes
+
+### Electro Level (02)
+
+### Electro Level (03)
+
+### Electro Level (04)
+
+### Electro Level (FINAL)
+
+## Laser Level
+
+### Laser Level (01)
+
+-   Swim Robot
+
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over Laser
+> -   ☐ blocks passages sometimes
+
+### Laser Level (02)
+
+### Laser Level (03)
+
+### Laser Level (04)
+
+### Laser Level (FINAL)
+
+## Light Level
+
+### Light Level (01)
+
+-   Swim Robot
+
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over Light
+> -   ☐ blocks passages sometimes
+
+### Light Level (02)
+
+### Light Level (03)
+
+### Light Level (04)
+
+### Light Level (FINAL)
+
+## Wind Level
+
+### Wind Level (01)
+
+-   Swim Robot
+
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over Wind
+> -   ☐ blocks passages sometimes
+
+### Wind Level (02)
+
+### Wind Level (03)
+
+### Wind Level (04)
+
+### Wind Level (FINAL)
 
 ### TODO
 
