@@ -16,4 +16,4 @@ pdf:
 	$(PANDOC) -s --template=$(TEMPLATE_LATEX) $(INPUT) --toc --top-level-division=chapter -o $(OUTPUT_PDF)
 
 markdown:
-	$(PANDOC) -s -f gfm -o $(OUTPUT_MD) $(INPUT)
+	$(PANDOC) -t commonmark+pipe_tables -o $(OUTPUT_MD) $(INPUT)
