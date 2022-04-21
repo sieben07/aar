@@ -3,9 +3,9 @@ PANDOC=/usr/local/bin/pandoc
 TEMPLATE_HTML=$(realpath input/template.html)
 TEMPLATE_LATEX=$(realpath input/eisvogel.latex)
 INPUT=$(realpath input/input.md)
-OUTPUT_HTML=$(realpath index.html)
-OUTPUT_PDF=$(realpath aar.pdf)
-OUTPUT_MD=$(realpath README.md)
+OUTPUT_HTML=$(realpath output/index.html)
+OUTPUT_PDF=$(realpath output/aar.pdf)
+OUTPUT_MD=$(realpath output/README.md)
 
 all: html pdf markdown
 
