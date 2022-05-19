@@ -2,7 +2,7 @@ function love.conf(t)
     t.title             = "One Point Left"  -- The title of the window the game is in (string)
     t.author            = "Orhan.K"         -- The author of the game (string)
     t.identity          = "opl"             -- The name of the save directory (string)
-    t.version           = "11.2"          -- The LÖVE version this game was made for (string)
+    t.version           = "11.4"          -- The LÖVE version this game was made for (string)
     t.release           = false             -- Enable release mode (boolean)
     t.appendidentity    = true
 
