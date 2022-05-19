@@ -321,11 +321,9 @@ stage introduces a new version of the robot.
 
 ### Light  Level (01)
 
-- Swim Robot
+- Light Robot
 
-> - [ ] starts swiming when activated (on ground if not)
-> - [ ] helps get over Light
-> - [ ] blocks passages sometimes
+> - [ ] starts lighting
 
 ### Light Level (02)
 
@@ -339,10 +337,9 @@ stage introduces a new version of the robot.
 
 ### Wind  Level (01)
 
-- Swim Robot
+- Wind Robot
 
-> - [ ] starts swiming when activated (on ground if not)
-> - [ ] helps get over Wind
+> - [ ] starts blowing wind
 > - [ ] blocks passages sometimes
 
 ### Wind Level (02)
@@ -361,5 +358,5 @@ stage introduces a new version of the robot.
 - [ ] HIT ANIMATION
 - [x] STATE MASHINE STATE functions update variables
 - [ ] Hero shoots bolts and nuts
-- [ ] Hero sticky must be resoved better
-- [ ] Jump robots dont push you throug platforms (damage penalty)
+- [ ] Hero sticky must be resolved better
+- [ ] Jump robots dont push you throug platforms (damage penalty) or phase thrugh object
