@@ -112,6 +112,8 @@ stage introduces a new version of the robot.
 
 ## Robots
 
+## Start Level
+
 ### Start Level (00)
 
 - Start Robot
@@ -202,51 +204,96 @@ stage introduces a new version of the robot.
 
 ### Gravity  Level (01)
 
-- Swim Robot
+- Vertical Gravity Robot
 
-> - [ ] starts swiming when activated (on ground if not)
-> - [ ] helps get over Gravity
+> - [ ] starts falling up and down
+> - [ ] helps get over the ground
 > - [ ] blocks passages sometimes
 
 ### Gravity Level (02)
 
+- Change Gravity Robot
+
+> - [ ] starts changeing the gravity for player
+> - [ ] helps get over the ground
+> - [ ] blocks passages sometimes
+
 ### Gravity Level (03)
+
+- Horrizontal Gravity Robot
+
+> - [ ] starts falling left and right
 
 ### Gravity Level (04)
 
+- Bullet Gravity Robot
+
+> - [] Acctracts bullets
+
 ### Gravity Level (FINAL)
 
-## Gravity Level
+- Gravity Boss Robot
+
+> - [ ] turns up to eleven
+
+## Fire Level
 
 ### Fire  Level (01)
 
-- Swim Robot
+- Fire Robot
 
-> - [ ] starts swiming when activated (on ground if not)
+> - [ ] starts burining when activated
 > - [ ] helps get over Fire
 > - [ ] blocks passages sometimes
 
 ### Fire Level (02)
 
+- Fire explosion Robot
+
+> - [ ] starts exploding when activated
+
+
 ### Fire Level (03)
+
+- Fire shooting Robot
+
+> - [ ] starts shooting fire when activated
 
 ### Fire Level (04)
 
+- Fire X Robot
+
+> - [ ] starts x fire when activated
+
 ### Fire Level (FINAL)
+
+- Fire Boss Robot
+
+> - [ ] turns up to eleven
 
 ## Electro Level
 
 ### Electro  Level (01)
 
-- Swim Robot
+- Electo Robot
 
-> - [ ] starts swiming when activated (on ground if not)
-> - [ ] helps get over Electro
+> - [ ] starts electrifying when activated
+> - [ ] activates other robots
 > - [ ] blocks passages sometimes
 
 ### Electro Level (02)
 
+- Electo Shooting Robot
+
+> - [ ] starts shooting charges when activated
+> - [ ] activates other robots
+
 ### Electro Level (03)
+
+- Electo Jump Shooting Robot
+
+> - [ ] starts jumping shooting charges when activated
+> - [ ] activates other robots
 
 ### Electro Level (04)
 

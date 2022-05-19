@@ -1,7 +1,7 @@
 local flux = require "assets.libs.flux.flux"
 local global = require "assets.obj.global"
 local Robot = require "assets.obj.robots.robot"
-local JumpRobot = require "assets.obj.robots.Jump_Robot"
+local JumpRobot = require "assets.obj.robots.jump_robot"
 local signal = global.signal
 local transition = global.transition
 local world = global.world

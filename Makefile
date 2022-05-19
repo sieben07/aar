@@ -1,4 +1,4 @@
-PANDOC=/usr/local/bin/pandoc
+PANDOC=$(shell which pandoc)
 
 TEMPLATE_HTML=$(realpath input/template.html)
 TEMPLATE_LATEX=$(realpath input/eisvogel.latex)
