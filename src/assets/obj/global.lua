@@ -18,6 +18,7 @@ local global = {
    signal = Signal.new(),
    transition = { start =  false },
    world = bump.newWorld(DIMENSIONS),
+   spriteSheet = nil
 }
 
 function global.world:m (item, goalX, goalY, filter)

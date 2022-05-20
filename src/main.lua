@@ -1,6 +1,7 @@
 local global = require "assets.obj.global"
 local fonts = require "assets.font.fonts"
 local Gamestate = require "assets.libs.hump.gamestate"
+global.world.spriteSheet = love.graphics.newImage "assets/img/minimega.png"
 local hero = require "assets.obj.hero"
 local levels = require "assets.maps.levels"
 local screen = require "assets.libs.shack.shack"
@@ -10,7 +11,7 @@ local util = require "assets.utils.util"
 
 local game = global.game
 local hitAnimation = global.hitAnimation
-local hitImage = love.graphics.newImage("assets/img/white.png")
+local hitImage = love.graphics.newImage "assets/img/white.png"
 local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
 local map
 
@@ -127,7 +128,7 @@ function game.enter()
          if robot.type == "hero" then
             love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
          elseif robot.type == "robot" then
-            if robot.active and transition.start ~= true then
+            if robot:getIsActive() and transition.start ~= true then
                love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
             else
                love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)

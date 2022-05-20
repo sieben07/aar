@@ -1,6 +1,7 @@
 local global = require "assets.obj.global"
 local machine = require "assets.libs.lua-fsm.src.fsm"
 local projectile = require "src.assets.obj.projectile"
+local spriteSheet = global.world.spriteSheet
 local signal = global.signal
 
 local FRAME_SIZE = 32
@@ -27,7 +28,7 @@ local hero = {
    projectileDirection = {x = 1, y = 0},
    rotate = 0,
    zoom = 1,
-   image = love.graphics.newImage "assets/img/minimega.png",
+   image = spriteSheet,
    -- the frames of the hero
    quads = {
       -- 1

@@ -357,6 +357,8 @@ stage introduces a new version of the robot.
 - [x] SHOOT COLLIDES ANIMATION
 - [ ] HIT ANIMATION
 - [x] STATE MASHINE STATE functions update variables
-- [ ] Hero shoots bolts and nuts
+- [ ] Hero shoots bolts
+- [ ] Hero shoots nuts
+- [x] Hero shoots cogs
 - [ ] Hero sticky must be resolved better
 - [ ] Jump robots dont push you throug platforms (damage penalty) or phase thrugh object

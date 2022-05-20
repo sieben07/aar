@@ -2,6 +2,10 @@ local global = require "assets.obj.global"
 local SHOOT_WIDTH = global.SHOOT_WIDTH
 local SHOOT_HEIGHT = global.SHOOT_HEIGHT
 local bulletImage = love.graphics.newImage "assets/img/white.png"
+local spriteSheet = global.world.spriteSheet
+local Quad = love.graphics.newQuad
+
+local cog = Quad(0, 32 * 4, 16, 16, 32 * 8, 32 *8)
 
 local signal = global.signal
 local world = global.world
@@ -35,8 +39,8 @@ end
 
 shoots.draw = function()
    for _, projectile in ipairs(projectiles) do
-         love.graphics.setColor(1,0,0)
-         love.graphics.draw(bulletImage, projectile.x, projectile.y)
+         love.graphics.setColor(1,1,1,1)
+         love.graphics.draw(spriteSheet, cog, projectile.x, projectile.y + 8, math.rad(projectile.x), 1.5, 1.5, 8, 8)
    end
 end
 
