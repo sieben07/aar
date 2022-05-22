@@ -357,7 +357,7 @@ stage introduces a new version of the robot.
 - [x] SHOOT COLLIDES ANIMATION
 - [ ] HIT ANIMATION
 - [x] STATE MASHINE STATE functions update variables
-- [ ] Hero shoots bolts
+- [x] Hero shoots bolts
 - [ ] Hero shoots nuts
 - [x] Hero shoots cogs
 - [ ] Hero sticky must be resolved better
