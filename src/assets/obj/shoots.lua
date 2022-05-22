@@ -6,6 +6,7 @@ local spriteSheet = global.world.spriteSheet
 local Quad = love.graphics.newQuad
 
 local cog = Quad(0, 32 * 4, 16, 16, 32 * 8, 32 *8)
+local bolt = Quad(16, 32 * 4, 16, 16, 32 * 8, 32 * 8)
 
 local signal = global.signal
 local world = global.world
@@ -38,9 +39,10 @@ function shoots.update()
 end
 
 shoots.draw = function()
-   for _, projectile in ipairs(projectiles) do
+   for index, projectile in ipairs(projectiles) do
          love.graphics.setColor(1,1,1,1)
-         love.graphics.draw(spriteSheet, cog, projectile.x, projectile.y + 8, math.rad(projectile.x), 1.5, 1.5, 8, 8)
+         local quad = index % 2 == 0 and cog or bolt;
+         love.graphics.draw(spriteSheet, quad, projectile.x, projectile.y + 8, math.rad(projectile.x), 1.1, 1.1, 8, 8)
    end
 end
 
