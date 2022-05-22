@@ -7,6 +7,8 @@ local Quad = love.graphics.newQuad
 
 local cog = Quad(0, 32 * 4, 16, 16, 32 * 8, 32 *8)
 local bolt = Quad(16, 32 * 4, 16, 16, 32 * 8, 32 * 8)
+local nut = Quad(32, 32 * 4, 16, 16, 32 * 8, 32 * 8)
+local items = {cog, bolt, nut}
 
 local signal = global.signal
 local world = global.world
@@ -41,8 +43,8 @@ end
 shoots.draw = function()
    for index, projectile in ipairs(projectiles) do
          love.graphics.setColor(1,1,1,1)
-         local quad = index % 2 == 0 and cog or bolt;
-         love.graphics.draw(spriteSheet, quad, projectile.x, projectile.y + 8, math.rad(projectile.x), 1.1, 1.1, 8, 8)
+         if projectile.index == nil then projectile.index = index % 3 + 1 end
+         love.graphics.draw(spriteSheet, items[projectile.index], projectile.x, projectile.y + 8, math.rad(projectile.x), 1.1, 1.1, 8, 8)
    end
 end
 
