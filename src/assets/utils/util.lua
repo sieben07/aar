@@ -1,7 +1,52 @@
-local flux = require "assets.libs.flux.flux"
 local global = require "assets.obj.global"
-local Robot = require "assets.obj.robots.generic.robot"
-local JumpRobot = require "assets.obj.robots.jump.jump_robot"
+
+local flux = require "assets.libs.flux.flux"
+local Robot = require "assets.robots.level_zero.robot"
+
+local ZeroZero = require "assets.robots.level_zero.zero_zero"
+local ZeroOne = require "assets.robots.level_zero.zero_one"
+local ZeroTwo = require "assets.robots.level_zero.zero_two"
+local ZeroThree = require "assets.robots.level_zero.zero_three"
+local ZeroFour = require "assets.robots.level_zero.zero_four"
+local ZeroFive = require "assets.robots.level_zero.zero_five"
+
+local OneZero = require "assets.robots.level_one.one_zero"
+local OneOne = require "assets.robots.level_one.one_one"
+local OneTwo = require "assets.robots.level_one.one_two"
+local OneThree = require "assets.robots.level_one.one_three"
+local OneFour = require "assets.robots.level_one.one_four"
+local OneFive = require "assets.robots.level_one.one_five"
+
+local TwoZero = require "assets.robots.level_two.two_zero"
+local TwoOne = require "assets.robots.level_two.two_one"
+local TwoTwo = require "assets.robots.level_two.two_two"
+local TwoThree = require "assets.robots.level_two.two_three"
+local TwoFour = require "assets.robots.level_two.two_four"
+local TwoFive = require "assets.robots.level_two.two_five"
+
+local ThreeZero = require "assets.robots.level_three.three_zero"
+local ThreeOne = require "assets.robots.level_three.three_one"
+local ThreeTwo = require "assets.robots.level_three.three_two"
+local ThreeThree = require "assets.robots.level_three.three_three"
+local ThreeFour = require "assets.robots.level_three.three_four"
+local ThreeFive = require "assets.robots.level_three.three_five"
+
+local FourZero = require "assets.robots.level_four.four_zero"
+local FourOne = require "assets.robots.level_four.four_one"
+local FourTwo = require "assets.robots.level_four.four_two"
+local FourThree = require "assets.robots.level_four.four_three"
+local FourFour = require "assets.robots.level_four.four_four"
+local FourFive = require "assets.robots.level_four.four_five"
+
+local FiveZero = require "assets.robots.level_five.five_zero"
+local FiveOne = require "assets.robots.level_five.five_one"
+local FiveTwo = require "assets.robots.level_five.five_two"
+local FiveThree = require "assets.robots.level_five.five_three"
+local FiveFour = require "assets.robots.level_five.five_four"
+local FiveFive = require "assets.robots.level_five.five_five"
+
+local JumpRobot = require "assets.robots.level_one.jump_robot"
+
 local signal = global.signal
 local transition = global.transition
 local world = global.world
@@ -112,11 +157,191 @@ local newExitRobot = function(obj)
    return Robot:new(obj)
 end
 
+local newZeroZero = function(obj)
+   return ZeroZero:new(obj)
+end
+
+local newZeroOne = function(obj)
+   return ZeroOne:new(obj)
+end
+
+local newZeroTwo = function(obj)
+   return ZeroTwo:new(obj)
+end
+
+local newZeroThree = function(obj)
+   return ZeroThree:new(obj)
+end
+
+local newZeroFour = function(obj)
+   return ZeroFour:new(obj)
+end
+
+local newZeroFive = function(obj)
+   return ZeroFive:new(obj)
+end
+
+local newOneZero = function(obj)
+   return OneZero:new(obj)
+end
+
+local newOneOne = function(obj)
+   return OneOne:new(obj)
+end
+
+local newOneTwo = function(obj)
+   return OneTwo:new(obj)
+end
+
+local newOneThree = function(obj)
+   return OneThree:new(obj)
+end
+
+local newOneFour = function(obj)
+   return OneFour:new(obj)
+end
+
+local newOneFive = function(obj)
+   return OneFive:new(obj)
+end
+
+local newTwoZero = function(obj)
+   return TwoZero:new(obj)
+end
+
+local newTwoOne = function(obj)
+   return TwoOne:new(obj)
+end
+
+local newTwoTwo = function(obj)
+   return TwoTwo:new(obj)
+end
+
+local newTwoThree = function(obj)
+   return TwoThree:new(obj)
+end
+
+local newTwoFour = function(obj)
+   return TwoFour:new(obj)
+end
+
+local newTwoFive = function(obj)
+   return TwoFive:new(obj)
+end
+
+local newThreeZero = function(obj)
+   return ThreeZero:new(obj)
+end
+
+local newThreeOne = function(obj)
+   return ThreeOne:new(obj)
+end
+
+local newThreeTwo = function(obj)
+   return ThreeTwo:new(obj)
+end
+
+local newThreeThree = function(obj)
+   return ThreeThree:new(obj)
+end
+
+local newThreeFour = function(obj)
+   return ThreeFour:new(obj)
+end
+
+local newThreeFive = function(obj)
+   return ThreeFive:new(obj)
+end
+
+local newFourZero = function(obj)
+   return FourZero:new(obj)
+end
+
+local newFourOne = function(obj)
+   return FourOne:new(obj)
+end
+
+local newFourTwo = function(obj)
+   return FourTwo:new(obj)
+end
+
+local newFourThree = function(obj)
+   return FourThree:new(obj)
+end
+
+local newFourFour = function(obj)
+   return FourFour:new(obj)
+end
+
+local newFourFive = function(obj)
+   return FourFive:new(obj)
+end
+
+local newFiveZero = function(obj)
+   return FiveZero:new(obj)
+end
+
+local newFiveOne = function(obj)
+   return FiveOne:new(obj)
+end
+
+local newFiveTwo = function(obj)
+   return FiveTwo:new(obj)
+end
+
+local newFiveThree = function(obj)
+   return FiveThree:new(obj)
+end
+
+local newFiveFour = function(obj)
+   return FiveFour:new(obj)
+end
+
+local newFiveFive = function(obj)
+   return FiveFive:new(obj)
+end
+
 local createRobot = {
    Jump = newJumpRobot,
    High_Jump = newJumpRobot,
    Start = newStartRobot,
-   Exit = newExitRobot
+   Exit = newExitRobot,
+   zero_zero = newZeroZero,
+   zero_one = newZeroOne,
+   zero_two = newZeroTwo,
+   zero_three = newZeroThree,
+   zero_four = newZeroFour,
+   zero_five = newZeroFive,
+   one_zero = newOneZero,
+   one_one = newOneOne,
+   one_two = newOneTwo,
+   one_three = newOneThree,
+   one_four = newOneFour,
+   one_five = newOneFive,
+   two_zero = newTwoZero,
+   two_one = newTwoOne,
+   two_two = newTwoTwo,
+   two_three = newTwoThree,
+   two_four = newTwoFour,
+   two_five = newTwoFive,
+   three_zero = newThreeZero,
+   three_one = newThreeOne,
+   three_two = newThreeTwo,
+   three_three = newThreeThree,
+   three_four = newThreeFour,
+   three_five = newThreeFive,
+   four_zero = newFourZero,
+   four_one = newFourOne,
+   four_two = newFourTwo,
+   four_three = newFourThree,
+   four_four = newFourFour,
+   four_five = newFourFive,
+   five_zero = newFiveZero,
+   five_one = newFiveOne,
+   five_two = newFiveTwo,
+   five_three = newFiveThree,
+   five_four = newFiveFour,
+   five_five = newFiveFive
 }
 
 function util.getSpritesFromMap(map)
