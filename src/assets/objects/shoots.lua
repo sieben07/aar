@@ -1,4 +1,4 @@
-local global = require "assets.obj.global"
+local global = require "assets.objects.global"
 local SHOOT_WIDTH = global.SHOOT_WIDTH
 local SHOOT_HEIGHT = global.SHOOT_HEIGHT
 local bulletImage = love.graphics.newImage "assets/img/white.png"

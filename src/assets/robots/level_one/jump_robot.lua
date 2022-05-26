@@ -1,5 +1,5 @@
-local Robot = require "assets.robots.level_zero.robot"
-local global = require "assets.obj.global"
+local Robot = require "assets.robots.robot"
+local global = require "assets.objects.global"
 local world = global.world
 local signal = global.signal
 

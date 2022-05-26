@@ -1,11 +1,11 @@
-local global = require "assets.obj.global"
+local global = require "assets.objects.global"
 local fonts = require "assets.font.fonts"
 local Gamestate = require "assets.libs.hump.gamestate"
 global.world.spriteSheet = love.graphics.newImage "assets/img/minimega.png"
-local hero = require "assets.obj.hero"
+local hero = require "assets.objects.hero"
 local levels = require "assets.maps.levels"
 local screen = require "assets.libs.shack.shack"
-local shoots = require "assets.obj.shoots"
+local shoots = require "assets.objects.shoots"
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local util = require "assets.utils.util"
 
@@ -55,6 +55,7 @@ function game.init()
       )
    end)
    signal:register("score", function(value) global.score = global.score + value end)
+   signal:register("reset", function() global.score = 0 end)
    signal:register("bounce", function(robot)
       global.background.color = nextColor()
       robot.velocity = robot.properties.jumpVelocity
@@ -65,7 +66,6 @@ function game.init()
       if col.other.type == "robot" then
          if not col.other:getIsActive() then
             col.other:switchToActive()
-            signal:emit("score", 7)
          end
       end
 
@@ -128,15 +128,7 @@ function game.enter()
          if robot.type == "hero" then
             love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
          elseif robot.type == "robot" then
-            if robot:getIsActive() and transition.start ~= true then
-               love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
-            else
-               love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
-            end
-            love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
-            love.graphics.setFont(fonts.ormont_small)
-            love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
-            love.graphics.print(robot.name, robot.x + 40, robot.y)
+            robot:draw()
          elseif robot.type == "text" then
             love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
             love.graphics.setFont(fonts[robot.properties.font])

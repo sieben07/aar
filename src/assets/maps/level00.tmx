@@ -64,7 +64,7 @@
   <object id="2" name="Start" type="robot" x="816" y="704" width="32" height="32">
    <properties>
     <property name="active" type="bool" value="false"/>
-    <property name="collideable" type="bool" value="true"/>
+    <property name="collidable" type="bool" value="true"/>
     <property name="falling" type="bool" value="false"/>
    </properties>
   </object>

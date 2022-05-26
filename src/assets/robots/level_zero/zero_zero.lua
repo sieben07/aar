@@ -1,6 +1,6 @@
-local global = require "assets.obj.global"
+local global = require "assets.objects.global"
 local machine = require "assets.libs.lua-fsm.src.fsm"
-local projectile = require "src.assets.obj.projectile"
+local projectile = require "src.assets.objects.projectile"
 local spriteSheet = global.world.spriteSheet
 local signal = global.signal
 

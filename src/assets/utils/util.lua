@@ -1,12 +1,12 @@
-local global = require "assets.obj.global"
+local global = require "assets.objects.global"
 
 local flux = require "assets.libs.flux.flux"
-local Robot = require "assets.robots.level_zero.robot"
+local Robot = require "assets.robots.robot"
 
 local ZeroZero = require "assets.robots.level_zero.zero_zero"
-local ZeroOne = require "assets.robots.level_zero.zero_one"
+local StartRobot = require "assets.robots.level_zero.start_robot"
 local ZeroTwo = require "assets.robots.level_zero.zero_two"
-local ZeroThree = require "assets.robots.level_zero.zero_three"
+local ResetRobot = require "assets.robots.level_zero.reset_robot"
 local ZeroFour = require "assets.robots.level_zero.zero_four"
 local ZeroFive = require "assets.robots.level_zero.zero_five"
 
@@ -126,16 +126,6 @@ end
 local updateText = function(_, _) end
 
 local updateRobot = function(robot, dt)
-   if robot:getIsFalling() == true then
-      robot.velocity = robot.velocity + 33.3 * dt
-      local goalY = robot.y + robot.velocity
-      local _, len = world:m(robot, robot.x, goalY)
-
-      if len ~= 0 then
-         robot:setIsFalling(false)
-      end
-   end
-
    robot:update(dt)
 end
 
@@ -150,7 +140,7 @@ local newJumpRobot = function(obj)
 end
 
 local newStartRobot = function(obj)
-   return Robot:new(obj)
+   return StartRobot:new(obj)
 end
 
 local newExitRobot = function(obj)
@@ -169,8 +159,9 @@ local newZeroTwo = function(obj)
    return ZeroTwo:new(obj)
 end
 
-local newZeroThree = function(obj)
-   return ZeroThree:new(obj)
+local newResetRobot = function(obj)
+   -- ResetRobot
+   return ResetRobot:new(obj)
 end
 
 local newZeroFour = function(obj)
@@ -309,7 +300,7 @@ local createRobot = {
    zero_zero = newZeroZero,
    zero_one = newZeroOne,
    zero_two = newZeroTwo,
-   zero_three = newZeroThree,
+   Reset = newResetRobot,
    zero_four = newZeroFour,
    zero_five = newZeroFive,
    one_zero = newOneZero,
