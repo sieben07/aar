@@ -6,6 +6,7 @@ local global = {
    background = {color = {red   = 76 / 255,green = 77 / 255,blue  = 78 / 255,alpha = 1}},
    color = {red   = 0,green = 0,blue  = 0,alpha = 1},
    countdown = 4,
+   fonts = require "assets.font.fonts",
    game = { version = "0.0.10" },
    hitAnimation = { time = 0.5, alpha = 1 },
    hits = {},

@@ -1,9 +1,14 @@
-local Robot = require "assets.robots.robot"
 local global = require "assets.objects.global"
+
+local Robot = require "assets.robots.robot"
 local world = global.world
 local signal = global.signal
 
 local JumpRobot = Robot:new()
+
+function JumpRobot:switchToActive()
+   self:setIsActive(true)
+end
 
 local function filterUp(_ , other)
    if other.type == "hero" or other.type == "bullet" then

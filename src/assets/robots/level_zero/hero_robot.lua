@@ -1,4 +1,6 @@
 local global = require "assets.objects.global"
+
+local Robot = require "assets.robots.robot"
 local machine = require "assets.libs.lua-fsm.src.fsm"
 local projectile = require "src.assets.objects.projectile"
 local spriteSheet = global.world.spriteSheet
@@ -8,28 +10,27 @@ local FRAME_SIZE = 32
 local SPRITE_SHEET_SIZE = FRAME_SIZE * 8
 local Quad = love.graphics.newQuad
 
-local hero = {
+local world = global.world
+
+local heroRobot = {
    name = "mini",
-   x = 0,
-   y = 0,
-   WIDTH = global.PLAYER_W,
-   HEIGHT = global.PLAYER_HEIGHT,
-   x_vel = 0,
-   y_vel = 1,
-   vel = 4,
-   jump_vel = -7,
-   GRAVITY = -0.2,
    animationTimer = 0,
-   -- TODO: HoW to free hero from beeing sticky
-   stick_to = "",
-   -- Animation
-   quadIndex = 1,
+   GRAVITY = -0.2,
+   HEIGHT = global.PLAYER_HEIGHT,
+   image = spriteSheet,
+   jump_vel = -7,
    max = 5,
    projectileDirection = {x = 1, y = 0},
+   quadIndex = 1,
    rotate = 0,
+   stick_to = "",
+   vel = 4,
+   WIDTH = global.PLAYER_W,
+   x = 0,
+   x_vel = 0,
+   y = 0,
+   y_vel = 1,
    zoom = 1,
-   image = spriteSheet,
-   -- the frames of the hero
    quads = {
       -- 1
       right = {
@@ -168,7 +169,25 @@ local hero = {
    }
 }
 
-function hero:animate(dt)
+local HeroRobot = Robot:new(heroRobot)
+
+function HeroRobot:setX(x)
+   self.x = x
+end
+
+function HeroRobot:setY(y)
+   self.y = y
+end
+
+function HeroRobot:getX()
+   return self.x
+end
+
+function HeroRobot:getY()
+   return self.y
+end
+
+function HeroRobot:animate(dt)
    self.animationTimer = self.animationTimer + dt
    if self.animationTimer > 0.07 then
       self.animationTimer = 0
@@ -179,8 +198,46 @@ function hero:animate(dt)
    end
 end
 
---[[ the states of the hero
-hero.fsm = machine.create({
+function HeroRobot:update(dt)
+   self:animate(dt)
+    if self.stick_to ~= "" and self.stick_to.name ~= nil then
+      self.y = self.stick_to.y - 32
+   end
+
+   local goalX = self.x + self.x_vel
+   local actualX = world:move(self, goalX, self.y)
+   self.x = actualX
+   self:setX(actualX)
+
+   self.y = self.y + self.y_vel
+   self.y_vel = self.y_vel - self.GRAVITY
+
+   local goalY = self.y
+   local _, actualY, cols, len = world:move(self, self.x, goalY)
+   self.y = actualY
+
+   if len == 0 and self.fsm.can("jumpPressed") then
+      self.fsm.jumpPressed(1)
+   end
+
+   for _, col in ipairs(cols) do
+      if (col.normal.y ~= 0) then
+         self.y_vel = 1
+         if col.normal.y == -1 and self.fsm.can("collisionGround") then
+            self.stick_to = col.other
+            self.fsm.collisionGround()
+         end
+      end
+   end
+end
+
+function HeroRobot:draw()
+   love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
+end
+
+ -- the states of the HeroRobot
+function setFsm(o)
+   return machine.create({
    initial = "right",
    events = {
       { name = "collisionGround", from = "leftInAir", to = "left" },
@@ -250,71 +307,99 @@ hero.fsm = machine.create({
    },
    callbacks = {
       on_rightPressed = function()
-         hero.x_vel = hero.vel
-         hero.projectileDirection = {x = 1, y = 0}
+         o.x_vel = o.vel
+         o.projectileDirection = {x = 1, y = 0}
       end,
       on_rightReleased = function()
-         hero.x_vel = 0
+         o.x_vel = 0
       end,
       on_leftPressed = function()
-         hero.x_vel = -hero.vel
-         hero.projectileDirection = {x = -1, y = 0} -- how to math this
+         o.x_vel = -o.vel
+         o.projectileDirection = {x = -1, y = 0} -- how to calculate directions with vectors?
       end,
       on_leftReleased = function()
-          hero.x_vel = 0
+          o.x_vel = 0
       end,
       on_jumpPressed = function(_, _, _, _, falling)
-         hero.y_vel = hero.jump_vel + (falling * (-hero.jump_vel + 1))
-         hero.stick_to = ""
-         hero.iterator = 1
+         o.y_vel = o.jump_vel + (falling * (-o.jump_vel + 1))
+         o.stick_to = ""
+         o.iterator = 1
       end,
       on_jumpReleased = function()
-         hero.y_vel = 1
+         o.y_vel = 1
       end,
       on_shootPressed = function()
          signal:emit(
             "addProjectile",
             projectile:new(
-               hero.x,
-               hero.y,
-               hero.projectileDirection.x,
-               hero.projectileDirection.y)
+               o.x,
+               o.y,
+               o.projectileDirection.x,
+               o.projectileDirection.y)
             )
          signal:emit("score", -1)
       end
    }
 })
+end
 
--- press
-signal:register("leftPressed", function()
-   hero.fsm.leftPressed()
-end)
-signal:register("rightPressed", function()
-   hero.fsm.rightPressed()
-end)
-signal:register("jumpPressed", function()
-   hero.fsm.jumpPressed(0)
-end)
-signal:register("shootPressed", function()
-   hero.fsm.shootPressed()
-end)
--- release
-signal:register("leftReleased", function()
-   hero.fsm.leftReleased()
-end)
-signal:register("rightReleased", function()
-   hero.fsm.rightReleased()
-end)
-signal:register("jumpReleased", function()
-   hero.fsm.on_jumpReleased()
-end)
-signal:register("shootReleased", function()
-   hero.fsm.shootReleased()
-end)
+function HeroRobot:registerSignals()
+   signal:clear("leftPressed")
+   signal:clear("rightPressed")
+   signal:clear("jumpPressed")
+   signal:clear("shootPressed")
+   signal:clear("leftReleased")
+   signal:clear("rightReleased")
+   signal:clear("jumpReleased")
+   signal:clear("shootReleased")
+   signal:clear("hit")
+   -- press
+   signal:register("leftPressed", function()
+      self.fsm.leftPressed()
+   end)
+   signal:register("rightPressed", function()
+      self.fsm.rightPressed()
+   end)
+   signal:register("jumpPressed", function()
+      if self.fsm.can("jumpPressed") then
+         self.fsm.jumpPressed(0)
+      end
+   end)
+   signal:register("shootPressed", function()
+      self.fsm.shootPressed()
+   end)
 
-signal:register("hit", function()
-end)
+   -- release
+   signal:register("leftReleased", function()
+      if string.match(self.fsm.current, "left") ~= nil then
+         self.fsm.leftReleased()
+      end
+   end)
+   signal:register("rightReleased", function()
+      if string.match(self.fsm.current, "right") ~= nil then
+         self.fsm.rightReleased()
+      end
+   end)
+   signal:register("jumpReleased", function()
+      if self.y_vel < 0 then
+         self.fsm.on_jumpReleased()
+      end
+   end)
+   signal:register("shootReleased", function()
+      self.fsm.shootReleased()
+   end)
 
-return hero
+   signal:register("hit", function() end)
+end
 
---]]
+function HeroRobot:new(o)
+   print("HeroRobot:new")
+   o = o or {}
+   self.fsm = setFsm(o)
+   setmetatable(o, self)
+   self.__index = self
+   self:registerSignals()
+   return o
+end
+
+return HeroRobot

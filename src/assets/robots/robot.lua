@@ -1,4 +1,5 @@
 local global = require "assets.objects.global"
+
 local signal = global.signal
 local fonts = require "assets.font.fonts"
 local transition = global.transition

@@ -1,6 +1,6 @@
 -- START
-
 local global = require "assets.objects.global"
+
 local Robot = require "assets.robots.robot"
 local signal = global.signal
 local world = global.world
@@ -8,10 +8,8 @@ local world = global.world
 local StartRobot = Robot:new()
 
 function StartRobot:switchToActive()
-    if self.type == "robot" and not self:getIsActive() then
-        self:setIsActive(true)
-        self:setIsFalling(true)
-    end
+    self:setIsActive(true)
+    self:setIsFalling(true)
 end
 
 function StartRobot:update(dt)

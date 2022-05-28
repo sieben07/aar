@@ -3,12 +3,13 @@ local global = require "assets.objects.global"
 local flux = require "assets.libs.flux.flux"
 local Robot = require "assets.robots.robot"
 
-local ZeroZero = require "assets.robots.level_zero.zero_zero"
+local HeroRobot = require "assets.robots.level_zero.hero_robot"
 local StartRobot = require "assets.robots.level_zero.start_robot"
 local ZeroTwo = require "assets.robots.level_zero.zero_two"
 local ResetRobot = require "assets.robots.level_zero.reset_robot"
 local ZeroFour = require "assets.robots.level_zero.zero_four"
 local ZeroFive = require "assets.robots.level_zero.zero_five"
+local TextRobot = require "assets.robots.level_zero.text_robot"
 
 local OneZero = require "assets.robots.level_one.one_zero"
 local OneOne = require "assets.robots.level_one.one_one"
@@ -90,51 +91,6 @@ function util.merge(first, second)
     end
 end
 
-local updateHero = function(robot, dt)
-   robot:animate(dt)
-
-   if robot.stick_to ~= "" and robot.stick_to.name ~= nil then
-      robot.y = robot.stick_to.y - 32
-   end
-
-   local goalX = robot.x + robot.x_vel
-   local actualX = world:move(robot, goalX, robot.y)
-   robot.x = actualX
-
-   robot.y = robot.y + robot.y_vel
-   robot.y_vel = robot.y_vel - robot.GRAVITY
-
-   local goalY = robot.y
-   local _, actualY, cols, len = world:move(robot, robot.x, goalY)
-   robot.y = actualY
-
-   if len == 0 and robot.fsm.can("jumpPressed") then
-      robot.fsm.jumpPressed(1)
-   end
-
-   for _, col in ipairs(cols) do
-      if (col.normal.y ~= 0) then
-         robot.y_vel = 1
-         if col.normal.y == -1 and robot.fsm.can("collisionGround") then
-            robot.stick_to = col.other
-            robot.fsm.collisionGround()
-         end
-      end
-   end
-end
-
-local updateText = function(_, _) end
-
-local updateRobot = function(robot, dt)
-   robot:update(dt)
-end
-
-local updateAction = {
-   hero = updateHero,
-   robot = updateRobot,
-   text = updateText
-}
-
 local newJumpRobot = function(obj)
    return JumpRobot:new(obj)
 end
@@ -147,8 +103,8 @@ local newExitRobot = function(obj)
    return Robot:new(obj)
 end
 
-local newZeroZero = function(obj)
-   return ZeroZero:new(obj)
+local newHeroRobot = function(obj)
+   return HeroRobot:new(obj)
 end
 
 local newZeroOne = function(obj)
@@ -292,12 +248,16 @@ local newFiveFive = function(obj)
    return FiveFive:new(obj)
 end
 
+local newTextRobot = function(obj)
+   return TextRobot:new(obj)
+end
+
 local createRobot = {
    Jump = newJumpRobot,
    High_Jump = newJumpRobot,
    Start = newStartRobot,
    Exit = newExitRobot,
-   zero_zero = newZeroZero,
+   Mini = newHeroRobot,
    zero_one = newZeroOne,
    zero_two = newZeroTwo,
    Reset = newResetRobot,
@@ -332,26 +292,18 @@ local createRobot = {
    five_two = newFiveTwo,
    five_three = newFiveThree,
    five_four = newFiveFour,
-   five_five = newFiveFive
+   five_five = newFiveFive,
+   Text = newTextRobot,
 }
 
 function util.getSpritesFromMap(map)
    local hero
    local robots = {}
-   local texts = {}
    for _,object in pairs(map) do
-      if object.type == "hero" then
-         hero = object
-      end
-      if object.type == "robot" then
-         local robot = createRobot[object.name](object)
-         table.insert(robots, robot)
-      end
-      if object.type == "text" then
-         table.insert(texts, object)
-      end
+      local robot = createRobot[object.name](object)
+      table.insert(robots, robot)
    end
-   return hero, robots, texts
+   return robots
 end
 
 function util.update(robots, dt)
@@ -360,7 +312,7 @@ function util.update(robots, dt)
       if robot.type == "robot" then
          table.insert(allActive, robot:getIsActive())
       end
-      updateAction[robot.type](robot, dt);
+      robot:update(dt)
    end
 
    if areAllRobotsActive(allActive) and transition.start == false then

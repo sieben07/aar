@@ -1,8 +1,8 @@
 local global = require "assets.objects.global"
-local fonts = require "assets.font.fonts"
+
+local fonts = global.fonts
 local Gamestate = require "assets.libs.hump.gamestate"
 global.world.spriteSheet = love.graphics.newImage "assets/img/minimega.png"
-local hero = require "assets.objects.hero"
 local levels = require "assets.maps.levels"
 local screen = require "assets.libs.shack.shack"
 local shoots = require "assets.objects.shoots"
@@ -64,19 +64,7 @@ function game.init()
 
    signal:register("collision", function(col, direction)
       if col.other.type == "robot" then
-         if not col.other:getIsActive() then
-            col.other:switchToActive()
-         end
-      end
-
-      if col.other.name == "Start" then
-         col.other:setIsFalling(true)
-      end
-      if col.other.name == "Jump" or col.other.name == "High Jump" then
-         if not col.other.jump then
-            col.other.jump = true
-            signal:emit("bounce", col.other)
-         end
+         col.other:switchToActive()
       end
 
       local touch = col.touch
@@ -105,35 +93,20 @@ function game.enter()
    end
 
    -- create the world from tiles
-
    map:addCustomLayer("Robot Layer")
    robotsLayer = map.layers["Robot Layer"]
    solidLayer = map.layers["Solid"]
    robotsLayer.robots = {}
-   local heroFromMap, robotsFromMap, textsFromMap = getSpritesFromMap(map.objects)
 
-   merge(hero, heroFromMap)
+   local robotsFromMap = getSpritesFromMap(map.objects)
 
-   table.insert(robotsLayer.robots, hero)
    for _, robotAttribute in ipairs(robotsFromMap) do
       table.insert(robotsLayer.robots, robotAttribute)
    end
 
-   for _, text in ipairs(textsFromMap) do
-      table.insert(robotsLayer.robots, text)
-   end
-
    function robotsLayer:draw()
       for _, robot in ipairs(self.robots) do
-         if robot.type == "hero" then
-            love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
-         elseif robot.type == "robot" then
-            robot:draw()
-         elseif robot.type == "text" then
-            love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
-            love.graphics.setFont(fonts[robot.properties.font])
-            love.graphics.printf(robot.name, robot.x, robot.y, love.graphics.getWidth(), robot.properties.align)
-         end
+         robot:draw()
       end
 
       -- score
@@ -216,7 +189,7 @@ function love.keypressed(key)
       signal:emit("rightPressed")
    end
 
-   if (key == "up" or key == "a") and hero.fsm.can("jumpPressed") then
+   if (key == "up" or key == "a") then
       signal:emit("jumpPressed")
    end
 
@@ -230,15 +203,15 @@ function love.keypressed(key)
 end
 
 function love.keyreleased(key)
-   if key == "left" and string.match(hero.fsm.current, "left") ~= nil then
+   if key == "left" then
       signal:emit("leftReleased")
    end
 
-   if key == "right" and string.match(hero.fsm.current, "right") ~= nil then
+   if key == "right" then
       signal:emit("rightReleased")
    end
 
-   if (key == "up" or key == "a") and hero.y_vel < 0 then
+   if (key == "up" or key == "a") then
       signal:emit("jumpReleased")
    end
 
