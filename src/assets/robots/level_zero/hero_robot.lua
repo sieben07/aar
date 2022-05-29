@@ -171,22 +171,6 @@ local heroRobot = {
 
 local HeroRobot = Robot:new(heroRobot)
 
-function HeroRobot:setX(x)
-   self.x = x
-end
-
-function HeroRobot:setY(y)
-   self.y = y
-end
-
-function HeroRobot:getX()
-   return self.x
-end
-
-function HeroRobot:getY()
-   return self.y
-end
-
 function HeroRobot:animate(dt)
    self.animationTimer = self.animationTimer + dt
    if self.animationTimer > 0.07 then
@@ -200,24 +184,23 @@ end
 
 function HeroRobot:update(dt)
    self:animate(dt)
-    if self.stick_to ~= "" and self.stick_to.name ~= nil then
+
+   if self.stick_to ~= "" and self.stick_to.name ~= nil and self.stick_to.name ~= 'Reset' then
       self.y = self.stick_to.y - 32
    end
 
    local goalX = self.x + self.x_vel
-   local actualX = world:move(self, goalX, self.y)
-   self.x = actualX
-   self:setX(actualX)
 
    self.y = self.y + self.y_vel
    self.y_vel = self.y_vel - self.GRAVITY
-
    local goalY = self.y
-   local _, actualY, cols, len = world:move(self, self.x, goalY)
+   local actualX, actualY, cols, len = world:move(self, goalX, goalY)
+   self.x = actualX
    self.y = actualY
 
    if len == 0 and self.fsm.can("jumpPressed") then
       self.fsm.jumpPressed(1)
+      self.stick_to = nil
    end
 
    for _, col in ipairs(cols) do
@@ -232,6 +215,7 @@ function HeroRobot:update(dt)
 end
 
 function HeroRobot:draw()
+   love.graphics.setColor(global.color.red ,global.color.green, global.color.blue)
    love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 end
 
@@ -343,7 +327,7 @@ function setFsm(o)
 })
 end
 
-function HeroRobot:registerSignals()
+function registerSignals(o)
    signal:clear("leftPressed")
    signal:clear("rightPressed")
    signal:clear("jumpPressed")
@@ -355,50 +339,50 @@ function HeroRobot:registerSignals()
    signal:clear("hit")
    -- press
    signal:register("leftPressed", function()
-      self.fsm.leftPressed()
+      o.fsm.leftPressed()
    end)
    signal:register("rightPressed", function()
-      self.fsm.rightPressed()
+      o.fsm.rightPressed()
    end)
    signal:register("jumpPressed", function()
-      if self.fsm.can("jumpPressed") then
-         self.fsm.jumpPressed(0)
+      if o.fsm.can("jumpPressed") then
+         o.fsm.jumpPressed(0)
       end
    end)
    signal:register("shootPressed", function()
-      self.fsm.shootPressed()
+      o.fsm.shootPressed()
    end)
 
    -- release
    signal:register("leftReleased", function()
-      if string.match(self.fsm.current, "left") ~= nil then
-         self.fsm.leftReleased()
+      if string.match(o.fsm.current, "left") ~= nil then
+         o.fsm.leftReleased()
       end
    end)
    signal:register("rightReleased", function()
-      if string.match(self.fsm.current, "right") ~= nil then
-         self.fsm.rightReleased()
+      if string.match(o.fsm.current, "right") ~= nil then
+         o.fsm.rightReleased()
       end
    end)
    signal:register("jumpReleased", function()
-      if self.y_vel < 0 then
-         self.fsm.on_jumpReleased()
+      if o.y_vel < 0 then
+         o.fsm.on_jumpReleased()
       end
    end)
    signal:register("shootReleased", function()
-      self.fsm.shootReleased()
+      o.fsm.shootReleased()
    end)
 
    signal:register("hit", function() end)
 end
 
 function HeroRobot:new(o)
-   print("HeroRobot:new")
    o = o or {}
    self.fsm = setFsm(o)
+   registerSignals(o)
    setmetatable(o, self)
    self.__index = self
-   self:registerSignals()
+
    return o
 end
 

@@ -178,23 +178,6 @@ return {
             ["collidable"] = true,
             ["falling"] = false
           }
-        },
-      {
-          id = 3,
-          name = "Reset",
-          type = "robot",
-          shape = "rectangle",
-          x = 848,
-          y = 736,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = false,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = false,
-            ["falling"] = false
-          }
         }
       }
     }

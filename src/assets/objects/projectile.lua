@@ -2,7 +2,8 @@ local Projetictile = {
     direction = {
         x = 0,
         y = 0
-    }
+    },
+    properties = {collidable = false}
 }
 
 function Projetictile:new(x, y, directionX, directionY, o)

@@ -45,6 +45,10 @@ function Robot:setIsVisible(value)
     self.properties.visible = value
 end
 
+function Robot:getIsCollidable()
+    return self.properties.collidable or true
+end
+
 function Robot:switchToActive()
     if self.type == "robot" and not self:getIsActive() then
         self:setIsActive(true)

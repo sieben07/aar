@@ -4,7 +4,25 @@ local global = require "assets.objects.global"
 local Robot = require "assets.robots.robot"
 local signal = global.signal
 
-local ResetRobot = Robot:new()
+local resetRobotData = {
+    id = 3,
+    name = "Reset",
+    type = "robot",
+    shape = "rectangle",
+    x = 848,
+    y = 736,
+    width = 32,
+    height = 32,
+    rotation = 0,
+    visible = false,
+    properties = {
+        active = false,
+        collidable = false,
+        falling = false
+    }
+}
+
+local ResetRobot = Robot:new(resetRobotData)
 
 ResetRobot.properties.collidable = false
 

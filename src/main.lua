@@ -48,6 +48,9 @@ function game.init()
    signal:register("nextLevel", function() Gamestate.switch(game) end)
    signal:register("allActive", function()
       tween.start()
+      global.color.red = 1;
+      global.color.green = 1;
+      global.color.blue = 1;
       love.graphics.setBackgroundColor(
          global.background.color.red,
          global.background.color.green,
