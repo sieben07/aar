@@ -30,10 +30,11 @@ book: true
 | 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
 | 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
 | 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 18.04.2022 |
+| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 14.06.2022 |
 
 # Introduction
 
-*a jump'n'shoot riddle game*
+*a jump'n'shoot riddle game*‚
 
 After the Hero's attack, it's your duty to...
 
@@ -46,7 +47,7 @@ player has only *`one point left`* he gets `warned` that only `one`
 
 ~~\> ... *GAME OVER!*~~
 
-> ... *AND ATFTER THAT,HE HAS NEGATIVE SCORE*
+> ... *AND ATFTER THAT, HE HAS NEGATIVE SCORE*
 
 ![His name is mini](./src/assets/img/mini.png "His name is mini")
 
@@ -361,4 +362,5 @@ stage introduces a new version of the robot.
 - [x] Hero shoots nuts
 - [x] Hero shoots cogs
 - [ ] Hero sticky must be resolved better
-- [ ] Jump robots dont push you throug platforms (damage penalty) or phase thrugh object
+- [ ] Jump robots dont push you through platforms (damage penalty) or phase through object
+- [ ] Push robots into the robot array when certain conditions are met

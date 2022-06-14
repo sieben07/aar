@@ -5,7 +5,7 @@ local Gamestate = require "assets.libs.hump.gamestate"
 global.world.spriteSheet = love.graphics.newImage "assets/img/minimega.png"
 local levels = require "assets.maps.levels"
 local screen = require "assets.libs.shack.shack"
-local shoots = require "assets.objects.shoots"
+local robotsHandler = require "assets.robots.robots_handler"
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local util = require "assets.utils.util"
 
@@ -44,7 +44,11 @@ hitParticle:setSizes(0.4, 0.5, 0.6)
 hitParticle:setSpinVariation(0.7)
 hitParticle:setSizeVariation(0.7)
 
-function game.init()
+function game:init()
+   signal:register("addProjectile", function(projectile)
+      world:add(projectile, projectile.x, projectile.y, projectile.width, projectile.height)
+   end)
+
    signal:register("nextLevel", function() Gamestate.switch(game) end)
    signal:register("allActive", function()
       tween.start()
@@ -84,7 +88,7 @@ function game.init()
    end)
 end
 
-function game.enter()
+function game:enter()
    world:clear()
    love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
    map = sti("assets/maps/" .. levels[currentLevel] .. ".lua", {"bump"})
@@ -108,8 +112,12 @@ function game.enter()
    end
 
    function robotsLayer:draw()
-      for _, robot in ipairs(self.robots) do
-         robot:draw()
+      local items = world:getItems()
+      print("length: " .. #items)
+      for _, item in pairs(items) do
+         if item.type ~= "" then
+            item:draw()
+         end
       end
 
       -- score
@@ -118,6 +126,7 @@ function game.enter()
       if global.score ~= 1 then
          love.graphics.print(global.score .. " | points", 32, 4)
       else
+         signal:emit("zero", resetRobot)
          love.graphics.print(". | one point left", 32, 4)
       end
 
@@ -128,7 +137,13 @@ function game.enter()
    end
 
    function robotsLayer:update(dt)
-      update(self.robots, dt)
+      local items = world:getItems()
+      print("length: " .. #items)
+      for _, item in pairs(items) do
+         if item.type ~= "" then
+            item:update(dt)
+         end
+      end
    end
 
    map:removeLayer("Objects")
@@ -146,12 +161,11 @@ function game.enter()
    map:bump_init(world)
 end
 
-function game.draw()
+function game:draw()
    screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    solidLayer:draw()
    robotsLayer:draw()
-   shoots.draw()
 
    for _, hit in pairs(particles) do
       local hitColor = nextColor()
@@ -165,10 +179,9 @@ function game.draw()
    end
 end
 
-function game.update(_, dt)
+function game:update(dt)
    screen:update(dt)
    robotsLayer:update(dt)
-   shoots.update()
    hitParticle:update(dt)
    hitParticle:emit(3000)
 

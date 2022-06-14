@@ -2,7 +2,7 @@ local global = require "assets.objects.global"
 
 local Robot = require "assets.robots.robot"
 local machine = require "assets.libs.lua-fsm.src.fsm"
-local projectile = require "src.assets.objects.projectile"
+local Projectile = require "src.assets.objects.projectile"
 local spriteSheet = global.world.spriteSheet
 local signal = global.signal
 
@@ -313,13 +313,10 @@ function setFsm(o)
          o.y_vel = 1
       end,
       on_shootPressed = function()
+         local projectile = Projectile:new(o.x, o.y, o.projectileDirection.x, o.projectileDirection.y, math.random(1,3))
          signal:emit(
             "addProjectile",
-            projectile:new(
-               o.x,
-               o.y,
-               o.projectileDirection.x,
-               o.projectileDirection.y)
+            projectile
             )
          signal:emit("score", -1)
       end
@@ -378,7 +375,7 @@ end
 
 function HeroRobot:new(o)
    o = o or {}
-   self.fsm = setFsm(o)
+   o.fsm = setFsm(o)
    registerSignals(o)
    setmetatable(o, self)
    self.__index = self

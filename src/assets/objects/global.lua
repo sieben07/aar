@@ -7,7 +7,7 @@ local global = {
    color = {red   = 0,green = 0,blue  = 0,alpha = 1},
    countdown = 4,
    fonts = require "assets.font.fonts",
-   game = { version = "0.0.10" },
+   game = { version = "0.0.11" },
    hitAnimation = { time = 0.5, alpha = 1 },
    hits = {},
    level = {current = 1},

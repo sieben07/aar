@@ -14,7 +14,7 @@ local resetRobotData = {
     width = 32,
     height = 32,
     rotation = 0,
-    visible = false,
+    visible = true,
     properties = {
         active = false,
         collidable = false,
@@ -34,17 +34,10 @@ function ResetRobot:switchToActive()
 end
 
 function ResetRobot:draw()
-    if self:getIsVisible() then
-        self:_draw()
-    end
+    self:_draw()
 end
 
 function ResetRobot:update(dt)
-    if global.score <= 1 then
-        self:setIsVisible(true)
-    else
-        self:setIsVisible(false)
-    end
 end
 
 return ResetRobot
