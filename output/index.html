@@ -8,12 +8,158 @@
   <meta name="dcterms.date" content="2022-04-16" />
   <meta name="keywords" content="One Point Left" />
   <title>Activate All Robots</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
@@ -21,81 +167,145 @@
 <p class="author">Orhan Kücükyilmaz</p>
 <p class="date">2022-04-16</p>
 </header>
-<nav id="TOC">
+<nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#change-history">Change History</a></li>
-<li><a href="#introduction">Introduction</a><ul>
-<li><a href="#levels-robots-and-more">Levels, Robots, and more</a><ul>
-<li><a href="#level-0---the-startmenu-level">Level 0 - The Start/Menu level</a></li>
+<li><a href="#change-history" id="toc-change-history">Change
+History</a></li>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<ul>
+<li><a href="#levels-robots-and-more"
+id="toc-levels-robots-and-more">Levels, Robots, and more</a>
+<ul>
+<li><a href="#level-0---the-startmenu-level"
+id="toc-level-0---the-startmenu-level">Level 0 - The Start/Menu
+level</a></li>
 </ul></li>
-<li><a href="#project-goals">Project goals</a><ul>
-<li><a href="#levels">Levels</a></li>
+<li><a href="#project-goals" id="toc-project-goals">Project goals</a>
+<ul>
+<li><a href="#levels" id="toc-levels">Levels</a></li>
 </ul></li>
-<li><a href="#robots">Robots</a><ul>
-<li><a href="#start-level-00">Start Level (00)</a></li>
+<li><a href="#robots" id="toc-robots">Robots</a></li>
+<li><a href="#start-level" id="toc-start-level">Start Level</a>
+<ul>
+<li><a href="#start-level-00" id="toc-start-level-00">Start Level
+(00)</a></li>
 </ul></li>
-<li><a href="#jump-level">Jump Level</a><ul>
-<li><a href="#jump-level-01">Jump Level (01)</a></li>
-<li><a href="#jump-level-02">Jump Level (02)</a></li>
-<li><a href="#jump-level-03">Jump Level (03)</a></li>
-<li><a href="#jump-level-04">Jump Level (04)</a></li>
-<li><a href="#jump-level-final">Jump Level (FINAL)</a></li>
+<li><a href="#jump-level" id="toc-jump-level">Jump Level</a>
+<ul>
+<li><a href="#jump-level-01" id="toc-jump-level-01">Jump Level
+(01)</a></li>
+<li><a href="#jump-level-02" id="toc-jump-level-02">Jump Level
+(02)</a></li>
+<li><a href="#jump-level-03" id="toc-jump-level-03">Jump Level
+(03)</a></li>
+<li><a href="#jump-level-04" id="toc-jump-level-04">Jump Level
+(04)</a></li>
+<li><a href="#jump-level-final" id="toc-jump-level-final">Jump Level
+(FINAL)</a></li>
 </ul></li>
-<li><a href="#water-level">Water level</a><ul>
-<li><a href="#water-level-01">Water Level (01)</a></li>
-<li><a href="#water-level-02">Water Level (02)</a></li>
-<li><a href="#water-level-03">Water Level (03)</a></li>
-<li><a href="#water-level-04">Water Level (04)</a></li>
-<li><a href="#water-level-final">Water Level (FINAL)</a></li>
+<li><a href="#water-level" id="toc-water-level">Water level</a>
+<ul>
+<li><a href="#water-level-01" id="toc-water-level-01">Water Level
+(01)</a></li>
+<li><a href="#water-level-02" id="toc-water-level-02">Water Level
+(02)</a></li>
+<li><a href="#water-level-03" id="toc-water-level-03">Water Level
+(03)</a></li>
+<li><a href="#water-level-04" id="toc-water-level-04">Water Level
+(04)</a></li>
+<li><a href="#water-level-final" id="toc-water-level-final">Water Level
+(FINAL)</a></li>
 </ul></li>
-<li><a href="#gravity-level">Gravity Level</a><ul>
-<li><a href="#gravity-level-01">Gravity Level (01)</a></li>
-<li><a href="#gravity-level-02">Gravity Level (02)</a></li>
-<li><a href="#gravity-level-03">Gravity Level (03)</a></li>
-<li><a href="#gravity-level-04">Gravity Level (04)</a></li>
-<li><a href="#gravity-level-final">Gravity Level (FINAL)</a></li>
+<li><a href="#gravity-level" id="toc-gravity-level">Gravity Level</a>
+<ul>
+<li><a href="#gravity-level-01" id="toc-gravity-level-01">Gravity Level
+(01)</a></li>
+<li><a href="#gravity-level-02" id="toc-gravity-level-02">Gravity Level
+(02)</a></li>
+<li><a href="#gravity-level-03" id="toc-gravity-level-03">Gravity Level
+(03)</a></li>
+<li><a href="#gravity-level-04" id="toc-gravity-level-04">Gravity Level
+(04)</a></li>
+<li><a href="#gravity-level-final" id="toc-gravity-level-final">Gravity
+Level (FINAL)</a></li>
 </ul></li>
-<li><a href="#gravity-level-1">Gravity Level</a><ul>
-<li><a href="#fire-level-01">Fire Level (01)</a></li>
-<li><a href="#fire-level-02">Fire Level (02)</a></li>
-<li><a href="#fire-level-03">Fire Level (03)</a></li>
-<li><a href="#fire-level-04">Fire Level (04)</a></li>
-<li><a href="#fire-level-final">Fire Level (FINAL)</a></li>
+<li><a href="#fire-level" id="toc-fire-level">Fire Level</a>
+<ul>
+<li><a href="#fire-level-01" id="toc-fire-level-01">Fire Level
+(01)</a></li>
+<li><a href="#fire-level-02" id="toc-fire-level-02">Fire Level
+(02)</a></li>
+<li><a href="#fire-level-03" id="toc-fire-level-03">Fire Level
+(03)</a></li>
+<li><a href="#fire-level-04" id="toc-fire-level-04">Fire Level
+(04)</a></li>
+<li><a href="#fire-level-final" id="toc-fire-level-final">Fire Level
+(FINAL)</a></li>
 </ul></li>
-<li><a href="#electro-level">Electro Level</a><ul>
-<li><a href="#electro-level-01">Electro Level (01)</a></li>
-<li><a href="#electro-level-02">Electro Level (02)</a></li>
-<li><a href="#electro-level-03">Electro Level (03)</a></li>
-<li><a href="#electro-level-04">Electro Level (04)</a></li>
-<li><a href="#electro-level-final">Electro Level (FINAL)</a></li>
+<li><a href="#electro-level" id="toc-electro-level">Electro Level</a>
+<ul>
+<li><a href="#electro-level-01" id="toc-electro-level-01">Electro Level
+(01)</a></li>
+<li><a href="#electro-level-02" id="toc-electro-level-02">Electro Level
+(02)</a></li>
+<li><a href="#electro-level-03" id="toc-electro-level-03">Electro Level
+(03)</a></li>
+<li><a href="#electro-level-04" id="toc-electro-level-04">Electro Level
+(04)</a></li>
+<li><a href="#electro-level-final" id="toc-electro-level-final">Electro
+Level (FINAL)</a></li>
 </ul></li>
-<li><a href="#laser-level">Laser Level</a><ul>
-<li><a href="#laser-level-01">Laser Level (01)</a></li>
-<li><a href="#laser-level-02">Laser Level (02)</a></li>
-<li><a href="#laser-level-03">Laser Level (03)</a></li>
-<li><a href="#laser-level-04">Laser Level (04)</a></li>
-<li><a href="#laser-level-final">Laser Level (FINAL)</a></li>
+<li><a href="#laser-level" id="toc-laser-level">Laser Level</a>
+<ul>
+<li><a href="#laser-level-01" id="toc-laser-level-01">Laser Level
+(01)</a></li>
+<li><a href="#laser-level-02" id="toc-laser-level-02">Laser Level
+(02)</a></li>
+<li><a href="#laser-level-03" id="toc-laser-level-03">Laser Level
+(03)</a></li>
+<li><a href="#laser-level-04" id="toc-laser-level-04">Laser Level
+(04)</a></li>
+<li><a href="#laser-level-final" id="toc-laser-level-final">Laser Level
+(FINAL)</a></li>
 </ul></li>
-<li><a href="#light-level">Light Level</a><ul>
-<li><a href="#light-level-01">Light Level (01)</a></li>
-<li><a href="#light-level-02">Light Level (02)</a></li>
-<li><a href="#light-level-03">Light Level (03)</a></li>
-<li><a href="#light-level-04">Light Level (04)</a></li>
-<li><a href="#light-level-final">Light Level (FINAL)</a></li>
+<li><a href="#light-level" id="toc-light-level">Light Level</a>
+<ul>
+<li><a href="#light-level-01" id="toc-light-level-01">Light Level
+(01)</a></li>
+<li><a href="#light-level-02" id="toc-light-level-02">Light Level
+(02)</a></li>
+<li><a href="#light-level-03" id="toc-light-level-03">Light Level
+(03)</a></li>
+<li><a href="#light-level-04" id="toc-light-level-04">Light Level
+(04)</a></li>
+<li><a href="#light-level-final" id="toc-light-level-final">Light Level
+(FINAL)</a></li>
 </ul></li>
-<li><a href="#wind-level">Wind Level</a><ul>
-<li><a href="#wind-level-01">Wind Level (01)</a></li>
-<li><a href="#wind-level-02">Wind Level (02)</a></li>
-<li><a href="#wind-level-03">Wind Level (03)</a></li>
-<li><a href="#wind-level-04">Wind Level (04)</a></li>
-<li><a href="#wind-level-final">Wind Level (FINAL)</a></li>
-<li><a href="#todo">TODO</a></li>
+<li><a href="#wind-level" id="toc-wind-level">Wind Level</a>
+<ul>
+<li><a href="#wind-level-01" id="toc-wind-level-01">Wind Level
+(01)</a></li>
+<li><a href="#wind-level-02" id="toc-wind-level-02">Wind Level
+(02)</a></li>
+<li><a href="#wind-level-03" id="toc-wind-level-03">Wind Level
+(03)</a></li>
+<li><a href="#wind-level-04" id="toc-wind-level-04">Wind Level
+(04)</a></li>
+<li><a href="#wind-level-final" id="toc-wind-level-final">Wind Level
+(FINAL)</a></li>
+<li><a href="#todo" id="toc-todo">TODO</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </nav>
 <h1 id="change-history">Change History</h1>
 <table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 32%" />
+<col style="width: 42%" />
+<col style="width: 14%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Version</th>
@@ -183,50 +393,83 @@
 <td>More Robot ideas added</td>
 <td>18.04.2022</td>
 </tr>
+<tr class="even">
+<td>0.0.14</td>
+<td>Orhan Küçükyılmaz (OK)</td>
+<td>More Robot ideas added</td>
+<td>14.06.2022</td>
+</tr>
 </tbody>
 </table>
 <h1 id="introduction">Introduction</h1>
-<p><em>a jump’n’shoot riddle game</em></p>
+<p><em>a jump’n’shoot riddle game</em>‚</p>
 <p>After the Hero’s attack, it’s your duty to…</p>
 <blockquote>
 <p><em>activate all robots!</em></p>
 </blockquote>
-<p>Every <code>'activation-shoot'</code> reduces <code>points</code>. Every activated robot, machine or trap adds <code>points</code>. Getting hit removes <code>points</code>. If the player has only <em><code>one point left</code></em> he gets <code>warned</code> that only <code>one</code> <em>ONE</em> shoot is left …</p>
+<p>Every <code>'activation-shoot'</code> reduces <code>points</code>.
+Every activated robot, machine or trap adds <code>points</code>. Getting
+hit removes <code>points</code>. If the player has only
+<em><code>one point left</code></em> he gets <code>warned</code> that
+only <code>one</code> <em>ONE</em> shoot is left …</p>
 <p><del>&gt; … <em>GAME OVER!</em></del></p>
 <blockquote>
-<p>… <em>AND ATFTER THAT,HE HAS NEGATIVE SCORE</em></p>
+<p>… <em>AND ATFTER THAT, HE HAS NEGATIVE SCORE</em></p>
 </blockquote>
 <figure>
-<img src="./src/assets/img/mini.png" title="His name is mini" alt="His name is mini" /><figcaption>His name is mini</figcaption>
+<img src="./src/assets/img/mini.png" title="His name is mini"
+alt="His name is mini" />
+<figcaption aria-hidden="true">His name is mini</figcaption>
 </figure>
 <h2 id="levels-robots-and-more">Levels, Robots, and more</h2>
 <p>In this Section it’s all about the levels the robots and more.</p>
-<h3 id="level-0---the-startmenu-level">Level 0 - The Start/Menu level</h3>
-<p>Most games don’t have a playable menu screen level. What is a playable menu screen level, you ask? Good question, very good question indeed.</p>
+<h3 id="level-0---the-startmenu-level">Level 0 - The Start/Menu
+level</h3>
+<p>Most games don’t have a playable menu screen level. What is a
+playable menu screen level, you ask? Good question, very good question
+indeed.</p>
 <p>What is a menu screen?</p>
-<p>Before a person can start a game he usually can selects on the menu screen what he wants to do. The menu screen usually cointains a list of selectable items:</p>
+<p>Before a person can start a game he usually can selects on the menu
+screen what he wants to do. The menu screen usually cointains a list of
+selectable items:</p>
 <ul>
 <li>Start</li>
 <li>Options</li>
 <li><em>(something something)</em></li>
 </ul>
-<p>On this menue screen the controls are usually different than the controls in the game.</p>
-<p>Up and down on a joy-pad, joystick or on a keyboard (sometimes “w” for up and “s” for down) toggle between the menu items. With one button on the joy-pad, joystick or keyboard (sometime space or enter) the user select what he wants to do.</p>
-<p>In this game the menu is a playable level. Why? So the user uses the actual controls of the game and not some extra controls for the menu. So he can learn the controls for the game early.</p>
-<p>Level 0 teaches the player how to play the game, and presents him the first robot to activate.</p>
+<p>On this menue screen the controls are usually different than the
+controls in the game.</p>
+<p>Up and down on a joy-pad, joystick or on a keyboard (sometimes “w”
+for up and “s” for down) toggle between the menu items. With one button
+on the joy-pad, joystick or keyboard (sometime space or enter) the user
+select what he wants to do.</p>
+<p>In this game the menu is a playable level. Why? So the user uses the
+actual controls of the game and not some extra controls for the menu. So
+he can learn the controls for the game early.</p>
+<p>Level 0 teaches the player how to play the game, and presents him the
+first robot to activate.</p>
 <p>But first let us take a look at the elements of the first level:</p>
 <figure>
-<img src="./src/assets/img/title.png" title="The Title" alt="The Title" /><figcaption>The Title</figcaption>
+<img src="./src/assets/img/title.png" title="The Title"
+alt="The Title" />
+<figcaption aria-hidden="true">The Title</figcaption>
 </figure>
 <h2 id="project-goals">Project goals</h2>
-<p>No project is ever done if there are no goals set. To know when the Version 1.0.0 is done of this game, some goals are set.</p>
-<p>Some of this gaols will be hard set goals, like the number of different levels, robots, boss robots and such. Some goals will be soft, like graphics, sound, all the look and feel.</p>
+<p>No project is ever done if there are no goals set. To know when the
+Version 1.0.0 is done of this game, some goals are set.</p>
+<p>Some of this gaols will be hard set goals, like the number of
+different levels, robots, boss robots and such. Some goals will be soft,
+like graphics, sound, all the look and feel.</p>
 <h3 id="levels">Levels</h3>
 <p>A Minimum of 5 levels. Every Level has 5 Stages.</p>
 <p>Level Zero is the playable menu level.</p>
 <h4 id="level-structure">Level Structure</h4>
-<p>Each level exist of 5 stages. Each level has one theme and one kind of robot. 4 stages of one level introduce one new robot, the 5th stage is the Endgengner stage. Each level introduces a new kind of robot, each stage introduces a new version of the robot.</p>
+<p>Each level exist of 5 stages. Each level has one theme and one kind
+of robot. 4 stages of one level introduce one new robot, the 5th stage
+is the Endgengner stage. Each level introduces a new kind of robot, each
+stage introduces a new version of the robot.</p>
 <h2 id="robots">Robots</h2>
+<h2 id="start-level">Start Level</h2>
 <h3 id="start-level-00">Start Level (00)</h3>
 <ul>
 <li>Start Robot</li>
@@ -251,7 +494,8 @@
 </ul>
 <blockquote>
 <ul>
-<li>can be activated if to many activation shoots where used to leave level 0-0</li>
+<li>can be activated if to many activation shoots where used to leave
+level 0-0</li>
 <li>resets the points to seven</li>
 <li>resets the start robot and the exit robot also.</li>
 </ul>
@@ -280,11 +524,15 @@
 <li>Jump Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[x] starts jumping when activated</li>
-<li>[x] helps get higher grounds</li>
-<li>[x] blocks passages sometimes</li>
-<li>[x] open passages by jumping away</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
+starts jumping when activated</li>
+<li><input type="checkbox" disabled="" checked="" />
+helps get higher grounds</li>
+<li><input type="checkbox" disabled="" checked="" />
+blocks passages sometimes</li>
+<li><input type="checkbox" disabled="" checked="" />
+open passages by jumping away</li>
 </ul>
 </blockquote>
 <h3 id="jump-level-02">Jump Level (02)</h3>
@@ -294,7 +542,8 @@
 <blockquote>
 <ul>
 <li>like the jump robot</li>
-<li>[x] just jumps higher</li>
+<li><input type="checkbox" disabled="" checked="" />
+just jumps higher</li>
 </ul>
 </blockquote>
 <h3 id="jump-level-03">Jump Level (03)</h3>
@@ -302,9 +551,11 @@
 <li>Jump Shoot Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] jumps and shoots</li>
-<li>[ ] can be carried, shoots wenn the hero shoots</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+jumps and shoots</li>
+<li><input type="checkbox" disabled="" />
+can be carried, shoots wenn the hero shoots</li>
 </ul>
 </blockquote>
 <h3 id="jump-level-04">Jump Level (04)</h3>
@@ -312,9 +563,11 @@
 <li>Gravity Jump Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] jumps from the ground to the ceiling</li>
-<li>[ ] can sometimes be like an elevator</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+jumps from the ground to the ceiling</li>
+<li><input type="checkbox" disabled="" />
+can sometimes be like an elevator</li>
 </ul>
 </blockquote>
 <h3 id="jump-level-final">Jump Level (FINAL)</h3>
@@ -324,7 +577,8 @@
 <blockquote>
 <ul>
 <li>does everything the other jump robots does</li>
-<li>[ ] turned up to eleven</li>
+<li><input type="checkbox" disabled="" />
+turned up to eleven</li>
 </ul>
 </blockquote>
 <h2 id="water-level">Water level</h2>
@@ -333,10 +587,13 @@
 <li>Swim Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] starts swiming when activated (on ground if not)</li>
-<li>[ ] helps get over water</li>
-<li>[ ] blocks passages sometimes</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts swiming when activated (on ground if not)</li>
+<li><input type="checkbox" disabled="" />
+helps get over water</li>
+<li><input type="checkbox" disabled="" />
+blocks passages sometimes</li>
 </ul>
 </blockquote>
 <h3 id="water-level-02">Water Level (02)</h3>
@@ -346,49 +603,155 @@
 <h2 id="gravity-level">Gravity Level</h2>
 <h3 id="gravity-level-01">Gravity Level (01)</h3>
 <ul>
-<li>Swim Robot</li>
+<li>Vertical Gravity Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] starts swiming when activated (on ground if not)</li>
-<li>[ ] helps get over Gravity</li>
-<li>[ ] blocks passages sometimes</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts falling up and down</li>
+<li><input type="checkbox" disabled="" />
+helps get over the ground</li>
+<li><input type="checkbox" disabled="" />
+blocks passages sometimes</li>
 </ul>
 </blockquote>
 <h3 id="gravity-level-02">Gravity Level (02)</h3>
-<h3 id="gravity-level-03">Gravity Level (03)</h3>
-<h3 id="gravity-level-04">Gravity Level (04)</h3>
-<h3 id="gravity-level-final">Gravity Level (FINAL)</h3>
-<h2 id="gravity-level-1">Gravity Level</h2>
-<h3 id="fire-level-01">Fire Level (01)</h3>
 <ul>
-<li>Swim Robot</li>
+<li>Change Gravity Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts changeing the gravity for player</li>
+<li><input type="checkbox" disabled="" />
+helps get over the ground</li>
+<li><input type="checkbox" disabled="" />
+blocks passages sometimes</li>
+</ul>
+</blockquote>
+<h3 id="gravity-level-03">Gravity Level (03)</h3>
+<ul>
+<li>Horrizontal Gravity Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts falling left and right</li>
+</ul>
+</blockquote>
+<h3 id="gravity-level-04">Gravity Level (04)</h3>
+<ul>
+<li>Bullet Gravity Robot</li>
 </ul>
 <blockquote>
 <ul>
-<li>[ ] starts swiming when activated (on ground if not)</li>
-<li>[ ] helps get over Fire</li>
-<li>[ ] blocks passages sometimes</li>
+<li>[] Acctracts bullets</li>
+</ul>
+</blockquote>
+<h3 id="gravity-level-final">Gravity Level (FINAL)</h3>
+<ul>
+<li>Gravity Boss Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+turns up to eleven</li>
+</ul>
+</blockquote>
+<h2 id="fire-level">Fire Level</h2>
+<h3 id="fire-level-01">Fire Level (01)</h3>
+<ul>
+<li>Fire Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts burining when activated</li>
+<li><input type="checkbox" disabled="" />
+helps get over Fire</li>
+<li><input type="checkbox" disabled="" />
+blocks passages sometimes</li>
 </ul>
 </blockquote>
 <h3 id="fire-level-02">Fire Level (02)</h3>
+<ul>
+<li>Fire explosion Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts exploding when activated</li>
+</ul>
+</blockquote>
 <h3 id="fire-level-03">Fire Level (03)</h3>
+<ul>
+<li>Fire shooting Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts shooting fire when activated</li>
+</ul>
+</blockquote>
 <h3 id="fire-level-04">Fire Level (04)</h3>
+<ul>
+<li>Fire X Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts x fire when activated</li>
+</ul>
+</blockquote>
 <h3 id="fire-level-final">Fire Level (FINAL)</h3>
+<ul>
+<li>Fire Boss Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+turns up to eleven</li>
+</ul>
+</blockquote>
 <h2 id="electro-level">Electro Level</h2>
 <h3 id="electro-level-01">Electro Level (01)</h3>
 <ul>
-<li>Swim Robot</li>
+<li>Electo Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] starts swiming when activated (on ground if not)</li>
-<li>[ ] helps get over Electro</li>
-<li>[ ] blocks passages sometimes</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts electrifying when activated</li>
+<li><input type="checkbox" disabled="" />
+activates other robots</li>
+<li><input type="checkbox" disabled="" />
+blocks passages sometimes</li>
 </ul>
 </blockquote>
 <h3 id="electro-level-02">Electro Level (02)</h3>
+<ul>
+<li>Electo Shooting Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts shooting charges when activated</li>
+<li><input type="checkbox" disabled="" />
+activates other robots</li>
+</ul>
+</blockquote>
 <h3 id="electro-level-03">Electro Level (03)</h3>
+<ul>
+<li>Electo Jump Shooting Robot</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts jumping shooting charges when activated</li>
+<li><input type="checkbox" disabled="" />
+activates other robots</li>
+</ul>
+</blockquote>
 <h3 id="electro-level-04">Electro Level (04)</h3>
 <h3 id="electro-level-final">Electro Level (FINAL)</h3>
 <h2 id="laser-level">Laser Level</h2>
@@ -397,10 +760,13 @@
 <li>Swim Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] starts swiming when activated (on ground if not)</li>
-<li>[ ] helps get over Laser</li>
-<li>[ ] blocks passages sometimes</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts swiming when activated (on ground if not)</li>
+<li><input type="checkbox" disabled="" />
+helps get over Laser</li>
+<li><input type="checkbox" disabled="" />
+blocks passages sometimes</li>
 </ul>
 </blockquote>
 <h3 id="laser-level-02">Laser Level (02)</h3>
@@ -410,13 +776,12 @@
 <h2 id="light-level">Light Level</h2>
 <h3 id="light-level-01">Light Level (01)</h3>
 <ul>
-<li>Swim Robot</li>
+<li>Light Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] starts swiming when activated (on ground if not)</li>
-<li>[ ] helps get over Light</li>
-<li>[ ] blocks passages sometimes</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts lighting</li>
 </ul>
 </blockquote>
 <h3 id="light-level-02">Light Level (02)</h3>
@@ -426,13 +791,14 @@
 <h2 id="wind-level">Wind Level</h2>
 <h3 id="wind-level-01">Wind Level (01)</h3>
 <ul>
-<li>Swim Robot</li>
+<li>Wind Robot</li>
 </ul>
 <blockquote>
-<ul>
-<li>[ ] starts swiming when activated (on ground if not)</li>
-<li>[ ] helps get over Wind</li>
-<li>[ ] blocks passages sometimes</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+starts blowing wind</li>
+<li><input type="checkbox" disabled="" />
+blocks passages sometimes</li>
 </ul>
 </blockquote>
 <h3 id="wind-level-02">Wind Level (02)</h3>
@@ -440,15 +806,30 @@
 <h3 id="wind-level-04">Wind Level (04)</h3>
 <h3 id="wind-level-final">Wind Level (FINAL)</h3>
 <h3 id="todo">TODO</h3>
-<ul>
-<li>[x] JUMP ROBOTS COLLIDE BUG</li>
-<li>[x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE</li>
-<li>[x] SHOOT COLLIDES ANIMATION</li>
-<li>[ ] HIT ANIMATION</li>
-<li>[x] STATE MASHINE STATE functions update variables</li>
-<li>[ ] Hero shoots bolts and nuts</li>
-<li>[ ] Hero sticky must be resoved better</li>
-<li>[ ] Jump robots dont push you throug platforms (damage penalty)</li>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
+JUMP ROBOTS COLLIDE BUG</li>
+<li><input type="checkbox" disabled="" checked="" />
+ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE</li>
+<li><input type="checkbox" disabled="" checked="" />
+SHOOT COLLIDES ANIMATION</li>
+<li><input type="checkbox" disabled="" />
+HIT ANIMATION</li>
+<li><input type="checkbox" disabled="" checked="" />
+STATE MASHINE STATE functions update variables</li>
+<li><input type="checkbox" disabled="" checked="" />
+Hero shoots bolts</li>
+<li><input type="checkbox" disabled="" checked="" />
+Hero shoots nuts</li>
+<li><input type="checkbox" disabled="" checked="" />
+Hero shoots cogs</li>
+<li><input type="checkbox" disabled="" />
+Hero sticky must be resolved better</li>
+<li><input type="checkbox" disabled="" />
+Jump robots dont push you through platforms (damage penalty) or phase
+through object</li>
+<li><input type="checkbox" disabled="" />
+Push robots into the robot array when certain conditions are met</li>
 </ul>
 </body>
 </html>

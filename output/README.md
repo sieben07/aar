@@ -1,7 +1,7 @@
 # Change History
 
 | Version | Who                    | What                          | When       |
-| ------- | ---------------------- | ----------------------------- | ---------- |
+|---------|------------------------|-------------------------------|------------|
 | 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document              | 17.04.2014 |
 | 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                 | 08.07.2015 |
 | 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals           | 02.07.2017 |
@@ -15,23 +15,24 @@
 | 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
 | 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
 | 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 18.04.2022 |
+| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 14.06.2022 |
 
 # Introduction
 
-*a jump’n’shoot riddle game*
+*a jump’n’shoot riddle game*‚
 
 After the Hero’s attack, it’s your duty to…
 
-> *activate all robots\!*
+> *activate all robots!*
 
 Every `'activation-shoot'` reduces `points`. Every activated robot,
 machine or trap adds `points`. Getting hit removes `points`. If the
 player has only *`one point left`* he gets `warned` that only `one`
 *ONE* shoot is left …
 
-<s>\> … *GAME OVER\!*</s>
+<s>\> … *GAME OVER!*</s>
 
-> … *AND ATFTER THAT,HE HAS NEGATIVE SCORE*
+> … *AND ATFTER THAT, HE HAS NEGATIVE SCORE*
 
 ![His name is mini](./src/assets/img/mini.png "His name is mini")
 
@@ -50,9 +51,9 @@ Before a person can start a game he usually can selects on the menu
 screen what he wants to do. The menu screen usually cointains a list of
 selectable items:
 
-  - Start
-  - Options
-  - *(something something)*
+-   Start
+-   Options
+-   *(something something)*
 
 On this menue screen the controls are usually different than the
 controls in the game.
@@ -97,83 +98,85 @@ stage introduces a new version of the robot.
 
 ## Robots
 
+## Start Level
+
 ### Start Level (00)
 
-  - Start Robot
+-   Start Robot
 
->   - the Start Robot has to be activated
->   - if activated it falls down
+> -   the Start Robot has to be activated
+> -   if activated it falls down
 
-  - Exit Robot
+-   Exit Robot
 
->   - the exit robot appears if (all) the robots are activated
->   - has to be activated also to leave the room
+> -   the exit robot appears if (all) the robots are activated
+> -   has to be activated also to leave the room
 
-  - Reset Robot
+-   Reset Robot
 
->   - can be activated if to many activation shoots where used to leave
+> -   can be activated if to many activation shoots where used to leave
 >     level 0-0
->   - resets the points to seven
->   - resets the start robot and the exit robot also.
+> -   resets the points to seven
+> -   resets the start robot and the exit robot also.
 
-  - Continue Robot
+-   Continue Robot
 
->   - appears if the level 1-0 to 1-4 are mastered
->   - can be activated to continue the last played level
+> -   appears if the level 1-0 to 1-4 are mastered
+> -   can be activated to continue the last played level
 
-  - Start Boss Robot
+-   Start Boss Robot
 
->   - a hidden level? and a hidden boss?
->   - sleeping tiger hidden dragon
+> -   a hidden level? and a hidden boss?
+> -   sleeping tiger hidden dragon
 
 ## Jump Level
 
 ### Jump Level (01)
 
-  - Jump Robot
+-   Jump Robot
 
->   - \[x\] starts jumping when activated
->   - \[x\] helps get higher grounds
->   - \[x\] blocks passages sometimes
->   - \[x\] open passages by jumping away
+> -   ☒ starts jumping when activated
+> -   ☒ helps get higher grounds
+> -   ☒ blocks passages sometimes
+> -   ☒ open passages by jumping away
 
 ### Jump Level (02)
 
-  - High Jump Robot
+-   High Jump Robot
 
->   - like the jump robot
->   - \[x\] just jumps higher
+> -   like the jump robot
+> -   ☒ just jumps higher
 
 ### Jump Level (03)
 
-  - Jump Shoot Robot
+-   Jump Shoot Robot
 
->   - \[ \] jumps and shoots
->   - \[ \] can be carried, shoots wenn the hero shoots
+> -   ☐ jumps and shoots
+> -   ☐ can be carried, shoots wenn the hero shoots
 
 ### Jump Level (04)
 
-  - Gravity Jump Robot
+-   Gravity Jump Robot
 
->   - \[ \] jumps from the ground to the ceiling
->   - \[ \] can sometimes be like an elevator
+> -   ☐ jumps from the ground to the ceiling
+> -   ☐ can sometimes be like an elevator
 
 ### Jump Level (FINAL)
 
-  - Jump Boss Robot
+-   Jump Boss Robot
 
->   - does everything the other jump robots does
->   - \[ \] turned up to eleven
+> -   does everything the other jump robots does
+> -   ☐ turned up to eleven
 
 ## Water level
 
 ### Water Level (01)
 
-  - Swim Robot
+-   Swim Robot
 
->   - \[ \] starts swiming when activated (on ground if not)
->   - \[ \] helps get over water
->   - \[ \] blocks passages sometimes
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over water
+> -   ☐ blocks passages sometimes
 
 ### Water Level (02)
 
@@ -187,51 +190,95 @@ stage introduces a new version of the robot.
 
 ### Gravity Level (01)
 
-  - Swim Robot
+-   Vertical Gravity Robot
 
->   - \[ \] starts swiming when activated (on ground if not)
->   - \[ \] helps get over Gravity
->   - \[ \] blocks passages sometimes
+> -   ☐ starts falling up and down
+> -   ☐ helps get over the ground
+> -   ☐ blocks passages sometimes
 
 ### Gravity Level (02)
 
+-   Change Gravity Robot
+
+> -   ☐ starts changeing the gravity for player
+> -   ☐ helps get over the ground
+> -   ☐ blocks passages sometimes
+
 ### Gravity Level (03)
+
+-   Horrizontal Gravity Robot
+
+> -   ☐ starts falling left and right
 
 ### Gravity Level (04)
 
+-   Bullet Gravity Robot
+
+> -   \[\] Acctracts bullets
+
 ### Gravity Level (FINAL)
 
-## Gravity Level
+-   Gravity Boss Robot
+
+> -   ☐ turns up to eleven
+
+## Fire Level
 
 ### Fire Level (01)
 
-  - Swim Robot
+-   Fire Robot
 
->   - \[ \] starts swiming when activated (on ground if not)
->   - \[ \] helps get over Fire
->   - \[ \] blocks passages sometimes
+> -   ☐ starts burining when activated
+> -   ☐ helps get over Fire
+> -   ☐ blocks passages sometimes
 
 ### Fire Level (02)
 
+-   Fire explosion Robot
+
+> -   ☐ starts exploding when activated
+
 ### Fire Level (03)
+
+-   Fire shooting Robot
+
+> -   ☐ starts shooting fire when activated
 
 ### Fire Level (04)
 
+-   Fire X Robot
+
+> -   ☐ starts x fire when activated
+
 ### Fire Level (FINAL)
+
+-   Fire Boss Robot
+
+> -   ☐ turns up to eleven
 
 ## Electro Level
 
 ### Electro Level (01)
 
-  - Swim Robot
+-   Electo Robot
 
->   - \[ \] starts swiming when activated (on ground if not)
->   - \[ \] helps get over Electro
->   - \[ \] blocks passages sometimes
+> -   ☐ starts electrifying when activated
+> -   ☐ activates other robots
+> -   ☐ blocks passages sometimes
 
 ### Electro Level (02)
 
+-   Electo Shooting Robot
+
+> -   ☐ starts shooting charges when activated
+> -   ☐ activates other robots
+
 ### Electro Level (03)
+
+-   Electo Jump Shooting Robot
+
+> -   ☐ starts jumping shooting charges when activated
+> -   ☐ activates other robots
 
 ### Electro Level (04)
 
@@ -241,11 +288,11 @@ stage introduces a new version of the robot.
 
 ### Laser Level (01)
 
-  - Swim Robot
+-   Swim Robot
 
->   - \[ \] starts swiming when activated (on ground if not)
->   - \[ \] helps get over Laser
->   - \[ \] blocks passages sometimes
+> -   ☐ starts swiming when activated (on ground if not)
+> -   ☐ helps get over Laser
+> -   ☐ blocks passages sometimes
 
 ### Laser Level (02)
 
@@ -259,11 +306,9 @@ stage introduces a new version of the robot.
 
 ### Light Level (01)
 
-  - Swim Robot
+-   Light Robot
 
->   - \[ \] starts swiming when activated (on ground if not)
->   - \[ \] helps get over Light
->   - \[ \] blocks passages sometimes
+> -   ☐ starts lighting
 
 ### Light Level (02)
 
@@ -277,11 +322,10 @@ stage introduces a new version of the robot.
 
 ### Wind Level (01)
 
-  - Swim Robot
+-   Wind Robot
 
->   - \[ \] starts swiming when activated (on ground if not)
->   - \[ \] helps get over Wind
->   - \[ \] blocks passages sometimes
+> -   ☐ starts blowing wind
+> -   ☐ blocks passages sometimes
 
 ### Wind Level (02)
 
@@ -293,11 +337,15 @@ stage introduces a new version of the robot.
 
 ### TODO
 
-  - \[x\] JUMP ROBOTS COLLIDE BUG
-  - \[x\] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
-  - \[x\] SHOOT COLLIDES ANIMATION
-  - \[ \] HIT ANIMATION
-  - \[x\] STATE MASHINE STATE functions update variables
-  - \[ \] Hero shoots bolts and nuts
-  - \[ \] Hero sticky must be resoved better
-  - \[ \] Jump robots dont push you throug platforms (damage penalty)
+-   ☒ JUMP ROBOTS COLLIDE BUG
+-   ☒ ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
+-   ☒ SHOOT COLLIDES ANIMATION
+-   ☐ HIT ANIMATION
+-   ☒ STATE MASHINE STATE functions update variables
+-   ☒ Hero shoots bolts
+-   ☒ Hero shoots nuts
+-   ☒ Hero shoots cogs
+-   ☐ Hero sticky must be resolved better
+-   ☐ Jump robots dont push you through platforms (damage penalty) or
+    phase through object
+-   ☐ Push robots into the robot array when certain conditions are met
