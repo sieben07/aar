@@ -308,11 +308,13 @@ end
 
 function util.update(robots, dt)
    local allActive = {}
-   for _, robot in ipairs(robots) do
-      if robot.type == "robot" then
-         table.insert(allActive, robot:getIsActive())
+   for _, robot in pairs(robots) do
+      if robot.type ~= "" then
+         robot:update(dt)
+         if robot.type == "robot" then
+            table.insert(allActive, robot:getIsActive())
+         end
       end
-      robot:update(dt)
    end
 
    if areAllRobotsActive(allActive) and transition.start == false then

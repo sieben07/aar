@@ -1,26 +1,28 @@
 local global = require "assets.objects.global"
-
-local fonts = global.fonts
-local Gamestate = require "assets.libs.hump.gamestate"
 global.world.spriteSheet = love.graphics.newImage "assets/img/minimega.png"
+
+local fonts        = global.fonts
+local game         = global.game
+local hitAnimation = global.hitAnimation
+local particles    = global.hits
+local signal       = global.signal;
+local transition   = global.transition
+local world        = global.world
+
+local Gamestate = require "assets.libs.hump.gamestate"
 local levels = require "assets.maps.levels"
 local screen = require "assets.libs.shack.shack"
-local robotsHandler = require "assets.robots.robots_handler"
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local util = require "assets.utils.util"
 
-local game = global.game
-local hitAnimation = global.hitAnimation
+
 local hitImage = love.graphics.newImage "assets/img/white.png"
 local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
-local map
 
-local particles = global.hits
+local map
 local robotsLayer
-local signal = global.signal;
 local solidLayer
-local transition = global.transition
-local world = global.world
+
 
 function world:clear()
    local items, _ = self:getItems()
@@ -47,6 +49,12 @@ hitParticle:setSizeVariation(0.7)
 function game:init()
    signal:register("addProjectile", function(projectile)
       world:add(projectile, projectile.x, projectile.y, projectile.width, projectile.height)
+   end)
+
+   signal:register("zero", function()
+      local robot = require "assets.robots.level_zero.reset_robot"
+      world:add(robot, robot.x, robot.y, robot.width, robot.height)
+      signal:clear("zero")
    end)
 
    signal:register("nextLevel", function() Gamestate.switch(game) end)
@@ -113,7 +121,7 @@ function game:enter()
 
    function robotsLayer:draw()
       local items = world:getItems()
-      print("length: " .. #items)
+
       for _, item in pairs(items) do
          if item.type ~= "" then
             item:draw()
@@ -137,13 +145,7 @@ function game:enter()
    end
 
    function robotsLayer:update(dt)
-      local items = world:getItems()
-      print("length: " .. #items)
-      for _, item in pairs(items) do
-         if item.type ~= "" then
-            item:update(dt)
-         end
-      end
+      update(world:getItems(), dt)
    end
 
    map:removeLayer("Objects")

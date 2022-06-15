@@ -43,9 +43,8 @@ function Projetictile:new(x, y, directionX, directionY, itemNumber, o)
 end
 
 function Projetictile:draw()
-    print("itemNumber: " .. self.itemNumber)
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(self.spriteSheet, self.quad, self.x, self.y, math.rad(self.x), 1.1, 1.1, 8, 8)
+    love.graphics.draw(self.spriteSheet, self.quad, self.x + 8, self.y  + 8, math.rad(self.x), 1, 1, 7, 7)
 end
 
 function Projetictile:update()
