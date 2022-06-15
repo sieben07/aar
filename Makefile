@@ -1,11 +1,11 @@
-PANDOC=/usr/local/bin/pandoc
+PANDOC=$(shell which pandoc)
 
 TEMPLATE_HTML=$(realpath input/template.html)
 TEMPLATE_LATEX=$(realpath input/eisvogel.latex)
 INPUT=$(realpath input/input.md)
-OUTPUT_HTML=$(realpath index.html)
-OUTPUT_PDF=$(realpath aar.pdf)
-OUTPUT_MD=$(realpath README.md)
+OUTPUT_HTML=$(realpath output/index.html)
+OUTPUT_PDF=$(realpath output/aar.pdf)
+OUTPUT_MD=$(realpath output/README.md)
 
 all: html pdf markdown
 
@@ -16,4 +16,4 @@ pdf:
 	$(PANDOC) -s --template=$(TEMPLATE_LATEX) $(INPUT) --toc --top-level-division=chapter -o $(OUTPUT_PDF)
 
 markdown:
-	$(PANDOC) -s -f gfm -o $(OUTPUT_MD) $(INPUT)
+	$(PANDOC) -t commonmark+pipe_tables -o $(OUTPUT_MD) $(INPUT)

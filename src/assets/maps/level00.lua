@@ -100,7 +100,7 @@ return {
       objects = {
         {
           id = 4,
-          name = "activate all robots",
+          name = "Text",
           type = "text",
           shape = "rectangle",
           x = 0,
@@ -112,12 +112,13 @@ return {
           properties = {
             ["align"] = "center",
             ["color"] = "#ffeb5e28",
-            ["font"] = "ormont"
+            ["font"] = "ormont",
+            ["text"] = "activate all robots"
           }
         },
         {
           id = 7,
-          name = "One Point Left",
+          name = "Text",
           type = "text",
           shape = "rectangle",
           x = 0,
@@ -129,7 +130,8 @@ return {
           properties = {
             ["align"] = "center",
             ["color"] = "#ff252422",
-            ["font"] = "orial"
+            ["font"] = "orial",
+            ["text"] = "One Point Left"
           }
         }
       }
@@ -173,7 +175,7 @@ return {
           visible = true,
           properties = {
             ["active"] = false,
-            ["collideable"] = true,
+            ["collidable"] = true,
             ["falling"] = false
           }
         }

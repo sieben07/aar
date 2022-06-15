@@ -1,25 +1,28 @@
-local global = require "assets.obj.global"
-local fonts = require "assets.font.fonts"
+local global = require "assets.objects.global"
+global.world.spriteSheet = love.graphics.newImage "assets/img/minimega.png"
+
+local fonts        = global.fonts
+local game         = global.game
+local hitAnimation = global.hitAnimation
+local particles    = global.hits
+local signal       = global.signal;
+local transition   = global.transition
+local world        = global.world
+
 local Gamestate = require "assets.libs.hump.gamestate"
-local hero = require "assets.obj.hero"
 local levels = require "assets.maps.levels"
 local screen = require "assets.libs.shack.shack"
-local shoots = require "assets.obj.shoots"
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local util = require "assets.utils.util"
 
-local game = global.game
-local hitAnimation = global.hitAnimation
-local hitImage = love.graphics.newImage("assets/img/white.png")
-local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
-local map
 
-local particles = global.hits
+local hitImage = love.graphics.newImage "assets/img/white.png"
+local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
+
+local map
 local robotsLayer
-local signal = global.signal;
 local solidLayer
-local transition = global.transition
-local world = global.world
+
 
 function world:clear()
    local items, _ = self:getItems()
@@ -43,10 +46,23 @@ hitParticle:setSizes(0.4, 0.5, 0.6)
 hitParticle:setSpinVariation(0.7)
 hitParticle:setSizeVariation(0.7)
 
-function game.init()
+function game:init()
+   signal:register("addProjectile", function(projectile)
+      world:add(projectile, projectile.x, projectile.y, projectile.width, projectile.height)
+   end)
+
+   signal:register("zero", function()
+      local robot = require "assets.robots.level_zero.reset_robot"
+      world:add(robot, robot.x, robot.y, robot.width, robot.height)
+      signal:clear("zero")
+   end)
+
    signal:register("nextLevel", function() Gamestate.switch(game) end)
    signal:register("allActive", function()
       tween.start()
+      global.color.red = 1;
+      global.color.green = 1;
+      global.color.blue = 1;
       love.graphics.setBackgroundColor(
          global.background.color.red,
          global.background.color.green,
@@ -54,6 +70,7 @@ function game.init()
       )
    end)
    signal:register("score", function(value) global.score = global.score + value end)
+   signal:register("reset", function() global.score = 0 end)
    signal:register("bounce", function(robot)
       global.background.color = nextColor()
       robot.velocity = robot.properties.jumpVelocity
@@ -62,20 +79,7 @@ function game.init()
 
    signal:register("collision", function(col, direction)
       if col.other.type == "robot" then
-         if not col.other:getIsActive() then
-            col.other:switchToActive()
-            signal:emit("score", 7)
-         end
-      end
-
-      if col.other.name == "Start" then
-         col.other:setIsFalling(true)
-      end
-      if col.other.name == "Jump" or col.other.name == "High Jump" then
-         if not col.other.jump then
-            col.other.jump = true
-            signal:emit("bounce", col.other)
-         end
+         col.other:switchToActive()
       end
 
       local touch = col.touch
@@ -92,7 +96,7 @@ function game.init()
    end)
 end
 
-function game.enter()
+function game:enter()
    world:clear()
    love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
    map = sti("assets/maps/" .. levels[currentLevel] .. ".lua", {"bump"})
@@ -104,42 +108,23 @@ function game.enter()
    end
 
    -- create the world from tiles
-
    map:addCustomLayer("Robot Layer")
    robotsLayer = map.layers["Robot Layer"]
    solidLayer = map.layers["Solid"]
    robotsLayer.robots = {}
-   local heroFromMap, robotsFromMap, textsFromMap = getSpritesFromMap(map.objects)
 
-   merge(hero, heroFromMap)
+   local robotsFromMap = getSpritesFromMap(map.objects)
 
-   table.insert(robotsLayer.robots, hero)
    for _, robotAttribute in ipairs(robotsFromMap) do
       table.insert(robotsLayer.robots, robotAttribute)
    end
 
-   for _, text in ipairs(textsFromMap) do
-      table.insert(robotsLayer.robots, text)
-   end
-
    function robotsLayer:draw()
-      for _, robot in ipairs(self.robots) do
-         if robot.type == "hero" then
-            love.graphics.draw(robot.image, robot.quads[robot.fsm.current][robot.quadIndex], robot.x, robot.y, robot.rotate, robot.zoom)
-         elseif robot.type == "robot" then
-            if robot.active and transition.start ~= true then
-               love.graphics.setColor(1 - global.background.color.red,1 - global.background.color.green, 1 - global.background.color.blue)
-            else
-               love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
-            end
-            love.graphics.rectangle("fill", robot.x, robot.y, robot.width, robot.height)
-            love.graphics.setFont(fonts.ormont_small)
-            love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
-            love.graphics.print(robot.name, robot.x + 40, robot.y)
-         elseif robot.type == "text" then
-            love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
-            love.graphics.setFont(fonts[robot.properties.font])
-            love.graphics.printf(robot.name, robot.x, robot.y, love.graphics.getWidth(), robot.properties.align)
+      local items = world:getItems()
+
+      for _, item in pairs(items) do
+         if item.type ~= "" then
+            item:draw()
          end
       end
 
@@ -149,6 +134,7 @@ function game.enter()
       if global.score ~= 1 then
          love.graphics.print(global.score .. " | points", 32, 4)
       else
+         signal:emit("zero", resetRobot)
          love.graphics.print(". | one point left", 32, 4)
       end
 
@@ -159,7 +145,7 @@ function game.enter()
    end
 
    function robotsLayer:update(dt)
-      update(self.robots, dt)
+      update(world:getItems(), dt)
    end
 
    map:removeLayer("Objects")
@@ -177,12 +163,11 @@ function game.enter()
    map:bump_init(world)
 end
 
-function game.draw()
+function game:draw()
    screen:apply()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    solidLayer:draw()
    robotsLayer:draw()
-   shoots.draw()
 
    for _, hit in pairs(particles) do
       local hitColor = nextColor()
@@ -196,10 +181,9 @@ function game.draw()
    end
 end
 
-function game.update(_, dt)
+function game:update(dt)
    screen:update(dt)
    robotsLayer:update(dt)
-   shoots.update()
    hitParticle:update(dt)
    hitParticle:emit(3000)
 
@@ -223,7 +207,7 @@ function love.keypressed(key)
       signal:emit("rightPressed")
    end
 
-   if (key == "up" or key == "a") and hero.fsm.can("jumpPressed") then
+   if (key == "up" or key == "a") then
       signal:emit("jumpPressed")
    end
 
@@ -237,15 +221,15 @@ function love.keypressed(key)
 end
 
 function love.keyreleased(key)
-   if key == "left" and string.match(hero.fsm.current, "left") ~= nil then
+   if key == "left" then
       signal:emit("leftReleased")
    end
 
-   if key == "right" and string.match(hero.fsm.current, "right") ~= nil then
+   if key == "right" then
       signal:emit("rightReleased")
    end
 
-   if (key == "up" or key == "a") and hero.y_vel < 0 then
+   if (key == "up" or key == "a") then
       signal:emit("jumpReleased")
    end
 

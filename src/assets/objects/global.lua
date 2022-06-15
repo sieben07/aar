@@ -6,7 +6,8 @@ local global = {
    background = {color = {red   = 76 / 255,green = 77 / 255,blue  = 78 / 255,alpha = 1}},
    color = {red   = 0,green = 0,blue  = 0,alpha = 1},
    countdown = 4,
-   game = { version = "0.0.10" },
+   fonts = require "assets.font.fonts",
+   game = { version = "0.0.11" },
    hitAnimation = { time = 0.5, alpha = 1 },
    hits = {},
    level = {current = 1},
@@ -18,6 +19,7 @@ local global = {
    signal = Signal.new(),
    transition = { start =  false },
    world = bump.newWorld(DIMENSIONS),
+   spriteSheet = nil
 }
 
 function global.world:m (item, goalX, goalY, filter)
