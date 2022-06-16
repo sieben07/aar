@@ -16,10 +16,6 @@ function JumpRobot:new(o, jumpVelocity)
     return o
 end
 
-function JumpRobot:switchToActive()
-   self:setIsActive(true)
-end
-
 local function filterUp(_ , other)
    if other.type == "hero" or other.type == "bullet" then
       return "cross"
@@ -37,7 +33,11 @@ local function filterDown(_, other)
 end
 
 function JumpRobot:update(dt)
-    if self:getIsActive() then
+    self:_update(dt)
+end
+
+function JumpRobot:_update(dt)
+   if self:getIsActive() then
         if self.velocity < 0 then
          local goalY = self.y + self.velocity * dt
          self:updateVelocity(dt)
