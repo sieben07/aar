@@ -79,10 +79,11 @@ function Robot:_draw()
     love.graphics.print(self.name, self.x + 40, self.y)
 end
 
-function Robot:new (o)
+function Robot:new(o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
+
     return o
 end
 

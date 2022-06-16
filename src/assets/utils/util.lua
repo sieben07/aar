@@ -95,6 +95,10 @@ local newJumpRobot = function(obj)
    return JumpRobot:new(obj)
 end
 
+local newHighJumpRobot = function(obj)
+   return JumpRobot:new(obj, -256)
+end
+
 local newStartRobot = function(obj)
    return StartRobot:new(obj)
 end
@@ -254,7 +258,7 @@ end
 
 local createRobot = {
    Jump = newJumpRobot,
-   High_Jump = newJumpRobot,
+   High_Jump = newHighJumpRobot,
    Start = newStartRobot,
    Exit = newExitRobot,
    Mini = newHeroRobot,
@@ -297,7 +301,6 @@ local createRobot = {
 }
 
 function util.getSpritesFromMap(map)
-   local hero
    local robots = {}
    for _,object in pairs(map) do
       local robot = createRobot[object.name](object)

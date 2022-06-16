@@ -73,7 +73,7 @@ function game:init()
    signal:register("reset", function() global.score = 0 end)
    signal:register("bounce", function(robot)
       global.background.color = nextColor()
-      robot.velocity = robot.properties.jumpVelocity
+      robot.velocity = robot.jumpVelocity
       love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
    end)
 

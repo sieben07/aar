@@ -116,7 +116,6 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumpVelocity"] = -128,
             ["jumping"] = false
           }
         },
@@ -166,7 +165,6 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumpVelocity"] = -128,
             ["jumping"] = false
           }
         },
@@ -184,7 +182,6 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumpVelocity"] = -64,
             ["jumping"] = false
           }
         },
@@ -202,7 +199,6 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumpVelocity"] = -256,
             ["jumping"] = false
           }
         },
@@ -220,7 +216,6 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumpVelocity"] = -128,
             ["jumping"] = false
           }
         },
@@ -238,7 +233,6 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumpVelocity"] = -128,
             ["jumping"] = false
           }
         }

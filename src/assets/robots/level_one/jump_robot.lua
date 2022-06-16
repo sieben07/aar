@@ -6,6 +6,16 @@ local signal = global.signal
 
 local JumpRobot = Robot:new()
 
+function JumpRobot:new(o, jumpVelocity)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+
+   o.jumpVelocity = jumpVelocity or -128
+
+    return o
+end
+
 function JumpRobot:switchToActive()
    self:setIsActive(true)
 end

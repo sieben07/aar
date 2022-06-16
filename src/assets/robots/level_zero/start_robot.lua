@@ -2,7 +2,6 @@
 local global = require "assets.objects.global"
 
 local Robot = require "assets.robots.robot"
-local signal = global.signal
 local world = global.world
 
 local StartRobot = Robot:new()
