@@ -11,9 +11,8 @@ local ZeroFour = require "assets.robots.level_zero.zero_four"
 local ZeroFive = require "assets.robots.level_zero.zero_five"
 local TextRobot = require "assets.robots.level_zero.text_robot"
 
-local OneZero = require "assets.robots.level_one.one_zero"
-local OneOne = require "assets.robots.level_one.one_one"
-local OneTwo = require "assets.robots.level_one.one_two"
+local JumpRobot = require "assets.robots.level_one.jump_robot"
+local JumpShootRobot = require "assets.robots.level_one.jump_shoot_robot"
 local OneThree = require "assets.robots.level_one.one_three"
 local OneFour = require "assets.robots.level_one.one_four"
 local OneFive = require "assets.robots.level_one.one_five"
@@ -45,8 +44,6 @@ local FiveTwo = require "assets.robots.level_five.five_two"
 local FiveThree = require "assets.robots.level_five.five_three"
 local FiveFour = require "assets.robots.level_five.five_four"
 local FiveFive = require "assets.robots.level_five.five_five"
-
-local JumpRobot = require "assets.robots.level_one.jump_robot"
 
 local signal = global.signal
 local transition = global.transition
@@ -93,6 +90,14 @@ end
 
 local newJumpRobot = function(obj)
    return JumpRobot:new(obj)
+end
+
+local newHighJumpRobot = function(obj)
+   return JumpRobot:new(obj, -256)
+end
+
+local newJumpShootRobot = function(obj)
+   return JumpShootRobot:new(obj)
 end
 
 local newStartRobot = function(obj)
@@ -254,7 +259,7 @@ end
 
 local createRobot = {
    Jump = newJumpRobot,
-   High_Jump = newJumpRobot,
+   High_Jump = newHighJumpRobot,
    Start = newStartRobot,
    Exit = newExitRobot,
    Mini = newHeroRobot,
@@ -266,7 +271,7 @@ local createRobot = {
    one_zero = newOneZero,
    one_one = newOneOne,
    one_two = newOneTwo,
-   one_three = newOneThree,
+   Jump_Shoot = newJumpShootRobot,
    one_four = newOneFour,
    one_five = newOneFive,
    two_zero = newTwoZero,
@@ -297,9 +302,9 @@ local createRobot = {
 }
 
 function util.getSpritesFromMap(map)
-   local hero
    local robots = {}
    for _,object in pairs(map) do
+      print("Name: " .. object.name)
       local robot = createRobot[object.name](object)
       table.insert(robots, robot)
    end

@@ -167,7 +167,8 @@ stage introduces a new version of the robot.
 - Jump Shoot Robot
 
 > - [ ] jumps and shoots
-> - [ ] can be carried, shoots wenn the hero shoots
+> - [ ] (can be carried?), shoots wenn the hero shoots
+> - [ ] (can be carried?), when active it shoots
 
 ### Jump Level (04)
 
@@ -353,14 +354,7 @@ stage introduces a new version of the robot.
 
 ### TODO
 
-- [x] JUMP ROBOTS COLLIDE BUG
-- [x] ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
-- [x] SHOOT COLLIDES ANIMATION
 - [ ] HIT ANIMATION
-- [x] STATE MASHINE STATE functions update variables
-- [x] Hero shoots bolts
-- [x] Hero shoots nuts
-- [x] Hero shoots cogs
 - [ ] Hero sticky must be resolved better
 - [ ] Jump robots dont push you through platforms (damage penalty) or phase through object
 - [ ] Push robots into the robot array when certain conditions are met

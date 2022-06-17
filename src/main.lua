@@ -73,26 +73,23 @@ function game:init()
    signal:register("reset", function() global.score = 0 end)
    signal:register("bounce", function(robot)
       global.background.color = nextColor()
-      robot.velocity = robot.properties.jumpVelocity
+      robot.velocity = robot.jumpVelocity
       love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
    end)
 
-   signal:register("collision", function(col, direction)
+   signal:register("collision", function(col)
       if col.other.type == "robot" then
          col.other:switchToActive()
       end
 
       local touch = col.touch
-         touch.direction = direction
-         if direction.x == 1 then
-            touch.x = touch.x + 14
-            touch.y = touch.y + 7
-         end
-         merge(touch, hitAnimation)
-         table.insert(particles, touch)
-         screen:setShake(7)
-         screen:setRotation(.07)
-         screen:setScale(1.007)
+      touch.normal = col.normal
+
+      merge(touch, hitAnimation)
+      table.insert(particles, touch)
+      screen:setShake(7)
+      screen:setRotation(.07)
+      screen:setScale(1.007)
    end)
 end
 
@@ -172,9 +169,9 @@ function game:draw()
    for _, hit in pairs(particles) do
       local hitColor = nextColor()
       love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
-      if hit.direction.x == 1 then
+      if hit.normal.x == 1 then
          love.graphics.draw(hitParticle, hit.x, hit.y, 0, 1, 1)
-      else
+      elseif hit.normal.x == -1 then
          love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 1, 1)
       end
 

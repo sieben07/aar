@@ -47,7 +47,6 @@
    <properties>
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
-    <property name="jumpVelocity" type="int" value="-128"/>
     <property name="jumping" type="bool" value="false"/>
    </properties>
   </object>

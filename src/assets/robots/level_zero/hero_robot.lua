@@ -375,10 +375,11 @@ end
 
 function HeroRobot:new(o)
    o = o or {}
-   o.fsm = setFsm(o)
    registerSignals(o)
    setmetatable(o, self)
    self.__index = self
+
+   o.fsm = setFsm(o)
 
    return o
 end

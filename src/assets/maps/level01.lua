@@ -116,7 +116,6 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumpVelocity"] = -128,
             ["jumping"] = false
           }
         },

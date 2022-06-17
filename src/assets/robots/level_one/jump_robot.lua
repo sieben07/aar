@@ -6,8 +6,14 @@ local signal = global.signal
 
 local JumpRobot = Robot:new()
 
-function JumpRobot:switchToActive()
-   self:setIsActive(true)
+function JumpRobot:new(o, jumpVelocity)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+
+   o.jumpVelocity = jumpVelocity or -128
+
+    return o
 end
 
 local function filterUp(_ , other)
@@ -27,7 +33,11 @@ local function filterDown(_, other)
 end
 
 function JumpRobot:update(dt)
-    if self:getIsActive() then
+    self:_update(dt)
+end
+
+function JumpRobot:_update(dt)
+   if self:getIsActive() then
         if self.velocity < 0 then
          local goalY = self.y + self.velocity * dt
          self:updateVelocity(dt)
