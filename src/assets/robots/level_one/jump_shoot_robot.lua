@@ -20,7 +20,7 @@ end
 function JumpShootRobot:update(dt)
     self:_update(dt)
     if self:getIsActive() then
-        if self.shootTimer >= 1 then
+        if self.shootTimer >= 0.5 then
             self.shootTimer = 0
             self:_shoot(dt)
         else

@@ -54,7 +54,7 @@ function Projetictile:update()
     self.x = actualX
     self.y = actualY
     for _, col in ipairs(cols) do
-        signal:emit("collision", col, self.direction)
+        signal:emit("collision", col)
     end
 
     if len ~= 0 then

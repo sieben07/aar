@@ -191,63 +191,12 @@ return {
           }
         },
         {
-          id = 9,
-          name = "High_Jump",
-          type = "robot",
-          shape = "rectangle",
-          x = 608,
-          y = 864,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false
-          }
-        },
-        {
-          id = 10,
-          name = "Jump",
-          type = "robot",
-          shape = "rectangle",
-          x = 544,
-          y = 864,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false
-          }
-        },
-        {
-          id = 11,
-          name = "Jump",
-          type = "robot",
-          shape = "rectangle",
-          x = 480,
-          y = 864,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false
-          }
-        },
-        {
           id = 12,
           name = "Jump",
           type = "robot",
           shape = "rectangle",
           x = 816,
-          y = 128,
+          y = 96,
           width = 32,
           height = 32,
           rotation = 0,
