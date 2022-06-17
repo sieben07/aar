@@ -187,26 +187,30 @@ Maybe an easier way to understand this is to use the following diagram:
 
 ```text
 
-   7   0   1
-    \  |  /
-     ┌───┐
-6 -- │   │ -- 2
-     └───┘
-    /  |  \
-   5   4   3
-
+ -> x
++-------------------x
+|
+|    7   0   1
+|     \  |  /
+|      ┌───┐
+| 6 -- │   │ -- 2
+|      └───┘
+|     /  |  \
+|    5   4   3
+y
 ```
 
-| Number | direction  |
-|--------|------------|
-|      0 | up         |
-|      1 | up-right   |
-|      2 | righ       |
-|      3 | down-right |
-|      4 | down       |
-|      5 | down-left  |
-|      6 | left       |
-|      7 | up-left    |
+| Number | direction  |      values      |
+|--------|------------|------------------|
+|      0 | up         | (x =  0, y = -1) |
+|      1 | up-right   | (x =  1, y = -1) |
+|      2 | righ       | (x =  1, y =  0) |
+|      3 | down-right | (x =  1, y =  1) |
+|      4 | down       | (x =  0, y =  1) |
+|      5 | down-left  | (x = -1, y =  1) |
+|      6 | left       | (x = -1, y =  0) |
+|      7 | up-left    | (x = -1, y =  1) |
+
 
 An enum could be used to represent the directions.
 
