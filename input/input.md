@@ -15,22 +15,23 @@ book: true
 
 # Change History
 
-| Version | Who                    | What                          | When       |
-| ------- | ---------------------- | ----------------------------- | ---------- |
-| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document              | 17.04.2014 |
-| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                 | 08.07.2015 |
-| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals           | 02.07.2017 |
-| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over              | 21.06.2018 |
-| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot              | 08.07.2018 |
-| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                 | 18.07.2018 |
-| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                  | 06.08.2018 |
-| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables  | 21.03.2021 |
-| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot               | 21.03.2021 |
-| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized              | 21.03.2021 |
-| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
-| 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
-| 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 18.04.2022 |
-| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 14.06.2022 |
+| Version | Who                    | What                            | When       |
+| ------- | ---------------------- | ------------------------------- | ---------- |
+| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document                | 17.04.2014 |
+| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                   | 08.07.2015 |
+| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals             | 02.07.2017 |
+| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over                | 21.06.2018 |
+| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot                | 08.07.2018 |
+| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                   | 18.07.2018 |
+| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                    | 06.08.2018 |
+| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables    | 21.03.2021 |
+| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot                 | 21.03.2021 |
+| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized                | 21.03.2021 |
+| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added        | 24.05.2021 |
+| 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added   | 24.05.2021 |
+| 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added          | 18.04.2022 |
+| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added          | 14.06.2022 |
+| 0.0.15  | Orhan Küçükyılmaz (OK) | Projectile Directions and speed | 17.06.2022 |
 
 # Introduction
 
@@ -166,9 +167,48 @@ stage introduces a new version of the robot.
 
 - Jump Shoot Robot
 
-> - [ ] jumps and shoots
-> - [ ] (can be carried?), shoots wenn the hero shoots
-> - [ ] (can be carried?), when active it shoots
+> - [x] jumps and shoots
+
+What about directions?
+
+> - [ ] shoots to the left
+> - [ ] shoots to the right
+> - [ ] shoots to up
+> - [ ] shoots to down
+> - [ ] shoots diagonally left up
+> - [ ] shoots diagonally right up
+> - [ ] shoots diagonally left down
+> - [ ] shoots diagonally right down
+
+That's eight directions.
+
+Maybe an easier way to understand this is to use the following diagram:
+
+
+```text
+
+   7   0   1
+    \  |  /
+     ┌───┐
+6 -- │   │ -- 2
+     └───┘
+    /  |  \
+   5   4   3
+
+```
+
+| Number | direction  |
+|--------|------------|
+|      0 | up         |
+|      1 | up-right   |
+|      2 | righ       |
+|      3 | down-right |
+|      4 | down       |
+|      5 | down-left  |
+|      6 | left       |
+|      7 | up-left    |
+
+An enum could be used to represent the directions.
 
 ### Jump Level (04)
 
