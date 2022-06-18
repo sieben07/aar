@@ -1,21 +1,22 @@
 # Change History
 
-| Version | Who                    | What                          | When       |
-|---------|------------------------|-------------------------------|------------|
-| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document              | 17.04.2014 |
-| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                 | 08.07.2015 |
-| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals           | 02.07.2017 |
-| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over              | 21.06.2018 |
-| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot              | 08.07.2018 |
-| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                 | 18.07.2018 |
-| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                  | 06.08.2018 |
-| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables  | 21.03.2021 |
-| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot               | 21.03.2021 |
-| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized              | 21.03.2021 |
-| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
-| 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
-| 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 18.04.2022 |
-| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 14.06.2022 |
+| Version | Who                    | What                            | When       |
+|---------|------------------------|---------------------------------|------------|
+| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document                | 17.04.2014 |
+| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                   | 08.07.2015 |
+| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals             | 02.07.2017 |
+| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over                | 21.06.2018 |
+| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot                | 08.07.2018 |
+| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                   | 18.07.2018 |
+| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                    | 06.08.2018 |
+| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables    | 21.03.2021 |
+| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot                 | 21.03.2021 |
+| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized                | 21.03.2021 |
+| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added        | 24.05.2021 |
+| 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added   | 24.05.2021 |
+| 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added          | 18.04.2022 |
+| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added          | 14.06.2022 |
+| 0.0.15  | Orhan Küçükyılmaz (OK) | Projectile Directions and speed | 17.06.2022 |
 
 # Introduction
 
@@ -36,11 +37,11 @@ player has only *`one point left`* he gets `warned` that only `one`
 
 ![His name is mini](./src/assets/img/mini.png "His name is mini")
 
-## Levels, Robots, and more
+# Levels, Robots, and more
 
 In this Section it’s all about the levels the robots and more.
 
-### Level 0 - The Start/Menu level
+## Level 0 - The Start/Menu level
 
 Most games don’t have a playable menu screen level. What is a playable
 menu screen level, you ask? Good question, very good question indeed.
@@ -151,8 +152,64 @@ stage introduces a new version of the robot.
 
 -   Jump Shoot Robot
 
-> -   ☐ jumps and shoots
-> -   ☐ can be carried, shoots wenn the hero shoots
+> -   ☒ jumps and shoots
+
+What about directions?
+
+> -   ☐ shoots to the left
+> -   ☐ shoots to the right
+> -   ☐ shoots to up
+> -   ☐ shoots to down
+> -   ☐ shoots diagonally left up
+> -   ☐ shoots diagonally right up
+> -   ☐ shoots diagonally left down
+> -   ☐ shoots diagonally right down
+
+That’s eight directions.
+
+Maybe an easier way to understand this is to use the following diagram:
+
+``` mermaid
+             x->
+   +-(-1)----0------1-->
+   |
+   (-1)  7   0   1
+   |      \  |  /
+   |       +---+
+ y 0  6 -- |   | -- 2
+ | |       +---+
+ v |      /  |  \
+   1     5   4   3
+   |
+   v
+```
+
+| Number | direction  | values           |
+|--------|------------|------------------|
+| 0      | up         | (x = 0, y = -1)  |
+| 1      | up-right   | (x = 1, y = -1)  |
+| 2      | righ       | (x = 1, y = 0)   |
+| 3      | down-right | (x = 1, y = 1)   |
+| 4      | down       | (x = 0, y = 1)   |
+| 5      | down-left  | (x = -1, y = 1)  |
+| 6      | left       | (x = -1, y = 0)  |
+| 7      | up-left    | (x = -1, y = -1) |
+
+An enum could be used to represent the directions.
+
+but what if we wanted to add more directions?
+
+Then math comes to the rescue:
+
+*x* = *r* \* *c**o**s*(*r**a**d*)
+*y* = *r* \* *s**i**n*(*r**a**d*)
+
+where `r` is the radius and `rad` is the angle in radians.
+
+If `deg` is the angle in degrees, then we can use the following formula:
+
+*x* = *r* \* *c**o**s*(*d**e**g*\**π*/180)
+*y* = *r* \* *s**i**n*(*d**e**g*\**π*/180)
 
 ### Jump Level (04)
 
@@ -337,14 +394,7 @@ stage introduces a new version of the robot.
 
 ### TODO
 
--   ☒ JUMP ROBOTS COLLIDE BUG
--   ☒ ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE
--   ☒ SHOOT COLLIDES ANIMATION
 -   ☐ HIT ANIMATION
--   ☒ STATE MASHINE STATE functions update variables
--   ☒ Hero shoots bolts
--   ☒ Hero shoots nuts
--   ☒ Hero shoots cogs
 -   ☐ Hero sticky must be resolved better
 -   ☐ Jump robots dont push you through platforms (damage penalty) or
     phase through object

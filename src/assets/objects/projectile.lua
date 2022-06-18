@@ -14,25 +14,26 @@ local nut = Quad(32, 32 * 4, 16, 16, 32 * 8, 32 * 8)
 local items = {cog, bolt, nut}
 local counter = 1;
 
-local Projetictile = {
+local Projectile = {
     direction = {
         x = 0,
         y = 0
     },
-    properties = {collidable = false},
-    index = math.random(1, 3)
+    properties = {collidable = false}
 }
 
-function Projetictile:new(x, y, directionX, directionY, itemNumber, o)
+function Projectile:new(x, y, deg, itemNumber, o)
     o = o or {}
     setmetatable(o, self)
+    local dx = math.cos(math.rad(deg));
+    local dy = math.sin(math.rad(deg));
     self.__index = self
-    o.x = x + 12 + (directionX * 26)
-    o.y = y + 12 + (directionY * 26)
-    o.x_vel = 8 * directionX
-    o.y_vel = 8 * directionY
-    o.direction.x = directionX
-    o.direction.y = directionY
+    o.x = x + 8 + (34 * dx)
+    o.y = y + 8 + (34 * dy)
+    o.x_vel = 8 * dx
+    o.y_vel = 8 * dy
+    o.direction.x = dx
+    o.direction.y = dy
     o.type = "projectile"
     o.spriteSheet = spriteSheet
     o.width = SHOOT_WIDTH
@@ -42,12 +43,12 @@ function Projetictile:new(x, y, directionX, directionY, itemNumber, o)
     return o
 end
 
-function Projetictile:draw()
+function Projectile:draw()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(self.spriteSheet, self.quad, self.x + 8, self.y  + 8, math.rad(self.x), 1, 1, 7, 7)
 end
 
-function Projetictile:update()
+function Projectile:update()
     local goalX = self.x + self.x_vel
     local goalY = self.y + self.y_vel
     local actualX, actualY, cols, len = world:move(self, goalX, goalY)
@@ -62,4 +63,4 @@ function Projetictile:update()
     end
 end
 
-return Projetictile
+return Projectile

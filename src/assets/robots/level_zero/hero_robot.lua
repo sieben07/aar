@@ -20,7 +20,7 @@ local heroRobot = {
    image = spriteSheet,
    jump_vel = -7,
    max = 5,
-   projectileDirection = {x = 1, y = 0},
+   projectileDeg = 0,
    quadIndex = 1,
    rotate = 0,
    stick_to = "",
@@ -292,14 +292,14 @@ function setFsm(o)
    callbacks = {
       on_rightPressed = function()
          o.x_vel = o.vel
-         o.projectileDirection = {x = 1, y = 0}
+         o.projectileDeg = 0
       end,
       on_rightReleased = function()
          o.x_vel = 0
       end,
       on_leftPressed = function()
          o.x_vel = -o.vel
-         o.projectileDirection = {x = -1, y = 0} -- how to calculate directions with vectors?
+         o.projectileDeg = 180
       end,
       on_leftReleased = function()
           o.x_vel = 0
@@ -313,7 +313,7 @@ function setFsm(o)
          o.y_vel = 1
       end,
       on_shootPressed = function()
-         local projectile = Projectile:new(o.x, o.y, o.projectileDirection.x, o.projectileDirection.y, math.random(1,3))
+         local projectile = Projectile:new(o.x, o.y, o.projectileDeg, math.random(1,3))
          signal:emit(
             "addProjectile",
             projectile

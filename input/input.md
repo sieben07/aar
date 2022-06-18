@@ -1,7 +1,7 @@
 ---
 title: "Activate All Robots"
 author: [Orhan Kücükyilmaz]
-date: "2022-04-16"
+date: "2014-04-17"
 keywords: [One Point Left]
 titlepage: true
 titlepage-color: "9BBBCC"
@@ -15,22 +15,23 @@ book: true
 
 # Change History
 
-| Version | Who                    | What                          | When       |
-| ------- | ---------------------- | ----------------------------- | ---------- |
-| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document              | 17.04.2014 |
-| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                 | 08.07.2015 |
-| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals           | 02.07.2017 |
-| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over              | 21.06.2018 |
-| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot              | 08.07.2018 |
-| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                 | 18.07.2018 |
-| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                  | 06.08.2018 |
-| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables  | 21.03.2021 |
-| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot               | 21.03.2021 |
-| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized              | 21.03.2021 |
-| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added      | 24.05.2021 |
-| 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added | 24.05.2021 |
-| 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 18.04.2022 |
-| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added        | 14.06.2022 |
+| Version | Who                    | What                            | When       |
+| ------- | ---------------------- | ------------------------------- | ---------- |
+| 0.0.1   | Orhan Küçükyılmaz (OK) | Initial Document                | 17.04.2014 |
+| 0.0.2   | Orhan Küçükyılmaz (OK) | Updated Image                   | 08.07.2015 |
+| 0.0.3   | Orhan Küçükyılmaz (OK) | Added Project Goals             | 02.07.2017 |
+| 0.0.4   | Orhan Küçükyılmaz (OK) | Change Game Over                | 21.06.2018 |
+| 0.0.5   | Orhan Küçükyılmaz (OK) | First Jump Robot                | 08.07.2018 |
+| 0.0.6   | Orhan Küçükyılmaz (OK) | Active Robots                   | 18.07.2018 |
+| 0.0.7   | Orhan Küçükyılmaz (OK) | Shoot Colide                    | 06.08.2018 |
+| 0.0.8   | Orhan Küçükyılmaz (OK) | State updates hero variables    | 21.03.2021 |
+| 0.0.9   | Orhan Küçükyılmaz (OK) | High Jump Robot                 | 21.03.2021 |
+| 0.0.10  | Orhan Küçükyılmaz (OK) | Shoots optimized                | 21.03.2021 |
+| 0.0.11  | Orhan Küçükyılmaz (OK) | Simple Robot class added        | 24.05.2021 |
+| 0.0.12  | Orhan Küçükyılmaz (OK) | Simple Projectile class added   | 24.05.2021 |
+| 0.0.13  | Orhan Küçükyılmaz (OK) | More Robot ideas added          | 18.04.2022 |
+| 0.0.14  | Orhan Küçükyılmaz (OK) | More Robot ideas added          | 14.06.2022 |
+| 0.0.15  | Orhan Küçükyılmaz (OK) | Projectile Directions and speed | 17.06.2022 |
 
 # Introduction
 
@@ -51,11 +52,11 @@ player has only *`one point left`* he gets `warned` that only `one`
 
 ![His name is mini](./src/assets/img/mini.png "His name is mini")
 
-## Levels, Robots, and more
+# Levels, Robots, and more
 
 In this Section it's all about the levels the robots and more.
 
-### Level 0 - The Start/Menu level
+## Level 0 - The Start/Menu level
 
 Most games don't have a playable menu screen level. What is a playable
 menu screen level, you ask? Good question, very good question indeed.
@@ -166,9 +167,76 @@ stage introduces a new version of the robot.
 
 - Jump Shoot Robot
 
-> - [ ] jumps and shoots
-> - [ ] (can be carried?), shoots wenn the hero shoots
-> - [ ] (can be carried?), when active it shoots
+> - [x] jumps and shoots
+
+What about directions?
+
+> - [x] shoots to the left
+> - [x] shoots to the right
+> - [x] shoots to up
+> - [x] shoots to down
+> - [x] shoots diagonally left up
+> - [x] shoots diagonally right up
+> - [x] shoots diagonally left down
+> - [x] shoots diagonally right down
+
+That's eight directions:
+
+```
+             x->
+   +--------------------->
+   |    225°  270°  315°
+   |        \  |  /
+   |         +---+
+ y | 180° -- |   | -- 0°
+ | |         +---+
+ v |        /  |  \
+   |    135°  90°  45°
+   |
+   v
+```
+
+In an game coordinate system the angle is measured clockwise.
+
+| Number | direction  | values   |
+|--------|------------|----------|
+|      0 | right      |        0 |
+|      1 | down left  |       45 |
+|      2 | down       |       90 |
+|      3 | down right |      135 |
+|      4 | left       |      180 |
+|      5 | up left    |      225 |
+|      6 | up         |      270 |
+|      7 | up right   |      315 |
+
+Now the x and y values can be calculated with the following formula:
+
+$$ x = r * cos(rad) $$
+$$ y = r * sin(rad) $$
+
+where `r` is the radius and `rad` is the angle in radians.
+
+If `deg` is the angle in degrees, then we can use the following formula:
+
+$$ x = r * cos(deg * \pi / 180) $$
+$$ y = r * sin(deg * \pi / 180) $$
+
+
+The robots and the projectiles have bounding boxes
+The height and width of the bounding box of the robos is 32
+The height and width of the bounding box of the projectiles is 16
+
+To center the projectiles in the middle of the robot, we have to
+move the projectile by half of the width and height of the projectile.
+
+$$ 32 - 8 = 24 $$
+
+If the projectile is shoot diagonally the x and y values of the projectile and its bounding
+box have to be ouside of the bounding box of the robot.
+
+$$ radius^2 = 24^2 + 24^2 $$
+$$ radius = \sqrt{24^2 + 24^2} $$
+$$ \sqrt{24^2 + 24^2} = 33.94 $$
 
 ### Jump Level (04)
 
