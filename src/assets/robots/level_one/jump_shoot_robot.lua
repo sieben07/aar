@@ -5,6 +5,7 @@ local Projectile = require "src.assets.objects.projectile"
 
 local world = global.world
 local signal = global.signal
+local projectileDirections = global.projectileDirections
 
 local JumpShootRobot = JumpRobot:new()
 
@@ -30,8 +31,11 @@ function JumpShootRobot:update(dt)
 end
 
 function JumpShootRobot:_shoot(dt)
-    local projectile = Projectile:new(self.x, self.y, 0, -1, 1)
-    signal:emit("addProjectile", projectile)
+
+    for n in self.properties.projectiles:gmatch "%d+" do
+        local projectile = Projectile:new(self.x, self.y, projectileDirections[n].x, projectileDirections[n].y, 1)
+        signal:emit("addProjectile", projectile)
+    end
 end
 
 return JumpShootRobot

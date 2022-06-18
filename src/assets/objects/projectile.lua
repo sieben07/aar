@@ -19,16 +19,15 @@ local Projetictile = {
         x = 0,
         y = 0
     },
-    properties = {collidable = false},
-    index = math.random(1, 3)
+    properties = {collidable = false}
 }
 
 function Projetictile:new(x, y, directionX, directionY, itemNumber, o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
-    o.x = x + 12 + (directionX * 26)
-    o.y = y + 12 + (directionY * 26)
+    o.x = x + 12 + (directionX * 32)
+    o.y = y + 12 + (directionY * 32)
     o.x_vel = 8 * directionX
     o.y_vel = 8 * directionY
     o.direction.x = directionX

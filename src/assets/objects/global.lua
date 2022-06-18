@@ -19,7 +19,17 @@ local global = {
    signal = Signal.new(),
    transition = { start =  false },
    world = bump.newWorld(DIMENSIONS),
-   spriteSheet = nil
+   spriteSheet = nil,
+   projectileDirections = {
+      ["0"] = {x = 0, y = -1},
+      ["1"] = {x = 0.707, y = -0.707},
+      ["2"] = {x = 1, y = 0},
+      ["3"] = {x = 0.707, y = 0.707},
+      ["4"] = {x = 0, y = 1},
+      ["5"] = {x = -0.707, y = 0.707},
+      ["6"] = {x = -1, y = 0},
+      ["7"] = {x = -0.707, y = -0.707}
+   }
 }
 
 function global.world:m (item, goalX, goalY, filter)

@@ -48,6 +48,7 @@
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="0"/>
    </properties>
   </object>
   <object id="4" name="Mini" type="hero" x="640" y="672" width="32" height="32">
@@ -102,6 +103,7 @@
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="0"/>
    </properties>
   </object>
   <object id="16" name="Jump_Shoot" type="robot" x="1120" y="544" width="32" height="32">
@@ -109,6 +111,7 @@
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="0"/>
    </properties>
   </object>
   <object id="17" name="Jump_Shoot" type="robot" x="1120" y="96" width="32" height="32">
@@ -116,16 +119,17 @@
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="0,1,2,3,4,5,6,7"/>
    </properties>
   </object>
-  <object id="18" name="Jump" type="robot" x="576" y="896" width="32" height="32">
+  <object id="18" name="Jump" type="robot" x="544" y="896" width="32" height="32">
    <properties>
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="19" name="Jump" type="robot" x="512" y="896" width="32" height="32">
+  <object id="19" name="Jump" type="robot" x="480" y="896" width="32" height="32">
    <properties>
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>

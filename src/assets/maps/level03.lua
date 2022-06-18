@@ -121,7 +121,8 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumping"] = false
+            ["jumping"] = false,
+            ["projectiles"] = "0"
           }
         },
         {
@@ -255,7 +256,8 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumping"] = false
+            ["jumping"] = false,
+            ["projectiles"] = "0"
           }
         },
         {
@@ -272,7 +274,8 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumping"] = false
+            ["jumping"] = false,
+            ["projectiles"] = "0"
           }
         },
         {
@@ -289,7 +292,8 @@ return {
           properties = {
             ["active"] = false,
             ["collidable"] = true,
-            ["jumping"] = false
+            ["jumping"] = false,
+            ["projectiles"] = "0,1,2,3,4,5,6,7"
           }
         },
         {
@@ -297,7 +301,7 @@ return {
           name = "Jump",
           type = "robot",
           shape = "rectangle",
-          x = 576,
+          x = 544,
           y = 896,
           width = 32,
           height = 32,
@@ -314,7 +318,7 @@ return {
           name = "Jump",
           type = "robot",
           shape = "rectangle",
-          x = 512,
+          x = 480,
           y = 896,
           width = 32,
           height = 32,

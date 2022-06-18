@@ -197,6 +197,20 @@ Maybe an easier way to understand this is to use the following diagram:
 
 An enum could be used to represent the directions.
 
+but what if we wanted to add more directions?
+
+Then math comes to the rescue:
+
+*x* = *r* \* *c**o**s*(*r**a**d*)
+*y* = *r* \* *s**i**n*(*r**a**d*)
+
+where `r` is the radius and `rad` is the angle in radians.
+
+If `deg` is the angle in degrees, then we can use the following formula:
+
+*x* = *r* \* *c**o**s*(*d**e**g*\**π*/180)
+*y* = *r* \* *s**i**n*(*d**e**g*\**π*/180)
+
 ### Jump Level (04)
 
 -   Gravity Jump Robot
