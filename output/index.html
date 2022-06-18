@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Orhan Kücükyilmaz" />
-  <meta name="dcterms.date" content="2022-04-16" />
+  <meta name="dcterms.date" content="2014-04-17" />
   <meta name="keywords" content="One Point Left" />
   <title>Activate All Robots</title>
   <style>
@@ -165,21 +165,19 @@
 <header id="title-block-header">
 <h1 class="title">Activate All Robots</h1>
 <p class="author">Orhan Kücükyilmaz</p>
-<p class="date">2022-04-16</p>
+<p class="date">2014-04-17</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#change-history" id="toc-change-history">Change
 History</a></li>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
-<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
 <li><a href="#levels-robots-and-more"
 id="toc-levels-robots-and-more">Levels, Robots, and more</a>
 <ul>
 <li><a href="#level-0---the-startmenu-level"
 id="toc-level-0---the-startmenu-level">Level 0 - The Start/Menu
 level</a></li>
-</ul></li>
 <li><a href="#project-goals" id="toc-project-goals">Project goals</a>
 <ul>
 <li><a href="#levels" id="toc-levels">Levels</a></li>
@@ -302,8 +300,8 @@ Level (FINAL)</a></li>
 <table>
 <colgroup>
 <col style="width: 10%" />
-<col style="width: 32%" />
-<col style="width: 42%" />
+<col style="width: 31%" />
+<col style="width: 44%" />
 <col style="width: 14%" />
 </colgroup>
 <thead>
@@ -399,6 +397,12 @@ Level (FINAL)</a></li>
 <td>More Robot ideas added</td>
 <td>14.06.2022</td>
 </tr>
+<tr class="odd">
+<td>0.0.15</td>
+<td>Orhan Küçükyılmaz (OK)</td>
+<td>Projectile Directions and speed</td>
+<td>17.06.2022</td>
+</tr>
 </tbody>
 </table>
 <h1 id="introduction">Introduction</h1>
@@ -421,10 +425,10 @@ only <code>one</code> <em>ONE</em> shoot is left …</p>
 alt="His name is mini" />
 <figcaption aria-hidden="true">His name is mini</figcaption>
 </figure>
-<h2 id="levels-robots-and-more">Levels, Robots, and more</h2>
+<h1 id="levels-robots-and-more">Levels, Robots, and more</h1>
 <p>In this Section it’s all about the levels the robots and more.</p>
-<h3 id="level-0---the-startmenu-level">Level 0 - The Start/Menu
-level</h3>
+<h2 id="level-0---the-startmenu-level">Level 0 - The Start/Menu
+level</h2>
 <p>Most games don’t have a playable menu screen level. What is a
 playable menu screen level, you ask? Good question, very good question
 indeed.</p>
@@ -552,12 +556,98 @@ just jumps higher</li>
 </ul>
 <blockquote>
 <ul class="task-list">
-<li><input type="checkbox" disabled="" />
+<li><input type="checkbox" disabled="" checked="" />
 jumps and shoots</li>
-<li><input type="checkbox" disabled="" />
-can be carried, shoots wenn the hero shoots</li>
 </ul>
 </blockquote>
+<p>What about directions?</p>
+<blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+shoots to the left</li>
+<li><input type="checkbox" disabled="" />
+shoots to the right</li>
+<li><input type="checkbox" disabled="" />
+shoots to up</li>
+<li><input type="checkbox" disabled="" />
+shoots to down</li>
+<li><input type="checkbox" disabled="" />
+shoots diagonally left up</li>
+<li><input type="checkbox" disabled="" />
+shoots diagonally right up</li>
+<li><input type="checkbox" disabled="" />
+shoots diagonally left down</li>
+<li><input type="checkbox" disabled="" />
+shoots diagonally right down</li>
+</ul>
+</blockquote>
+<p>That’s eight directions.</p>
+<p>Maybe an easier way to understand this is to use the following
+diagram:</p>
+<pre class="mermaid"><code>             x-&gt;
+   +-(-1)----0------1--&gt;
+   |
+   (-1)  7   0   1
+   |      \  |  /
+   |       +---+
+ y 0  6 -- |   | -- 2
+ | |       +---+
+ v |      /  |  \
+   1     5   4   3
+   |
+   v</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>Number</th>
+<th>direction</th>
+<th>values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>up</td>
+<td>(x = 0, y = -1)</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>up-right</td>
+<td>(x = 1, y = -1)</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>righ</td>
+<td>(x = 1, y = 0)</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>down-right</td>
+<td>(x = 1, y = 1)</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>down</td>
+<td>(x = 0, y = 1)</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>down-left</td>
+<td>(x = -1, y = 1)</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>left</td>
+<td>(x = -1, y = 0)</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>up-left</td>
+<td>(x = -1, y = -1)</td>
+</tr>
+</tbody>
+</table>
+<p>An enum could be used to represent the directions.</p>
 <h3 id="jump-level-04">Jump Level (04)</h3>
 <ul>
 <li>Gravity Jump Robot</li>
@@ -807,22 +897,8 @@ blocks passages sometimes</li>
 <h3 id="wind-level-final">Wind Level (FINAL)</h3>
 <h3 id="todo">TODO</h3>
 <ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />
-JUMP ROBOTS COLLIDE BUG</li>
-<li><input type="checkbox" disabled="" checked="" />
-ROBOTS HAVE TO CHANGE COLOR WHEN ACTIVE</li>
-<li><input type="checkbox" disabled="" checked="" />
-SHOOT COLLIDES ANIMATION</li>
 <li><input type="checkbox" disabled="" />
 HIT ANIMATION</li>
-<li><input type="checkbox" disabled="" checked="" />
-STATE MASHINE STATE functions update variables</li>
-<li><input type="checkbox" disabled="" checked="" />
-Hero shoots bolts</li>
-<li><input type="checkbox" disabled="" checked="" />
-Hero shoots nuts</li>
-<li><input type="checkbox" disabled="" checked="" />
-Hero shoots cogs</li>
 <li><input type="checkbox" disabled="" />
 Hero sticky must be resolved better</li>
 <li><input type="checkbox" disabled="" />

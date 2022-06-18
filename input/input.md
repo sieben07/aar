@@ -1,7 +1,7 @@
 ---
 title: "Activate All Robots"
 author: [Orhan Kücükyilmaz]
-date: "2022-04-16"
+date: "2014-04-17"
 keywords: [One Point Left]
 titlepage: true
 titlepage-color: "9BBBCC"
@@ -52,11 +52,11 @@ player has only *`one point left`* he gets `warned` that only `one`
 
 ![His name is mini](./src/assets/img/mini.png "His name is mini")
 
-## Levels, Robots, and more
+# Levels, Robots, and more
 
 In this Section it's all about the levels the robots and more.
 
-### Level 0 - The Start/Menu level
+## Level 0 - The Start/Menu level
 
 Most games don't have a playable menu screen level. What is a playable
 menu screen level, you ask? Good question, very good question indeed.
@@ -185,19 +185,19 @@ That's eight directions.
 Maybe an easier way to understand this is to use the following diagram:
 
 
-```text
-
- -> x
-+-------------------x
-|
-|    7   0   1
-|     \  |  /
-|      ┌───┐
-| 6 -- │   │ -- 2
-|      └───┘
-|     /  |  \
-|    5   4   3
-y
+```mermaid
+             x->
+   +-(-1)----0------1-->
+   |
+   (-1)  7   0   1
+   |      \  |  /
+   |       +---+
+ y 0  6 -- |   | -- 2
+ | |       +---+
+ v |      /  |  \
+   1     5   4   3
+   |
+   v
 ```
 
 | Number | direction  |      values      |
@@ -209,7 +209,7 @@ y
 |      4 | down       | (x =  0, y =  1) |
 |      5 | down-left  | (x = -1, y =  1) |
 |      6 | left       | (x = -1, y =  0) |
-|      7 | up-left    | (x = -1, y =  1) |
+|      7 | up-left    | (x = -1, y = -1) |
 
 
 An enum could be used to represent the directions.
