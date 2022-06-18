@@ -171,93 +171,16 @@ stage introduces a new version of the robot.
 
 What about directions?
 
-> - [ ] shoots to the left
-> - [ ] shoots to the right
-> - [ ] shoots to up
-> - [ ] shoots to down
-> - [ ] shoots diagonally left up
-> - [ ] shoots diagonally right up
-> - [ ] shoots diagonally left down
-> - [ ] shoots diagonally right down
+> - [x] shoots to the left
+> - [x] shoots to the right
+> - [x] shoots to up
+> - [x] shoots to down
+> - [x] shoots diagonally left up
+> - [x] shoots diagonally right up
+> - [x] shoots diagonally left down
+> - [x] shoots diagonally right down
 
-That's eight directions.
-
-Maybe an easier way to understand this is to use the following diagram:
-
-
-```
-             x->
-   +-(-1)----0------1-->
-   |
-   (-1)  7   0   1
-   |      \  |  /
-   |       +---+
- y 0  6 -- |   | -- 2
- | |       +---+
- v |      /  |  \
-   1     5   4   3
-   |
-   v
-```
-
-| Number | direction  |      values      |
-|--------|------------|------------------|
-|      0 | up         | (x =  0, y = -1) |
-|      1 | up-right   | (x =  1, y = -1) |
-|      2 | righ       | (x =  1, y =  0) |
-|      3 | down-right | (x =  1, y =  1) |
-|      4 | down       | (x =  0, y =  1) |
-|      5 | down-left  | (x = -1, y =  1) |
-|      6 | left       | (x = -1, y =  0) |
-|      7 | up-left    | (x = -1, y = -1) |
-
-
-An enum could be used to represent the directions.
-
-but what if we wanted to add more directions?
-
-Then math comes to the rescue:
-
-
-$$ x = r * cos(rad) $$
-$$ y = r * sin(rad) $$
-
-where `r` is the radius and `rad` is the angle in radians.
-
-If `deg` is the angle in degrees, then we can use the following formula:
-
-$$ x = r * cos(deg * \pi / 180) $$
-$$ y = r * sin(deg * \pi / 180) $$
-
-But then the values change for the directions
-
-```
-             x->
-   +----------------->
-   |     3   2   1
-   |      \  |  /
-   |       +---+
- y |  4 -- |   | -- 0
- | |       +---+
- v |      /  |  \
-   |     5   6   7
-   |
-   v
-```
-
-| Number | direction  | values |
-|--------|------------|--------|
-|      0 | up         |      6 |
-|      1 | up-right   |      7 |
-|      2 | righ       |      0 |
-|      3 | down-right |      1 |
-|      4 | down       |      2 |
-|      5 | down-left  |      3 |
-|      6 | left       |      4 |
-|      7 | up-left    |      5 |
-
-
-But that seems to be confusing we would rather have degrees
+That's eight directions:
 
 ```
              x->
@@ -273,16 +196,47 @@ But that seems to be confusing we would rather have degrees
    v
 ```
 
+In an game coordinate system the angle is measured clockwise.
+
 | Number | direction  | values   |
 |--------|------------|----------|
-|      0 | up         |      270 |
-|      1 | up-right   |      315 |
-|      2 | righ       |        0 |
-|      3 | down-right |       45 |
-|      4 | down       |       90 |
-|      5 | down-left  |      135 |
-|      6 | left       |      180 |
-|      7 | up-left    |      225 |
+|      0 | right      |        0 |
+|      1 | down left  |       45 |
+|      2 | down       |       90 |
+|      3 | down right |      135 |
+|      4 | left       |      180 |
+|      5 | up left    |      225 |
+|      6 | up         |      270 |
+|      7 | up right   |      315 |
+
+Now the x and y values can be calculated with the following formula:
+
+$$ x = r * cos(rad) $$
+$$ y = r * sin(rad) $$
+
+where `r` is the radius and `rad` is the angle in radians.
+
+If `deg` is the angle in degrees, then we can use the following formula:
+
+$$ x = r * cos(deg * \pi / 180) $$
+$$ y = r * sin(deg * \pi / 180) $$
+
+
+The robots and the projectiles have bounding boxes
+The height and width of the bounding box of the robos is 32
+The height and width of the bounding box of the projectiles is 16
+
+To center the projectiles in the middle of the robot, we have to
+move the projectile by half of the width and height of the projectile.
+
+$$ 32 - 8 = 24 $$
+
+If the projectile is shoot diagonally the x and y values of the projectile and its bounding
+box have to be ouside of the bounding box of the robot.
+
+$$ radius^2 = 24^2 + 24^2 $$
+$$ radius = \sqrt{24^2 + 24^2} $$
+$$ \sqrt{24^2 + 24^2} = 33.94 $$
 
 ### Jump Level (04)
 

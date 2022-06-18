@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 3,
-  nextobjectid = 21,
+  nextobjectid = 22,
   properties = {},
   tilesets = {
     {
@@ -209,40 +209,6 @@ return {
           }
         },
         {
-          id = 13,
-          name = "High_Jump",
-          type = "robot",
-          shape = "rectangle",
-          x = 960,
-          y = 896,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false
-          }
-        },
-        {
-          id = 14,
-          name = "High_Jump",
-          type = "robot",
-          shape = "rectangle",
-          x = 1056,
-          y = 896,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false
-          }
-        },
-        {
           id = 15,
           name = "Jump_Shoot",
           type = "robot",
@@ -257,7 +223,7 @@ return {
             ["active"] = false,
             ["collidable"] = true,
             ["jumping"] = false,
-            ["projectiles"] = "0"
+            ["projectiles"] = "6"
           }
         },
         {
@@ -275,7 +241,7 @@ return {
             ["active"] = false,
             ["collidable"] = true,
             ["jumping"] = false,
-            ["projectiles"] = "0"
+            ["projectiles"] = "0,1,2,3,4,5,6,7"
           }
         },
         {
@@ -345,6 +311,24 @@ return {
             ["active"] = false,
             ["collidable"] = true,
             ["jumping"] = false
+          }
+        },
+        {
+          id = 21,
+          name = "Jump_Shoot",
+          type = "robot",
+          shape = "rectangle",
+          x = 960,
+          y = 800,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["active"] = false,
+            ["collidable"] = true,
+            ["jumping"] = false,
+            ["projectiles"] = "4"
           }
         }
       }
