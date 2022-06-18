@@ -185,7 +185,7 @@ That's eight directions.
 Maybe an easier way to understand this is to use the following diagram:
 
 
-```mermaid
+```
              x->
    +-(-1)----0------1-->
    |
@@ -229,7 +229,60 @@ If `deg` is the angle in degrees, then we can use the following formula:
 $$ x = r * cos(deg * \pi / 180) $$
 $$ y = r * sin(deg * \pi / 180) $$
 
+But then the values change for the directions
 
+```
+             x->
+   +----------------->
+   |     3   2   1
+   |      \  |  /
+   |       +---+
+ y |  4 -- |   | -- 0
+ | |       +---+
+ v |      /  |  \
+   |     5   6   7
+   |
+   v
+```
+
+| Number | direction  | values |
+|--------|------------|--------|
+|      0 | up         |      6 |
+|      1 | up-right   |      7 |
+|      2 | righ       |      0 |
+|      3 | down-right |      1 |
+|      4 | down       |      2 |
+|      5 | down-left  |      3 |
+|      6 | left       |      4 |
+|      7 | up-left    |      5 |
+
+
+But that seems to be confusing we would rather have degrees
+
+```
+             x->
+   +--------------------->
+   |    225°  270°  315°
+   |        \  |  /
+   |         +---+
+ y | 180° -- |   | -- 0°
+ | |         +---+
+ v |        /  |  \
+   |    135°  90°  45°
+   |
+   v
+```
+
+| Number | direction  | values   |
+|--------|------------|----------|
+|      0 | up         |      270 |
+|      1 | up-right   |      315 |
+|      2 | righ       |        0 |
+|      3 | down-right |       45 |
+|      4 | down       |       90 |
+|      5 | down-left  |      135 |
+|      6 | left       |      180 |
+|      7 | up-left    |      225 |
 
 ### Jump Level (04)
 

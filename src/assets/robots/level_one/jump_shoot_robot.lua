@@ -21,7 +21,7 @@ end
 function JumpShootRobot:update(dt)
     self:_update(dt)
     if self:getIsActive() then
-        if self.shootTimer >= 0.5 then
+        if self.shootTimer >= 1 then
             self.shootTimer = 0
             self:_shoot(dt)
         else
@@ -31,9 +31,8 @@ function JumpShootRobot:update(dt)
 end
 
 function JumpShootRobot:_shoot(dt)
-
     for n in self.properties.projectiles:gmatch "%d+" do
-        local projectile = Projectile:new(self.x, self.y, projectileDirections[n].x, projectileDirections[n].y, 1)
+        local projectile = Projectile:new(self.x, self.y, projectileDirections[n], 1)
         signal:emit("addProjectile", projectile)
     end
 end
