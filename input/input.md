@@ -242,8 +242,11 @@ $$ \sqrt{24^2 + 24^2} = 33.94 $$
 
 - Gravity Jump Robot
 
-> - [ ] jumps from the ground to the ceiling
-> - [ ] can sometimes be like an elevator
+> - [ ] jumps down falls up
+> - [ ] has high jump variant
+    - High Gravity Jump Robot
+> - [ ] can shoot
+    - Gravity Jump Shoot Robot
 
 ### Jump Level (FINAL)
 
