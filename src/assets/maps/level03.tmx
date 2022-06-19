@@ -77,35 +77,12 @@
     <property name="jumping" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="12" name="Jump" type="robot" x="816" y="96" width="32" height="32">
+  <object id="15" name="Jump_Shoot" type="robot" x="1408" y="608" width="32" height="32">
    <properties>
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="15" name="Jump_Shoot" type="robot" x="1120" y="896" width="32" height="32">
-   <properties>
-    <property name="active" type="bool" value="false"/>
-    <property name="collidable" type="bool" value="true"/>
-    <property name="jumping" type="bool" value="false"/>
-    <property name="projectiles" value="6"/>
-   </properties>
-  </object>
-  <object id="16" name="Jump_Shoot" type="robot" x="1120" y="544" width="32" height="32">
-   <properties>
-    <property name="active" type="bool" value="false"/>
-    <property name="collidable" type="bool" value="true"/>
-    <property name="jumping" type="bool" value="false"/>
-    <property name="projectiles" value="0,1,2,3,4,5,6,7"/>
-   </properties>
-  </object>
-  <object id="17" name="Jump_Shoot" type="robot" x="1120" y="96" width="32" height="32">
-   <properties>
-    <property name="active" type="bool" value="false"/>
-    <property name="collidable" type="bool" value="true"/>
-    <property name="jumping" type="bool" value="false"/>
-    <property name="projectiles" value="0,1,2,3,4,5,6,7"/>
+    <property name="projectiles" value="5"/>
    </properties>
   </object>
   <object id="18" name="Jump" type="robot" x="544" y="896" width="32" height="32">
@@ -129,12 +106,12 @@
     <property name="jumping" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="21" name="Jump_Shoot" type="robot" x="960" y="800" width="32" height="32">
+  <object id="21" name="Jump_Shoot" type="robot" x="960" y="704" width="32" height="32">
    <properties>
     <property name="active" type="bool" value="false"/>
     <property name="collidable" type="bool" value="true"/>
     <property name="jumping" type="bool" value="false"/>
-    <property name="projectiles" value="4"/>
+    <property name="projectiles" value="0"/>
    </properties>
   </object>
  </objectgroup>

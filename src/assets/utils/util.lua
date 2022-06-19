@@ -13,9 +13,9 @@ local TextRobot = require "assets.robots.level_zero.text_robot"
 
 local JumpRobot = require "assets.robots.level_one.jump_robot"
 local JumpShootRobot = require "assets.robots.level_one.jump_shoot_robot"
-local OneThree = require "assets.robots.level_one.one_three"
-local OneFour = require "assets.robots.level_one.one_four"
-local OneFive = require "assets.robots.level_one.one_five"
+local GravityJumpRobot = require "assets.robots.level_one.gravity_jump_robot"
+local GravityJumpShootRobot = require "assets.robots.level_one.gravity_jump_shoot_robot"
+local JumpBossRobot = require "assets.robots.level_one.jump_boss_robot"
 
 local TwoZero = require "assets.robots.level_two.two_zero"
 local TwoOne = require "assets.robots.level_two.two_one"
@@ -88,6 +88,7 @@ function util.merge(first, second)
     end
 end
 
+
 local newJumpRobot = function(obj)
    return JumpRobot:new(obj)
 end
@@ -98,6 +99,18 @@ end
 
 local newJumpShootRobot = function(obj)
    return JumpShootRobot:new(obj)
+end
+
+local newGravityJumpRobot = function(obj)
+   return GravityJumpRobot:new(obj)
+end
+
+local newGravityHighJumpRobot = function(obj)
+   return GravityJumpRobot:new(obj, 256)
+end
+
+local newGravityJumpShootRobot = function(obj)
+   return GravityJumpShootRobot:new(obj)
 end
 
 local newStartRobot = function(obj)
@@ -112,145 +125,8 @@ local newHeroRobot = function(obj)
    return HeroRobot:new(obj)
 end
 
-local newZeroOne = function(obj)
-   return ZeroOne:new(obj)
-end
-
-local newZeroTwo = function(obj)
-   return ZeroTwo:new(obj)
-end
-
 local newResetRobot = function(obj)
-   -- ResetRobot
    return ResetRobot:new(obj)
-end
-
-local newZeroFour = function(obj)
-   return ZeroFour:new(obj)
-end
-
-local newZeroFive = function(obj)
-   return ZeroFive:new(obj)
-end
-
-local newOneZero = function(obj)
-   return OneZero:new(obj)
-end
-
-local newOneOne = function(obj)
-   return OneOne:new(obj)
-end
-
-local newOneTwo = function(obj)
-   return OneTwo:new(obj)
-end
-
-local newOneThree = function(obj)
-   return OneThree:new(obj)
-end
-
-local newOneFour = function(obj)
-   return OneFour:new(obj)
-end
-
-local newOneFive = function(obj)
-   return OneFive:new(obj)
-end
-
-local newTwoZero = function(obj)
-   return TwoZero:new(obj)
-end
-
-local newTwoOne = function(obj)
-   return TwoOne:new(obj)
-end
-
-local newTwoTwo = function(obj)
-   return TwoTwo:new(obj)
-end
-
-local newTwoThree = function(obj)
-   return TwoThree:new(obj)
-end
-
-local newTwoFour = function(obj)
-   return TwoFour:new(obj)
-end
-
-local newTwoFive = function(obj)
-   return TwoFive:new(obj)
-end
-
-local newThreeZero = function(obj)
-   return ThreeZero:new(obj)
-end
-
-local newThreeOne = function(obj)
-   return ThreeOne:new(obj)
-end
-
-local newThreeTwo = function(obj)
-   return ThreeTwo:new(obj)
-end
-
-local newThreeThree = function(obj)
-   return ThreeThree:new(obj)
-end
-
-local newThreeFour = function(obj)
-   return ThreeFour:new(obj)
-end
-
-local newThreeFive = function(obj)
-   return ThreeFive:new(obj)
-end
-
-local newFourZero = function(obj)
-   return FourZero:new(obj)
-end
-
-local newFourOne = function(obj)
-   return FourOne:new(obj)
-end
-
-local newFourTwo = function(obj)
-   return FourTwo:new(obj)
-end
-
-local newFourThree = function(obj)
-   return FourThree:new(obj)
-end
-
-local newFourFour = function(obj)
-   return FourFour:new(obj)
-end
-
-local newFourFive = function(obj)
-   return FourFive:new(obj)
-end
-
-local newFiveZero = function(obj)
-   return FiveZero:new(obj)
-end
-
-local newFiveOne = function(obj)
-   return FiveOne:new(obj)
-end
-
-local newFiveTwo = function(obj)
-   return FiveTwo:new(obj)
-end
-
-local newFiveThree = function(obj)
-   return FiveThree:new(obj)
-end
-
-local newFiveFour = function(obj)
-   return FiveFour:new(obj)
-end
-
-local newFiveFive = function(obj)
-   return FiveFive:new(obj)
 end
 
 local newTextRobot = function(obj)
@@ -258,52 +134,24 @@ local newTextRobot = function(obj)
 end
 
 local createRobot = {
+   Mini = newHeroRobot,
+   Start = newStartRobot,
+   Text = newTextRobot,
+   Reset = newResetRobot,
+   Exit = newExitRobot,
    Jump = newJumpRobot,
    High_Jump = newHighJumpRobot,
-   Start = newStartRobot,
-   Exit = newExitRobot,
-   Mini = newHeroRobot,
-   zero_one = newZeroOne,
-   zero_two = newZeroTwo,
-   Reset = newResetRobot,
-   zero_four = newZeroFour,
-   zero_five = newZeroFive,
-   one_zero = newOneZero,
-   one_one = newOneOne,
-   one_two = newOneTwo,
    Jump_Shoot = newJumpShootRobot,
-   one_four = newOneFour,
-   one_five = newOneFive,
-   two_zero = newTwoZero,
-   two_one = newTwoOne,
-   two_two = newTwoTwo,
-   two_three = newTwoThree,
-   two_four = newTwoFour,
-   two_five = newTwoFive,
-   three_zero = newThreeZero,
-   three_one = newThreeOne,
-   three_two = newThreeTwo,
-   three_three = newThreeThree,
-   three_four = newThreeFour,
-   three_five = newThreeFive,
-   four_zero = newFourZero,
-   four_one = newFourOne,
-   four_two = newFourTwo,
-   four_three = newFourThree,
-   four_four = newFourFour,
-   four_five = newFourFive,
-   five_zero = newFiveZero,
-   five_one = newFiveOne,
-   five_two = newFiveTwo,
-   five_three = newFiveThree,
-   five_four = newFiveFour,
-   five_five = newFiveFive,
-   Text = newTextRobot,
+   Gravity_Jump = newGravityJumpRobot,
+   Gravity_High_Jump = newGravityHighJumpRobot,
+   Gravity_Jump_Shoot = newGravityJumpShootRobot,
+   Jump_Boss = newJumpBossRobot
 }
 
 function util.getSpritesFromMap(map)
    local robots = {}
    for _,object in pairs(map) do
+      print(object.name)
       local robot = createRobot[object.name](object)
       table.insert(robots, robot)
    end
