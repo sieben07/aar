@@ -38,8 +38,8 @@ end
 
 function JumpRobot:_update(dt)
    if self:getIsActive() then
-        if self.velocity < 0 then
-         local goalY = self.y + self.velocity * dt
+        if self:getVelocity() < 0 then
+         local goalY = self.y + self:getVelocity() * dt
          self:updateVelocity(dt)
          local cols, _ = world:m(self, self.x, goalY, filterUp)
          local dy
@@ -57,7 +57,7 @@ function JumpRobot:_update(dt)
       end
 
       if self:getVelocity() >= 0 then
-         local goalY = self.y + self.velocity * dt
+         local goalY = self.y + self:getVelocity() * dt
          self:updateVelocity(dt)
          local _, len = world:m(self, self.x, goalY, filterDown)
 

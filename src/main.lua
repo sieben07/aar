@@ -87,9 +87,9 @@ function game:init()
 
       merge(touch, hitAnimation)
       table.insert(particles, touch)
-      screen:setShake(7)
-      screen:setRotation(.07)
-      screen:setScale(1.007)
+      -- screen:setShake(7)
+      -- screen:setRotation(.07)
+      -- screen:setScale(1.007)
    end)
 end
 
@@ -165,6 +165,7 @@ function game:draw()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    solidLayer:draw()
    robotsLayer:draw()
+   map:bump_draw()
 
    for _, hit in pairs(particles) do
       local hitColor = nextColor()

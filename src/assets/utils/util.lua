@@ -304,7 +304,6 @@ local createRobot = {
 function util.getSpritesFromMap(map)
    local robots = {}
    for _,object in pairs(map) do
-      print("Name: " .. object.name)
       local robot = createRobot[object.name](object)
       table.insert(robots, robot)
    end

@@ -57,7 +57,7 @@ function Robot:switchToActive()
 end
 
 function Robot:updateVelocity(dt)
-    self.velocity = self.velocity + (self.gravity * dt)
+    self:setVelocity(self:getVelocity() + (self.gravity * dt))
 end
 
 function Robot:update(dt)
