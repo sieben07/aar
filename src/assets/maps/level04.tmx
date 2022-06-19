@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="52" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="24">
+ <tileset firstgid="1" name="generic_platformer_tiles" tilewidth="32" tileheight="32" tilecount="24" columns="6">
+  <image source="tiles.png" trans="ff00ff" width="192" height="128"/>
+ </tileset>
+ <layer id="1" name="Solid" width="52" height="32">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,0,7,0,7,0,7,0,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,7,0,7,0,7,2,2,2,2,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,7,0,7,7,0,0,0,0,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,7,7,0,0,7,7,2,2,2,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,2,2,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,2,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,7,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,7,0,7,0,7,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,7,0,7,0,7,0,7,0,7,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,2,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,2,7,2,7,0,
+0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,2,7,2,7,0,
+0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2,7,2,7,7,7,7,7,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="Objects">
+  <object id="1" name="Jump_Shoot" type="robot" x="816" y="800" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="0"/>
+   </properties>
+  </object>
+  <object id="4" name="Mini" type="hero" x="640" y="672" width="32" height="32">
+   <properties>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="falling" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="5" name="Exit" type="robot" x="224" y="896" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="7" name="Jump" type="robot" x="512" y="736" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="8" name="Jump" type="robot" x="576" y="704" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="12" name="Gravity_Jump" type="robot" x="816" y="128" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="15" name="Jump_Shoot" type="robot" x="1120" y="672" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="5,6"/>
+   </properties>
+  </object>
+  <object id="17" name="Gravity_Jump_Shoot" type="robot" x="1120" y="64" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="0,1,2,3,4,5,6,7"/>
+   </properties>
+  </object>
+  <object id="18" name="Jump" type="robot" x="544" y="896" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="19" name="Jump" type="robot" x="480" y="896" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="20" name="Jump" type="robot" x="416" y="896" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="21" name="Jump_Shoot" type="robot" x="960" y="736" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+    <property name="projectiles" value="0"/>
+   </properties>
+  </object>
+  <object id="22" name="Jump" type="robot" x="704" y="928" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="23" name="Gravity_High_Jump" type="robot" x="1248" y="128" width="32" height="32">
+   <properties>
+    <property name="active" type="bool" value="false"/>
+    <property name="collidable" type="bool" value="true"/>
+    <property name="jumping" type="bool" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

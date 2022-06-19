@@ -192,29 +192,12 @@ return {
           }
         },
         {
-          id = 12,
-          name = "Jump",
-          type = "robot",
-          shape = "rectangle",
-          x = 816,
-          y = 96,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false
-          }
-        },
-        {
           id = 15,
           name = "Jump_Shoot",
           type = "robot",
           shape = "rectangle",
-          x = 1120,
-          y = 896,
+          x = 1408,
+          y = 608,
           width = 32,
           height = 32,
           rotation = 0,
@@ -223,43 +206,7 @@ return {
             ["active"] = false,
             ["collidable"] = true,
             ["jumping"] = false,
-            ["projectiles"] = "6"
-          }
-        },
-        {
-          id = 16,
-          name = "Jump_Shoot",
-          type = "robot",
-          shape = "rectangle",
-          x = 1120,
-          y = 544,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false,
-            ["projectiles"] = "0,1,2,3,4,5,6,7"
-          }
-        },
-        {
-          id = 17,
-          name = "Jump_Shoot",
-          type = "robot",
-          shape = "rectangle",
-          x = 1120,
-          y = 96,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["active"] = false,
-            ["collidable"] = true,
-            ["jumping"] = false,
-            ["projectiles"] = "0,1,2,3,4,5,6,7"
+            ["projectiles"] = "5"
           }
         },
         {
@@ -319,7 +266,7 @@ return {
           type = "robot",
           shape = "rectangle",
           x = 960,
-          y = 800,
+          y = 704,
           width = 32,
           height = 32,
           rotation = 0,
@@ -328,7 +275,7 @@ return {
             ["active"] = false,
             ["collidable"] = true,
             ["jumping"] = false,
-            ["projectiles"] = "4"
+            ["projectiles"] = "0"
           }
         }
       }

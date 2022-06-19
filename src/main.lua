@@ -165,7 +165,6 @@ function game:draw()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    solidLayer:draw()
    robotsLayer:draw()
-   map:bump_draw()
 
    for _, hit in pairs(particles) do
       local hitColor = nextColor()
