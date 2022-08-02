@@ -5,6 +5,7 @@ local fonts = require "assets.font.fonts"
 local transition = global.transition
 
 local Robot = {
+    alpha = 1,
     velocity = 0,
     gravity = 200,
     properties = {
@@ -72,9 +73,9 @@ function Robot:_draw()
         love.graphics.setColor(1 - global.background.color.red,1 - global.background.
         color.green, 1 - global.background.color.blue)
     else
-        love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
+        love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue, self.alpha)
     end
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
     love.graphics.setFont(fonts.ormont_small)
     love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
     love.graphics.print(self.name, self.x + 40, self.y)

@@ -8,13 +8,13 @@ local particles    = global.hits
 local signal       = global.signal;
 local transition   = global.transition
 local world        = global.world
+local tweenWorld  = global.tweenWorld
 
 local Gamestate = require "assets.libs.hump.gamestate"
 local levels = require "assets.maps.levels"
 local screen = require "assets.libs.shack.shack"
 local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
 local util = require "assets.utils.util"
-
 
 local hitImage = love.graphics.newImage "assets/img/white.png"
 local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
@@ -52,23 +52,13 @@ function game:init()
    end)
 
    signal:register("zero", function()
-      local robot = require "assets.robots.level_zero.reset_robot"
-      world:add(robot, robot.x, robot.y, robot.width, robot.height)
+      local resetRobot = require "assets.robots.level_zero.reset_robot"
+      tween.insertRobot(resetRobot)
       signal:clear("zero")
    end)
 
    signal:register("nextLevel", function() Gamestate.switch(game) end)
-   signal:register("allActive", function()
-      tween.start()
-      global.color.red = 1;
-      global.color.green = 1;
-      global.color.blue = 1;
-      love.graphics.setBackgroundColor(
-         global.background.color.red,
-         global.background.color.green,
-         global.background.color.blue
-      )
-   end)
+
    signal:register("score", function(value) global.score = global.score + value end)
    signal:register("reset", function() global.score = 0 end)
    signal:register("bounce", function(robot)
@@ -95,6 +85,18 @@ end
 
 function game:enter()
    world:clear()
+   signal:register("allActive", function()
+      tween.start()
+      global.color.red = 1;
+      global.color.green = 1;
+      global.color.blue = 1;
+      love.graphics.setBackgroundColor(
+         global.background.color.red,
+         global.background.color.green,
+         global.background.color.blue
+      )
+      signal:clear("allActive")
+   end)
    love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
    map = sti("assets/maps/" .. levels[currentLevel] .. ".lua", {"bump"})
 
@@ -165,6 +167,7 @@ function game:draw()
    love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    solidLayer:draw()
    robotsLayer:draw()
+   tweenWorld:draw()
 
    for _, hit in pairs(particles) do
       local hitColor = nextColor()
@@ -182,7 +185,7 @@ function game:update(dt)
    screen:update(dt)
    robotsLayer:update(dt)
    hitParticle:update(dt)
-   hitParticle:emit(3000)
+   hitParticle:emit(5)
 
    tween.particles(particles, dt)
    tween.update(dt)

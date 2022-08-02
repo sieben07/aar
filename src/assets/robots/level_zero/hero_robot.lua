@@ -185,10 +185,6 @@ end
 function HeroRobot:update(dt)
    self:animate(dt)
 
-   if self.stick_to ~= "" and self.stick_to.name ~= nil and self.stick_to.name ~= 'Reset' then
-      self.y = self.stick_to.y - 32
-   end
-
    local goalX = self.x + self.x_vel
 
    self.y = self.y + self.y_vel

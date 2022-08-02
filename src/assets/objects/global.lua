@@ -2,6 +2,28 @@ Signal = require "assets.libs.hump.signal"
 local bump = require "assets.libs.bump.bump"
 local DIMENSIONS = 32
 
+local TweenWorld = {
+   robots = {}
+}
+
+function TweenWorld:add(robot)
+   table.insert(self.robots, robot)
+end
+
+function TweenWorld:draw()
+   for _, robot in ipairs(self.robots) do
+      robot:draw()
+   end
+end
+
+function TweenWorld:remove(robot)
+   for i, v in ipairs(self.robots) do
+      if v == robot then
+         table.remove(self.robots, i)
+      end
+   end
+end
+
 local global = {
    background = {color = {red   = 76 / 255,green = 77 / 255,blue  = 78 / 255,alpha = 1}},
    color = {red   = 0,green = 0,blue  = 0,alpha = 1},
@@ -19,6 +41,7 @@ local global = {
    signal = Signal.new(),
    transition = { start =  false },
    world = bump.newWorld(DIMENSIONS),
+   tweenWorld = TweenWorld,
    spriteSheet = nil,
    projectileDirections = {
       ["0"] = 0, -- right

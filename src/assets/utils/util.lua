@@ -48,10 +48,13 @@ local FiveFive = require "assets.robots.level_five.five_five"
 local signal = global.signal
 local transition = global.transition
 local world = global.world
+local tweenWorld = global.tweenWorld
 
 local colorIndex = 0;
 local tween = {}
 local util = {}
+
+local group = nil;
 
 local function areAllRobotsActive(t)
    local allTrue = 0
@@ -151,7 +154,6 @@ local createRobot = {
 function util.getSpritesFromMap(map)
    local robots = {}
    for _,object in pairs(map) do
-      print(object.name)
       local robot = createRobot[object.name](object)
       table.insert(robots, robot)
    end
@@ -190,29 +192,48 @@ function util.nextColor()
 end
 
 function tween.start()
-    if transition.start == false then
-        transition.start = true
-        global.countdown = 4
-        global.color.red = 0
-        global.color.green = 0
-        global.color.blue = 0
-        flux.to(global, 0.5, {countdown = 0})
-    end
+   global.countdown = 4
+   global.color.red = 0
+   global.color.green = 0
+   global.color.blue = 0
+   f = flux.to(global, 0.5, {countdown = 0})
+   :onupdate(
+      function()
+         global.color = randomColor()
+      end)
+   :oncomplete(
+      function()
+         global.color = hexToRgba("#FFFFFFFF")
+         global.background.color = hexToRgba("#FF9bbbcc")
+         global.countdown = 4
+         signal:emit("nextLevel")
+      end)
+end
+
+function tween.insertRobot(robot)
+   local y = robot.y
+   local x = robot.x
+   local width = robot.width
+   local height = robot.height
+
+   robot.x = 0
+   robot.y = 0
+   robot.width = love.graphics.getWidth()
+   robot.height = love.graphics.getHeight()
+   robot.alpha = 0
+
+   tweenWorld:add(robot)
+   flux.to(robot, 2, {x = x, y = y, width = width, height = height, alpha = 1}):ease("elasticout")
+   :oncomplete(
+      function()
+         tweenWorld:remove(robot)
+         world:add(robot, robot.x, robot.y, robot.width, robot.height)
+      end
+   )
 end
 
 function tween.update(dt)
-    if transition.start == true then
-        flux.update(dt)
-        global.color = randomColor()
-    end
-
-    if global.countdown == 0 then
-        global.color = hexToRgba("#FFFFFFFF")
-        global.background.color = hexToRgba("#FF9bbbcc")
-        signal:emit("nextLevel")
-        global.countdown = 4
-        transition.start = false
-    end
+   flux.update(dt)
 end
 
 function tween.particles(particles, dt)

@@ -211,16 +211,15 @@ In an game coordinate system the angle is measured clockwise.
 
 Now the x and y values can be calculated with the following formula:
 
+Whern `r` is the radius and `rad` is the angle in radians.
+
 $$ x = r * cos(rad) $$
 $$ y = r * sin(rad) $$
-
-where `r` is the radius and `rad` is the angle in radians.
 
 If `deg` is the angle in degrees, then we can use the following formula:
 
 $$ x = r * cos(deg * \pi / 180) $$
 $$ y = r * sin(deg * \pi / 180) $$
-
 
 The robots and the projectiles have bounding boxes
 The height and width of the bounding box of the robos is 32
@@ -426,6 +425,5 @@ $$ \sqrt{24^2 + 24^2} = 33.94 $$
 ### TODO
 
 - [ ] HIT ANIMATION
-- [ ] Hero sticky must be resolved better
+- [ ] Hero sticky must be resolved better, since it does not work with the callback functions of collision resolution
 - [ ] Jump robots dont push you through platforms (damage penalty) or phase through object
-- [ ] Push robots into the robot array when certain conditions are met
