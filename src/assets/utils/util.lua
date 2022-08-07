@@ -59,12 +59,12 @@ local group = nil;
 local function areAllRobotsActive(t)
    local allTrue = 0
    for _, value in ipairs(t) do
-      if value == false then
+      if value == true then
          allTrue = allTrue + 1
       end
    end
 
-   if allTrue == 0 then
+   if allTrue == #t and #t > 0 then
       return true
    else
       return false
@@ -171,7 +171,7 @@ function util.update(robots, dt)
       end
    end
 
-   if areAllRobotsActive(allActive) and transition.start == false then
+   if areAllRobotsActive(allActive) then
       signal:emit("allActive")
    end
 end
@@ -203,6 +203,7 @@ function tween.start()
       end)
    :oncomplete(
       function()
+         transition.start = false
          global.color = hexToRgba("#FFFFFFFF")
          global.background.color = hexToRgba("#FF9bbbcc")
          global.countdown = 4
@@ -216,14 +217,15 @@ function tween.insertRobot(robot)
    local width = robot.width
    local height = robot.height
 
-   robot.x = 0
-   robot.y = 0
-   robot.width = love.graphics.getWidth()
-   robot.height = love.graphics.getHeight()
+   robot.zoom = 50;
+   robot.x = x - love.graphics.getWidth() / 4
+   robot.y = y - love.graphics.getHeight() / 4
+   robot.width = x + love.graphics.getWidth() / 4
+   robot.height = y + love.graphics.getHeight() / 4
    robot.alpha = 0
 
    tweenWorld:add(robot)
-   flux.to(robot, 2, {x = x, y = y, width = width, height = height, alpha = 1}):ease("elasticout")
+   flux.to(robot, math.random(1,7), {x = x, y = y, width = width, height = height, alpha = 1, zoom = 1}):ease("elasticout")
    :oncomplete(
       function()
          tweenWorld:remove(robot)

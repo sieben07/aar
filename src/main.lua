@@ -156,7 +156,7 @@ function game:enter()
    end
 
    for _, robot in ipairs(robotsLayer.robots) do
-      world:add(robot, robot.x, robot.y, robot.width, robot.height)
+      tween.insertRobot(robot)
    end
 
    map:bump_init(world)

@@ -69,7 +69,7 @@ function Robot:draw()
 end
 
 function Robot:_draw()
-    if self:getIsActive() and transition.start ~= true then
+    if self:getIsActive() then
         love.graphics.setColor(1 - global.background.color.red,1 - global.background.
         color.green, 1 - global.background.color.blue)
     else
