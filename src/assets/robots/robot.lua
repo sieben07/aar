@@ -1,11 +1,11 @@
 local root = require "assets.objects.root"
-local color = require "assets.utils.color"
+local colorUtil = require "assets.utils.color_util"
 local COLORS = require "assets.styles.colors"
 
 local signal = root.signal
 local fonts = require "assets.font.fonts"
 local transition = root.transition
-local invertColor = color.invertColor
+local invertColor = colorUtil.invertColor
 
 local Robot = {
     alpha = 1,
@@ -72,7 +72,7 @@ function Robot:draw()
 end
 
 function Robot:_draw()
-    love.graphics.setColor(COLORS.WHITE)
+    love.graphics.setColor(root.color)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     love.graphics.setColor(COLORS.BLACK)
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)

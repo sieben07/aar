@@ -4,7 +4,13 @@ local bump = require "assets.libs.bump.bump"
 local DIMENSIONS = 32
 
 local root = {
-   color = COLORS.black,
+   textColor = COLORS.WHITE,
+   projectileColor = {1, 1, 1, 1},
+   heroColor = {1,1,1,1},
+   particleColor = {1, 0, 0, 1},
+   scoreColor = {1, 0.64, 0.02, 1},
+   backgroundColor = COLORS.BLACK,
+   color = COLORS.BLACK,
    countdown = 4,
    fonts = require "assets.font.fonts",
    game = { version = "0.0.11" },

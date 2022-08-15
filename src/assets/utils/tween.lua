@@ -1,10 +1,10 @@
 local root  = require "assets.objects.root"
-local color = require  "assets.utils.color"
+local colorUtil = require  "assets.utils.color_util"
 local flux  = require "assets.libs.flux.flux"
 
 local signal = root.signal
 local world = root.world
-local nextColor = color.nextColor
+local nextColor = colorUtil.nextColor
 
 local tween = {}
 local TweenWorld = {

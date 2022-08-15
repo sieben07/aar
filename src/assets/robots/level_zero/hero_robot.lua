@@ -216,7 +216,7 @@ function HeroRobot:update(dt)
 end
 
 function HeroRobot:draw()
-   love.graphics.setColor(COLORS.WHITE)
+   love.graphics.setColor(root.heroColor)
    love.graphics.draw(self.spriteSheet, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 end
 

@@ -19,7 +19,7 @@ local Projectile = {
         x = 0,
         y = 0
     },
-    properties = {collidable = false}
+    properties = {collidable = false},
 }
 
 function Projectile:new(x, y, deg, itemNumber, o)
@@ -44,8 +44,7 @@ function Projectile:new(x, y, deg, itemNumber, o)
 end
 
 function Projectile:draw()
-    local whiteT = {1, 1, 1, 1}
-    love.graphics.setColor(whiteT)
+    love.graphics.setColor(root.projectileColor)
     love.graphics.draw(self.spriteSheet, self.quad, self.x + 8, self.y  + 8, math.rad(self.x), 1, 1, 7, 7)
 end
 

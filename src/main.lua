@@ -1,7 +1,7 @@
 local root         = require "assets.objects.root"
 root.spriteSheet   = love.graphics.newImage "assets/img/minimega.png"
 
-local colorUtil    = require "assets.utils.color"
+local colorUtil    = require "assets.utils.color_util"
 local COLORS       = require "assets.styles.colors"
 local Gamestate    = require "assets.libs.hump.gamestate"
 local levels       = require "assets.maps.levels"
@@ -34,7 +34,6 @@ function world:clear()
 end
 
 local merge = util.merge
-local nextColor = colorUtil.nextColor
 local getSpritesFromMap = util.getSpritesFromMap
 local tween = tween
 local update = util.update
@@ -65,7 +64,7 @@ function game:init()
    signal:register("reset", function() root.score = 0 end)
    signal:register("bounce", function(robot)
       robot.velocity = robot.jumpVelocity
-      love.graphics.setBackgroundColor(nextColor())
+      love.graphics.setBackgroundColor(root.backgroundColor)
    end)
 
    signal:register("collision", function(col)
@@ -89,12 +88,12 @@ function game:enter()
 
    signal:register("allActive", function()
       tween.transitionNextLevel()
-      love.graphics.setBackgroundColor(nextColor())
+      love.graphics.setBackgroundColor(root.backgroundColor)
 
       signal:clear("allActive")
    end)
 
-   love.graphics.setBackgroundColor(COLORS.BACKGROUND)
+   love.graphics.setBackgroundColor(root.backgroundColor)
    map = sti("assets/maps/" .. levels[currentLevel] .. ".lua", {"bump"})
 
    if currentLevel < #levels then
@@ -126,9 +125,7 @@ function game:enter()
 
       -- score
       love.graphics.setFont(fonts.orange_kid)
-      -- please no magic numbers
-      local magicNumber = {1, 0.64, 0.02, 1};
-      love.graphics.setColor(magicNumber)
+      love.graphics.setColor(root.scoreColor)
       if root.score ~= 1 then
          love.graphics.print(root.score .. " | points", 32, 4)
       else
@@ -136,10 +133,8 @@ function game:enter()
          love.graphics.print(". | one point left", 32, 4)
       end
 
-      -- version
-      -- please no magic numbers
-      local grayMagic = {0.7,0.7,0.7,1}
-      love.graphics.setColor(grayMagic)
+
+      love.graphics.setColor(root.color)
       love.graphics.setFont(fonts.ormont_tiny)
       love.graphics.print(game.version, 32,  32)
    end
@@ -157,7 +152,8 @@ function game:enter()
    end
 
    for _, robot in ipairs(robotsLayer.robots) do
-      tween:transitionAddRobot(robot)
+      -- tween:transitionAddRobot(robot)
+      world:add(robot, robot.x, robot.y, robot.width, robot.height)
    end
 
    map:bump_init(world)
@@ -165,20 +161,19 @@ end
 
 function game:draw()
    screen:apply()
-   solidLayer:draw()
    robotsLayer:draw()
    tweenWorld:draw()
 
    for _, hit in pairs(particles) do
-      local hitColor = nextColor()
-      love.graphics.setColor(hitColor)
+      love.graphics.setColor(root.particleColor)
       if hit.normal.x == 1 then
          love.graphics.draw(hitParticle, hit.x, hit.y, 0, 1, 1)
       elseif hit.normal.x == -1 then
          love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 1, 1)
       end
-
    end
+   love.graphics.setColor(root.color)
+   solidLayer:draw()
 end
 
 function game:update(dt)

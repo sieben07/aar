@@ -18,7 +18,7 @@ function TextRobot:getText()
 end
 
 function TextRobot:draw()
-    love.graphics.setColor(COLORS.WHITE)
+    love.graphics.setColor(root.textColor)
     love.graphics.setFont(fonts[self.properties.font])
     love.graphics.printf(self:getText(), self.x, self.y, love.graphics.getWidth(), self.properties.align)
 end
