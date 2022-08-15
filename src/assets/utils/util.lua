@@ -1,6 +1,5 @@
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
 
-local flux = require "assets.libs.flux.flux"
 local Robot = require "assets.robots.robot"
 
 local HeroRobot = require "assets.robots.level_zero.hero_robot"
@@ -45,16 +44,10 @@ local FiveThree = require "assets.robots.level_five.five_three"
 local FiveFour = require "assets.robots.level_five.five_four"
 local FiveFive = require "assets.robots.level_five.five_five"
 
-local signal = global.signal
-local transition = global.transition
-local world = global.world
-local tweenWorld = global.tweenWorld
+local signal = root.signal
 
-local colorIndex = 0;
-local tween = {}
 local util = {}
 
-local group = nil;
 
 local function areAllRobotsActive(t)
    local allTrue = 0
@@ -69,20 +62,6 @@ local function areAllRobotsActive(t)
    else
       return false
    end
-end
-
-local function hexToRgba(colorHex)
-   local _, _, a, r, g, b = colorHex:find("(%x%x)(%x%x)(%x%x)(%x%x)")
-   local rgba = {}
-   rgba.red = tonumber(r,16) / 255
-   rgba.green = tonumber(g,16) / 255
-   rgba.blue = tonumber(b,16) / 255
-   rgba.alpha = tonumber(a,16) / 255
-   return rgba
-end
-
-local function randomColor()
-  return { red = math.random(), green = math.random(), blue = math.random(), 1 }
 end
 
 function util.merge(first, second)
@@ -175,80 +154,5 @@ function util.update(robots, dt)
       signal:emit("allActive")
    end
 end
-
-function util.nextColor()
-   local a = {0.2078,0.3137,0.4392}
-   local b = {0.4275,0.349,0.4784}
-   local c = {0.7098,0.3961,0.4627}
-   local d = {0.898,0.4196,0.4353}
-   local e = {0.9176,0.6745,0.5451}
-   local colors = {a, b, c, d, e}
-   if colorIndex == #colors then
-      colorIndex = 0
-   end
-   colorIndex = colorIndex + 1
-   local j = colors[colorIndex]
-   return {red = j[1], green = j[2], blue = j[3]}
-end
-
-function tween.start()
-   global.countdown = 4
-   global.color.red = 0
-   global.color.green = 0
-   global.color.blue = 0
-   f = flux.to(global, 0.5, {countdown = 0})
-   :onupdate(
-      function()
-         global.color = randomColor()
-      end)
-   :oncomplete(
-      function()
-         transition.start = false
-         global.color = hexToRgba("#FFFFFFFF")
-         global.background.color = hexToRgba("#FF9bbbcc")
-         global.countdown = 4
-         signal:emit("nextLevel")
-      end)
-end
-
-function tween.insertRobot(robot)
-   local y = robot.y
-   local x = robot.x
-   local width = robot.width
-   local height = robot.height
-
-   robot.zoom = 50;
-   robot.x = x - love.graphics.getWidth() / 4
-   robot.y = y - love.graphics.getHeight() / 4
-   robot.width = x + love.graphics.getWidth() / 4
-   robot.height = y + love.graphics.getHeight() / 4
-   robot.alpha = 0
-
-   tweenWorld:add(robot)
-   flux.to(robot, math.random(1,7), {x = x, y = y, width = width, height = height, alpha = 1, zoom = 1}):ease("elasticout")
-   :oncomplete(
-      function()
-         tweenWorld:remove(robot)
-         world:add(robot, robot.x, robot.y, robot.width, robot.height)
-      end
-   )
-end
-
-function tween.update(dt)
-   flux.update(dt)
-end
-
-function tween.particles(particles, dt)
-    for index, hit in ipairs(particles) do
-        if hit.time >= 0 then
-            hit.time = hit.time - dt
-            hit.alpha = hit.alpha - dt
-        else
-            table.remove(particles, index)
-        end
-    end
-end
-
-util.tween = tween
 
 return util

@@ -1,8 +1,8 @@
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
 
 local Robot = require "assets.robots.robot"
-local world = global.world
-local signal = global.signal
+local world = root.world
+local signal = root.signal
 
 local GravityJumpRobot = Robot:new()
 

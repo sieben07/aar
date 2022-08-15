@@ -1,8 +1,11 @@
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
+local color = require "assets.utils.color"
+local COLORS = require "assets.styles.colors"
 
-local signal = global.signal
+local signal = root.signal
 local fonts = require "assets.font.fonts"
-local transition = global.transition
+local transition = root.transition
+local invertColor = color.invertColor
 
 local Robot = {
     alpha = 1,
@@ -69,15 +72,14 @@ function Robot:draw()
 end
 
 function Robot:_draw()
-    if self:getIsActive() then
-        love.graphics.setColor(1 - global.background.color.red,1 - global.background.
-        color.green, 1 - global.background.color.blue)
-    else
-        love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue, self.alpha)
-    end
+    love.graphics.setColor(COLORS.WHITE)
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.setColor(COLORS.BLACK)
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+
+    -- draw the robot's name
     love.graphics.setFont(fonts.ormont_small)
-    love.graphics.setColor(1 - global.color.red, 1 - global.color.green, 1 - global.color.blue)
+    love.graphics.setColor(COLORS.BLACK)
     love.graphics.print(self.name, self.x + 40, self.y)
 end
 

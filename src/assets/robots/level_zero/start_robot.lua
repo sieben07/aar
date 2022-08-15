@@ -1,8 +1,8 @@
 -- START
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
 
 local Robot = require "assets.robots.robot"
-local world = global.world
+local world = root.world
 
 local StartRobot = Robot:new()
 

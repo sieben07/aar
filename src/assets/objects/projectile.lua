@@ -1,10 +1,10 @@
-local global = require "assets.objects.global"
-local spriteSheet = global.world.spriteSheet
-local world = global.world
-local signal = global.signal
+local root = require "assets.objects.root"
+local spriteSheet = root.spriteSheet
+local world = root.world
+local signal = root.signal
 
-local SHOOT_WIDTH = global.SHOOT_WIDTH
-local SHOOT_HEIGHT = global.SHOOT_HEIGHT
+local SHOOT_WIDTH = root.SHOOT_WIDTH
+local SHOOT_HEIGHT = root.SHOOT_HEIGHT
 
 local Quad = love.graphics.newQuad
 
@@ -44,7 +44,8 @@ function Projectile:new(x, y, deg, itemNumber, o)
 end
 
 function Projectile:draw()
-    love.graphics.setColor(1, 1, 1, 1)
+    local whiteT = {1, 1, 1, 1}
+    love.graphics.setColor(whiteT)
     love.graphics.draw(self.spriteSheet, self.quad, self.x + 8, self.y  + 8, math.rad(self.x), 1, 1, 7, 7)
 end
 

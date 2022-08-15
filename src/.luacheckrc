@@ -1,1 +1,1 @@
-globals = {"love", "Signal"}
+roots = {"love", "Signal"}

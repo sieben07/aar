@@ -1,11 +1,11 @@
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
 
 local JumpRobot = require "assets.robots.level_one.jump_robot"
 local Projectile = require "src.assets.objects.projectile"
 
-local world = global.world
-local signal = global.signal
-local projectileDirections = global.projectileDirections
+local world = root.world
+local signal = root.signal
+local projectileDirections = root.projectileDirections
 
 local JumpShootRobot = JumpRobot:new()
 

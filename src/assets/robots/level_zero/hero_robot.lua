@@ -1,23 +1,24 @@
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
 
+local COLORS = require "assets.styles.colors"
 local Robot = require "assets.robots.robot"
 local machine = require "assets.libs.lua-fsm.src.fsm"
 local Projectile = require "src.assets.objects.projectile"
-local spriteSheet = global.world.spriteSheet
-local signal = global.signal
+local spriteSheet = root.spriteSheet
+local signal = root.signal
 
 local FRAME_SIZE = 32
 local SPRITE_SHEET_SIZE = FRAME_SIZE * 8
 local Quad = love.graphics.newQuad
 
-local world = global.world
+local world = root.world
 
 local heroRobot = {
    name = "mini",
    animationTimer = 0,
    GRAVITY = -0.2,
-   HEIGHT = global.PLAYER_HEIGHT,
-   image = spriteSheet,
+   HEIGHT = root.PLAYER_HEIGHT,
+   spriteSheet = spriteSheet,
    jump_vel = -7,
    max = 5,
    projectileDeg = 0,
@@ -25,7 +26,7 @@ local heroRobot = {
    rotate = 0,
    stick_to = "",
    vel = 4,
-   WIDTH = global.PLAYER_W,
+   WIDTH = root.PLAYER_W,
    x = 0,
    x_vel = 0,
    y = 0,
@@ -215,8 +216,8 @@ function HeroRobot:update(dt)
 end
 
 function HeroRobot:draw()
-   love.graphics.setColor(global.color.red ,global.color.green, global.color.blue)
-   love.graphics.draw(self.image, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
+   love.graphics.setColor(COLORS.WHITE)
+   love.graphics.draw(self.spriteSheet, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 end
 
  -- the states of the HeroRobot

@@ -1,10 +1,11 @@
 -- TEXT
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
 
+local COLORS = require "assets.styles.colors"
 local Robot = require "assets.robots.robot"
-local signal = global.signal
-local world = global.world
-local fonts = global.fonts
+local signal = root.signal
+local world = root.world
+local fonts = root.fonts
 
 local TextRobot = Robot:new()
 
@@ -17,7 +18,7 @@ function TextRobot:getText()
 end
 
 function TextRobot:draw()
-    love.graphics.setColor(1 - global.background.color.red, 1 - global.background.color.green, 1 - global.background.color.blue, 1)
+    love.graphics.setColor(COLORS.WHITE)
     love.graphics.setFont(fonts[self.properties.font])
     love.graphics.printf(self:getText(), self.x, self.y, love.graphics.getWidth(), self.properties.align)
 end

@@ -1,8 +1,8 @@
 -- RESET
-local global = require "assets.objects.global"
+local root = require "assets.objects.root"
 
 local Robot = require "assets.robots.robot"
-local signal = global.signal
+local signal = root.signal
 
 local resetRobotData = {
     id = 3,
@@ -23,8 +23,6 @@ local resetRobotData = {
 }
 
 local ResetRobot = Robot:new(resetRobotData)
-
-ResetRobot.properties.collidable = false
 
 function ResetRobot:switchToActive()
     if self.type == "robot" and not self:getIsActive() then

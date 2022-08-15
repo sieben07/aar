@@ -1,32 +1,10 @@
 Signal = require "assets.libs.hump.signal"
+local COLORS = require "assets.styles.colors"
 local bump = require "assets.libs.bump.bump"
 local DIMENSIONS = 32
 
-local TweenWorld = {
-   robots = {}
-}
-
-function TweenWorld:add(robot)
-   table.insert(self.robots, robot)
-end
-
-function TweenWorld:draw()
-   for _, robot in ipairs(self.robots) do
-      robot:draw()
-   end
-end
-
-function TweenWorld:remove(robot)
-   for i, v in ipairs(self.robots) do
-      if v == robot then
-         table.remove(self.robots, i)
-      end
-   end
-end
-
-local global = {
-   background = {color = {red   = 76 / 255,green = 77 / 255,blue  = 78 / 255,alpha = 1}},
-   color = {red   = 0,green = 0,blue  = 0,alpha = 1},
+local root = {
+   color = COLORS.black,
    countdown = 4,
    fonts = require "assets.font.fonts",
    game = { version = "0.0.11" },
@@ -39,7 +17,6 @@ local global = {
    SHOOT_HEIGHT = 14,
    SHOOT_WIDTH = 14,
    signal = Signal.new(),
-   transition = { start =  false },
    world = bump.newWorld(DIMENSIONS),
    tweenWorld = TweenWorld,
    spriteSheet = nil,
@@ -55,10 +32,10 @@ local global = {
    }
 }
 
-function global.world:m (item, goalX, goalY, filter)
+function root.world:m (item, goalX, goalY, filter)
    local actualX, actualY, cols, length = self:move(item, goalX, goalY, filter);
    item.x, item.y = actualX, actualY
    return cols, length
 end
 
-return global
+return root

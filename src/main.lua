@@ -1,28 +1,30 @@
-local global = require "assets.objects.global"
-global.world.spriteSheet = love.graphics.newImage "assets/img/minimega.png"
+local root         = require "assets.objects.root"
+root.spriteSheet   = love.graphics.newImage "assets/img/minimega.png"
 
-local fonts        = global.fonts
-local game         = global.game
-local hitAnimation = global.hitAnimation
-local particles    = global.hits
-local signal       = global.signal;
-local transition   = global.transition
-local world        = global.world
-local tweenWorld  = global.tweenWorld
+local colorUtil    = require "assets.utils.color"
+local COLORS       = require "assets.styles.colors"
+local Gamestate    = require "assets.libs.hump.gamestate"
+local levels       = require "assets.maps.levels"
+local screen       = require "assets.libs.shack.shack"
+local sti          = require "assets.libs.Simple-Tiled-Implementation.sti"
+local tween        = require "assets.utils.tween"
+local util         = require "assets.utils.util"
 
-local Gamestate = require "assets.libs.hump.gamestate"
-local levels = require "assets.maps.levels"
-local screen = require "assets.libs.shack.shack"
-local sti = require "assets.libs.Simple-Tiled-Implementation.sti"
-local util = require "assets.utils.util"
+local fonts        = root.fonts
+local game         = root.game
+local hitAnimation = root.hitAnimation
+local particles    = root.hits
+local signal       = root.signal;
+local transition   = root.transition
+local tweenWorld   = tween.tweenWorld
+local world        = root.world
 
-local hitImage = love.graphics.newImage "assets/img/white.png"
+local hitImage    = love.graphics.newImage "assets/img/white.png"
 local hitParticle = love.graphics.newParticleSystem(hitImage, 14)
 
 local map
 local robotsLayer
 local solidLayer
-
 
 function world:clear()
    local items, _ = self:getItems()
@@ -32,11 +34,11 @@ function world:clear()
 end
 
 local merge = util.merge
-local nextColor = util.nextColor
+local nextColor = colorUtil.nextColor
 local getSpritesFromMap = util.getSpritesFromMap
-local tween = util.tween
+local tween = tween
 local update = util.update
-local currentLevel = global.level.current
+local currentLevel = root.level.current
 
 hitParticle:setLinearAcceleration(5, -3, -50, 3)
 hitParticle:setParticleLifetime(1, 3)
@@ -53,18 +55,17 @@ function game:init()
 
    signal:register("zero", function()
       local resetRobot = require "assets.robots.level_zero.reset_robot"
-      tween.insertRobot(resetRobot)
+      tween:transitionAddRobot(resetRobot)
       signal:clear("zero")
    end)
 
    signal:register("nextLevel", function() Gamestate.switch(game) end)
 
-   signal:register("score", function(value) global.score = global.score + value end)
-   signal:register("reset", function() global.score = 0 end)
+   signal:register("score", function(value) root.score = root.score + value end)
+   signal:register("reset", function() root.score = 0 end)
    signal:register("bounce", function(robot)
-      global.background.color = nextColor()
       robot.velocity = robot.jumpVelocity
-      love.graphics.setBackgroundColor(global.background.color.red, global.background.color.green, global.background.color.blue, 1)
+      love.graphics.setBackgroundColor(nextColor())
    end)
 
    signal:register("collision", function(col)
@@ -85,19 +86,15 @@ end
 
 function game:enter()
    world:clear()
+
    signal:register("allActive", function()
-      tween.start()
-      global.color.red = 1;
-      global.color.green = 1;
-      global.color.blue = 1;
-      love.graphics.setBackgroundColor(
-         global.background.color.red,
-         global.background.color.green,
-         global.background.color.blue
-      )
+      tween.transitionNextLevel()
+      love.graphics.setBackgroundColor(nextColor())
+
       signal:clear("allActive")
    end)
-   love.graphics.setBackgroundColor(global.background.color.red,global.background.color.green,global.background.color.blue, 1)
+
+   love.graphics.setBackgroundColor(COLORS.BACKGROUND)
    map = sti("assets/maps/" .. levels[currentLevel] .. ".lua", {"bump"})
 
    if currentLevel < #levels then
@@ -129,16 +126,20 @@ function game:enter()
 
       -- score
       love.graphics.setFont(fonts.orange_kid)
-      love.graphics.setColor(1, 0.64, 0.02)
-      if global.score ~= 1 then
-         love.graphics.print(global.score .. " | points", 32, 4)
+      -- please no magic numbers
+      local magicNumber = {1, 0.64, 0.02, 1};
+      love.graphics.setColor(magicNumber)
+      if root.score ~= 1 then
+         love.graphics.print(root.score .. " | points", 32, 4)
       else
          signal:emit("zero", resetRobot)
          love.graphics.print(". | one point left", 32, 4)
       end
 
       -- version
-      love.graphics.setColor(0.7,0.7,0.7,1)
+      -- please no magic numbers
+      local grayMagic = {0.7,0.7,0.7,1}
+      love.graphics.setColor(grayMagic)
       love.graphics.setFont(fonts.ormont_tiny)
       love.graphics.print(game.version, 32,  32)
    end
@@ -156,7 +157,7 @@ function game:enter()
    end
 
    for _, robot in ipairs(robotsLayer.robots) do
-      tween.insertRobot(robot)
+      tween:transitionAddRobot(robot)
    end
 
    map:bump_init(world)
@@ -164,14 +165,13 @@ end
 
 function game:draw()
    screen:apply()
-   love.graphics.setColor(global.color.red, global.color.green, global.color.blue, global.color.alpha)
    solidLayer:draw()
    robotsLayer:draw()
    tweenWorld:draw()
 
    for _, hit in pairs(particles) do
       local hitColor = nextColor()
-      love.graphics.setColor(hitColor.red, hitColor.green, hitColor.blue, hit.alpha)
+      love.graphics.setColor(hitColor)
       if hit.normal.x == 1 then
          love.graphics.draw(hitParticle, hit.x, hit.y, 0, 1, 1)
       elseif hit.normal.x == -1 then
