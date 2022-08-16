@@ -133,8 +133,8 @@ function game:enter()
          love.graphics.print(". | one point left", 32, 4)
       end
 
-
-      love.graphics.setColor(root.color)
+      -- version
+      love.graphics.setColor(root.versionColor)
       love.graphics.setFont(fonts.ormont_tiny)
       love.graphics.print(game.version, 32,  32)
    end
@@ -161,8 +161,11 @@ end
 
 function game:draw()
    screen:apply()
-   robotsLayer:draw()
+   love.graphics.setColor(root.color)
+   solidLayer:draw()
    tweenWorld:draw()
+   robotsLayer:draw()
+
 
    for _, hit in pairs(particles) do
       love.graphics.setColor(root.particleColor)
@@ -172,8 +175,6 @@ function game:draw()
          love.graphics.draw(hitParticle, hit.x, hit.y, math.pi, 1, 1)
       end
    end
-   love.graphics.setColor(root.color)
-   solidLayer:draw()
 end
 
 function game:update(dt)

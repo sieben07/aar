@@ -1,4 +1,5 @@
 local root  = require "assets.objects.root"
+local COLORS = require "assets.styles.colors"
 local colorUtil = require  "assets.utils.color_util"
 local flux  = require "assets.libs.flux.flux"
 
@@ -37,9 +38,11 @@ function tween.transitionNextLevel()
    :onupdate(
       function()
          root.color = nextColor()
+         root.heroColor = nextColor()
       end)
    :oncomplete(
       function()
+         root.heroColor = COLORS.HERO_COLOR
          root.color = nextColor()
          root.countdown = 4
          signal:emit("nextLevel")
