@@ -11,6 +11,7 @@ local Robot = {
     alpha = 1,
     velocity = 0,
     gravity = 200,
+    color = COLORS.WHITE,
     properties = {
         collidable = true,
         visible = true
@@ -54,9 +55,11 @@ function Robot:getIsCollidable()
 end
 
 function Robot:switchToActive()
-    if self.type == "robot" and not self:getIsActive() then
+    if not self:getIsActive() then
         self:setIsActive(true)
+        self:setIsFalling(true)
         signal:emit("score", 7)
+        self.color = colorUtil.nextColor()
     end
 end
 
@@ -72,7 +75,7 @@ function Robot:draw()
 end
 
 function Robot:_draw()
-    love.graphics.setColor(root.color)
+    love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     love.graphics.setColor(COLORS.BLACK)
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)

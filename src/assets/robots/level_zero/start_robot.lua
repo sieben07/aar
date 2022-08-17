@@ -6,10 +6,10 @@ local world = root.world
 
 local StartRobot = Robot:new()
 
-function StartRobot:switchToActive()
-    self:setIsActive(true)
-    self:setIsFalling(true)
-end
+-- function StartRobot:switchToActive()
+--     self:setIsActive(true)
+--     self:setIsFalling(true)
+-- end
 
 function StartRobot:update(dt)
     if self:getIsFalling() == true then

@@ -3,10 +3,6 @@ local COLORS = require "assets.styles.colors"
 local colorUtil = require  "assets.utils.color_util"
 local flux  = require "assets.libs.flux.flux"
 
-local signal = root.signal
-local world = root.world
-local nextColor = colorUtil.nextColor
-
 local tween = {}
 local TweenWorld = {
    robots = {}
@@ -37,15 +33,16 @@ function tween.transitionNextLevel()
    f = flux.to(root, 0.5, {countdown = 0})
    :onupdate(
       function()
-         root.color = nextColor()
-         root.heroColor = nextColor()
+         root.color = colorUtil.nextColor()
+         root.robotColor = colorUtil.nextColor()
+         root.backgroundColor = colorUtil.invertColor(root.robotColor)
       end)
    :oncomplete(
       function()
          root.heroColor = COLORS.HERO_COLOR
-         root.color = nextColor()
+         root.color = COLORS.WHITE
          root.countdown = 4
-         signal:emit("nextLevel")
+         root.signal:emit("nextLevel")
       end)
 end
 
@@ -67,7 +64,7 @@ function tween:transitionAddRobot(robot)
    :oncomplete(
       function()
          self.tweenWorld:remove(robot)
-         world:add(robot, robot.x, robot.y, robot.width, robot.height)
+         root.world:add(robot, robot.x, robot.y, robot.width, robot.height)
       end
    )
 end
