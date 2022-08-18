@@ -25,8 +25,10 @@ local Projectile = {
 function Projectile:new(x, y, deg, itemNumber, o)
     o = o or {}
     setmetatable(o, self)
-    local dx = math.cos(math.rad(deg));
-    local dy = math.sin(math.rad(deg));
+    o.startX = x
+    o.startY = y
+    local dx = math.cos(math.rad(deg))
+    local dy = math.sin(math.rad(deg))
     self.__index = self
     o.x = x + 8 + (34 * dx)
     o.y = y + 8 + (34 * dy)
@@ -45,6 +47,7 @@ end
 
 function Projectile:draw()
     love.graphics.setColor(root.projectileColor)
+    love.graphics.line(self.startX + 16, self.startY + 16, self.x + 8, self.y + 8)
     love.graphics.draw(self.spriteSheet, self.quad, self.x + 8, self.y  + 8, math.rad(self.x), 1, 1, 7, 7)
 end
 

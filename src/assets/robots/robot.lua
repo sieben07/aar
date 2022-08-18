@@ -81,9 +81,9 @@ function Robot:_draw()
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
 
     -- draw the robot's name
-    love.graphics.setFont(fonts.ormont_small)
-    love.graphics.setColor(COLORS.BLACK)
-    love.graphics.print(self.name, self.x + 40, self.y)
+    love.graphics.setFont(fonts.ormont_middle)
+    love.graphics.setColor(COLORS.ORANGE)
+    love.graphics.print(self.name, self.x + 14, self.y + 3)
 end
 
 function Robot:new(o)

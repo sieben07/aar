@@ -14,13 +14,13 @@ function TextRobot:update(dt)
 end
 
 function TextRobot:getText()
-    return self.properties.text
+    return self.properties.heading
 end
 
 function TextRobot:draw()
-    love.graphics.setColor(root.textColor)
-    love.graphics.setFont(fonts[self.properties.font])
-    love.graphics.printf(self:getText(), self.x, self.y, love.graphics.getWidth(), self.properties.align)
+    love.graphics.setColor(self.color)
+    love.graphics.setFont(fonts[self.font])
+    love.graphics.printf(self:getText(), self.x, self.y, love.graphics.getWidth(), "center")
 end
 
 return TextRobot

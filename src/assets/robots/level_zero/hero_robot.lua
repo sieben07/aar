@@ -216,6 +216,12 @@ function HeroRobot:update(dt)
 end
 
 function HeroRobot:draw()
+   local items, len = root.world:getItems();
+   -- for _, item in ipairs(items) do
+   --    if item.type == 'robot' then
+   --       love.graphics.line(item.x + 16, item.y + 16, self.x + 16, self.y + 16)
+   --    end
+   -- end
    love.graphics.setColor(root.heroColor)
    love.graphics.draw(self.spriteSheet, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 end

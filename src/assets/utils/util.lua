@@ -1,4 +1,5 @@
 local root = require "assets.objects.root"
+local COLORS = require "assets.styles.colors"
 
 local Robot = require "assets.robots.robot"
 
@@ -112,6 +113,15 @@ local newResetRobot = function(obj)
 end
 
 local newTextRobot = function(obj)
+   if obj.type == "h1" then
+      obj.font = "orial"
+      obj.color = COLORS.BLACK
+   end
+
+   if obj.type == "h2" then
+      obj.font = "ormont"
+      obj.color = COLORS.ORANGE
+   end
    return TextRobot:new(obj)
 end
 

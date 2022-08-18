@@ -101,7 +101,7 @@ return {
         {
           id = 4,
           name = "Text",
-          type = "text",
+          type = "h2",
           shape = "rectangle",
           x = 0,
           y = 320,
@@ -110,16 +110,13 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["align"] = "center",
-            ["color"] = "#ffeb5e28",
-            ["font"] = "ormont",
-            ["text"] = "activate all robots"
+            ["heading"] = "activate all robots",
           }
         },
         {
           id = 7,
           name = "Text",
-          type = "text",
+          type = "h1",
           shape = "rectangle",
           x = 0,
           y = 256,
@@ -128,10 +125,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["align"] = "center",
-            ["color"] = "#ff252422",
-            ["font"] = "orial",
-            ["text"] = "One Point Left"
+            ["heading"] = "One Point Left",
           }
         }
       }

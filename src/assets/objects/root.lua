@@ -5,7 +5,7 @@ local DIMENSIONS = 32
 
 local root = {
    versionColor = COLORS.GRAY,
-   textColor = COLORS.TEXT,
+   textColor = COLORS.ORANGE,
    projectileColor = {0, 0, 0},
    heroColor = {0,0,0},
    robotColor = {0,0,0},
