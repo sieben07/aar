@@ -53,7 +53,12 @@ end
 function Projectile:update()
     local goalX = self.x + self.x_vel
     local goalY = self.y + self.y_vel
-    local actualX, actualY, cols, len = world:move(self, goalX, goalY)
+    local actualX, actualY, cols, len = world:move(self, goalX, goalY, function(item, other)
+        if other.type == 'projectile' or other.type == 'hero' then
+                return false
+        end
+        return 'touch'
+    end)
     self.x = actualX
     self.y = actualY
     for _, col in ipairs(cols) do

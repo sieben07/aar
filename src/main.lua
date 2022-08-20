@@ -86,6 +86,7 @@ end
 
 function game:enter()
    world:clear()
+   root.allRobots = {}
 
    signal:register("allActive", function()
       tween.transitionNextLevel()
