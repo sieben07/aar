@@ -42,6 +42,10 @@ function JumpShootRobot:update(dt)
 end
 
 function JumpShootRobot:_shoot(dt)
+    self:shoot()
+end
+
+function JumpShootRobot:shoot(dt)
     for n in self.properties.projectiles:gmatch "%d+" do
         local projectile = Projectile:new(self.x, self.y, projectileDirections[n], 1)
         signal:emit("addProjectile", projectile)

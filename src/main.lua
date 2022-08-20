@@ -86,6 +86,7 @@ end
 
 function game:enter()
    world:clear()
+   root.hero = {}
 
    signal:register("allActive", function()
       tween.transitionNextLevel()
@@ -158,6 +159,13 @@ function game:enter()
    end
 
    map:bump_init(world)
+   for _, robot in pairs(robotsLayer.robots) do
+      print(robot.name)
+      if robot.name == "Mini" then
+         table.insert(root.hero, robot)
+         print(root.hero[1].name)
+      end
+   end
 end
 
 function game:draw()

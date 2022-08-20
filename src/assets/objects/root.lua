@@ -4,6 +4,7 @@ local bump = require "assets.libs.bump.bump"
 local DIMENSIONS = 32
 
 local root = {
+   hero = {},
    versionColor = COLORS.GRAY,
    textColor = COLORS.ORANGE,
    projectileColor = {0, 0, 0},
