@@ -217,11 +217,6 @@ end
 
 function HeroRobot:draw()
    local items, len = root.world:getItems();
-   -- for _, item in ipairs(items) do
-   --    if item.type == 'robot' then
-   --       love.graphics.line(item.x + 16, item.y + 16, self.x + 16, self.y + 16)
-   --    end
-   -- end
    love.graphics.setColor(root.heroColor)
    love.graphics.draw(self.spriteSheet, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 end
@@ -320,12 +315,14 @@ function setFsm(o)
          o.y_vel = 1
       end,
       on_shootPressed = function()
-         local projectile = Projectile:new(o.x, o.y, o.projectileDeg, math.random(1,3))
-         signal:emit(
-            "addProjectile",
-            projectile
-            )
-         signal:emit("score", -1)
+         for _, robot in pairs(root.allRobots) do
+
+            o.projectileDeg = math.deg(math.atan2(robot.y - o.y, robot.x - o.x))
+
+            local projectile = Projectile:new(o.x, o.y, o.projectileDeg, math.random(1,3))
+            signal:emit("addProjectile", projectile)
+            signal:emit("score", -1)
+         end
       end
    }
 })

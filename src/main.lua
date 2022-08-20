@@ -158,6 +158,9 @@ function game:enter()
    end
 
    map:bump_init(world)
+   for _, robot in ipairs(robotsLayer.robots) do
+      if robot.type == 'robot' then root.allRobots[#root.allRobots+1] = robot end
+   end
 end
 
 function game:draw()
