@@ -5,7 +5,6 @@ local Robot = require "assets.robots.robot"
 
 local HeroRobot = require "assets.robots.level_zero.hero_robot"
 local StartRobot = require "assets.robots.level_zero.start_robot"
-local ZeroTwo = require "assets.robots.level_zero.zero_two"
 local ResetRobot = require "assets.robots.level_zero.reset_robot"
 local ZeroFour = require "assets.robots.level_zero.zero_four"
 local ZeroFive = require "assets.robots.level_zero.zero_five"
@@ -15,6 +14,7 @@ local JumpRobot = require "assets.robots.level_one.jump_robot"
 local JumpShootRobot = require "assets.robots.level_one.jump_shoot_robot"
 local GravityJumpRobot = require "assets.robots.level_one.gravity_jump_robot"
 local GravityJumpShootRobot = require "assets.robots.level_one.gravity_jump_shoot_robot"
+local Arctan2JumpShoot = require "assets.robots.level_one.arctan2_jump_shoot_robot"
 local JumpBossRobot = require "assets.robots.level_one.jump_boss_robot"
 
 local TwoZero = require "assets.robots.level_two.two_zero"
@@ -112,6 +112,10 @@ local newResetRobot = function(obj)
    return ResetRobot:new(obj)
 end
 
+local newArcTan2JumpShootRobot = function(obj)
+   return Arctan2JumpShoot:new(obj)
+end
+
 local newTextRobot = function(obj)
    if obj.type == "h1" then
       obj.font = "orial"
@@ -137,6 +141,7 @@ local createRobot = {
    Gravity_Jump = newGravityJumpRobot,
    Gravity_High_Jump = newGravityHighJumpRobot,
    Gravity_Jump_Shoot = newGravityJumpShootRobot,
+   ArcTan2_Jump_Shoot = newArcTan2JumpShootRobot,
    Jump_Boss = newJumpBossRobot
 }
 

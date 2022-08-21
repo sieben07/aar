@@ -12,6 +12,7 @@ local Robot = {
     velocity = 0,
     gravity = 200,
     color = COLORS.WHITE,
+    testColor = COLORS.ORANGE,
     properties = {
         collidable = true,
         visible = true
@@ -76,13 +77,13 @@ end
 
 function Robot:_draw()
     love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height, self.deg)
     love.graphics.setColor(COLORS.BLACK)
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
 
     -- draw the robot's name
     love.graphics.setFont(fonts.ormont_middle)
-    love.graphics.setColor(COLORS.ORANGE)
+    love.graphics.setColor(self.testColor)
     love.graphics.print(self.name, self.x + 14, self.y + 3)
 end
 
