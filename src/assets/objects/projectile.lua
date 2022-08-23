@@ -22,7 +22,7 @@ local Projectile = {
     properties = {collidable = false},
 }
 
-function Projectile:new(x, y, deg, itemNumber, o)
+function Projectile:new(x, y, deg, itemNumber, o, id)
     o = o or {}
     setmetatable(o, self)
     o.startX = x
@@ -42,6 +42,7 @@ function Projectile:new(x, y, deg, itemNumber, o)
     o.height = SHOOT_HEIGHT
     o.quad = items[itemNumber]
     o.itemNumber = itemNumber
+    o.otherId = id
     return o
 end
 
@@ -54,10 +55,18 @@ end
 function Projectile:update()
     local goalX = self.x + self.x_vel
     local goalY = self.y + self.y_vel
-    local actualX, actualY, cols, len = world:move(self, goalX, goalY)
+    local actualX, actualY, cols, len = world:move(self, goalX, goalY, function(item, other)
+        if item.otherId == other._id and other._id ~= nil then
+            return false
+        end
+        return 'slide' end
+    )
     self.x = actualX
     self.y = actualY
     for _, col in ipairs(cols) do
+        if col.other.type == 'robot' then
+            col.other:hit(col.normal)
+        end
         signal:emit("collision", col)
     end
 

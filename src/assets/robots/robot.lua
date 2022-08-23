@@ -1,9 +1,13 @@
 local root = require "assets.objects.root"
 local colorUtil = require "assets.utils.color_util"
 local COLORS = require "assets.styles.colors"
+local fonts = require "assets.font.fonts"
+local Projectile = require "src.assets.objects.projectile"
+
+local projectileDirections = root.projectileDirections
+
 
 local signal = root.signal
-local fonts = require "assets.font.fonts"
 local transition = root.transition
 local invertColor = colorUtil.invertColor
 
@@ -86,8 +90,12 @@ function Robot:_draw()
     love.graphics.print(self.name, self.x + 14, self.y + 3)
 end
 
+function Robot:hit(normal)
+end
+
 function Robot:new(o)
     o = o or {}
+    o._id = os.time(os.date("!*t"))
     setmetatable(o, self)
     self.__index = self
 

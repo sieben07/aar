@@ -26,7 +26,6 @@ local root = {
    SHOOT_WIDTH = 14,
    signal = Signal.new(),
    world = bump.newWorld(DIMENSIONS),
-   tweenWorld = TweenWorld,
    spriteSheet = nil,
    projectileDirections = {
       ["0"] = 0, -- right

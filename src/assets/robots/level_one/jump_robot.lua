@@ -1,6 +1,6 @@
 local root = require "assets.objects.root"
-
 local Robot = require "assets.robots.robot"
+
 local world = root.world
 local signal = root.signal
 
