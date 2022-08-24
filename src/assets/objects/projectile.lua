@@ -48,6 +48,7 @@ end
 
 function Projectile:draw()
     love.graphics.setColor(root.projectileColor)
+    love.graphics.line(self.startX, self.startY, self.x + 8, self.y + 8)
     love.graphics.draw(self.spriteSheet, self.quad, self.x + 8, self.y  + 8, math.rad(self.x), 1, 1, 7, 7)
 end
 
