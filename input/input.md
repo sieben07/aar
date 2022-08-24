@@ -201,9 +201,9 @@ In an game coordinate system the angle is measured clockwise.
 | Number | direction  | values   |
 |--------|------------|----------|
 |      0 | right      |        0 |
-|      1 | down left  |       45 |
+|      1 | down right |       45 |
 |      2 | down       |       90 |
-|      3 | down right |      135 |
+|      3 | down left  |      135 |
 |      4 | left       |      180 |
 |      5 | up left    |      225 |
 |      6 | up         |      270 |
@@ -253,6 +253,13 @@ $$ \sqrt{24^2 + 24^2} = 33.94 $$
 
 > - does everything the other jump robots does
 > - [ ] turned up to eleven
+
+#### Ideas
+
+- [ ] auto aim
+- [ ] shoots in direction direct line between hero and robot
+- [ ] multiplies 3 in oposit direction of hit
+
 
 ## Water level
 
