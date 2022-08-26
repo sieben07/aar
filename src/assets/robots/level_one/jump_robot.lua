@@ -18,19 +18,11 @@ function JumpRobot:new(o, jumpVelocity)
     return o
 end
 
-local function filterUp(_ , other)
-   if other.type == "hero" or other.type == "bullet" then
-      return "cross"
+local function filterColison(item , other)
+   if item:getVelocity() < 0 and (other.type == "hero" or other.type == "bullet") then
+      return nil
    else
-      return "slide"
-   end
-end
-
-local function filterDown(_, other)
-   if other.type == "bullet" then
-      return "cross"
-   else
-      return "slide"
+      return "bounce"
    end
 end
 
@@ -41,20 +33,14 @@ end
 function JumpRobot:_update(dt)
    if self:getIsActive() then
          local goalY = self:updatePositionY(dt)
-         local cols, len = world:m(self, self.x, goalY, filterUp)
-         local dy
-
-         if len ~= 0 then
-            self.velocity = self.jumpVelocity
-            self.color = colorUtil.nextColor()
-            signal:emit("bounce", self.color)
-         end
+         local cols, len = world:m(self, self.x, goalY, filterColison)
 
          for _, col in ipairs(cols) do
-            if col.other.type == "hero" and col.normal.y == -1 then
-               self.velocity = self.jumpVelocity
+            if col.other.type == "hero" and col.normal.y == 1 then
                self.color = colorUtil.nextColor()
                signal:emit("bounce", self.color)
+            else
+               self:setVelocity(self.jumpVelocity)
             end
          end
     end
