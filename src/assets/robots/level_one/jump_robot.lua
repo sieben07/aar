@@ -1,6 +1,8 @@
 local root = require "assets.objects.root"
 local Robot = require "assets.robots.robot"
 
+local colorUtil    = require "assets.utils.color_util"
+
 local world = root.world
 local signal = root.signal
 
@@ -38,33 +40,23 @@ end
 
 function JumpRobot:_update(dt)
    if self:getIsActive() then
-        if self:getVelocity() < 0 then
-         local goalY = self.y + self:getVelocity() * dt
-         self:updateVelocity(dt)
-         local cols, _ = world:m(self, self.x, goalY, filterUp)
+         local goalY = self:updatePositionY(dt)
+         local cols, len = world:m(self, self.x, goalY, filterUp)
          local dy
 
-         for _, col in ipairs(cols) do
-            if col.other.type == "self" then
-               self:setVelocity(0)
-            end
-
-            dy = goalY - 32
-            if col.other.type == "hero" then
-               world:m(col.other, col.other.x, col.other.y + dy)
-            end
-         end
-      end
-
-      if self:getVelocity() >= 0 then
-         local goalY = self.y + self:getVelocity() * dt
-         self:updateVelocity(dt)
-         local _, len = world:m(self, self.x, goalY, filterDown)
-
          if len ~= 0 then
-            signal:emit("bounce", self)
+            self.velocity = self.jumpVelocity
+            self.color = colorUtil.nextColor()
+            signal:emit("bounce", self.color)
          end
-      end
+
+         for _, col in ipairs(cols) do
+            if col.other.type == "hero" and col.normal.y == -1 then
+               self.velocity = self.jumpVelocity
+               self.color = colorUtil.nextColor()
+               signal:emit("bounce", self.color)
+            end
+         end
     end
 end
 

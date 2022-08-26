@@ -1,10 +1,10 @@
 local root = require "assets.objects.root"
 
-local Robot = require "assets.robots.robot"
+local JumpRobot = require "assets.robots.level_one.jump_robot"
 local world = root.world
 local signal = root.signal
 
-local GravityJumpRobot = Robot:new()
+local GravityJumpRobot = JumpRobot:new()
 
 function GravityJumpRobot:new(o, jumpVelocity)
     o = o or {}
@@ -36,38 +36,6 @@ end
 
 function GravityJumpRobot:update(dt)
     self:_update(dt)
-end
-
-function GravityJumpRobot:_update(dt)
-   if self:getIsActive() then
-        if self:getVelocity() > 0 then
-         local goalY = self.y + self:getVelocity() * dt
-         self:updateVelocity(dt)
-         local cols, _ = world:m(self, self.x, goalY, filterUp)
-         local dy
-
-         for _, col in ipairs(cols) do
-            if col.other.type == "self" then
-               self:setVelocity(0)
-            end
-
-            dy = goalY - 32
-            if col.other.type == "hero" then
-               world:m(col.other, col.other.x, col.other.y + dy)
-            end
-         end
-      end
-
-      if self:getVelocity() <= 0 then
-         local goalY = self.y + self:getVelocity() * dt
-         self:updateVelocity(dt)
-         local _, len = world:m(self, self.x, goalY, filterDown)
-
-         if len ~= 0 then
-            signal:emit("bounce", self)
-         end
-      end
-    end
 end
 
 return GravityJumpRobot

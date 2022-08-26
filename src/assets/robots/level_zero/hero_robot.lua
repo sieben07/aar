@@ -186,9 +186,9 @@ end
 function HeroRobot:update(dt)
    self:animate(dt)
 
-   if self.stick_to ~= "" and self.stick_to.name ~= nil and self.stick_to.name ~= 'Reset' then
-      self.y = self.stick_to.y - 32
-   end
+   -- if self.stick_to ~= "" and self.stick_to.name ~= nil then
+   --    self.y = self.stick_to.y - 32
+   -- end
 
    local goalX = self.x + self.x_vel
 
@@ -201,14 +201,14 @@ function HeroRobot:update(dt)
 
    if len == 0 and self.fsm.can("jumpPressed") then
       self.fsm.jumpPressed(1)
-      self.stick_to = nil
+      -- self.stick_to = nil
    end
 
    for _, col in ipairs(cols) do
       if (col.normal.y ~= 0) then
          self.y_vel = 1
          if col.normal.y == -1 and self.fsm.can("collisionGround") then
-            self.stick_to = col.other
+            -- self.stick_to = col.other
             self.fsm.collisionGround()
          end
       end
@@ -217,11 +217,11 @@ end
 
 function HeroRobot:draw()
    local items, len = root.world:getItems();
-   -- for _, item in ipairs(items) do
-   --    if item.type == 'robot' then
-   --       love.graphics.line(item.x + 16, item.y + 16, self.x + 16, self.y + 16)
-   --    end
-   -- end
+   for _, item in ipairs(items) do
+      if item.type == 'robot' then
+         love.graphics.line(item.x + 16, item.y + 16, self.x + 16, self.y + 16)
+      end
+   end
    love.graphics.setColor(root.heroColor)
    love.graphics.draw(self.spriteSheet, self.quads[self.fsm.current][self.quadIndex], self.x, self.y, self.rotate, self.zoom)
 end
@@ -313,7 +313,7 @@ function setFsm(o)
       end,
       on_jumpPressed = function(_, _, _, _, falling)
          o.y_vel = o.jump_vel + (falling * (-o.jump_vel + 1))
-         o.stick_to = ""
+         -- o.stick_to = ""
          o.iterator = 1
       end,
       on_jumpReleased = function()

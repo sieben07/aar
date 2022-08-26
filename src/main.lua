@@ -62,10 +62,8 @@ function game:init()
 
    signal:register("score", function(value) root.score = root.score + value end)
    signal:register("reset", function() root.score = 0 end)
-   signal:register("bounce", function(robot)
-      robot.velocity = robot.jumpVelocity
-      robot.color = colorUtil.nextColor()
-      love.graphics.setBackgroundColor(colorUtil.invertColor(robot.color))
+   signal:register("bounce", function(color)
+      love.graphics.setBackgroundColor(colorUtil.invertColor(color))
    end)
 
    signal:register("collision", function(col)

@@ -1,19 +1,19 @@
 local root = require "assets.objects.root"
 
-local GravityJumpRobot = require "assets.robots.level_one.gravity_jump_robot"
+local JumpShootRobot = require "assets.robots.level_one.jump_shoot_robot"
 local Projectile = require "src.assets.objects.projectile"
 
 local world = root.world
 local signal = root.signal
 local projectileDirections = root.projectileDirections
 
-local GravityJumpShootRobot = GravityJumpRobot:new()
+local GravityJumpShootRobot = JumpShootRobot:new()
 
 function GravityJumpShootRobot:new(o)
     o = o or {}
 
-    o.shootTimer = 0
-    o.shouldShoot = false
+    o.jumpVelocity = jumpVelocity or 128
+    o.gravity = -200
     o.up = true
 
     setmetatable(o, self)
@@ -22,30 +22,8 @@ function GravityJumpShootRobot:new(o)
     return o
 end
 
-function GravityJumpShootRobot:update(dt)
-    self:_update(dt)
-
-    if self:getIsActive() then
-        if self.velocity > 0 then
-            if self.up == false then
-                self.up = true
-                self.shouldShoot = true
-            end
-        else
-            if self.up == true then
-                self.up = false
-                self:_shoot(dt)
-                self.shouldShoot = false
-            end
-        end
-    end
-end
-
-function GravityJumpShootRobot:_shoot(dt)
-    for n in self.properties.projectiles:gmatch "%d+" do
-        local projectile = Projectile:new(self.x, self.y, projectileDirections[n], 1)
-        signal:emit("addProjectile", projectile)
-    end
+function GravityJumpShootRobot:getTurningPoint(velocity)
+    return velocity > 0
 end
 
 return GravityJumpShootRobot

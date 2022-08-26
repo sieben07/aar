@@ -37,8 +37,7 @@ local root = {
       ["5"] = 225, -- up left
       ["6"] = 270, -- up
       ["7"] = 315 -- up right
-   },
-   allRobots = {},
+   }
 }
 
 function root.world:m (item, goalX, goalY, filter)

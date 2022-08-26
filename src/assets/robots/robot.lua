@@ -94,6 +94,13 @@ end
 function Robot:hit(normal)
 end
 
+function Robot:updatePositionY(dt)
+    goalY = self.y + self:getVelocity() * dt
+    self:updateVelocity(dt)
+    return goalY
+end
+
+
 function Robot:new(o)
     o = o or {}
     o._id = os.time(os.date("!*t"))

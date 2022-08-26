@@ -12,8 +12,6 @@ local JumpShootRobot = JumpRobot:new()
 function JumpShootRobot:new(o)
     o = o or {}
 
-    o.shootTimer = 0
-    o.shouldShoot = false
     o.up = true
 
     setmetatable(o, self)
@@ -26,19 +24,21 @@ function JumpShootRobot:update(dt)
     self:_update(dt)
 
     if self:getIsActive() then
-        if self.velocity < 0 then
+        if self:getTurningPoint(self.velocity) then
             if self.up == false then
                 self.up = true
-                self.shouldShoot = true
             end
         else
             if self.up == true then
                 self.up = false
                 self:_shoot(dt)
-                self.shouldShoot = false
             end
         end
     end
+end
+
+function JumpShootRobot:getTurningPoint(velocity)
+    return velocity < 0
 end
 
 function JumpShootRobot:_shoot(dt)
