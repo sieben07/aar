@@ -19,7 +19,7 @@ function JumpRobot:new(o, jumpVelocity)
 end
 
 local function filterColison(item , other)
-   if item:getVelocity() < 0 and (other.type == "hero" or other.type == "bullet") then
+   if item:getYVelocity() < 0 and (other.type == "hero" or other.type == "bullet") then
       return nil
    else
       return "bounce"
@@ -40,7 +40,7 @@ function JumpRobot:_update(dt)
                self.color = colorUtil.nextColor()
                signal:emit("bounce", self.color)
             else
-               self:setVelocity(self.jumpVelocity)
+               self:setYVelocity(self.jumpVelocity)
             end
          end
     end

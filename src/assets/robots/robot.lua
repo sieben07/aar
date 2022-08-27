@@ -13,22 +13,33 @@ local invertColor = colorUtil.invertColor
 
 local Robot = {
     alpha = 1,
-    velocity = 0,
+    xVelocity = 0,
+    yVelocity = 0,
     gravity = 200,
     color = COLORS.WHITE,
     testColor = COLORS.ORANGE,
-    properties = {
-        collidable = true,
-        visible = true
-    }
 }
 
-function Robot:getVelocity()
-    return self.velocity
+function Robot:setXVelocity(value)
+    self.xVelocity = value
 end
 
-function Robot:setVelocity(value)
-    self.velocity = value
+function Robot:setYVelocity(value)
+    self.yVelocity = value
+end
+
+function Robot:getXVelocity()
+    return self.xVelocity
+end
+
+function Robot:getYVelocity()
+    return self.yVelocity
+end
+
+function Robot:resetXvelocity()
+end
+
+function Robot:resetYvelocity()
 end
 
 function Robot:getIsFalling()
@@ -47,29 +58,13 @@ function Robot:setIsActive(value)
     self.properties.active = value
 end
 
-function Robot:getIsVisible()
-    return self.properties.visible or false
-end
-
-function Robot:setIsVisible(value)
-    self.properties.visible = value
-end
-
-function Robot:getIsCollidable()
-    return self.properties.collidable or true
-end
-
-function Robot:switchToActive()
+function Robot:activate()
     if not self:getIsActive() then
         self:setIsActive(true)
         self:setIsFalling(true)
         signal:emit("score", 7)
         self.color = colorUtil.nextColor()
     end
-end
-
-function Robot:updateVelocity(dt)
-    self:setVelocity(self:getVelocity() + (self.gravity * dt))
 end
 
 function Robot:update(dt)
@@ -95,11 +90,31 @@ function Robot:hit(normal)
 end
 
 function Robot:updatePositionY(dt)
-    goalY = self.y + self:getVelocity() * dt
-    self:updateVelocity(dt)
+    goalY = self.y + self:getYVelocity() * dt
+    self:updateYVelocity(dt)
     return goalY
 end
 
+function Robot:updatePositionX(dt)
+   goalX = self.x + self:getXVelocity() * dt
+   self:updateXVelocity(dt)
+   return goalX
+end
+
+function Robot:setXVelocity(value)
+    self.xVelocity = value
+end
+
+function Robot:setYVelocity(value)
+    self.yVelocity = value
+end
+
+function Robot:updateYVelocity(dt)
+    self:setYVelocity(self:getYVelocity() + (self.gravity * dt))
+end
+
+function Robot:updateXVelocity(dt)
+end
 
 function Robot:new(o)
     o = o or {}

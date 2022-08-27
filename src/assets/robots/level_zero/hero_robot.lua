@@ -1,3 +1,4 @@
+
 local root = require "assets.objects.root"
 
 local COLORS = require "assets.styles.colors"
@@ -16,21 +17,20 @@ local world = root.world
 local heroRobot = {
    name = "mini",
    animationTimer = 0,
-   GRAVITY = -0.2,
    HEIGHT = root.PLAYER_HEIGHT,
    spriteSheet = spriteSheet,
-   jump_vel = -7,
    max = 5,
    projectileDeg = 0,
    quadIndex = 1,
    rotate = 0,
    stick_to = "",
-   vel = 4,
+   jumpVelocity = 256,
+   runVelocity = 128,
    WIDTH = root.PLAYER_W,
    x = 0,
-   x_vel = 0,
+   xVelocity = 0,
    y = 0,
-   y_vel = 1,
+   yVelocity = 1,
    zoom = 1,
    quads = {
       -- 1
@@ -185,30 +185,26 @@ end
 
 function HeroRobot:update(dt)
    self:animate(dt)
+   self:_update(dt)
+end
 
-   -- if self.stick_to ~= "" and self.stick_to.name ~= nil then
-   --    self.y = self.stick_to.y - 32
-   -- end
+function HeroRobot:_update(dt)
+   local goalX = self:updatePositionX(dt)
+   local goalY = self:updatePositionY(dt)
 
-   local goalX = self.x + self.x_vel
-
-   self.y = self.y + self.y_vel
-   self.y_vel = self.y_vel - self.GRAVITY
-   local goalY = self.y
    local actualX, actualY, cols, len = world:move(self, goalX, goalY)
+
    self.x = actualX
    self.y = actualY
 
    if len == 0 and self.fsm.can("jumpPressed") then
       self.fsm.jumpPressed(1)
-      -- self.stick_to = nil
    end
 
    for _, col in ipairs(cols) do
       if (col.normal.y ~= 0) then
-         self.y_vel = 1
+         self:setYVelocity(1)
          if col.normal.y == -1 and self.fsm.can("collisionGround") then
-            -- self.stick_to = col.other
             self.fsm.collisionGround()
          end
       end
@@ -298,26 +294,26 @@ function setFsm(o)
    },
    callbacks = {
       on_rightPressed = function()
-         o.x_vel = o.vel
+         o.xVelocity = o.runVelocity
          o.projectileDeg = 0
       end,
       on_rightReleased = function()
-         o.x_vel = 0
+         o.xVelocity = 0
       end,
       on_leftPressed = function()
-         o.x_vel = -o.vel
+         o.xVelocity = -o.runVelocity
          o.projectileDeg = 180
       end,
       on_leftReleased = function()
-          o.x_vel = 0
+          o.xVelocity = 0
       end,
       on_jumpPressed = function(_, _, _, _, falling)
-         o.y_vel = o.jump_vel + (falling * (-o.jump_vel + 1))
-         -- o.stick_to = ""
+         print('falling', falling)
+         o:setYVelocity(o.jumpVelocity * falling)
          o.iterator = 1
       end,
       on_jumpReleased = function()
-         o.y_vel = 1
+         o:setYVelocity(1)
       end,
       on_shootPressed = function()
          local projectile = Projectile:new(o.x, o.y, o.projectileDeg, math.random(1,3))
@@ -350,7 +346,7 @@ function registerSignals(o)
    end)
    signal:register("jumpPressed", function()
       if o.fsm.can("jumpPressed") then
-         o.fsm.jumpPressed(0)
+         o.fsm.jumpPressed(-1)
       end
    end)
    signal:register("shootPressed", function()
@@ -369,7 +365,7 @@ function registerSignals(o)
       end
    end)
    signal:register("jumpReleased", function()
-      if o.y_vel < 0 then
+      if o:getYVelocity() < 0 then
          o.fsm.on_jumpReleased()
       end
    end)

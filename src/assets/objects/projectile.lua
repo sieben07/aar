@@ -32,8 +32,8 @@ function Projectile:new(x, y, deg, itemNumber, o, id)
     self.__index = self
     o.x = x + 8 + (34 * dx)
     o.y = y + 8 + (34 * dy)
-    o.x_vel = 8 * dx
-    o.y_vel = 8 * dy
+    o.xVelocity = 8 * dx
+    o.yVelocity = 8 * dy
     o.direction.x = dx
     o.direction.y = dy
     o.type = "projectile"
@@ -53,8 +53,8 @@ function Projectile:draw()
 end
 
 function Projectile:update()
-    local goalX = self.x + self.x_vel
-    local goalY = self.y + self.y_vel
+    local goalX = self.x + self.xVelocity
+    local goalY = self.y + self.yVelocity
     local actualX, actualY, cols, len = world:move(self, goalX, goalY, function(item, other)
         if item.otherId == other._id and other._id ~= nil then
             return false

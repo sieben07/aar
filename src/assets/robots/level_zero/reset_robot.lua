@@ -24,7 +24,7 @@ local resetRobotData = {
 
 local ResetRobot = Robot:new(resetRobotData)
 
-function ResetRobot:switchToActive()
+function ResetRobot:activate()
     if self.type == "robot" and not self:getIsActive() then
         self:setIsActive(true)
         signal:emit('reset')

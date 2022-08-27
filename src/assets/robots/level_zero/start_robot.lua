@@ -6,7 +6,7 @@ local world = root.world
 
 local StartRobot = Robot:new()
 
--- function StartRobot:switchToActive()
+-- function StartRobot:activate()
 --     self:setIsActive(true)
 --     self:setIsFalling(true)
 -- end

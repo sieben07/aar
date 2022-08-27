@@ -24,7 +24,7 @@ function JumpShootRobot:update(dt)
     self:_update(dt)
 
     if self:getIsActive() then
-        if self:getTurningPoint(self.velocity) then
+        if self:getTurningPoint(self.yVelocity) then
             if self.up == false then
                 self.up = true
             end

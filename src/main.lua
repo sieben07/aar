@@ -68,7 +68,7 @@ function game:init()
 
    signal:register("collision", function(col)
       if col.other.type == "robot" then
-         col.other:switchToActive()
+         col.other:activate()
       end
 
       local touch = col.touch
