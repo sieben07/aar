@@ -12,7 +12,6 @@ local TextRobot = require "assets.robots.level_zero.text_robot"
 
 local JumpRobot = require "assets.robots.level_one.jump_robot"
 local JumpShootRobot = require "assets.robots.level_one.jump_shoot_robot"
-local GravityJumpRobot = require "assets.robots.level_one.gravity_jump_robot"
 local GravityJumpShootRobot = require "assets.robots.level_one.gravity_jump_shoot_robot"
 local Arctan2JumpShoot = require "assets.robots.level_one.arctan2_jump_shoot_robot"
 local JumpBossRobot = require "assets.robots.level_one.jump_boss_robot"
@@ -72,24 +71,31 @@ function util.merge(first, second)
 end
 
 
-local newJumpRobot = function(obj)
-   return JumpRobot:new(obj)
+local newJumpRobot = function(o)
+   o.jumpVelocity = -128
+   return JumpRobot:new(o)
 end
 
-local newHighJumpRobot = function(obj)
-   return JumpRobot:new(obj, -256)
+local newHighJumpRobot = function(o)
+   o.jumpVelocity = -256
+   return JumpRobot:new(o)
 end
 
-local newJumpShootRobot = function(obj)
-   return JumpShootRobot:new(obj)
+local newJumpShootRobot = function(o)
+   o.jumpVelocity = -128
+   return JumpShootRobot:new(o)
 end
 
-local newGravityJumpRobot = function(obj)
-   return GravityJumpRobot:new(obj)
+local newGravityJumpRobot = function(o)
+   o.jumpVelocity = 128
+   o.gravity = -200
+   return JumpRobot:new(o)
 end
 
-local newGravityHighJumpRobot = function(obj)
-   return GravityJumpRobot:new(obj, 256)
+local newGravityHighJumpRobot = function(o)
+   o.jumpVelocity = 256
+   o.gravity = -200
+   return JumpRobot:new(o)
 end
 
 local newGravityJumpShootRobot = function(obj)

@@ -8,12 +8,10 @@ local signal = root.signal
 
 local JumpRobot = Robot:new()
 
-function JumpRobot:new(o, jumpVelocity)
+function JumpRobot:new(o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
-
-   o.jumpVelocity = jumpVelocity or -128
 
     return o
 end
