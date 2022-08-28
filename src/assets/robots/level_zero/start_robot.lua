@@ -13,8 +13,8 @@ local StartRobot = Robot:new()
 
 function StartRobot:update(dt)
     if self:getIsFalling() == true then
-      self.velocity = self.velocity + 33.3 * dt
-      local goalY = self.y + self.velocity
+      self.yVelocity = self.yVelocity + 33.3 * dt
+      local goalY = self.y + self.yVelocity
       local _, len = world:m(self, self.x, goalY)
 
       if len ~= 0 then

@@ -1,3 +1,3 @@
-local levels = {'level01', 'level04', 'level05', 'level02', 'level03', 'level00'}
+local levels = {'level00', 'level01', 'level02', 'level03', 'level04', 'level05'}
 
 return levels

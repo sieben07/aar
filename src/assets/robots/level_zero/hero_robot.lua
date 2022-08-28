@@ -308,7 +308,6 @@ function setFsm(o)
           o.xVelocity = 0
       end,
       on_jumpPressed = function(_, _, _, _, falling)
-         print('falling', falling)
          o:setYVelocity(o.jumpVelocity * falling)
          o.iterator = 1
       end,

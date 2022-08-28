@@ -12,8 +12,6 @@ local TextRobot = require "assets.robots.level_zero.text_robot"
 
 local JumpRobot = require "assets.robots.level_one.jump_robot"
 local JumpShootRobot = require "assets.robots.level_one.jump_shoot_robot"
-local GravityJumpShootRobot = require "assets.robots.level_one.gravity_jump_shoot_robot"
-local Arctan2JumpShoot = require "assets.robots.level_one.arctan2_jump_shoot_robot"
 local JumpBossRobot = require "assets.robots.level_one.jump_boss_robot"
 
 local TwoZero = require "assets.robots.level_two.two_zero"
@@ -43,6 +41,8 @@ local FiveTwo = require "assets.robots.level_five.five_two"
 local FiveThree = require "assets.robots.level_five.five_three"
 local FiveFour = require "assets.robots.level_five.five_four"
 local FiveFive = require "assets.robots.level_five.five_five"
+
+local Projectile = require "assets.objects.projectile"
 
 local signal = root.signal
 
@@ -98,8 +98,15 @@ local newGravityHighJumpRobot = function(o)
    return JumpRobot:new(o)
 end
 
-local newGravityJumpShootRobot = function(obj)
-   return GravityJumpShootRobot:new(obj)
+local newGravityJumpShootRobot = function(o)
+   o.jumpVelocity = 128
+   o.gravity = -200
+   o.up = true
+   function o:getTurningPoint(velocity)
+      return velocity > 0
+   end
+
+   return JumpShootRobot:new(o)
 end
 
 local newStartRobot = function(obj)
@@ -118,8 +125,14 @@ local newResetRobot = function(obj)
    return ResetRobot:new(obj)
 end
 
-local newArcTan2JumpShootRobot = function(obj)
-   return Arctan2JumpShoot:new(obj)
+local newArcTan2JumpShootRobot = function(o)
+   o.jumpVelocity = -128
+   function o:shoot(dt)
+      local deg = math.deg(math.atan2(self.y - root.hero[1].y, self.x - root.hero[1].x))
+      signal:emit("addProjectile", Projectile:new(self.x, self.y, deg, 1))
+   end
+
+   return JumpShootRobot:new(o)
 end
 
 local newTextRobot = function(obj)
