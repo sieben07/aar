@@ -18,7 +18,7 @@ local root = {
    fonts = require "assets.font.fonts",
    game = { version = "0.0.11" },
    hitAnimation = { time = 0.5, alpha = 1 },
-   hits = {},
+   particles = {},
    level = {current = 1},
    PLAYER_HEIGHT = DIMENSIONS,
    PLAYER_WIDTH = DIMENSIONS,
