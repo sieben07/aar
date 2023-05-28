@@ -1,4 +1,4 @@
-return function priorityqueue()
+local function priorityqueue()
   -- interface table
   local t = {}
 
