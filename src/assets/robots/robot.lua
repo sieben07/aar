@@ -2,7 +2,7 @@ local root = require "assets.objects.root"
 local colorUtil = require "assets.utils.color_util"
 local COLORS = require "assets.styles.colors"
 local fonts = require "assets.font.fonts"
-local Projectile = require "src.assets.objects.projectile"
+local Projectile = require "assets.objects.projectile"
 
 local projectileDirections = root.projectileDirections
 

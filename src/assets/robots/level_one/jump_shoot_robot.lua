@@ -1,7 +1,7 @@
 local root = require "assets.objects.root"
 
 local JumpRobot = require "assets.robots.level_one.jump_robot"
-local Projectile = require "src.assets.objects.projectile"
+local Projectile = require "assets.objects.projectile"
 
 local world = root.world
 local signal = root.signal

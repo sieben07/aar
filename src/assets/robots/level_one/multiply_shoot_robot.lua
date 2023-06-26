@@ -1,6 +1,6 @@
 local root = require "assets.objects.root"
 local Robot = require "assets.robots.robot"
-local Projectile = require "src.assets.objects.projectile"
+local Projectile = require "assets.objects.projectile"
 
 local projectileDirections = root.projectileDirections
 

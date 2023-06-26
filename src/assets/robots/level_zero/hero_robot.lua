@@ -4,7 +4,7 @@ local root = require "assets.objects.root"
 local COLORS = require "assets.styles.colors"
 local Robot = require "assets.robots.robot"
 local machine = require "assets.libs.lua-fsm.src.fsm"
-local Projectile = require "src.assets.objects.projectile"
+local Projectile = require "assets.objects.projectile"
 local spriteSheet = root.spriteSheet
 local signal = root.signal
 
